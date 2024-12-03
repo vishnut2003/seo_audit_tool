@@ -15,7 +15,7 @@ const BasicLayout = ({children}: Readonly<{
           
           {/* Header of basic layout */}
           <Header/>
-          <div className="w-full h-full min-h-0 overflow-y-auto">
+          <div className="w-full h-full min-h-0 overflow-y-auto p-5">
 
             {/* Page Content */}
             <div className="w-full h-full">

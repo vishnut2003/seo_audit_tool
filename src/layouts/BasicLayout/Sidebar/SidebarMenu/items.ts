@@ -9,7 +9,7 @@ const sidebarMenuItems = [
     {
         name: 'Reports',
         icon: RiFileChartLine,
-        link: '#'
+        link: '/dashboard/reports'
     },
     {
         name: 'Keyword Research',
