@@ -435,7 +435,7 @@ const testResponse = {
                 "section": "ui",
                 "passed": true,
                 "shortAnswer": "Google is indicating that your page is scoring well on their Mobile PageSpeed Insights evaluation.Note that this evaluation is being performed from US servers and the results may differ slightly from an evaluation carried out from Google's PageSpeed Web Interface as that reporting localizes to the region in which you are running the report.",
-          "recommendation": null,
+                "recommendation": null,
                 "data": {
                     "score": 100,
                     "labdata": [
@@ -788,7 +788,7 @@ const testResponse = {
                 "shortAnswer": "",
                 "recommendation": null,
                 "data": "a.iana-servers.net b.iana - servers.net"
-        },
+            },
             "webServer": false,
             "charset": false,
             "recommendations": [

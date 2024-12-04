@@ -1,12 +1,14 @@
 'use client';
 
+import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
 import { createNewAudit } from "@/utils/client/auditReport";
 import { RiGlobalLine } from "@remixicon/react"
 import { Dispatch, FormEvent, SetStateAction, useState } from "react"
 
-const NewAuditForm = ({inProgress, setInProgress}: {
+const NewAuditForm = ({inProgress, setInProgress, setAuditResult}: {
   inProgress: boolean,
   setInProgress: Dispatch<SetStateAction<boolean>>,
+  setAuditResult: Dispatch<SetStateAction<getReportResponseInterface | null>>
 }) => {
 
   const [domain, setDomain] = useState<string>('');
@@ -21,7 +23,13 @@ const NewAuditForm = ({inProgress, setInProgress}: {
     setInProgress(true);
 
     // Create new Audit
-    await createNewAudit({domainName: domain})
+    createNewAudit({domainName: domain})
+      .then((auditReport) => {
+        setAuditResult(auditReport)
+      })
+      .finally(() => {
+        setInProgress(false);
+      })
   }
 
   return (

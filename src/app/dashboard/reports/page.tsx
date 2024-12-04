@@ -3,13 +3,14 @@
 import AuditResultPlaceholder from "@/Components/ReportsPage/AuditResultPlaceholder/AuditResultPlaceholder"
 import AuditResultProgress from "@/Components/ReportsPage/AuditResultProgress/AuditResultProgress";
 import NewAuditForm from "@/Components/ReportsPage/NewAuditForm/NewAuditForm"
+import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
 import { useState } from "react";
 
 const Page = () => {
 
   const [inProgress, setInprogress] = useState<boolean>(false);
-  const [auditResult] = useState<object | null>(null);
+  const [auditResult, setAuditResult] = useState<getReportResponseInterface | null>(null);
 
   return (
     <BasicLayout>
@@ -17,7 +18,7 @@ const Page = () => {
 
         <div className="flex gap-2 items-center justify-between p-3 bg-white rounded-lg">
           {/* New Audit Form */}
-          <NewAuditForm inProgress={inProgress} setInProgress={setInprogress} />
+          <NewAuditForm inProgress={inProgress} setInProgress={setInprogress} setAuditResult={setAuditResult} />
 
           {/* Select exist websites */}
           <div>
@@ -30,7 +31,7 @@ const Page = () => {
         </div>
 
         {/* audit result section layout */
-          inProgress ? <AuditResultProgress/> : auditResult ? <div>Result</div> : <AuditResultPlaceholder/>
+          inProgress ? <AuditResultProgress/> : auditResult ? <div>{auditResult.data.id}</div> : <AuditResultPlaceholder/>
         }
       </div>
     </BasicLayout>
