@@ -1,15 +1,23 @@
+'use client';
+
 import AuditResultPlaceholder from "@/Components/ReportsPage/AuditResultPlaceholder/AuditResultPlaceholder"
+import AuditResultProgress from "@/Components/ReportsPage/AuditResultProgress/AuditResultProgress";
 import NewAuditForm from "@/Components/ReportsPage/NewAuditForm/NewAuditForm"
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
+import { useState } from "react";
 
 const page = () => {
+
+  const [inProgress, setInprogress] = useState<boolean>(false);
+  const [auditResult, setAuditResult] = useState<{} | null>(null);
+
   return (
     <BasicLayout>
       <div className="w-full flex flex-col gap-5">
 
         <div className="flex gap-2 items-center justify-between p-3 bg-white rounded-lg">
           {/* New Audit Form */}
-          <NewAuditForm />
+          <NewAuditForm inProgress={inProgress} setInProgress={setInprogress} setAuditResult={setAuditResult} />
 
           {/* Select exist websites */}
           <div>
@@ -21,9 +29,9 @@ const page = () => {
           </div>
         </div>
 
-        {/* audit result section layout */}
-        <AuditResultPlaceholder/>
-
+        {/* audit result section layout */
+          inProgress ? <AuditResultProgress/> : auditResult ? <div>Result</div> : <AuditResultPlaceholder/>
+        }
       </div>
     </BasicLayout>
   )
