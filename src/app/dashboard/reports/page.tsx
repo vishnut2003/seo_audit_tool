@@ -1,8 +1,8 @@
 'use client';
 
-import AuditResultPlaceholder from "@/Components/ReportsPage/AuditResultPlaceholder/AuditResultPlaceholder"
-import AuditResultProgress from "@/Components/ReportsPage/AuditResultProgress/AuditResultProgress";
-import NewAuditForm from "@/Components/ReportsPage/NewAuditForm/NewAuditForm"
+import AuditResultPlaceholder from "@/components/ReportsPage/AuditResultPlaceholder/AuditResultPlaceholder"
+import AuditResultProgress from "@/components/ReportsPage/AuditResultProgress/AuditResultProgress";
+import NewAuditForm from "@/components/ReportsPage/NewAuditForm/NewAuditForm"
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
 import { useState } from "react";
 
