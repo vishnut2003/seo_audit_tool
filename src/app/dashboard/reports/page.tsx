@@ -2,6 +2,7 @@
 
 import AuditResultPlaceholder from "@/Components/ReportsPage/AuditResultPlaceholder/AuditResultPlaceholder"
 import AuditResultProgress from "@/Components/ReportsPage/AuditResultProgress/AuditResultProgress";
+import AuditResultTemplate from "@/Components/ReportsPage/AuditResultTemplate/AuditResultTemplate";
 import NewAuditForm from "@/Components/ReportsPage/NewAuditForm/NewAuditForm"
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
@@ -31,7 +32,7 @@ const Page = () => {
         </div>
 
         {/* audit result section layout */
-          inProgress ? <AuditResultProgress/> : auditResult ? <div>{auditResult.data.id}</div> : <AuditResultPlaceholder/>
+          inProgress ? <AuditResultProgress/> : auditResult ? <AuditResultTemplate fullReport={auditResult}/> : <AuditResultPlaceholder/>
         }
       </div>
     </BasicLayout>

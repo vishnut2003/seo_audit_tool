@@ -13,7 +13,7 @@ const testResponse = {
             "callback": false,
             "pdf": "https://seoptimer.com/download-pdf.inc/BsXyMVp8A4bcWUo5",
             "recommendation_count": 25,
-            "screenshot": "https://seoptimer.com/screenshots/D0SPEyC1GhUr0uz4c3RWM9D4a089bBHl-desktop.jpg",
+            // "screenshot": "https://seoptimer.com/screenshots/D0SPEyC1GhUr0uz4c3RWM9D4a089bBHl-desktop.jpg",
             "finalUrl": "http://example.org/",
             "report_generation_time": "15 second(s)",
             "request_completion_time": "31 second(s)",
