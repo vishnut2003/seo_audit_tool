@@ -1,4 +1,4 @@
-import { RiSearch2Line, RiSearchLine } from "@remixicon/react"
+import { RiSearch2Line } from "@remixicon/react"
 
 const SearchSite = () => {
   return (

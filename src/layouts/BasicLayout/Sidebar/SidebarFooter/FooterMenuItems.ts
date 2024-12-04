@@ -4,7 +4,7 @@ export interface footerMenuIterface {
     name: string,
     icon: RemixiconComponentType,
     link?: string,
-    onclick?: () => any
+    onclick?: () => null
 }
 
 const footerMenuItems: footerMenuIterface[] = [
@@ -16,7 +16,10 @@ const footerMenuItems: footerMenuIterface[] = [
     {
         name: 'Logout',
         icon: RiLogoutBoxRLine,
-        onclick: () => console.log('logging out')
+        onclick: () => {
+            console.log('logging out');
+            return null
+        }
     }
 ]
 

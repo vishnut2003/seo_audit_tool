@@ -6,10 +6,10 @@ import NewAuditForm from "@/Components/ReportsPage/NewAuditForm/NewAuditForm"
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
 import { useState } from "react";
 
-const page = () => {
+const Page = () => {
 
   const [inProgress, setInprogress] = useState<boolean>(false);
-  const [auditResult, setAuditResult] = useState<{} | null>(null);
+  const [auditResult] = useState<object | null>(null);
 
   return (
     <BasicLayout>
@@ -17,7 +17,7 @@ const page = () => {
 
         <div className="flex gap-2 items-center justify-between p-3 bg-white rounded-lg">
           {/* New Audit Form */}
-          <NewAuditForm inProgress={inProgress} setInProgress={setInprogress} setAuditResult={setAuditResult} />
+          <NewAuditForm inProgress={inProgress} setInProgress={setInprogress} />
 
           {/* Select exist websites */}
           <div>
@@ -37,4 +37,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

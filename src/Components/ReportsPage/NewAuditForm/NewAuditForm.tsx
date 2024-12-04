@@ -1,13 +1,12 @@
 'use client';
 
 import { createNewAudit } from "@/utils/client/auditReport";
-import { RiGlobalLine, RiSearch2Line, RiSendPlaneLine } from "@remixicon/react"
+import { RiGlobalLine } from "@remixicon/react"
 import { Dispatch, FormEvent, SetStateAction, useState } from "react"
 
-const NewAuditForm = ({inProgress, setInProgress, setAuditResult}: {
+const NewAuditForm = ({inProgress, setInProgress}: {
   inProgress: boolean,
   setInProgress: Dispatch<SetStateAction<boolean>>,
-  setAuditResult: Dispatch<SetStateAction<{} | null>>
 }) => {
 
   const [domain, setDomain] = useState<string>('');
