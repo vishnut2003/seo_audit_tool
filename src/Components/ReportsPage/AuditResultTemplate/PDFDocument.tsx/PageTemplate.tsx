@@ -10,6 +10,9 @@ function PageTemplate({ children }: Readonly<{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: "space-between"
+        },
+        contentWrapper: {
+            padding: '20px 30px'
         }
     })
 
@@ -19,7 +22,9 @@ function PageTemplate({ children }: Readonly<{
             orientation="landscape"
             style={styleSheet.pageStyle}>
             <PageHeader />
-            {children}
+            <View style={styleSheet.contentWrapper}>
+                {children}
+            </View>
             <PageFooter />
         </Page>
     )
@@ -52,7 +57,7 @@ function PageFooter() {
             padding: '20px 30px',
         },
         footerText: {
-            fontSize: '16px'
+            fontSize: '13px'
         }
     })
 
