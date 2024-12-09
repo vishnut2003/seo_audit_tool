@@ -11,7 +11,7 @@ const PerformanceMetrics = ({ fullReport }: {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: "10px"
+            gap: "20px"
         }}>
 
             <View style={{ width: "100%", display: 'flex', gap: '10px' }}>

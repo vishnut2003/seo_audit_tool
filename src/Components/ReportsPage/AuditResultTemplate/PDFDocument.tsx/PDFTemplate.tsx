@@ -4,7 +4,8 @@ import PageTemplate from "./PageTemplate";
 import DomainMetrics from "./DomainMetrics";
 import HeroTemplate from "./HeroTemplate";
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
-import PerformanceMetrics from "./PerformanceMetrics/PerformanceMetrics";
+import PerformanceMetrics from "./PerformanceMetrics";
+import SeoTitleDesc from "./SeoTitleDesc";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -35,6 +36,11 @@ const PDFTemplate = ({fullReport}: {
             {/* performance metrics */}
             <PageTemplate>
                 <PerformanceMetrics fullReport={fullReport}/>
+            </PageTemplate>
+            
+            {/* Title Attri Checks */}
+            <PageTemplate>
+                <SeoTitleDesc fullReport={fullReport} />
             </PageTemplate>
         </Document>
     )
