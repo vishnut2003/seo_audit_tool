@@ -1,6 +1,9 @@
+import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface"
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
 
-const DomainMetrics = () => {
+const DomainMetrics = ({fullReport}: {
+    fullReport: getReportResponseInterface
+}) => {
 
     const styleSheet = StyleSheet.create({
         mainWrapper: {
@@ -24,7 +27,6 @@ const DomainMetrics = () => {
         leftHeading: {
             fontSize: '15px',
             fontWeight: 800,
-            color: "#7fa042"
         },
         leftPara: {
             fontSize: '11px',
@@ -75,7 +77,7 @@ const DomainMetrics = () => {
                         justifyContent: "space-between"
                     }}>
                         <Text>Domain Authority</Text>
-                        <Text>77 <Text style={{fontSize: "11px"}}>/100</Text></Text>
+                        <Text>{fullReport.data.output.backlinks.data.mozda} <Text style={{fontSize: "11px"}}>/100</Text></Text>
                     </View>
 
                     <View style={{
@@ -91,7 +93,7 @@ const DomainMetrics = () => {
                         justifyContent: "space-between"
                     }}>
                         <Text>Total Backlinks</Text>
-                        <Text>77 <Text style={{fontSize: "11px"}}>/100</Text></Text>
+                        <Text>{fullReport.data.output.backlinks.data.allbacklinks} <Text style={{fontSize: "11px"}}></Text></Text>
                     </View>
 
                     <View style={{
@@ -107,7 +109,7 @@ const DomainMetrics = () => {
                         justifyContent: "space-between"
                     }}>
                         <Text>Domain Strength</Text>
-                        <Text>77 <Text style={{fontSize: "11px"}}>/100</Text></Text>
+                        <Text>{fullReport.data.output.backlinks.data.domain_strength} <Text style={{fontSize: "11px"}}></Text></Text>
                     </View>
                     
                     <View style={{
@@ -123,7 +125,7 @@ const DomainMetrics = () => {
                         justifyContent: "space-between"
                     }}>
                         <Text>Referring Domains</Text>
-                        <Text>77 <Text style={{fontSize: "11px"}}>/100</Text></Text>
+                        <Text>{fullReport.data.output.backlinks.data.referring_domains} <Text style={{fontSize: "11px"}}></Text></Text>
                     </View>
                 </View>
             </View>

@@ -8,12 +8,10 @@ const AuditResultTemplate = ({ fullReport }: {
   fullReport: getReportResponseInterface,
 }) => {
 
-  console.log(fullReport);
-
   return (
     <div className="w-full bg-white p-5 rounded-lg">
       <PDFViewer className="w-full h-[70dvh] rounded-lg">
-        <PDFTemplate/>
+        <PDFTemplate fullReport={fullReport}/>
       </PDFViewer>
     </div>
   )

@@ -1,6 +1,9 @@
+import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface"
 import { Image, Page, Text, View } from "@react-pdf/renderer"
 
-const HeroTemplate = () => {
+const HeroTemplate = ({fullReport}: {
+    fullReport: getReportResponseInterface
+}) => {
     return (
         <Page
             size="A4"
@@ -35,7 +38,7 @@ const HeroTemplate = () => {
                         fontSize: "25px",
                         fontWeight: 800,
                         color: "white"
-                    }}>Audit report for example.com</Text>
+                    }}>Audit report for {fullReport.data.input.url}</Text>
 
                     <Text style={{
                         fontSize: "15px",

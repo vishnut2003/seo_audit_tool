@@ -3,8 +3,12 @@ import React from "react";
 import PageTemplate from "./PageTemplate";
 import DomainMetrics from "./DomainMetrics";
 import HeroTemplate from "./HeroTemplate";
+import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
+import PerformanceMetrics from "./PerformanceMetrics/PerformanceMetrics";
 
-const PDFTemplate = () => {
+const PDFTemplate = ({fullReport}: {
+    fullReport: getReportResponseInterface
+}) => {
 
     Font.register({
         family: 'Open Sans', fonts: [
@@ -21,15 +25,16 @@ const PDFTemplate = () => {
             title="Site Audit" >
 
             {/* Hero Section */}
-            <HeroTemplate/>
+            <HeroTemplate fullReport={fullReport}/>
 
             {/* Domain Metrics */}
             <PageTemplate>
-                <DomainMetrics />
+                <DomainMetrics fullReport={fullReport} />
             </PageTemplate>
 
+            {/* performance metrics */}
             <PageTemplate>
-                <Text>Second Page</Text>
+                <PerformanceMetrics fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
