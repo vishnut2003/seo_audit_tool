@@ -1,4 +1,4 @@
-import { Document, Font, Text } from "@react-pdf/renderer";
+import { Document, Font } from "@react-pdf/renderer";
 import React from "react";
 import PageTemplate from "./PageTemplate";
 import DomainMetrics from "./DomainMetrics";
