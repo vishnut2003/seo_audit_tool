@@ -10,6 +10,7 @@ import Keywords from "./Keywords";
 import ContentImageAlt from "./ContentImageAlt";
 import Backlinks from "./Backlinks";
 import OnPageLinks from "./OnPageLinks";
+import NoIndex from "./NoIndex";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -70,6 +71,11 @@ const PDFTemplate = ({fullReport}: {
             {/* On-Page Links section */}
             <PageTemplate>
                 <OnPageLinks fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* No Index Section */}
+            <PageTemplate>
+                <NoIndex fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
