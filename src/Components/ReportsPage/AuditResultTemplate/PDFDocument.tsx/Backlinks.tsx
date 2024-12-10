@@ -16,7 +16,7 @@ const Backlinks = ({ fullReport }: {
             <View style={{ width: "80%" }}>
                 <Image 
                 style={{width: "100%"}}
-                src={'/pdf-assets/backlinks.png'}/>
+                src={'/pdf-assets/Backlinks.png'}/>
             </View>
 
             <View style={{ width: "100%", display: "flex", gap: "20px" }}>

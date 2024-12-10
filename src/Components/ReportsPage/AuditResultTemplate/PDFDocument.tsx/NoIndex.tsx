@@ -114,7 +114,7 @@ const NoIndex = ({ fullReport }: {
             <View style={{ width: "80%" }}>
                 <Image 
                 style={{width: "100%"}}
-                src={'/pdf-assets/noindex.png'}/>
+                src={'/pdf-assets/noIndex.png'}/>
             </View>
 
         </View>
