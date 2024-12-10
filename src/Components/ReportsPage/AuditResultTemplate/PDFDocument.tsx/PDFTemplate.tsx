@@ -69,7 +69,7 @@ const PDFTemplate = ({fullReport}: {
 
             {/* On-Page Links section */}
             <PageTemplate>
-                <OnPageLinks/>
+                <OnPageLinks fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
