@@ -17,13 +17,13 @@ const Page = () => {
     <BasicLayout>
       <div className="w-full flex flex-col gap-5">
 
-        <div className="flex gap-2 items-center justify-between p-3 bg-white rounded-lg">
+        <div className="flex gap-2 items-center flex-col md:flex-row justify-between p-3 bg-white rounded-lg">
           {/* New Audit Form */}
           <NewAuditForm inProgress={inProgress} setInProgress={setInprogress} setAuditResult={setAuditResult} />
 
           {/* Select exist websites */}
-          <div>
-            <select className="py-4 px-5 border rounded-lg bg-slate-200 text-slate-600">
+          <div className="w-full md:w-max">
+            <select className="py-4 px-5 border rounded-lg bg-slate-200 text-slate-600 w-full">
               <option value="">Select Exist Website</option>
               <option value="">webspidersolutions.com</option>
               <option value="">wallsanddreams.com</option>
