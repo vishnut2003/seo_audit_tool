@@ -1,11 +1,11 @@
 import { Document, Font } from "@react-pdf/renderer";
-import React from "react";
 import PageTemplate from "./PageTemplate";
 import DomainMetrics from "./DomainMetrics";
 import HeroTemplate from "./HeroTemplate";
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
 import PerformanceMetrics from "./PerformanceMetrics";
 import SeoTitleDesc from "./SeoTitleDesc";
+import HasH1Tag from "./HasH1Tag";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -41,6 +41,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Title Attri Checks */}
             <PageTemplate>
                 <SeoTitleDesc fullReport={fullReport} />
+            </PageTemplate>
+
+            {/* Has H1 Tag */}
+            <PageTemplate>
+                <HasH1Tag fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
