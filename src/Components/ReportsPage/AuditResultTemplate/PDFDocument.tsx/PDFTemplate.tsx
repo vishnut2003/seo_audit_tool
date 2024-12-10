@@ -11,6 +11,7 @@ import ContentImageAlt from "./ContentImageAlt";
 import Backlinks from "./Backlinks";
 import OnPageLinks from "./OnPageLinks";
 import NoIndex from "./NoIndex";
+import RobotsTxt from "./RobotsTxt";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -76,6 +77,11 @@ const PDFTemplate = ({fullReport}: {
             {/* No Index Section */}
             <PageTemplate>
                 <NoIndex fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* RobotTxt */}
+            <PageTemplate>
+                <RobotsTxt fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
