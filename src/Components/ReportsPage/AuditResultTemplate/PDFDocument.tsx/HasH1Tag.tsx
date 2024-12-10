@@ -22,7 +22,7 @@ const HasH1Tag = ({ fullReport }: {
             fontSize: '18px',
           }}>H1 Tag Usage</Text>
 
-          <Text style={{ fontSize: "11px" }}>The H1 tag is essential for SEO as it defines the page's primary topic, improves structure, enhances readability, and helps search engines understand content relevance, boosting rankings and user engagement.</Text>
+          <Text style={{ fontSize: "11px" }}>The H1 tag is essential for SEO as it defines the page&apos;s primary topic, improves structure, enhances readability, and helps search engines understand content relevance, boosting rankings and user engagement.</Text>
 
           <View style={{
             display: "flex",
