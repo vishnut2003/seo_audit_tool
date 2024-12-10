@@ -6,6 +6,7 @@ import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseI
 import PerformanceMetrics from "./PerformanceMetrics";
 import SeoTitleDesc from "./SeoTitleDesc";
 import HasH1Tag from "./HasH1Tag";
+import Keywords from "./Keywords";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -46,6 +47,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Has H1 Tag */}
             <PageTemplate>
                 <HasH1Tag fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Keywords */}
+            <PageTemplate>
+                <Keywords fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
