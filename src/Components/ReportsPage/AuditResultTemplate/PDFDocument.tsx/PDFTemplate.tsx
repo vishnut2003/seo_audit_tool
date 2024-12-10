@@ -7,6 +7,7 @@ import PerformanceMetrics from "./PerformanceMetrics";
 import SeoTitleDesc from "./SeoTitleDesc";
 import HasH1Tag from "./HasH1Tag";
 import Keywords from "./Keywords";
+import ContentImageAlt from "./ContentImageAlt";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -52,6 +53,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Keywords */}
             <PageTemplate>
                 <Keywords fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Content Length / Image alt */}
+            <PageTemplate>
+                <ContentImageAlt fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
