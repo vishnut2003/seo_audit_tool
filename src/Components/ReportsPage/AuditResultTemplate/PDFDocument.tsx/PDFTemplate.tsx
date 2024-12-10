@@ -8,6 +8,8 @@ import SeoTitleDesc from "./SeoTitleDesc";
 import HasH1Tag from "./HasH1Tag";
 import Keywords from "./Keywords";
 import ContentImageAlt from "./ContentImageAlt";
+import Backlinks from "./Backlinks";
+import OnPageLinks from "./OnPageLinks";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -58,6 +60,16 @@ const PDFTemplate = ({fullReport}: {
             {/* Content Length / Image alt */}
             <PageTemplate>
                 <ContentImageAlt fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Backlinks section */}
+            <PageTemplate>
+                <Backlinks fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* On-Page Links section */}
+            <PageTemplate>
+                <OnPageLinks/>
             </PageTemplate>
         </Document>
     )
