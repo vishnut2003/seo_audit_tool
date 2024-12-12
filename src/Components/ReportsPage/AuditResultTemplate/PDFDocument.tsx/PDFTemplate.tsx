@@ -13,6 +13,7 @@ import OnPageLinks from "./OnPageLinks";
 import NoIndex from "./NoIndex";
 import RobotsTxt from "./RobotsTxt";
 import SitemapAnalytics from "./SitemapAnalytics";
+import SchemaKeywords from "./SchemaKeywords";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -88,6 +89,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Sitemap and Analytics section */}
             <PageTemplate>
                 <SitemapAnalytics fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Schema and Keywords positions */}
+            <PageTemplate>
+                <SchemaKeywords fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
