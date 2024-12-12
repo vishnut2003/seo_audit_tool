@@ -12,6 +12,7 @@ import Backlinks from "./Backlinks";
 import OnPageLinks from "./OnPageLinks";
 import NoIndex from "./NoIndex";
 import RobotsTxt from "./RobotsTxt";
+import SitemapAnalytics from "./SitemapAnalytics";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -82,6 +83,11 @@ const PDFTemplate = ({fullReport}: {
             {/* RobotTxt */}
             <PageTemplate>
                 <RobotsTxt fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Sitemap and Analytics section */}
+            <PageTemplate>
+                <SitemapAnalytics fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
