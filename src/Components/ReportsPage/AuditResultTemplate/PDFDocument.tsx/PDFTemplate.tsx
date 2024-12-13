@@ -18,6 +18,7 @@ import PageInsights from "./PageInsights";
 import MobileViewportFlash from "./MobileViewportFlash";
 import FaviconIframe from "./FaviconIframe";
 import FontTapSizing from "./FontTapSizing";
+import ServerResponsePageSize from "./ServerResponsePageSize";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -118,6 +119,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Legible fonts and tap target sizing */}
             <PageTemplate>
                 <FontTapSizing fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Page Response time and Page size section */}
+            <PageTemplate>
+                <ServerResponsePageSize fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
