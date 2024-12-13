@@ -25,6 +25,7 @@ import JsErrorHttp2 from "./JsErrorHttp2";
 import OptimizedMinified from "./OptimizedMinified";
 import DeprecatedInlineCss from "./DeprecatedInlineCss";
 import Social from "./Social";
+import SslHttpsRedirect from "./SslHttpsRedirect";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -160,6 +161,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Social section */}
             <PageTemplate>
                 <Social fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* SSL or HTTPS Redirects section */}
+            <PageTemplate>
+                <SslHttpsRedirect fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
