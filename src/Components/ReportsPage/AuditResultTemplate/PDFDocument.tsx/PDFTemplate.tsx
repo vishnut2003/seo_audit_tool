@@ -15,6 +15,7 @@ import RobotsTxt from "./RobotsTxt";
 import SitemapAnalytics from "./SitemapAnalytics";
 import SchemaKeywords from "./SchemaKeywords";
 import PageInsights from "./PageInsights";
+import MobileViewportFlash from "./MobileViewportFlash";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -100,6 +101,11 @@ const PDFTemplate = ({fullReport}: {
             {/* PageInsights */}
             <PageTemplate>
                 <PageInsights fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Mobile Viewport and Flash content */}
+            <PageTemplate>
+                <MobileViewportFlash fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
