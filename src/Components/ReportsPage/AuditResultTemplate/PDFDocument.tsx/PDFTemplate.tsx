@@ -23,6 +23,7 @@ import NumberOfResources from "./NumberOfResources";
 import WebsiteCompression from "./WebsiteCompression";
 import JsErrorHttp2 from "./JsErrorHttp2";
 import OptimizedMinified from "./OptimizedMinified";
+import DeprecatedInlineCss from "./DeprecatedInlineCss";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -148,6 +149,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Image Optimization and Files Minified section */}
             <PageTemplate>
                 <OptimizedMinified fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Deprecation and inline css */}
+            <PageTemplate>
+                <DeprecatedInlineCss fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
