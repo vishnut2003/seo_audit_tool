@@ -71,22 +71,24 @@ const WebsiteCompression = ({ fullReport }: {
 
                         {/* response details */}
                         <View>
-                            {Object.keys(fullReport.data.output.gzip.data).map((sizeDetail, index) => (
-                                <View key={index} style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    gap: "20px",
-                                    fontSize: "11px",
-                                    padding: "5px",
-                                    fontWeight: 600,
-                                    borderBottom: "1px solid #cecece",
-                                    justifyContent: "space-between",
-                                    textTransform: "capitalize"
-                                }}>
-                                    <Text>{sizeDetail}:</Text>
-                                    <Text>{fullReport.data.output.gzip.data[sizeDetail as keyof typeof fullReport.data.output.gzip.data]}</Text>
-                                </View>
-                            ))}
+                            {Object.keys(fullReport.data.output.gzip.data).map((sizeDetail, index) => {
+                                if (index < 8) return (
+                                    <View key={index} style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        gap: "20px",
+                                        fontSize: "11px",
+                                        padding: "5px",
+                                        fontWeight: 600,
+                                        borderBottom: "1px solid #cecece",
+                                        justifyContent: "space-between",
+                                        textTransform: "capitalize"
+                                    }}>
+                                        <Text>{sizeDetail}:</Text>
+                                        <Text>{fullReport.data.output.gzip.data[sizeDetail as keyof typeof fullReport.data.output.gzip.data]}</Text>
+                                    </View>
+                                )
+                            })}
                         </View>
                     </View>
 
