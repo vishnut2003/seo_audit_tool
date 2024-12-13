@@ -14,6 +14,7 @@ import NoIndex from "./NoIndex";
 import RobotsTxt from "./RobotsTxt";
 import SitemapAnalytics from "./SitemapAnalytics";
 import SchemaKeywords from "./SchemaKeywords";
+import PageInsights from "./PageInsights";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -94,6 +95,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Schema and Keywords positions */}
             <PageTemplate>
                 <SchemaKeywords fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* PageInsights */}
+            <PageTemplate>
+                <PageInsights fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
