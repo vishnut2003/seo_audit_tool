@@ -28,6 +28,7 @@ import Social from "./Social";
 import SslHttpsRedirect from "./SslHttpsRedirect";
 import PhoneAddressEmail from "./PhoneAddressEmail";
 import GoogleBusinessProfile from "./GoogleBusinessProfile";
+import IpAndTechnology from "./IpAndTechnology";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -178,6 +179,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Google My Business section */}
             <PageTemplate>
                 <GoogleBusinessProfile fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* ID and technologies section */}
+            <PageTemplate>
+                <IpAndTechnology fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
