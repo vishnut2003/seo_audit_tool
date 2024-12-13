@@ -21,6 +21,7 @@ import FontTapSizing from "./FontTapSizing";
 import ServerResponsePageSize from "./ServerResponsePageSize";
 import NumberOfResources from "./NumberOfResources";
 import WebsiteCompression from "./WebsiteCompression";
+import JsErrorHttp2 from "./JsErrorHttp2";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -136,6 +137,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Website compression */}
             <PageTemplate>
                 <WebsiteCompression fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* JS Error and HTTP version section */}
+            <PageTemplate>
+                <JsErrorHttp2 fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
