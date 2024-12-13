@@ -52,7 +52,7 @@ const PhoneAddressEmail = ({fullReport}: {
                     </View>
 
                     {/* Paragraph */}
-                    <Text style={{ fontSize: "11px" }}>plain text emails for SEO is reduced engagement. Without links, users can't easily access additional 
+                    <Text style={{ fontSize: "11px" }}>plain text emails for SEO is reduced engagement. Without links, users can&apos;t easily access additional 
                         content, leading to fewer conversions, lower traffic, and limited interaction with your website.</Text>
 
                     {/* Details */}

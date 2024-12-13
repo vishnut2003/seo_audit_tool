@@ -1,5 +1,5 @@
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface"
-import { Image, Text, View } from "@react-pdf/renderer"
+import { Text, View } from "@react-pdf/renderer"
 
 const IpAndTechnology = ({ fullReport }: {
     fullReport: getReportResponseInterface
