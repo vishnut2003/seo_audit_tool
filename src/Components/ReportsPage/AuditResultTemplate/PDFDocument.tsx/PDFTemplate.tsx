@@ -24,6 +24,7 @@ import WebsiteCompression from "./WebsiteCompression";
 import JsErrorHttp2 from "./JsErrorHttp2";
 import OptimizedMinified from "./OptimizedMinified";
 import DeprecatedInlineCss from "./DeprecatedInlineCss";
+import Social from "./Social";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -154,6 +155,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Deprecation and inline css */}
             <PageTemplate>
                 <DeprecatedInlineCss fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Social section */}
+            <PageTemplate>
+                <Social fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
