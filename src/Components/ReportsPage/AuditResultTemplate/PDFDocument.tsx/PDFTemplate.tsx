@@ -26,6 +26,7 @@ import OptimizedMinified from "./OptimizedMinified";
 import DeprecatedInlineCss from "./DeprecatedInlineCss";
 import Social from "./Social";
 import SslHttpsRedirect from "./SslHttpsRedirect";
+import PhoneAddressEmail from "./PhoneAddressEmail";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -166,6 +167,11 @@ const PDFTemplate = ({fullReport}: {
             {/* SSL or HTTPS Redirects section */}
             <PageTemplate>
                 <SslHttpsRedirect fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Email, Phone, Address section */}
+            <PageTemplate>
+                <PhoneAddressEmail fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
