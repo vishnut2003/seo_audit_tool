@@ -17,6 +17,7 @@ import SchemaKeywords from "./SchemaKeywords";
 import PageInsights from "./PageInsights";
 import MobileViewportFlash from "./MobileViewportFlash";
 import FaviconIframe from "./FaviconIframe";
+import FontTapSizing from "./FontTapSizing";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -112,6 +113,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Favicon and iframe section */}
             <PageTemplate>
                 <FaviconIframe fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Legible fonts and tap target sizing */}
+            <PageTemplate>
+                <FontTapSizing fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
