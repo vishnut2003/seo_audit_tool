@@ -27,6 +27,7 @@ import DeprecatedInlineCss from "./DeprecatedInlineCss";
 import Social from "./Social";
 import SslHttpsRedirect from "./SslHttpsRedirect";
 import PhoneAddressEmail from "./PhoneAddressEmail";
+import GoogleBusinessProfile from "./GoogleBusinessProfile";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -172,6 +173,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Email, Phone, Address section */}
             <PageTemplate>
                 <PhoneAddressEmail fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Google My Business section */}
+            <PageTemplate>
+                <GoogleBusinessProfile fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
