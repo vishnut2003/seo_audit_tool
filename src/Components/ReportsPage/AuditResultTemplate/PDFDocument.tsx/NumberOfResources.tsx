@@ -63,7 +63,7 @@ const NumberOfResources = ({ fullReport }: {
                 {/* Hah AMP */}
                 <View style={{ width: "100%", display: "flex", gap: "10px" }}>
                     {/* Section title */}
-                    <Text style={{ fontSize: "18px", fontWeight: 600 }}>AMP Chack</Text>
+                    <Text style={{ fontSize: "18px", fontWeight: 600 }}>AMP Check</Text>
 
                     {/* Paragraph */}
                     <Text style={{ fontSize: "11px" }}>AMP Accelerated Mobile Pages enhances SEO by optimizing mobile page speed.

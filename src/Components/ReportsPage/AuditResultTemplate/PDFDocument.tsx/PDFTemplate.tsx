@@ -20,6 +20,7 @@ import FaviconIframe from "./FaviconIframe";
 import FontTapSizing from "./FontTapSizing";
 import ServerResponsePageSize from "./ServerResponsePageSize";
 import NumberOfResources from "./NumberOfResources";
+import WebsiteCompression from "./WebsiteCompression";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -130,6 +131,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Number of resources and AMP Enabled */}
             <PageTemplate>
                 <NumberOfResources fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Website compression */}
+            <PageTemplate>
+                <WebsiteCompression fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
