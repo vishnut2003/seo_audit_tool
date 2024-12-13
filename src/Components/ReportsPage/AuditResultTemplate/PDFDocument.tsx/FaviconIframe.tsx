@@ -99,7 +99,7 @@ const FaviconIframe = ({fullReport}: {
                     </View>
 
                     {/* Paragraph */}
-                    <Text style={{ fontSize: "11px" }}>Iframe usage can affect SEO by limiting search engines' ability to crawl and 
+                    <Text style={{ fontSize: "11px" }}>Iframe usage can affect SEO by limiting search engines ability to crawl and 
                         index embedded content. Excessive use may impact page speed and user experience, potentially reducing visibility and rankings.</Text>
 
                     {/* Details */}
