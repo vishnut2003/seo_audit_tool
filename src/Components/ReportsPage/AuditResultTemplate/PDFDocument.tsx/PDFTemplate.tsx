@@ -22,6 +22,7 @@ import ServerResponsePageSize from "./ServerResponsePageSize";
 import NumberOfResources from "./NumberOfResources";
 import WebsiteCompression from "./WebsiteCompression";
 import JsErrorHttp2 from "./JsErrorHttp2";
+import OptimizedMinified from "./OptimizedMinified";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -142,6 +143,11 @@ const PDFTemplate = ({fullReport}: {
             {/* JS Error and HTTP version section */}
             <PageTemplate>
                 <JsErrorHttp2 fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Image Optimization and Files Minified section */}
+            <PageTemplate>
+                <OptimizedMinified fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
