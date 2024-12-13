@@ -19,6 +19,7 @@ import MobileViewportFlash from "./MobileViewportFlash";
 import FaviconIframe from "./FaviconIframe";
 import FontTapSizing from "./FontTapSizing";
 import ServerResponsePageSize from "./ServerResponsePageSize";
+import NumberOfResources from "./NumberOfResources";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -124,6 +125,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Page Response time and Page size section */}
             <PageTemplate>
                 <ServerResponsePageSize fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Number of resources and AMP Enabled */}
+            <PageTemplate>
+                <NumberOfResources fullReport={fullReport}/>
             </PageTemplate>
         </Document>
     )
