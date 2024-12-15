@@ -84,7 +84,7 @@ export async function getReport({ reportId }: {
 export async function saveReportToDatabase({ reportResponse }: {
     reportResponse: createReportResponseInterface
 }) {
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise<void>(async (resolve) => {
         await dbConnect();
 
         const reportRecord = await ReportRecordModel.findOne({name: 'report'});

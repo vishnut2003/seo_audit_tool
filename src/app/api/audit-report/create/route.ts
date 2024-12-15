@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import testResponse from "./testResponseJson";
-import { createReport, getReport, saveReportToDatabase } from "@/utils/server/seoOptimerApi";
+import { createReport, saveReportToDatabase } from "@/utils/server/seoOptimerApi";
 
 export async function POST(request: NextRequest) {
     try {
