@@ -1,9 +1,23 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import testResponse from "./testResponseJson";
+import { createReport, getReport, saveReportToDatabase } from "@/utils/server/seoOptimerApi";
 
-export async function POST () {
-    // const body = (await request.json()) as {domain: string};
+export async function POST(request: NextRequest) {
+    try {
+        const body = (await request.json()) as { domain: string };
 
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-    return NextResponse.json(testResponse);
+        // Create new report
+        const createdReport = await createReport({ domainName: body.domain });
+
+        // return if the created report dont have data body
+        if (!createdReport.data || !createdReport.data.id) throw new Error('No data body or data.id in created report response.');
+
+        // Save to database
+        await saveReportToDatabase({reportResponse: createdReport});
+
+        return NextResponse.json({success: true}, {status: 500});
+
+    } catch (err) {
+        return NextResponse.json({error: err}, {status: 500});
+    }
 }
