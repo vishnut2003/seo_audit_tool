@@ -35,22 +35,12 @@ export default function ReportRecordList() {
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
-                                        Domain name
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
                                         <div className="flex items-center">
                                             Report ID
                                         </div>
                                     </th>
                                     <th scope="col" className="px-6 py-3">
-                                        <div className="flex items-center">
-                                            Date
-                                        </div>
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        <div className="flex items-center">
-                                            Status
-                                        </div>
+                                        Domain name
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         <div className="flex items-center">
@@ -63,21 +53,14 @@ export default function ReportRecordList() {
                                 {
                                     reportRecordDoc.reportRecord.map((record, index) => (
                                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {record.data?.url}
-                                            </th>
                                             <td className="px-6 py-4">
                                                 {record.data?.id}
                                             </td>
-                                            <td className="px-6 py-4">
-                                                11/12/2024
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                Nothing
-                                            </td>
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {record.data?.url}
+                                            </th>
                                             <td align="left" className="px-6 py-4 text-right">
                                                 <p className="text-left">
-                                                    <a href="#" className="font-medium text-primary hover:underline mr-2">Check Status</a>
                                                     <Link href={`/dashboard/reports/${record.data?.id}`} className="font-medium text-secondary hover:underline">View</Link>
                                                 </p>
                                             </td>

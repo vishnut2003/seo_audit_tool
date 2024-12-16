@@ -9,8 +9,8 @@ const AuditResultTemplate = ({ fullReport }: {
 }) => {
 
   return (
-    <div className="w-full bg-white p-5 rounded-lg">
-      <PDFViewer className="w-full h-[70dvh] rounded-lg">
+    <div className="w-full bg-transparent h-full">
+      <PDFViewer className="w-full h-[100%] rounded-lg">
         <PDFTemplate fullReport={fullReport}/>
       </PDFViewer>
     </div>

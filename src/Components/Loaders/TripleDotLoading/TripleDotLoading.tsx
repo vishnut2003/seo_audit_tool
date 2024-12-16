@@ -1,11 +1,13 @@
 import "./TripleDotStyle.css";
 
-const TripleDotLoading = () => {
+const TripleDotLoading = ({lightTheme}: {
+    lightTheme?: boolean
+}) => {
     return (
         <div className="bouncing-loader">
-            <div></div>
-            <div></div>
-            <div></div>
+            <div style={{backgroundColor: lightTheme ? 'white' : '#3c50e0'}}></div>
+            <div style={{backgroundColor: lightTheme ? 'white' : '#3c50e0'}}></div>
+            <div style={{backgroundColor: lightTheme ? 'white' : '#3c50e0'}}></div>
         </div>
     )
 }
