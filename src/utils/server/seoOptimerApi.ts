@@ -1,4 +1,4 @@
-import ReportRecordModel from "@/app/models/ReportRecordModel";
+import ReportRecordModel, { createReportMDocInterface } from "@/app/models/ReportRecordModel";
 import { dbConnect } from "@/database/DBConfig";
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
 import axios from "axios";
@@ -108,5 +108,16 @@ export async function saveReportToDatabase({ reportResponse }: {
         }
 
         resolve();
+    })
+}
+
+export async function getAllReportRecords() {
+    return new Promise <createReportMDocInterface> ( async (resolve, reject) => {
+        try {
+            const records = await ReportRecordModel.findOne({name: 'report'});
+            resolve(records);
+        } catch (err) {
+            reject(err);
+        }
     })
 }
