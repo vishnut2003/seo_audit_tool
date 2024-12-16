@@ -2,9 +2,9 @@ import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoa
 
 const AuditResultProgress = () => {
   return (
-    <div className="w-full h-[60dvh] bg-transparent p-5 flex flex-col gap-3 text-white justify-center items-center">
+    <div className="w-full h-[100%] bg-transparent p-5 flex flex-col gap-3 text-white justify-center items-center">
         <TripleDotLoading lightTheme/>
-      <p>Analysing website...</p>
+      <p>Loading PDF Viewer...</p>
     </div>
   )
 }

@@ -19,11 +19,11 @@ export default function ReportRecordList() {
     }, [])
 
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white">
+        <div className="relative overflow-x-auto shadow-sm sm:rounded-lg bg-white h-full">
 
             {
                 fetchInProgress ?
-                    <div className="w-full h-[40dvh] flex justify-center items-center">
+                    <div className="w-full h-[100%] flex justify-center items-center">
                         <TripleDotLoading />
                     </div>
                     : !reportRecordDoc ?

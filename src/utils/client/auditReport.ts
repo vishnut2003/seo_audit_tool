@@ -5,13 +5,13 @@ import axios from "axios";
 export function createNewAudit ({domainName}: {
     domainName: string
 }) {
-    return new Promise<getReportResponseInterface>( async (resolve) => {
+    return new Promise<void>( async (resolve, reject) => {
         try {
-            const response = await axios.post('/api/audit-report/create', {domain: domainName});
-            const auditResult: getReportResponseInterface = response.data;
-            resolve(auditResult)
+            await axios.post('/api/audit-report/create', {domain: domainName});
+            resolve()
         } catch (err) {
             console.log(err);
+            reject();
         }
     })
 }
@@ -31,7 +31,7 @@ export async function getOneReportById({reportId}: {
 }
 
 export function getAllReportRecords () {
-    return new Promise<createReportMDocInterface>( async (resolve, reject) => {
+    return new Promise<createReportMDocInterface>( async (resolve) => {
         try {
             const response = await axios.get('/api/audit-report/get-all/1');
             const records = (response.data) as createReportMDocInterface;

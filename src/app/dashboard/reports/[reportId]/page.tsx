@@ -9,7 +9,7 @@ import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const page = () => {
+const Page = () => {
 
     const [inProgress, setInprogress] = useState<boolean>(true);
     const [auditResult, setAuditResult] = useState<getReportResponseInterface | null>(null);
@@ -26,7 +26,7 @@ const page = () => {
                 console.log(err);
                 notFound();
             })
-    }, [])
+    }, [params])
 
     return (
         <div className="w-dvw h-dvh bg-[#323639] flex flex-col justify-center">
@@ -48,4 +48,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
