@@ -25,11 +25,8 @@ const Page = () => {
 
         </div>
 
-        {/* audit result section layout */
-          // inProgress ? <AuditResultProgress/> : auditResult ? <AuditResultTemplate fullReport={auditResult}/> : <AuditResultPlaceholder/>
-        }
-
         <ReportRecordList/>
+        
       </div>
     </BasicLayout>
   )

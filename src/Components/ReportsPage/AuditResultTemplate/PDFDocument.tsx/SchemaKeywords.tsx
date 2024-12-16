@@ -95,7 +95,7 @@ const SchemaKeywords = ({ fullReport }: {
                         display: "flex",
                         flexDirection: "column"
                     }}>
-                        {Object.keys(fullReport.data.output.keywordPositions.data).map((position, index) => {
+                        {fullReport.data.output.keywordPositions && Object.keys(fullReport.data.output.keywordPositions.data).map((position, index) => {
                             if (index < 5) return (
                                 <View key={index} style={{
                                     display: "flex",

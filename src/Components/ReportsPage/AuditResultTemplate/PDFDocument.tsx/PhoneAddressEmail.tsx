@@ -111,7 +111,7 @@ const PhoneAddressEmail = ({fullReport}: {
                     <Text style={{
                         fontSize: "11px",
                         fontWeight: 600
-                    }}>Component: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.websitePhoneAddress.data.missing}</Text></Text>
+                    }}>Component: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.websitePhoneAddress.data?.missing}</Text></Text>
                 </View>
 
             </View>

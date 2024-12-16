@@ -1,6 +1,7 @@
 import { createReportMDocInterface } from "@/app/models/ReportRecordModel";
 import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoading";
 import { getAllReportRecords } from "@/utils/client/auditReport";
+import Link from "next/link";
 import { useEffect, useState } from "react"
 
 export default function ReportRecordList() {
@@ -27,7 +28,7 @@ export default function ReportRecordList() {
                     </div>
                     : !reportRecordDoc ?
                         <div className="w-full h-[40dvh] flex justify-center items-center">
-                            <p>No Records found!</p>
+                            <p className="opacity-70">No Records found!</p>
                         </div>
                         :
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -77,7 +78,7 @@ export default function ReportRecordList() {
                                             <td align="left" className="px-6 py-4 text-right">
                                                 <p className="text-left">
                                                     <a href="#" className="font-medium text-primary hover:underline mr-2">Check Status</a>
-                                                    <a href="#" className="font-medium text-secondary hover:underline">View</a>
+                                                    <Link href={`/dashboard/reports/${record.data?.id}`} className="font-medium text-secondary hover:underline">View</Link>
                                                 </p>
                                             </td>
                                         </tr>

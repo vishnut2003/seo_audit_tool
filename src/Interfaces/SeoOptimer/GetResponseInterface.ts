@@ -558,7 +558,7 @@ export interface getReportResponseInterface {
                 passed: true,
                 shortAnswer: string | null,
                 recommendation: string | null,
-                data: {
+                data?: {
                     missing: string
                 }
             },
