@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
         // Save to database
         await saveReportToDatabase({reportResponse: createdReport});
 
-        return NextResponse.json({success: true}, {status: 500});
+        return NextResponse.json({success: true});
 
     } catch (err) {
         return NextResponse.json({error: err}, {status: 500});

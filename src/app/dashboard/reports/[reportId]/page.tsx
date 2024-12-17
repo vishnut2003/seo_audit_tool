@@ -1,5 +1,6 @@
 'use client'
 
+import AditResultError from "@/Components/ReportsPage/AditResultError/AditResultError";
 import AuditResultProgress from "@/Components/ReportsPage/AuditResultProgress/AuditResultProgress";
 import AuditResultTemplate from "@/Components/ReportsPage/AuditResultTemplate/AuditResultTemplate";
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
@@ -13,6 +14,7 @@ const Page = () => {
 
     const [inProgress, setInprogress] = useState<boolean>(true);
     const [auditResult, setAuditResult] = useState<getReportResponseInterface | null>(null);
+    const [auditError, setAuditError] = useState<boolean>(false)
 
     const params = useParams<{ reportId: string }>();
 
@@ -24,7 +26,7 @@ const Page = () => {
             })
             .catch((err) => {
                 console.log(err);
-                notFound();
+                setAuditError(true);
             })
     }, [params])
 
@@ -41,7 +43,7 @@ const Page = () => {
 
             <div className="h-full">
                 {/* audit result section layout */
-                    inProgress ? <AuditResultProgress /> : auditResult && <AuditResultTemplate fullReport={auditResult} />
+                    inProgress ? <AuditResultProgress /> : auditResult ? <AuditResultTemplate fullReport={auditResult} /> : auditError && <AditResultError/>
                 }
             </div>
         </div>
