@@ -7,7 +7,7 @@ import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseI
 import { getOneReportById } from "@/utils/client/auditReport";
 import { RiArrowLeftSLine } from "@remixicon/react"
 import Link from "next/link";
-import { notFound, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Page = () => {
