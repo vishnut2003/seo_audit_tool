@@ -90,7 +90,7 @@ const Backlinks = ({ fullReport }: {
                                                 gap: "4px"
                                             }}>
                                                 <Text>{site.url}</Text>
-                                                <Text style={{ fontWeight: 600 }}>Domain Authority: {site.domain_authority}</Text>
+                                                <Text style={{ fontWeight: 600 }}>Domain Strength: {site.domain_strength}</Text>
                                             </View>
                                         </View>
                                     )

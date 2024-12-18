@@ -163,7 +163,14 @@ export interface getReportResponseInterface {
                     allbacklinks: number,
                     mozda: number,
                     referring_domains: number,
-                    domain_strength: number
+                    domain_strength: number,
+                    page_strength: number,
+                    nofollow_backlinks: number,
+                    dofollow_backlinks: number,
+                    edu_backlinks: number,
+                    gov_backlinks: number,
+                    subnets: number,
+                    ips: number
                 }
             },
             backlinksList: {
@@ -327,7 +334,7 @@ export interface getReportResponseInterface {
                     score: number,
                     labdata: {
                         name: string,
-                            value: number
+                        value: number
                     }[],
                     opportunities: string[]
                 }
@@ -615,10 +622,10 @@ export interface getReportResponseInterface {
             },
             webServer: boolean,
             charset: boolean,
-            recommendations:{
+            recommendations: {
                 priority: string,
-                    section: string,
-                    recommendation: string
+                section: string,
+                recommendation: string
             }[]
         },
         created_at: string,

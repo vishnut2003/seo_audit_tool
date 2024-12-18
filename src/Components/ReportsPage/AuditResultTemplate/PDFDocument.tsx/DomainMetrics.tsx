@@ -1,7 +1,7 @@
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface"
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
 
-const DomainMetrics = ({fullReport}: {
+const DomainMetrics = ({ fullReport }: {
     fullReport: getReportResponseInterface
 }) => {
 
@@ -63,70 +63,136 @@ const DomainMetrics = ({fullReport}: {
                     }}>Domain Metrics</Text>
                 </View>
 
-                <View style={{display: "flex", gap: "10px"}}>
-                    <View style={{
-                        backgroundColor: "#7fa042",
-                        color: "white",
-                        padding: "15px 25px",
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: "20px",
-                        fontSize: "15px",
-                        fontWeight: 600,
-                        borderRadius: '10px',
-                        justifyContent: "space-between"
-                    }}>
-                        <Text>Domain Authority</Text>
-                        <Text>{fullReport.data.output.backlinks.data.mozda} <Text style={{fontSize: "11px"}}>/100</Text></Text>
-                    </View>
+                <View style={{ display: "flex", gap: "10px" }}>
 
                     <View style={{
                         backgroundColor: "#7fa042",
                         color: "white",
-                        padding: "15px 25px",
+                        padding: "10px 20px",
                         display: "flex",
                         flexDirection: "row",
                         gap: "20px",
-                        fontSize: "15px",
-                        fontWeight: 600,
-                        borderRadius: '10px',
-                        justifyContent: "space-between"
-                    }}>
-                        <Text>Total Backlinks</Text>
-                        <Text>{fullReport.data.output.backlinks.data.allbacklinks} <Text style={{fontSize: "11px"}}></Text></Text>
-                    </View>
-
-                    <View style={{
-                        backgroundColor: "#7fa042",
-                        color: "white",
-                        padding: "15px 25px",
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: "20px",
-                        fontSize: "15px",
+                        fontSize: "12px",
                         fontWeight: 600,
                         borderRadius: '10px',
                         justifyContent: "space-between"
                     }}>
                         <Text>Domain Strength</Text>
-                        <Text>{fullReport.data.output.backlinks.data.domain_strength} <Text style={{fontSize: "11px"}}></Text></Text>
+                        <Text>{fullReport.data.output.backlinks.data.domain_strength} <Text style={{ fontSize: "11px" }}>/100</Text></Text>
                     </View>
-                    
+
                     <View style={{
                         backgroundColor: "#7fa042",
                         color: "white",
-                        padding: "15px 25px",
+                        padding: "10px 20px",
                         display: "flex",
                         flexDirection: "row",
                         gap: "20px",
-                        fontSize: "15px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        borderRadius: '10px',
+                        justifyContent: "space-between"
+                    }}>
+                        <Text>Total Backlinks</Text>
+                        <Text>{fullReport.data.output.backlinks.data.allbacklinks}</Text>
+                    </View>
+
+                    <View style={{
+                        backgroundColor: "#7fa042",
+                        color: "white",
+                        padding: "10px 20px",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                        fontSize: "12px",
                         fontWeight: 600,
                         borderRadius: '10px',
                         justifyContent: "space-between"
                     }}>
                         <Text>Referring Domains</Text>
-                        <Text>{fullReport.data.output.backlinks.data.referring_domains} <Text style={{fontSize: "11px"}}></Text></Text>
+                        <Text>{fullReport.data.output.backlinks.data.referring_domains}</Text>
                     </View>
+                    
+                    <View style={{
+                        backgroundColor: "#7fa042",
+                        color: "white",
+                        padding: "10px 20px",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        borderRadius: '10px',
+                        justifyContent: "space-between"
+                    }}>
+                        <Text>Page Strength</Text>
+                        <Text>{fullReport.data.output.backlinks.data.page_strength}</Text>
+                    </View>
+                    
+                    <View style={{
+                        backgroundColor: "#7fa042",
+                        color: "white",
+                        padding: "10px 20px",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        borderRadius: '10px',
+                        justifyContent: "space-between"
+                    }}>
+                        <Text>NoFollow Backlinks</Text>
+                        <Text>{fullReport.data.output.backlinks.data.nofollow_backlinks}</Text>
+                    </View>
+                    
+                    <View style={{
+                        backgroundColor: "#7fa042",
+                        color: "white",
+                        padding: "10px 20px",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        borderRadius: '10px',
+                        justifyContent: "space-between"
+                    }}>
+                        <Text>DoFollow Backlinks</Text>
+                        <Text>{fullReport.data.output.backlinks.data.dofollow_backlinks}</Text>
+                    </View>
+                    
+                    <View style={{
+                        backgroundColor: "#7fa042",
+                        color: "white",
+                        padding: "10px 20px",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        borderRadius: '10px',
+                        justifyContent: "space-between"
+                    }}>
+                        <Text>Edu Backlinks</Text>
+                        <Text>{fullReport.data.output.backlinks.data.edu_backlinks}</Text>
+                    </View>
+                    
+                    <View style={{
+                        backgroundColor: "#7fa042",
+                        color: "white",
+                        padding: "10px 20px",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        borderRadius: '10px',
+                        justifyContent: "space-between"
+                    }}>
+                        <Text>Gov Backlinks</Text>
+                        <Text>{fullReport.data.output.backlinks.data.gov_backlinks}</Text>
+                    </View>
+
                 </View>
             </View>
         </View>
