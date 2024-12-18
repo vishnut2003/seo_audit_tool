@@ -3,12 +3,16 @@
 import { createNewAudit } from "@/utils/client/auditReport";
 import { RiGlobalLine } from "@remixicon/react"
 import { FormEvent, useState } from "react"
+import ValidateDomainInput from "./ValidateDomainInput";
 
 const NewAuditForm = () => {
 
   const [domain, setDomain] = useState<string>('');
   const [inProgress, setInProgress] = useState<boolean>(false);
+
   const [isError, setIsError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
   const [success, setSuccess] = useState<boolean>(false);
 
   async function _submitNewAudit(event: FormEvent) {
@@ -20,6 +24,14 @@ const NewAuditForm = () => {
     // change status to inprogress
     setInProgress(true);
 
+    // Validate input
+    const valid = await ValidateDomainInput({input: domain});
+    if(!valid.success) {
+      if (valid.error) setErrorMessage(valid.error);
+      setInProgress(false);
+      return setIsError(true)
+    }
+
     // Create new Audit
     createNewAudit({ domainName: domain })
       .then(() => {
@@ -27,7 +39,8 @@ const NewAuditForm = () => {
         setTimeout(() => setSuccess(false), 3000);
       })
       .catch(() => {
-        setIsError(true)
+        setIsError(true);
+        setErrorMessage('Something went wrong!');
       })
       .finally(() => setInProgress(false))
   }
@@ -56,7 +69,7 @@ const NewAuditForm = () => {
       {
         inProgress ?
           <p className="self-end text-sm font-semibold">Creating Report...</p>
-          : isError ? <p className="self-end text-sm font-semibold text-red-500">Something went wrong!</p>
+          : isError ? <p className="self-end text-sm font-semibold text-red-500">{errorMessage}</p>
             : success && <p className="self-end text-sm font-semibold text-green-500">Report created successfully.</p>
       }
     </form>
