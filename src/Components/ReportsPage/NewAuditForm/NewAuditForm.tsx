@@ -42,7 +42,10 @@ const NewAuditForm = () => {
         setIsError(true);
         setErrorMessage('Something went wrong!');
       })
-      .finally(() => setInProgress(false))
+      .finally(() => {
+        setInProgress(false);
+        setDomain('');
+      })
   }
 
   return (
