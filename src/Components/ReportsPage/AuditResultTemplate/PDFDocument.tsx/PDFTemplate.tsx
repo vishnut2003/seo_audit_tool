@@ -29,6 +29,7 @@ import SslHttpsRedirect from "./SslHttpsRedirect";
 import PhoneAddressEmail from "./PhoneAddressEmail";
 import GoogleBusinessProfile from "./GoogleBusinessProfile";
 import IpAndTechnology from "./IpAndTechnology";
+import GoogleSearchPreview from "./GoogleSearchPreview";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -179,6 +180,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Google My Business section */}
             <PageTemplate>
                 <GoogleBusinessProfile fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Google Search Preview and Local business schema */}
+            <PageTemplate>
+                <GoogleSearchPreview fullReport={fullReport}/>
             </PageTemplate>
 
             {/* ID and technologies section */}
