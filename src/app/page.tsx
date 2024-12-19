@@ -1,6 +1,7 @@
+import LoginSection from "@/Components/HomePage/LoginSection";
 
 export default function Home() {
   return (
-    <h2>Home Page</h2>
+    <LoginSection/>
   );
 }
