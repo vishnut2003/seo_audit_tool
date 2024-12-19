@@ -660,8 +660,36 @@ export interface getReportResponseInterface {
                 recommendation: string | null,
                 data: string
             },
-            webServer: boolean,
+            webServer: {
+                section: string,
+                passed: true,
+                shortAnswer: string | null,
+                recommendation: string | null,
+                data: string
+            },
             charset: boolean,
+            dmarc: {
+                section: string,
+                passed: boolean,
+                shortAnswer: string,
+                recommendation: string,
+                data: {
+                    dmarc: string,
+                    count: number,
+                    syntaxErrorsStr: string
+                }
+            },
+            spf: {
+                section: string,
+                passed: boolean,
+                shortAnswer: string,
+                recommendation: string,
+                data: {
+                    spf: string,
+                    count: number,
+                    syntaxErrorsStr: string
+                }
+            },
             recommendations: {
                 priority: string,
                 section: string,

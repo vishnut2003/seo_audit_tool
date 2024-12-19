@@ -27,6 +27,18 @@ const IpAndTechnology = ({ fullReport }: {
                     }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.ip.data}</Text></Text>
                 </View>
 
+                {/* Webserver details */}
+                <View style={{ width: "100%", display: "flex", gap: "10px" }}>
+                    {/* Section title */}
+                    <Text style={{ fontSize: "18px", fontWeight: 600 }}>Webserver</Text>
+
+                    {/* Details */}
+                    <Text style={{
+                        fontSize: "13px",
+                        fontWeight: 600
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.webServer.data}</Text></Text>
+                </View>
+
                 {/* Technologies */}
                 <View style={{ width: "100%", display: "flex", gap: "10px" }}>
                     {/* Section title */}
@@ -60,6 +72,96 @@ const IpAndTechnology = ({ fullReport }: {
                             ))}
                         </View>
                     </View>
+                </View>
+
+            </View>
+
+            <View style={{ width: "100%", display: "flex", gap: "20px" }}>
+
+                {/* DMARC */}
+                <View style={{ width: "100%", display: "flex", gap: "10px" }}>
+                    {/* Section title */}
+                    <View style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "7px",
+                        alignItems: "center",
+                    }}>
+                        <Text style={{ fontSize: "18px", fontWeight: 600 }}>DMARC Check</Text>
+                        {
+                            fullReport.data.output.dmarc.passed ?
+                                <Text style={{
+                                    backgroundColor: "green",
+                                    color: "white",
+                                    padding: "5px 10px",
+                                    fontSize: "9px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    borderRadius: "10px"
+                                }}>Passed</Text>
+                                :
+                                <Text style={{
+                                    backgroundColor: "red",
+                                    color: "white",
+                                    padding: "5px 10px",
+                                    fontSize: "9px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    borderRadius: "10px"
+                                }}>failed</Text>
+                        }
+                    </View>
+
+                    {/* Details */}
+                    <Text style={{
+                        fontSize: "13px",
+                        fontWeight: 600
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.dmarc.shortAnswer}</Text></Text>
+                </View>
+
+                {/* SPF check */}
+                <View style={{ width: "100%", display: "flex", gap: "10px" }}>
+                    {/* Section title */}
+                    <View style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "7px",
+                        alignItems: "center",
+                    }}>
+                        <Text style={{ fontSize: "18px", fontWeight: 600 }}>SPF Check</Text>
+                        {
+                            fullReport.data.output.spf.passed ?
+                                <Text style={{
+                                    backgroundColor: "green",
+                                    color: "white",
+                                    padding: "5px 10px",
+                                    fontSize: "9px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    borderRadius: "10px"
+                                }}>Passed</Text>
+                                :
+                                <Text style={{
+                                    backgroundColor: "red",
+                                    color: "white",
+                                    padding: "5px 10px",
+                                    fontSize: "9px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    borderRadius: "10px"
+                                }}>failed</Text>
+                        }
+                    </View>
+
+                    {/* Details */}
+                    <Text style={{
+                        fontSize: "13px",
+                        fontWeight: 600
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.spf.shortAnswer}</Text></Text>
                 </View>
 
             </View>
