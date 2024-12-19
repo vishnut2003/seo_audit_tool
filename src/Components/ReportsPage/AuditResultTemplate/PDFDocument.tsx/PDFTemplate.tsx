@@ -30,6 +30,7 @@ import PhoneAddressEmail from "./PhoneAddressEmail";
 import GoogleBusinessProfile from "./GoogleBusinessProfile";
 import IpAndTechnology from "./IpAndTechnology";
 import GoogleSearchPreview from "./GoogleSearchPreview";
+import BacklinksTop from "./BacklinksTop";
 
 const PDFTemplate = ({fullReport}: {
     fullReport: getReportResponseInterface
@@ -85,6 +86,11 @@ const PDFTemplate = ({fullReport}: {
             {/* Backlinks section */}
             <PageTemplate>
                 <Backlinks fullReport={fullReport}/>
+            </PageTemplate>
+
+            {/* Backlink Top Anchors and top geographies section */}
+            <PageTemplate>
+                <BacklinksTop fullReport={fullReport}/>
             </PageTemplate>
 
             {/* On-Page Links section */}

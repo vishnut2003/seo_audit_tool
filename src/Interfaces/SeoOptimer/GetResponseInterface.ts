@@ -189,6 +189,46 @@ export interface getReportResponseInterface {
                     }[]
                 }
             },
+            backlinksTopPages: {
+                section: string,
+                passed: null,
+                shortAnswer: string,
+                recommendation: null,
+                data: {
+                    list: {
+                        url: string,
+                        backlinks: number
+                    }[]
+                }
+            },
+            backlinksTopAnchors: {
+                section: string,
+                passed: null,
+                shortAnswer: string,
+                recommendation: null,
+                data: {
+                    list: {
+                        anchor: string,
+                        backlinks: number
+                    }[]
+                }
+            },
+            backlinksTopGeographies: {
+                section: string,
+                passed: null,
+                shortAnswer: string,
+                recommendation: null,
+                data: {
+                    tlds: {
+                        tld: string,
+                        count: 72
+                    }[],
+                    countries: {
+                        country: string,
+                        count: number
+                    }[]
+                }
+            },
             referringDomainsList: {
                 section: string,
                 passed: null,
