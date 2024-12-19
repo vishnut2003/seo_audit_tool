@@ -11,7 +11,7 @@ const AuditResultTemplate = ({ fullReport }: {
 
   return (
     <div className="w-full bg-transparent h-full relative">
-      <AuditResultProgress/>
+      <AuditResultProgress loadingText="Loading PDF Viewer..."/>
       <PDFViewer className="w-full h-[100%] absolute top-0 left-0">
         <PDFTemplate fullReport={fullReport}/>
       </PDFViewer>
