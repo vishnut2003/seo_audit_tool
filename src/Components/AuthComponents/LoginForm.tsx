@@ -1,6 +1,6 @@
 'use client';
 
-import { RemixiconComponentType, RiEye2Line, RiEyeCloseLine, RiEyeLine, RiKey2Line, RiUser4Line } from '@remixicon/react'
+import { RemixiconComponentType, RiEyeCloseLine, RiEyeLine, RiKey2Line, RiUser4Line } from '@remixicon/react'
 import React, { Dispatch, FormEvent, SetStateAction, useState } from 'react'
 
 interface LoginFormDataInterface {
