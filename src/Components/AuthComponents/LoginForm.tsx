@@ -3,7 +3,8 @@
 import LoginFormValidate, { LoginFormValidateErrorInterface } from '@/utils/client/LoginFormValidate';
 import { RemixiconComponentType, RiCheckboxCircleLine, RiErrorWarningLine, RiEyeCloseLine, RiEyeLine, RiKey2Line, RiUser4Line } from '@remixicon/react'
 import { signIn } from 'next-auth/react';
-import React, { Dispatch, FormEvent, SetStateAction, useState } from 'react'
+import { useSearchParams } from 'next/navigation';
+import React, { Dispatch, FormEvent, SetStateAction, useEffect, useState } from 'react'
 
 interface LoginFormDataInterface {
     email: string,
@@ -13,13 +14,32 @@ interface LoginFormDataInterface {
 const LoginForm = () => {
 
     const [isError, setIsError] = useState<LoginFormValidateErrorInterface>({})
-
-    const [isSuccess] = useState(false)
-
     const [loginFormData, setLoginFormData] = useState<LoginFormDataInterface>({
         email: '',
         password: '',
     })
+
+    const searchParams = useSearchParams();
+    useEffect(() => {
+
+        const authError = searchParams.get('error');
+        if(authError === "CredentialsSignin") {
+            setIsError({
+                commonError: {
+                    status: true,
+                    message: "Login credentials incorrect."
+                }
+            })
+        } else if (authError) {
+            setIsError({
+                commonError: {
+                    status: true,
+                    message: "Something went wrong!"
+                }
+            })
+        }
+
+    }, [])
 
     async function _submitFormData(e: FormEvent) {
         e.preventDefault();
@@ -33,7 +53,7 @@ const LoginForm = () => {
             })
 
             await signIn("Credentials", {
-                callbackUrl: '/dashboard', 
+                callbackUrl: searchParams.get('callbackUrl') || "/dashboard", 
                 email: loginFormData.email,
                 password: loginFormData.password
             });
@@ -83,16 +103,6 @@ const LoginForm = () => {
                 >
                     <RiErrorWarningLine size={15} />
                     <p className='text-sm'>{isError.commonError.message}</p>
-                </div>
-            }
-
-            {/* Success message slot */
-                isSuccess &&
-                <div
-                    className='bg-green-100 text-green-600 py-3 px-4 rounded-md flex justify-start items-center gap-3'
-                >
-                    <RiCheckboxCircleLine size={15} />
-                    <p className='text-sm'>Login success...</p>
                 </div>
             }
 
