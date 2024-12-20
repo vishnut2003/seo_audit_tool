@@ -31,8 +31,8 @@ export default function ReportRecordList() {
                             <p className="opacity-70">No Records found!</p>
                         </div>
                         :
-                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
                                         <div className="flex items-center">
@@ -52,11 +52,11 @@ export default function ReportRecordList() {
                             <tbody>
                                 {
                                     reportRecordDoc.reportRecord.map((record, index) => (
-                                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <tr key={index} className="bg-white border-b">
                                             <td className="px-6 py-4">
                                                 {record.data?.id}
                                             </td>
-                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                 {record.data?.url}
                                             </th>
                                             <td align="left" className="px-6 py-4 text-right">
