@@ -13,6 +13,7 @@ interface LoginFormDataInterface {
 
 const LoginForm = () => {
 
+    const [inProgress, setInProgress] = useState<boolean>(false);
     const [isError, setIsError] = useState<LoginFormValidateErrorInterface>({})
     const [loginFormData, setLoginFormData] = useState<LoginFormDataInterface>({
         email: '',
@@ -43,6 +44,7 @@ const LoginForm = () => {
 
     async function _submitFormData(e: FormEvent) {
         e.preventDefault();
+        setInProgress(true)
 
         try {
 
@@ -62,6 +64,7 @@ const LoginForm = () => {
             if (typeof err === typeof isError) {
                 setIsError(err!);
             }
+            setInProgress(false);
             console.log(err)
         }
     }
@@ -94,7 +97,7 @@ const LoginForm = () => {
 
             <button
                 className='w-full p-3 bg-secondary text-lg text-foregroundwhite font-semibold mt-4 rounded-lg shadow-sm shadow-secondary'
-                type='submit'>Login</button>
+                type='submit'>{inProgress ? "Verifying..." : "Login"}</button>
 
             {/* error message slot */
                 isError.commonError?.status &&
@@ -154,6 +157,12 @@ function FormField({ name, label, type, Icon, placeholder, formData, setFormData
                             : <RiEyeCloseLine className='cursor-pointer' onClick={() => setPasswordVisible(prev => !prev)} size={20} /> : ''
                 }
             </div>
+
+            {/* Error message */}
+            {isError.fieldSpecific && isError.fieldSpecific[name as keyof typeof isError.fieldSpecific]?.status && 
+                <p
+                className='text-sm font-normal mt-1 text-red-400'
+                >{isError.fieldSpecific[name as keyof typeof isError.fieldSpecific]?.message}</p>}
         </div>
     )
 }

@@ -29,11 +29,11 @@ export default async function LoginFormValidate({ email, password }: {
                 fieldSpecific: {
                     email: {
                         status: true,
-                        message: "Email field is empty."
+                        message: "Email field is required."
                     },
                     password: {
                         status: true,
-                        message: "Password field is empty."
+                        message: "Password field is required."
                     }
                 }
             }
