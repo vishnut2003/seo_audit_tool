@@ -9,7 +9,7 @@ const LoginSection = () => {
     const [currentForm, setCurrentForm] = useState<"login" | "forget-password">('login');
 
     return (
-        <div className="w-dvw h-dvh bg-primary flex justify-center items-center">
+        <div className="w-dvw h-dvh bg-primary flex justify-center items-center p-4">
             <div className="max-w-[400px] w-full h-max bg-white shadow-md rounded-xl px-7 py-9 flex flex-col gap-3">
                 <div className="flex flex-col gap-1">
                     <h2 className="text-xl font-semibold text-primary">Login</h2>

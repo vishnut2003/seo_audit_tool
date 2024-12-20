@@ -1,5 +1,5 @@
 import { dbConnect } from "@/database/DBConfig";
-import UsersModel, { UserModelInterface } from "@/models/UsersModel";
+import UsersModel from "@/models/UsersModel";
 import { v4 as uuid } from "uuid"
 
 export function verifyIsMainAdmin ({email, password}: {

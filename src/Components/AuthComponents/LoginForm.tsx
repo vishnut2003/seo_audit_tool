@@ -14,7 +14,7 @@ const LoginForm = () => {
 
     const [isError, setIsError] = useState<LoginFormValidateErrorInterface>({})
 
-    const [isSuccess, setIsSuccess] = useState(false)
+    const [isSuccess] = useState(false)
 
     const [loginFormData, setLoginFormData] = useState<LoginFormDataInterface>({
         email: '',

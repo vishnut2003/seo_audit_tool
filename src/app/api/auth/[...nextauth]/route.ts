@@ -1,7 +1,6 @@
 import { fetchMainAdmin, verifyIsMainAdmin } from "@/utils/server/authUtils";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import {Profile, Account} from "next-auth"
 
 const handler = NextAuth({
     providers: [
@@ -17,7 +16,7 @@ const handler = NextAuth({
                     type: "password"
                 }
             },
-            async authorize(credentials, req) {
+            async authorize(credentials) {
                 try {
 
                     // Check if the user is login using main-admin details
