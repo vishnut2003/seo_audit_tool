@@ -1,10 +1,9 @@
-import { RemixiconComponentType, RiLogoutBoxRLine, RiSettings4Line } from "@remixicon/react";
+import { RemixiconComponentType, RiSettings4Line, RiUser3Line } from "@remixicon/react";
 
 export interface footerMenuIterface {
     name: string,
     icon: RemixiconComponentType,
-    link?: string,
-    onclick?: () => null
+    link: string,
 }
 
 const footerMenuItems: footerMenuIterface[] = [
@@ -14,12 +13,9 @@ const footerMenuItems: footerMenuIterface[] = [
         link: '#',
     },
     {
-        name: 'Logout',
-        icon: RiLogoutBoxRLine,
-        onclick: () => {
-            console.log('logging out');
-            return null
-        }
+        name: 'User Management',
+        icon: RiUser3Line,
+        link: "#"
     }
 ]
 

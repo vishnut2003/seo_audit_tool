@@ -1,7 +1,7 @@
 'use client';
 
 import LoginFormValidate, { LoginFormValidateErrorInterface } from '@/utils/client/LoginFormValidate';
-import { RemixiconComponentType, RiCheckboxCircleLine, RiErrorWarningLine, RiEyeCloseLine, RiEyeLine, RiKey2Line, RiUser4Line } from '@remixicon/react'
+import { RemixiconComponentType, RiErrorWarningLine, RiEyeCloseLine, RiEyeLine, RiKey2Line, RiUser4Line } from '@remixicon/react'
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import React, { Dispatch, FormEvent, SetStateAction, useEffect, useState } from 'react'
@@ -39,7 +39,7 @@ const LoginForm = () => {
             })
         }
 
-    }, [])
+    }, [searchParams])
 
     async function _submitFormData(e: FormEvent) {
         e.preventDefault();
