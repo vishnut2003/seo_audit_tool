@@ -1,4 +1,4 @@
-import { createReportMDocInterface } from "@/app/models/ReportRecordModel";
+import { createReportMDocInterface } from "@/models/ReportRecordModel";
 import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoading";
 import { getAllReportRecords } from "@/utils/client/auditReport";
 import Link from "next/link";

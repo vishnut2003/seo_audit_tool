@@ -1,4 +1,4 @@
-import { createReportMDocInterface } from "@/app/models/ReportRecordModel";
+import { createReportMDocInterface } from "@/models/ReportRecordModel";
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
 import axios from "axios";
 

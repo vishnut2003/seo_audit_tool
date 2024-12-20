@@ -1,4 +1,4 @@
-import ReportRecordModel, { createReportMDocInterface } from "@/app/models/ReportRecordModel";
+import ReportRecordModel, { createReportMDocInterface } from "@/models/ReportRecordModel";
 import { dbConnect } from "@/database/DBConfig";
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
 import axios from "axios";

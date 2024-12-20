@@ -1,6 +1,7 @@
-import { verifyIsAdmin } from "@/utils/server/authUtils";
+import { fetchMainAdmin, verifyIsMainAdmin } from "@/utils/server/authUtils";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import {Profile, Account} from "next-auth"
 
 const handler = NextAuth({
     providers: [
@@ -16,12 +17,26 @@ const handler = NextAuth({
                     type: "password"
                 }
             },
-            authorize(credentials, req) {
-                verifyIsAdmin({
-                    email: credentials?.email,
-                    password: credentials?.password
-                })
-                return null;
+            async authorize(credentials, req) {
+                try {
+
+                    // Check if the user is login using main-admin details
+                    const isAdmin = verifyIsMainAdmin({
+                        email: credentials?.email,
+                        password: credentials?.password
+                    })
+                    
+                    if (isAdmin && credentials?.email) {
+                        const mainAdminInfo = await fetchMainAdmin({email: credentials.email});
+                        return mainAdminInfo as any
+                    }
+
+                    return null
+
+                } catch (err) {
+                    console.log(err);
+                    return null
+                }
             },
         })
     ],
