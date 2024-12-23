@@ -60,7 +60,7 @@ const NewAuditForm = () => {
           type="text"
           required
           className="outline-none"
-          placeholder="Enter Website URL" />
+          placeholder="Enter Domain Name" />
       </div>
 
       <button
