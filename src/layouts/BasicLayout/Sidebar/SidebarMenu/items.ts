@@ -1,4 +1,4 @@
-import { RiDashboardLine, RiFileChartLine, RiSearch2Line } from "@remixicon/react";
+import { RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiSearch2Line } from "@remixicon/react";
 
 const sidebarMenuItems = [
     {
@@ -7,9 +7,14 @@ const sidebarMenuItems = [
         link: '/dashboard'
     },
     {
-        name: 'Reports',
+        name: 'PDF Reports',
         icon: RiFileChartLine,
         link: '/dashboard/reports'
+    },
+    {
+        name: 'Sheet Reports',
+        icon: RiFileExcel2Line,
+        link: '/dashboard/sheet-reports'
     },
     {
         name: 'Keyword Research',
