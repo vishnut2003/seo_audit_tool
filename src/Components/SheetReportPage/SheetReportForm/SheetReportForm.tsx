@@ -10,7 +10,7 @@ const SheetReportForm = () => {
     const [baseUrl, setBaseUrl] = useState<string>('')
 
     const [inProgress, setInProgress] = useState<boolean>(false);
-    const [success, setSuccess] = useState<boolean>(false);
+    const [success] = useState<boolean>(false);
     const [error, setError] = useState<{
         status: boolean,
         message?: string,
