@@ -1,4 +1,4 @@
-import SheetReportForm from '@/Components/SheetReportPage/SheetReportForm'
+import SheetReportForm from '@/Components/SheetReportPage/SheetReportForm/SheetReportForm'
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
 import React from 'react'
 
