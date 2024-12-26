@@ -1,3 +1,4 @@
+import { sheetReportRecordInterface } from "@/models/SheetReportRecordModel";
 import axios from "axios"
 
 export function createSheetReport({baseUrl}: {
@@ -13,5 +14,20 @@ export function createSheetReport({baseUrl}: {
             reject();
         }
 
+    })
+}
+
+export function getAllSheetReport ({page}: {
+    page: number
+}) {
+    return new Promise<sheetReportRecordInterface[]>( async (resolve, reject) => {
+        
+        try {
+            const response = await axios.get(`/api/sheet-report/get-all/${page}`);
+            const records: sheetReportRecordInterface[] = response.data.records;
+            resolve(records)
+        } catch (err) {
+            console.log(err);
+        }
     })
 }

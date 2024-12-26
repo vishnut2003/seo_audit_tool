@@ -1,4 +1,5 @@
 import SheetReportForm from '@/Components/SheetReportPage/SheetReportForm/SheetReportForm'
+import SheetReportList from '@/Components/SheetReportPage/SheetReportList/SheetReportList'
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
 import React from 'react'
 
@@ -14,7 +15,7 @@ const Page = () => {
 
         </div>
 
-        
+        <SheetReportList/>        
 
       </div>
     </BasicLayout>
