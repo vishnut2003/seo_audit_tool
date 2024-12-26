@@ -10,7 +10,7 @@ const SheetReportForm = () => {
     const [baseUrl, setBaseUrl] = useState<string>('')
 
     const [inProgress, setInProgress] = useState<boolean>(false);
-    const [success] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>(false);
     const [error, setError] = useState<{
         status: boolean,
         message?: string,
@@ -21,6 +21,8 @@ const SheetReportForm = () => {
     function _submitSheetReportForm(event: FormEvent) {
         event.preventDefault()
         setInProgress(true);
+        setSuccess(false)
+        setError({ status: false });
         const isValid = validateSheetReportFormInput({ baseUrl })
         if (!isValid) {
             setInProgress(false);
@@ -30,7 +32,17 @@ const SheetReportForm = () => {
             })
         }
 
-        createSheetReport({baseUrl})
+        createSheetReport({ baseUrl })
+            .then(() => {
+                setSuccess(true)
+            })
+            .catch(() => {
+                setError({
+                    status: true,
+                    message: "Something went wrong!"
+                })
+            })
+            .finally(() => setInProgress(false))
     }
 
     return (
@@ -55,9 +67,9 @@ const SheetReportForm = () => {
             {/* Loading */}
             {
                 inProgress ?
-                    <p className="self-end text-sm font-semibold">Creating Sheet...</p>
-                    : error ? <p className="self-end text-sm font-semibold text-red-500">{error.message}</p>
-                        : success && <p className="self-end text-sm font-semibold text-green-500">Sheet created successfully.</p>
+                    <p className="self-end text-sm font-semibold">Creating sheet report...</p>
+                    : success ? <p className="self-end text-sm font-semibold text-green-500">Sheet creation is processing.</p>
+                        : error ? <p className="self-end text-sm font-semibold text-red-500">{error.message}</p> : ''
             }
         </form>
     )

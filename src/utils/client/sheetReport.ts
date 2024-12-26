@@ -3,13 +3,14 @@ import axios from "axios"
 export function createSheetReport({baseUrl}: {
     baseUrl: string,
 }) {
-    return new Promise( async () => {
+    return new Promise<void>( async (resolve, reject) => {
         
         try {
-            const response = await axios.post('/api/sheet-report/create', {baseUrl})
-            console.log(response)
+            await axios.post('/api/sheet-report/create', {baseUrl});
+            resolve();
         } catch (err) {
             console.log(err);
+            reject();
         }
 
     })

@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        await createSheetReport({ baseUrl: body.baseUrl });
+        createSheetReport({ baseUrl: body.baseUrl });
         return NextResponse.json({ success: true });
     } catch (err) {
         console.log(err);

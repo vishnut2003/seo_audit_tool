@@ -22,7 +22,7 @@ export async function createSheetReport({ baseUrl }: {
 
             for (const url of pagesList) {
                 console.log(`Opening ${url}`)
-                await page.goto(url);
+                await page.goto(url, {timeout: 0});
 
                 // check page title
                 const pageTitle = await page.title();
@@ -37,8 +37,12 @@ export async function createSheetReport({ baseUrl }: {
 
             }
 
+            await page.close()
+
             console.log("loop finish!");
             console.log(titileLessThan30);
+
+            resolve()
 
         } catch (err) {
             reject(err)
