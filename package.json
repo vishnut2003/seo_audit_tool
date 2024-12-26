@@ -14,16 +14,15 @@
     "@remixicon/react": "^4.5.0",
     "axios": "^1.7.8",
     "fast-xml-parser": "^4.5.1",
-    "jsdom": "^25.0.1",
     "mongoose": "^8.9.0",
     "next": "15.0.3",
     "next-auth": "^4.24.11",
+    "puppeteer": "^23.11.1",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
-    "@types/jsdom": "^21.1.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
