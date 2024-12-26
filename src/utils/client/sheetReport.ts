@@ -20,7 +20,7 @@ export function createSheetReport({baseUrl}: {
 export function getAllSheetReport ({page}: {
     page: number
 }) {
-    return new Promise<sheetReportRecordInterface[]>( async (resolve, reject) => {
+    return new Promise<sheetReportRecordInterface[]>( async (resolve) => {
         
         try {
             const response = await axios.get(`/api/sheet-report/get-all/${page}`);

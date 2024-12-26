@@ -1,5 +1,5 @@
 import { dbConnect } from "@/database/DBConfig";
-import SheetReportRecordModel, { sheetReportRecordInterface } from "@/models/SheetReportRecordModel";
+import SheetReportRecordModel from "@/models/SheetReportRecordModel";
 
 export default function getAllSheetReport () {
     return new Promise ( async (resolve, reject) => {

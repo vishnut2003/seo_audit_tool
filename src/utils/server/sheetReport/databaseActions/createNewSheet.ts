@@ -2,7 +2,7 @@ import { dbConnect } from "@/database/DBConfig";
 import SheetReportRecordModel from "@/models/SheetReportRecordModel";
 
 export default async function databaseCreateSheetReport ({reportId}: {
-    reportId: String,
+    reportId: string,
 }) {
 
     try {

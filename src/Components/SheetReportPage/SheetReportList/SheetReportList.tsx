@@ -3,7 +3,6 @@
 import TripleDotLoading from '@/Components/Loaders/TripleDotLoading/TripleDotLoading';
 import { sheetReportRecordInterface } from '@/models/SheetReportRecordModel';
 import { getAllSheetReport } from '@/utils/client/sheetReport';
-import { RiRefreshLine } from '@remixicon/react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
@@ -11,7 +10,7 @@ const SheetReportList = () => {
     const [fetchInProgress, setFetchInProgress] = useState<boolean>(false);
     const [sheetReportRecord, setSheetReportRecord] = useState<sheetReportRecordInterface[] | null>(null);
 
-    const [pageNumber, setPageNumber] = useState<number>(1)
+    const [pageNumber] = useState<number>(1)
 
     useEffect(() => {
         setFetchInProgress(true);
