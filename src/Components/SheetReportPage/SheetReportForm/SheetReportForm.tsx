@@ -4,6 +4,7 @@ import { createSheetReport } from "@/utils/client/sheetReport";
 import { RiGlobalLine } from "@remixicon/react"
 import { FormEvent, useState } from "react"
 import { validateSheetReportFormInput } from "./ValidateFormInput";
+import SheetCreationLoader from "./SheetCreationLoader";
 
 const SheetReportForm = () => {
 
@@ -70,6 +71,10 @@ const SheetReportForm = () => {
                     <p className="self-end text-sm font-semibold">Creating sheet report...</p>
                     : success ? <p className="self-end text-sm font-semibold text-green-500">Sheet creation is processing.</p>
                         : error ? <p className="self-end text-sm font-semibold text-red-500">{error.message}</p> : ''
+            }
+
+            {/* Main Loader for sheet creation */
+                inProgress && <SheetCreationLoader/>
             }
         </form>
     )
