@@ -1,6 +1,6 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleLessThat30 } from "./createSheetReport/titleChecks";
-import { titileLessThan30Interface } from "./sheetReportInterfaces";
+import { ForSheetGroupInterface, titileLessThan30Interface } from "./sheetReportInterfaces";
 import puppeteer from "puppeteer";
 import updateTotalPage from "./databaseActions/updateTotalPage";
 import updateFinishPage from "./databaseActions/updateFinishPage";
@@ -10,7 +10,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
     reportId: string,
 }) {
-    return new Promise<void>(async (resolve) => {
+    return new Promise<ForSheetGroupInterface>(async (resolve) => {
 
         try {
             // fetch sitemap for the site using base url
@@ -55,8 +55,10 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
             await page.close()
 
-            console.log("loop finish!");
-            console.log(titileLessThan30);
+            // assign to group return
+            const groupReturn: ForSheetGroupInterface = {
+                titlelessCheck: titileLessThan30
+            }
 
             // update report record status to success
             await updateStatus({
@@ -64,7 +66,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 status: "success"
             })
 
-            resolve()
+            resolve(groupReturn);
 
         } catch (err) {
             await updateStatus({

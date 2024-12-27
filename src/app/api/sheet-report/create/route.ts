@@ -17,10 +17,11 @@ export async function POST(request: NextRequest) {
         await databaseCreateSheetReport({reportId});
 
         // create sheet
-        await createSheetReport({ baseUrl: body.baseUrl, reportId });
+        const report = await createSheetReport({ baseUrl: body.baseUrl, reportId });
 
         await createNewSpreadSheet({
-            websiteUrl: body.baseUrl
+            websiteUrl: body.baseUrl,
+            report
         })
 
         return NextResponse.json({ success: true });
