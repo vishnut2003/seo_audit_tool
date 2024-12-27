@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
         // create new report in database
         await databaseCreateSheetReport({reportId});
 
-        // create sheet as a different thread
-        createSheetReport({ baseUrl: body.baseUrl, reportId });
+        // create sheet
+        await createSheetReport({ baseUrl: body.baseUrl, reportId });
 
         return NextResponse.json({ success: true });
     } catch (err) {

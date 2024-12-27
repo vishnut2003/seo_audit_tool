@@ -12,7 +12,9 @@ interface sitemapParseDataInterface {
     urlset?: {
         url: {
             loc: string,
-        }[]
+        }[] | {
+            loc: string
+        }
     }
 }
 
@@ -45,7 +47,7 @@ export async function fetchSitemap({ baseUrl }: {
                 })
                 await Promise.allSettled(saveSitemaps);
 
-            } else if (parsedSitemap.urlset) {
+            } else if (parsedSitemap.urlset && Array.isArray(parsedSitemap.urlset.url)) {
 
                 // push to pages list if its list or urls
                 const savePages = parsedSitemap.urlset.url.map((url) => {
@@ -57,18 +59,19 @@ export async function fetchSitemap({ baseUrl }: {
             }
 
             // loop list of sitemaps and push to pageList
-            const fetchPagesFromSitemaps = sitemapsList.map(async (sitemap) => {
+            for(const sitemap of sitemapsList) {
                 const response = await axios.get(sitemap);
                 const parsedData: sitemapParseDataInterface = sitemapParser.parse(response.data);
 
-                if (parsedData.urlset) {
+                if (parsedData.urlset && Array.isArray(parsedData.urlset.url)) {
                     const savetoPagelist = parsedData.urlset.url.map((url) => {
                         pagesList.push(url.loc);
                     })
                     await Promise.allSettled(savetoPagelist);
+                } else if (parsedData.urlset && !Array.isArray(parsedData.urlset.url)) {
+                    pagesList.push(parsedData.urlset.url.loc);
                 }
-            })
-            await Promise.allSettled(fetchPagesFromSitemaps);
+            }
 
             return resolve(pagesList);
 
