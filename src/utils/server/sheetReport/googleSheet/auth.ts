@@ -1,5 +1,4 @@
 import { JWT } from "google-auth-library";
-import { TextEncoder } from "util";
 
 export function googleApiAuth() {
     try {
