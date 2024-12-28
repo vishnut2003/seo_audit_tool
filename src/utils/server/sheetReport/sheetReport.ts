@@ -12,7 +12,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
     reportId: string,
 }) {
-    return new Promise<ForSheetGroupInterface>(async (resolve) => {
+    return new Promise<ForSheetGroupInterface>(async (resolve, reject) => {
 
         try {
             // fetch sitemap for the site using base url
@@ -90,7 +90,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 reportId,
                 status: "error"
             })
-            throw err;
+            return reject(err)
         }
     })
 }

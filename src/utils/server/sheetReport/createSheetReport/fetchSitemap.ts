@@ -79,7 +79,7 @@ export async function fetchSitemap({ baseUrl }: {
             if (err instanceof AxiosError) {
                 // return axios error if sitemap not found.
                 console.log(err);
-                return reject("Sitemap not found!");
+                reject("Sitemap not found!");
             }
 
             console.log(err);

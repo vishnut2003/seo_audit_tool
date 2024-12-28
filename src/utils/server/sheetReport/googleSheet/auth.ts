@@ -1,4 +1,5 @@
 import { JWT } from "google-auth-library";
+import { TextEncoder } from "util";
 
 export function googleApiAuth() {
     try {
@@ -11,7 +12,7 @@ export function googleApiAuth() {
 
         return new JWT({
             email: GOOGLE_CLIENT_EMAIL,
-            key: GOOGLE_PRIVATE_KEY,
+            key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
             scopes: [
                 'https://www.googleapis.com/auth/spreadsheets',
                 'https://www.googleapis.com/auth/drive.file',
