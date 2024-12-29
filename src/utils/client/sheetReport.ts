@@ -31,3 +31,15 @@ export function getAllSheetReport ({page}: {
         }
     })
 }
+
+export function getCurrentProcessingSheetRecord () {
+    return new Promise <sheetReportRecordInterface | null> ( async (resolve) => {
+        try {
+            const resoponse = await axios.get('/api/sheet-report/get-current-processing')
+            const record = resoponse.data as sheetReportRecordInterface | null;
+            return resolve(record)
+        } catch (err) {
+            console.log(err);
+        }
+    })
+}

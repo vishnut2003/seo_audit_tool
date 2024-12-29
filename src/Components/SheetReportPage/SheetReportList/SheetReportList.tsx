@@ -29,7 +29,7 @@ const SheetReportList = () => {
                     <div className="w-full h-[100%] flex justify-center items-center">
                         <TripleDotLoading />
                     </div>
-                    : !sheetReportRecord ?
+                    : !sheetReportRecord || sheetReportRecord.length < 1 ?
                         <div className="w-full h-[40dvh] flex justify-center items-center">
                             <p className="opacity-70">No Records found!</p>
                         </div>

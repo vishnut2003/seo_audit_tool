@@ -1,6 +1,7 @@
 'use client';
 
 import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoading"
+import { getCurrentProcessingSheetRecord } from "@/utils/client/sheetReport";
 import { RiRefreshLine } from "@remixicon/react";
 import { useState } from "react";
 
@@ -12,7 +13,19 @@ export interface ProgressLoaderDataInterface {
 
 const SheetCreationLoader = () => {
 
-  const [progressData, setProgressData] = useState<ProgressLoaderDataInterface | false>(false);
+  const [progressData, setProgressData] = useState<ProgressLoaderDataInterface | null>(null);
+
+  function _getCurrentProcessing () {
+    getCurrentProcessingSheetRecord()
+      .then((record) => {
+        const ProgressRecords: ProgressLoaderDataInterface | null = !record ? null : {
+          finishPage: record.finishPage,
+          totalPages: record.totalPage,
+          siteUrl: record.websiteUrl,
+        }
+        setProgressData(ProgressRecords)
+      })
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-full p-5 bg-[#ffffff70] flex justify-center items-center z-50">
@@ -39,6 +52,7 @@ const SheetCreationLoader = () => {
           }
           <button
           type="button"
+          onClick={_getCurrentProcessing}
           className="flex justify-center items-center gap-1 mt-2 bg-gray-100 active:bg-gray-300 rounded-md py-3 px-5 shadow-md"
           >
             <RiRefreshLine size={15}/>
