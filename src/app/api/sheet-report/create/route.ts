@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
         const reportId = uuid();
 
         // create new report in database
-        await databaseCreateSheetReport({reportId});
+        await databaseCreateSheetReport({reportId, websiteUrl: body.baseUrl});
 
         // create sheet
         const report = await createSheetReport({ baseUrl: body.baseUrl, reportId });

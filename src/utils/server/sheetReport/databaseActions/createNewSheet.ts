@@ -1,8 +1,9 @@
 import { dbConnect } from "@/database/DBConfig";
 import SheetReportRecordModel from "@/models/SheetReportRecordModel";
 
-export default async function databaseCreateSheetReport ({reportId}: {
+export default async function databaseCreateSheetReport ({reportId, websiteUrl}: {
     reportId: string,
+    websiteUrl: string,
 }) {
 
     try {
@@ -12,6 +13,7 @@ export default async function databaseCreateSheetReport ({reportId}: {
         // create new sheetReport
         await SheetReportRecordModel.create({
             reportId: reportId,
+            websiteUrl: websiteUrl,
             status: "processing",
         })
 

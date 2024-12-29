@@ -5,7 +5,8 @@ export interface sheetReportRecordInterface extends mongoose.Document {
     status: "processing" | "success" | "error",
     totalPage: number,
     finishPage: number,
-    sheetLink?: string
+    sheetLink?: string,
+    websiteUrl: string,
 }
 
 const sheetReportSchema = new mongoose.Schema<sheetReportRecordInterface>({
@@ -31,6 +32,10 @@ const sheetReportSchema = new mongoose.Schema<sheetReportRecordInterface>({
     sheetLink: {
         type: String,
         required: false,
+    },
+    websiteUrl: {
+        type: String,
+        required: true,
     }
 }, {timestamps: true});
 

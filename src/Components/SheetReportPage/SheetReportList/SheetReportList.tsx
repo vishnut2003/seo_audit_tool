@@ -73,7 +73,7 @@ const SheetReportList = () => {
                                             </td>
 
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                Website URL
+                                                {record.websiteUrl}
                                             </th>
                                             
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
