@@ -101,7 +101,7 @@ const SheetReportList = () => {
 
                                             <td align="left" className="px-6 py-4 text-right">
                                                 <p className="text-left">
-                                                    {record.sheetLink && <Link href={record.sheetLink} className="font-medium text-secondary hover:underline">View Sheet</Link>}
+                                                    {record.sheetLink && <a href={record.sheetLink} target='_blank' rel="noopener noreferrer" className="font-medium text-secondary hover:underline">View Sheet</a>}
                                                 </p>
                                             </td>
                                         </tr>

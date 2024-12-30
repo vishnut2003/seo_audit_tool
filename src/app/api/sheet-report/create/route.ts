@@ -1,4 +1,5 @@
 import databaseCreateSheetReport from "@/utils/server/sheetReport/databaseActions/createNewSheet";
+import updateSheetLink from "@/utils/server/sheetReport/databaseActions/updateSheetLink";
 import { createNewSpreadSheet } from "@/utils/server/sheetReport/googleSheet/createNewSheet";
 import { createSheetReport } from "@/utils/server/sheetReport/sheetReport";
 import { NextRequest, NextResponse } from "next/server";
@@ -19,11 +20,12 @@ export async function POST(request: NextRequest) {
         // create sheet
         const report = await createSheetReport({ baseUrl: body.baseUrl, reportId });
 
-        await createNewSpreadSheet({
+        const sheetId = await createNewSpreadSheet({
             websiteUrl: body.baseUrl,
             report
         })
 
+        await updateSheetLink({reportId, sheetId})
         return NextResponse.json({ success: true });
     } catch (err) {
         console.log(err);
