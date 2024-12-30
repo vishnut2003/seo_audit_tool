@@ -33,4 +33,5 @@ export async function createNewSpreadSheet({
         emailMessage: `Report for ${websiteUrl}`,
         role: "writer",
     })
+    console.log(sheet.spreadsheetId);
 }

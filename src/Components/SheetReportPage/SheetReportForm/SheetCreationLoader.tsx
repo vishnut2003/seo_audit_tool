@@ -14,8 +14,10 @@ export interface ProgressLoaderDataInterface {
 const SheetCreationLoader = () => {
 
   const [progressData, setProgressData] = useState<ProgressLoaderDataInterface | null>(null);
+  const [fetchingProgress, setFetchingProgress] = useState<boolean>(false);
 
   function _getCurrentProcessing () {
+    setFetchingProgress(true)
     getCurrentProcessingSheetRecord()
       .then((record) => {
         const ProgressRecords: ProgressLoaderDataInterface | null = !record ? null : {
@@ -24,6 +26,7 @@ const SheetCreationLoader = () => {
           siteUrl: record.websiteUrl,
         }
         setProgressData(ProgressRecords)
+        setFetchingProgress(false)
       })
   }
 
@@ -52,10 +55,13 @@ const SheetCreationLoader = () => {
           }
           <button
           type="button"
+          disabled={fetchingProgress}
           onClick={_getCurrentProcessing}
           className="flex justify-center items-center gap-1 mt-2 bg-gray-100 active:bg-gray-300 rounded-md py-3 px-5 shadow-md"
           >
-            <RiRefreshLine size={15}/>
+            <RiRefreshLine 
+            className={`${fetchingProgress && "animate-spin"}`}
+            size={15}/>
             <p className="font-semibold">Recheck</p>
           </button>
         </div>
