@@ -43,10 +43,8 @@ export async function validateDescOver155({ DOM, url }: {
                     description,
                     length
                 }
-                console.log(response);
                 resolve(response);
             } else {
-                console.log(metaDesc?.content);
                 resolve(false);
             }
         } catch (err) {
