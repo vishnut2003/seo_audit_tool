@@ -1,6 +1,6 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
-import { checkTitleLessThat30 } from "./createSheetReport/titleChecks";
-import { ForSheetGroupInterface, titileLessThan30Interface } from "./sheetReportInterfaces";
+import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
+import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface } from "./sheetReportInterfaces";
 import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
@@ -25,7 +25,8 @@ export async function createSheetReport({ baseUrl, reportId }: {
             });
 
             // sheet crietirias
-            const titileLessThan30: titileLessThan30Interface[] = [];
+            const titleLessThan30: titileLessThan30Interface[] = [];
+            const titleAbove60: titileAbove60Interface[] = [];
 
             // Lauch puppeteer browser
             console.log("lauching browser!")
@@ -53,9 +54,17 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
                 // check page title
                 const pageTitle = await page.title();
+
+                // page length < 30
                 const failedTitleL30check = await checkTitleLessThat30({ title: pageTitle, url });
                 if (failedTitleL30check) {
-                    titileLessThan30.push(failedTitleL30check);
+                    titleLessThan30.push(failedTitleL30check);
+                }
+
+                // page length > 60
+                const failedTitleAboveCheck = await checkTitleAbove60({ title: pageTitle, url });
+                if (failedTitleAboveCheck) {
+                    titleAbove60.push(failedTitleAboveCheck)
                 }
 
                 // update finish page count in database
@@ -74,7 +83,8 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
             // assign to group return
             const groupReturn: ForSheetGroupInterface = {
-                titlelessCheck: titileLessThan30
+                titlelessCheck: titleLessThan30,
+                titleAboveCheck: titleAbove60,
             }
 
             // update report record status to success

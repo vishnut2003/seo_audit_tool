@@ -2,6 +2,7 @@ import { ForSheetGroupInterface } from "../sheetReportInterfaces";
 import { googleApiAuth } from "./auth";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { titleLess30Tab } from "./titleLess30_Tab";
+import { titleAbove60Tab } from "./titleAbove60_tab";
 
 export async function createNewSpreadSheet({
     websiteUrl,
@@ -28,6 +29,12 @@ export async function createNewSpreadSheet({
             await titleLess30Tab({
                 sheet,
                 titleReport: report.titlelessCheck,
+            })
+
+            // add title above 60 check tab
+            await titleAbove60Tab({
+                sheet,
+                titleAboveReport: report.titleAboveCheck
             })
 
             await sheet.setPublicAccessLevel('reader');
