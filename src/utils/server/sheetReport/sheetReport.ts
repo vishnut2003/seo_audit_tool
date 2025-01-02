@@ -1,12 +1,14 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
-import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface } from "./sheetReportInterfaces";
+import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface } from "./sheetReportInterfaces";
 import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
 import updateFinishPage from "./databaseActions/updateFinishPage";
 import updateStatus from "./databaseActions/updateStatus";
 import chromium from "@sparticuz/chromium";
+import { generateInteractiveDoc } from "./jsDomValidate";
+import { validateDescBelow70 } from "./createSheetReport/descriptionCheck";
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -27,6 +29,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             // sheet crietirias
             const titleLessThan30: titileLessThan30Interface[] = [];
             const titleAbove60: titileAbove60Interface[] = [];
+            const metaDescBelow70: metaDescBelow70Interface[] = [];
 
             // Lauch puppeteer browser
             console.log("lauching browser!")
@@ -52,6 +55,10 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 console.log(`Opening ${url}`)
                 await page.goto(url, { timeout: 0 });
 
+                // fetch page full content
+                const content = await page.content();
+                const DOM = await generateInteractiveDoc({ content });
+
                 // check page title
                 const pageTitle = await page.title();
 
@@ -65,6 +72,12 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 const failedTitleAboveCheck = await checkTitleAbove60({ title: pageTitle, url });
                 if (failedTitleAboveCheck) {
                     titleAbove60.push(failedTitleAboveCheck)
+                }
+
+                // check meta description
+                const failedDescBelowCheck = await validateDescBelow70({ DOM, url });
+                if (failedDescBelowCheck) {
+                    metaDescBelow70.push(failedDescBelowCheck);
                 }
 
                 // update finish page count in database
@@ -85,6 +98,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             const groupReturn: ForSheetGroupInterface = {
                 titlelessCheck: titleLessThan30,
                 titleAboveCheck: titleAbove60,
+                metaDescBelowCheck: metaDescBelow70
             }
 
             // update report record status to success

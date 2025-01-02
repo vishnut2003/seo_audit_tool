@@ -3,6 +3,7 @@ import { googleApiAuth } from "./auth";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { titleLess30Tab } from "./titleLess30_Tab";
 import { titleAbove60Tab } from "./titleAbove60_tab";
+import { metaDescBelow70Tab } from "./metaDescBelow70_Tab";
 
 export async function createNewSpreadSheet({
     websiteUrl,
@@ -35,6 +36,12 @@ export async function createNewSpreadSheet({
             await titleAbove60Tab({
                 sheet,
                 titleAboveReport: report.titleAboveCheck
+            })
+
+            // add: meta description below 70 char
+            await metaDescBelow70Tab({
+                sheet,
+                metaDescBelow70Report: report.metaDescBelowCheck
             })
 
             await sheet.setPublicAccessLevel('reader');
