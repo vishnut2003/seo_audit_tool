@@ -4,6 +4,7 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { titleLess30Tab } from "./titleLess30_Tab";
 import { titleAbove60Tab } from "./titleAbove60_tab";
 import { metaDescBelow70Tab } from "./metaDescBelow70_Tab";
+import { metaDescAbove155Tab } from "./metaDescAbove155_Tab";
 
 export async function createNewSpreadSheet({
     websiteUrl,
@@ -42,6 +43,12 @@ export async function createNewSpreadSheet({
             await metaDescBelow70Tab({
                 sheet,
                 metaDescBelow70Report: report.metaDescBelowCheck
+            })
+
+            // add: meta description over 155 char
+            await metaDescAbove155Tab({
+                metaDescAboveReport: report.metaDescOverCheck,
+                sheet
             })
 
             await sheet.setPublicAccessLevel('reader');

@@ -1,5 +1,5 @@
 import { JSDOM } from "jsdom"
-import { metaDescBelow70Interface } from "../sheetReportInterfaces";
+import { metaDescBelow70Interface, metaDescOver155Interface } from "../sheetReportInterfaces";
 
 export async function validateDescBelow70({ DOM, url }: {
     DOM: JSDOM,
@@ -17,9 +17,36 @@ export async function validateDescBelow70({ DOM, url }: {
                     description,
                     length
                 }
+                resolve(response);
+            } else {
+                resolve(false);
+            }
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}
+
+export async function validateDescOver155({ DOM, url }: {
+    DOM: JSDOM,
+    url: string,
+}) {
+    return new Promise<false | metaDescOver155Interface>((resolve, reject) => {
+        try {
+            const metaDesc: HTMLMetaElement | null = DOM.window.document.querySelector("head > meta[name='description']")
+
+            if (metaDesc && metaDesc.content.length > 155) {
+                const length: number = metaDesc.content.length;
+                const description: string = metaDesc.content;
+                const response: metaDescOver155Interface = {
+                    address: url,
+                    description,
+                    length
+                }
                 console.log(response);
                 resolve(response);
             } else {
+                console.log(metaDesc?.content);
                 resolve(false);
             }
         } catch (err) {
