@@ -8,6 +8,12 @@ export async function titleLess30Tab ({titleReport, sheet}: {
     return new Promise <void> ( async (resolve, reject) => {
         try {
 
+            const rows: {
+                address: string,
+                title: string,
+                length: number,
+            }[] = [];
+
             // create new Tab
             const currentTab = await sheet.addSheet({
                 title: "title_less_than_30_char",
@@ -19,12 +25,10 @@ export async function titleLess30Tab ({titleReport, sheet}: {
             })
 
             for (const row of titleReport) {
-                await currentTab.addRow({
-                    address: row.address,
-                    title: row.title,
-                    length: row.length
-                })
+                rows.push(row);
             }
+
+            await currentTab.addRows(rows);
 
             resolve()
         } catch (err) {

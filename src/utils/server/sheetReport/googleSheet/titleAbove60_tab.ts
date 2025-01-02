@@ -7,6 +7,13 @@ export async function titleAbove60Tab ({titleAboveReport, sheet}: {
 }) {
     return new Promise<void>( async (resolve, reject) => {
         try {
+
+            const rows: {
+                address: string,
+                title: string,
+                length: number,
+            }[] = [];
+
             const currentTab = await sheet.addSheet({
                 title: "title_above_60_char",
                 headerValues: [
@@ -17,12 +24,10 @@ export async function titleAbove60Tab ({titleAboveReport, sheet}: {
             });
 
             for(const row of titleAboveReport) {
-                await currentTab.addRow({
-                    address: row.address,
-                    title: row.title,
-                    length: row.length,
-                })
+                rows.push(row);
             }
+
+            await currentTab.addRows(rows);
 
             resolve()
         } catch (err) {
