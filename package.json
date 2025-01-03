@@ -18,7 +18,7 @@
     "google-auth-library": "^9.15.0",
     "google-spreadsheet": "^4.1.4",
     "jsdom": "^25.0.1",
-    "mongoose": "^8.9.0",
+    "mongoose": "^8.9.3",
     "next": "15.0.3",
     "next-auth": "^4.24.11",
     "puppeteer": "^23.11.1",
