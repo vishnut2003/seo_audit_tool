@@ -3,6 +3,7 @@ export interface ForSheetGroupInterface {
     titleAboveCheck: titileAbove60Interface[],
     metaDescBelowCheck: metaDescBelow70Interface[],
     metaDescOverCheck: metaDescOver155Interface[],
+    metaDescEmpty: metaDescEmptyInterface[],
 }
 
 // Title check interfaces
@@ -28,6 +29,12 @@ export interface metaDescBelow70Interface {
 }
 
 export interface metaDescOver155Interface {
+    address: string,
+    description: string,
+    length: number,
+}
+
+export interface metaDescEmptyInterface {
     address: string,
     description: string,
     length: number,

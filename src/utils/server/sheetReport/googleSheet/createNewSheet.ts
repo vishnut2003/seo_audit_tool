@@ -5,6 +5,7 @@ import { titleLess30Tab } from "./titleLess30_Tab";
 import { titleAbove60Tab } from "./titleAbove60_tab";
 import { metaDescBelow70Tab } from "./metaDescBelow70_Tab";
 import { metaDescAbove155Tab } from "./metaDescAbove155_Tab";
+import { metaDescEmptyTab } from "./metaDescEmpty_Tab";
 
 export async function createNewSpreadSheet({
     websiteUrl,
@@ -48,6 +49,12 @@ export async function createNewSpreadSheet({
             // add: meta description over 155 char
             await metaDescAbove155Tab({
                 metaDescAboveReport: report.metaDescOverCheck,
+                sheet
+            })
+
+            // add: meta description empty
+            await metaDescEmptyTab({
+                metaDescEmptyReport: report.metaDescEmpty,
                 sheet
             })
 

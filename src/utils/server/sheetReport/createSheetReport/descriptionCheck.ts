@@ -1,5 +1,5 @@
 import { JSDOM } from "jsdom"
-import { metaDescBelow70Interface, metaDescOver155Interface } from "../sheetReportInterfaces";
+import { metaDescBelow70Interface, metaDescEmptyInterface, metaDescOver155Interface } from "../sheetReportInterfaces";
 
 export async function validateDescBelow70({ DOM, url }: {
     DOM: JSDOM,
@@ -42,6 +42,30 @@ export async function validateDescOver155({ DOM, url }: {
                     address: url,
                     description,
                     length
+                }
+                resolve(response);
+            } else {
+                resolve(false);
+            }
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}
+
+export async function validateDescEmpty ({DOM, url}: {
+    DOM: JSDOM,
+    url: string,
+}) {
+    return new Promise <false | metaDescEmptyInterface> ((resolve, reject) => {
+        try {
+            const metaDesc: HTMLMetaElement | null = DOM.window.document.querySelector("head > meta[name='description']")
+
+            if (!metaDesc) {
+                const response: metaDescEmptyInterface = {
+                    address: url,
+                    description: "Not found",
+                    length: 0
                 }
                 resolve(response);
             } else {

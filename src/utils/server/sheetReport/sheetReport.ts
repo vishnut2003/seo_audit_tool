@@ -1,6 +1,6 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
-import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface } from "./sheetReportInterfaces";
+import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface } from "./sheetReportInterfaces";
 import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
@@ -8,7 +8,7 @@ import updateFinishPage from "./databaseActions/updateFinishPage";
 import updateStatus from "./databaseActions/updateStatus";
 import chromium from "@sparticuz/chromium";
 import { generateInteractiveDoc } from "./jsDomValidate";
-import { validateDescBelow70, validateDescOver155 } from "./createSheetReport/descriptionCheck";
+import { validateDescBelow70, validateDescEmpty, validateDescOver155 } from "./createSheetReport/descriptionCheck";
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -31,6 +31,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             const titleAbove60: titileAbove60Interface[] = [];
             const metaDescBelow70: metaDescBelow70Interface[] = [];
             const metaDescOver155: metaDescOver155Interface[] = [];
+            const metaDescEmpty: metaDescEmptyInterface[] = [];
 
             // Lauch puppeteer browser
             console.log("lauching browser!")
@@ -76,13 +77,18 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 }
 
                 // check meta description
-                const failedDescBelowCheck = await validateDescBelow70({ DOM, url });
-                if (failedDescBelowCheck) {
-                    metaDescBelow70.push(failedDescBelowCheck);
+                const failedDescEmptyCheck = await validateDescEmpty({ DOM, url })
+                if (failedDescEmptyCheck) {
+                    metaDescEmpty.push(failedDescEmptyCheck)
                 } else {
-                    const failedDescAboveCheck = await validateDescOver155({ DOM, url })
-                    if (failedDescAboveCheck) {
-                        metaDescOver155.push(failedDescAboveCheck);
+                    const failedDescBelowCheck = await validateDescBelow70({ DOM, url });
+                    if (failedDescBelowCheck) {
+                        metaDescBelow70.push(failedDescBelowCheck);
+                    } else {
+                        const failedDescAboveCheck = await validateDescOver155({ DOM, url })
+                        if (failedDescAboveCheck) {
+                            metaDescOver155.push(failedDescAboveCheck);
+                        }
                     }
                 }
 
@@ -106,6 +112,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 titleAboveCheck: titleAbove60,
                 metaDescBelowCheck: metaDescBelow70,
                 metaDescOverCheck: metaDescOver155,
+                metaDescEmpty: metaDescEmpty,
             }
 
             // update report record status to success
