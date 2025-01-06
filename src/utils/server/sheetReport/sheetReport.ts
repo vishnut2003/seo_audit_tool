@@ -1,6 +1,6 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
-import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface, imageFileSizeOver100KbInterface } from "./sheetReportInterfaces";
+import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface, imageFileSizeOver100KbInterface, H1MissingInterface } from "./sheetReportInterfaces";
 import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
@@ -10,6 +10,7 @@ import chromium from "@sparticuz/chromium";
 import { generateInteractiveDoc } from "./jsDomValidate";
 import { validateDescBelow70, validateDescEmpty, validateDescOver155 } from "./createSheetReport/descriptionCheck";
 import { checkImagesAlt, checkImagesSizeOver100KB } from "./createSheetReport/imagesCheck";
+import { checkH1Missing } from "./createSheetReport/h1Checks";
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -35,6 +36,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             const metaDescEmpty: metaDescEmptyInterface[] = [];
             let imageAltMissing: imagesAltMissingInterface[] = [];
             let imageFileSizeOver100Kb: imageFileSizeOver100KbInterface[] = [];
+            const h1Missing: H1MissingInterface[] = [];
 
             // Lauch puppeteer browser
             console.log("lauching browser!")
@@ -110,6 +112,12 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     imageFileSizeOver100Kb = [...imageFileSizeOver100Kb, ...failedImageFileSize];
                 }
 
+                // check H1 missing
+                const failedH1MissingCheck = await checkH1Missing({DOM, url, pageTitle});
+                if (failedH1MissingCheck) {
+
+                }
+
                 // update finish page count in database
                 await updateFinishPage({
                     reportId,
@@ -133,6 +141,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 metaDescEmpty: metaDescEmpty,
                 imageAltMissing: imageAltMissing,
                 imageOver100Kb: imageFileSizeOver100Kb,
+                h1Missing: h1Missing,
             }
 
             // update report record status to success

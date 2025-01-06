@@ -8,6 +8,7 @@ import { metaDescAbove155Tab } from "./metaDescAbove155_Tab";
 import { metaDescEmptyTab } from "./metaDescEmpty_Tab";
 import { imagesAltMissingTab } from "./imagesAltMissing_Tab";
 import { imageFileSizeOver100KBTab } from "./imageFileSizeOver100Kb_Tab";
+import { h1MissingTab } from "./h1Missing_Tab";
 
 export async function createNewSpreadSheet({
     websiteUrl,
@@ -69,6 +70,12 @@ export async function createNewSpreadSheet({
             // add: image file size over 100 kb
             await imageFileSizeOver100KBTab({
                 imageOver100KbReport: report.imageOver100Kb,
+                sheet
+            })
+
+            // add: h1 tag missing
+            await h1MissingTab({
+                h1MissingReport: report.h1Missing,
                 sheet
             })
 

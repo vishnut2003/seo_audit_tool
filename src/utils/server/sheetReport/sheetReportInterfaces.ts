@@ -5,7 +5,8 @@ export interface ForSheetGroupInterface {
     metaDescOverCheck: metaDescOver155Interface[],
     metaDescEmpty: metaDescEmptyInterface[],
     imageAltMissing: imagesAltMissingInterface[],
-    imageOver100Kb: imageFileSizeOver100KbInterface[]
+    imageOver100Kb: imageFileSizeOver100KbInterface[],
+    h1Missing: H1MissingInterface[],
 }
 
 // Title check interfaces
@@ -55,4 +56,11 @@ export interface imageFileSizeOver100KbInterface {
     address: string,
     image_url: string,
     file_size: string,
+}
+
+// Heading 1 check
+
+export interface H1MissingInterface {
+    title: string,
+    address: string,
 }
