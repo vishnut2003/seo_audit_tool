@@ -4,6 +4,7 @@ export interface ForSheetGroupInterface {
     metaDescBelowCheck: metaDescBelow70Interface[],
     metaDescOverCheck: metaDescOver155Interface[],
     metaDescEmpty: metaDescEmptyInterface[],
+    imageAltMissing: imagesAltMissingInterface[]
 }
 
 // Title check interfaces
@@ -38,4 +39,12 @@ export interface metaDescEmptyInterface {
     address: string,
     description: string,
     length: number,
+}
+
+// images checks
+
+export interface imagesAltMissingInterface {
+    title: string,
+    address: string,
+    image_url: string,
 }

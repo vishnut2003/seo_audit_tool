@@ -1,6 +1,6 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
-import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface } from "./sheetReportInterfaces";
+import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface } from "./sheetReportInterfaces";
 import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
@@ -9,6 +9,7 @@ import updateStatus from "./databaseActions/updateStatus";
 import chromium from "@sparticuz/chromium";
 import { generateInteractiveDoc } from "./jsDomValidate";
 import { validateDescBelow70, validateDescEmpty, validateDescOver155 } from "./createSheetReport/descriptionCheck";
+import { checkImagesAlt } from "./createSheetReport/imagesCheck";
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -32,6 +33,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             const metaDescBelow70: metaDescBelow70Interface[] = [];
             const metaDescOver155: metaDescOver155Interface[] = [];
             const metaDescEmpty: metaDescEmptyInterface[] = [];
+            let imageAltMissing: imagesAltMissingInterface[] = [];
 
             // Lauch puppeteer browser
             console.log("lauching browser!")
@@ -45,10 +47,13 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     defaultViewport: chromium.defaultViewport,
                     executablePath: await chromium.executablePath(),
                     headless: true,
+                    timeout: 0
                 })
             } else {
                 console.log('Assigning browser for local run!')
-                browser = await puppeteer.launch()
+                browser = await puppeteer.launch({
+                    timeout: 0
+                })
             }
 
             const page = await browser.newPage();
@@ -92,6 +97,12 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     }
                 }
 
+                // check images alt
+                const failedImageAltList = await checkImagesAlt({ DOM, url, title: pageTitle});
+                if (failedImageAltList) {
+                    imageAltMissing = [...imageAltMissing, ...failedImageAltList];
+                }
+
                 // update finish page count in database
                 await updateFinishPage({
                     reportId,
@@ -113,6 +124,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 metaDescBelowCheck: metaDescBelow70,
                 metaDescOverCheck: metaDescOver155,
                 metaDescEmpty: metaDescEmpty,
+                imageAltMissing: imageAltMissing,
             }
 
             // update report record status to success

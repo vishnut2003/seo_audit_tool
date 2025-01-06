@@ -6,6 +6,7 @@ import { titleAbove60Tab } from "./titleAbove60_tab";
 import { metaDescBelow70Tab } from "./metaDescBelow70_Tab";
 import { metaDescAbove155Tab } from "./metaDescAbove155_Tab";
 import { metaDescEmptyTab } from "./metaDescEmpty_Tab";
+import { imagesAltMissingTab } from "./imagesAltMissing_Tab";
 
 export async function createNewSpreadSheet({
     websiteUrl,
@@ -55,6 +56,12 @@ export async function createNewSpreadSheet({
             // add: meta description empty
             await metaDescEmptyTab({
                 metaDescEmptyReport: report.metaDescEmpty,
+                sheet
+            })
+
+            // add: images alt text missing
+            await imagesAltMissingTab({
+                imageAltMissingReport: report.imageAltMissing,
                 sheet
             })
 
