@@ -1,6 +1,6 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
-import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface } from "./sheetReportInterfaces";
+import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface, imageFileSizeOver100KbInterface } from "./sheetReportInterfaces";
 import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
@@ -9,7 +9,7 @@ import updateStatus from "./databaseActions/updateStatus";
 import chromium from "@sparticuz/chromium";
 import { generateInteractiveDoc } from "./jsDomValidate";
 import { validateDescBelow70, validateDescEmpty, validateDescOver155 } from "./createSheetReport/descriptionCheck";
-import { checkImagesAlt } from "./createSheetReport/imagesCheck";
+import { checkImagesAlt, checkImagesSizeOver100KB } from "./createSheetReport/imagesCheck";
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -34,6 +34,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             const metaDescOver155: metaDescOver155Interface[] = [];
             const metaDescEmpty: metaDescEmptyInterface[] = [];
             let imageAltMissing: imagesAltMissingInterface[] = [];
+            let imageFileSizeOver100Kb: imageFileSizeOver100KbInterface[] = [];
 
             // Lauch puppeteer browser
             console.log("lauching browser!")
@@ -98,9 +99,15 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 }
 
                 // check images alt
-                const failedImageAltList = await checkImagesAlt({ DOM, url, title: pageTitle});
+                const failedImageAltList = await checkImagesAlt({ DOM, url, title: pageTitle });
                 if (failedImageAltList) {
                     imageAltMissing = [...imageAltMissing, ...failedImageAltList];
+                }
+
+                // check image over 100KB
+                const failedImageFileSize = await checkImagesSizeOver100KB({ DOM, url, title: pageTitle });
+                if (failedImageFileSize) {
+                    imageFileSizeOver100Kb = [...imageFileSizeOver100Kb, ...failedImageFileSize];
                 }
 
                 // update finish page count in database
@@ -125,6 +132,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 metaDescOverCheck: metaDescOver155,
                 metaDescEmpty: metaDescEmpty,
                 imageAltMissing: imageAltMissing,
+                imageOver100Kb: imageFileSizeOver100Kb,
             }
 
             // update report record status to success
