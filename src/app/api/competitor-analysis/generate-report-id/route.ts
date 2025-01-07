@@ -8,6 +8,8 @@ export async function GET () {
     } catch (err) {
         return NextResponse.json({
             error: err,
-        })
+        }, {
+            status: 500,
+        });
     }
 }

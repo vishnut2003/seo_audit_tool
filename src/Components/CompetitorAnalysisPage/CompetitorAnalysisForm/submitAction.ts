@@ -1,4 +1,5 @@
 import { CompetiotrAnalysisFormErrorInterface, CompetiotrAnalysisFormSubmitInterface } from "@/Interfaces/CompetitorAnalysisInterface/FormSubmitInterface";
+import { createCompetitorAnalysisReport } from "@/utils/client/CompetitorAnalysisReport";
 import { Dispatch, FormEvent, SetStateAction } from "react";
 
 export function submitCompetitorAnalysisForm({ formData, formEvent, setErrorObject, errorObject }: {
@@ -8,9 +9,9 @@ export function submitCompetitorAnalysisForm({ formData, formEvent, setErrorObje
     errorObject: CompetiotrAnalysisFormErrorInterface,
 }) {
     formEvent.preventDefault();
-    
+
     // validate the form data
-    
+
     // check website URL validation
     const urlRegEx = /^(http(s):\/\/.|http:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}$/
     if (!urlRegEx.test(formData.website)) {
@@ -53,10 +54,13 @@ export function submitCompetitorAnalysisForm({ formData, formEvent, setErrorObje
     }
 
     // check if report id created successfully
-    if(errorObject.reportId.status) {
+    if (errorObject.reportId.status) {
         return;
     }
-    
+
+    // submit the data to API
+    createCompetitorAnalysisReport({ formData })
+
 
     console.log(formData);
 }
