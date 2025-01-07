@@ -1,5 +1,5 @@
 export interface CompetiotrAnalysisFormSubmitInterface {
-    reportId: number,
+    reportId: string,
     website: string,
     competitor: string[],
 }

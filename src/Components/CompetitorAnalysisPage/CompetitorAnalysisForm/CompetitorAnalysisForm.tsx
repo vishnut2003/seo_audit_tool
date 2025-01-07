@@ -1,14 +1,15 @@
 import { CompetiotrAnalysisFormErrorInterface, CompetiotrAnalysisFormSubmitInterface } from "@/Interfaces/CompetitorAnalysisInterface/FormSubmitInterface"
 import { RiAddLine, RiCloseLine } from "@remixicon/react"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { submitCompetitorAnalysisForm } from "./submitAction"
+import { generateReportId } from "./generateReportId"
 
 const CompetitorAnalysisForm = ({ setFormPopup }: {
     setFormPopup: (value: boolean) => void
 }) => {
 
     const [formData, setFormData] = useState<CompetiotrAnalysisFormSubmitInterface>({
-        reportId: 0,
+        reportId: '',
         website: '',
         competitor: [],
     })
@@ -27,6 +28,25 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
             status: false,
         },
     })
+
+    useEffect(() => {
+        generateReportId()
+            .then((newReportId) => {
+                setFormData( prev => ({
+                    ...prev,
+                    reportId: newReportId,
+                }))
+            })
+            .catch(() => {
+                setErrorObject( prev => ({
+                    ...prev,
+                    reportId: {
+                        status: true,
+                        message: "Something went wrong while creating report ID"
+                    }
+                }))
+            })
+    }, [])
 
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-[#ffffff60] flex items-center justify-center z-50">
