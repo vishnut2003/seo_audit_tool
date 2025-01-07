@@ -130,7 +130,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
             }
 
-            await page.close()
+            await browser.close();
 
             // assign to group return
             const groupReturn: ForSheetGroupInterface = {
