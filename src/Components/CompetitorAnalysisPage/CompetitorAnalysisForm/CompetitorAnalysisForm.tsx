@@ -9,7 +9,7 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
 }) => {
 
     const [formData, setFormData] = useState<CompetiotrAnalysisFormSubmitInterface>({
-        reportId: '',
+        reportId: 'Generating...',
         website: '',
         competitor: [],
     })
@@ -44,6 +44,11 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                         status: true,
                         message: "Something went wrong while creating report ID"
                     }
+                }))
+
+                setFormData( prev => ({
+                    ...prev,
+                    reportId: ''
                 }))
             })
     }, [])
