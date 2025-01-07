@@ -1,18 +1,31 @@
+import { CompetiotrAnalysisFormErrorInterface, CompetiotrAnalysisFormSubmitInterface } from "@/Interfaces/CompetitorAnalysisInterface/FormSubmitInterface"
 import { RiAddLine, RiCloseLine } from "@remixicon/react"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
+import { submitCompetitorAnalysisForm } from "./submitAction"
 
 const CompetitorAnalysisForm = ({ setFormPopup }: {
     setFormPopup: (value: boolean) => void
 }) => {
 
-    const [formData, setFormData] = useState<{
-        reportId: string,
-        website: string,
-        competitor: string[],
-    }>({
-        reportId: '',
+    const [formData, setFormData] = useState<CompetiotrAnalysisFormSubmitInterface>({
+        reportId: 0,
         website: '',
         competitor: [],
+    })
+
+    const [errorObject, setErrorObject] = useState<CompetiotrAnalysisFormErrorInterface>({
+        reportId: {
+            message: '',
+            status: false,
+        },
+        website: {
+            message: '',
+            status: false,
+        },
+        competitor: {
+            message: '',
+            status: false,
+        },
     })
 
     return (
@@ -36,7 +49,7 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                 </div>
 
                 {/* Competitor analysis form */}
-                <form>
+                <form onSubmit={(e) => submitCompetitorAnalysisForm({ formData, formEvent: e, setErrorObject, errorObject })}>
                     <div className="flex flex-col gap-4">
                         <FormField
                             label="Report ID"
@@ -46,7 +59,7 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                             required={true}
                             disabled={true}
                             value={formData.reportId}
-                            onChange={(value) => setFormData({ ...formData, reportId: value })}
+                            errorObject={errorObject}
                         />
 
                         <FormField
@@ -57,39 +70,49 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                             required={true}
                             value={formData.website}
                             onChange={(value) => setFormData({ ...formData, website: value })}
+                            errorObject={errorObject}
                         />
 
                         <AddNewCompetitor
                             competitor={formData.competitor}
-                            setCompetitor={(value) => setFormData({ ...formData, competitor: value })}/>
+                            errorObject={errorObject}
+                            setErrorObject={setErrorObject}
+                            setCompetitor={(value) => setFormData({ ...formData, competitor: value })} />
 
-                        <ListCompetitors competitors={formData.competitor} setCompetitor={(updatedCompetitor) => setFormData({...formData, competitor: updatedCompetitor})} />
+                        <ListCompetitors competitors={formData.competitor} setCompetitor={(updatedCompetitor) => setFormData({ ...formData, competitor: updatedCompetitor })} />
                     </div>
 
-                    <button className="bg-primary text-white py-4 px-5 rounded-lg mt-4" type="submit">
-                        Create Competitor Analysis
-                    </button>
+                    <div className="flex justify-end">
+                        <button className="bg-primary text-white py-4 px-6 rounded-lg mt-4" type="submit">
+                            Create Competitor Analysis
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
     )
 }
 
-function FormField({ label, type, name, placeholder, required, value, onChange, disabled }: {
+function FormField({ label, type, name, placeholder, required, value, onChange, disabled, errorObject }: {
     label: string,
     type: string,
     name: string,
     placeholder: string,
     required: boolean,
-    value: string,
-    onChange: (value: string) => void,
-    disabled?: boolean
+    value: string | number,
+    onChange?: (value: string) => void,
+    disabled?: boolean,
+    errorObject: CompetiotrAnalysisFormErrorInterface
 }) {
     return (
         <div className="flex flex-col gap-2">
             <label className="text-sm text-gray-500" htmlFor={name}>{label}</label>
             <input
-                className={"border border-gray-300 rounded-lg p-2 outline-none" + (disabled ? ' bg-gray-100' : '')}
+                className={
+                    "border border-gray-300 rounded-lg p-2 outline-none" +
+                    (disabled ? ' bg-gray-100 text-gray-600' : '') +
+                    (errorObject[name as keyof typeof errorObject].status ? ' border-red-500' : '')
+                }
                 type={type}
                 name={name}
                 id={name}
@@ -97,22 +120,31 @@ function FormField({ label, type, name, placeholder, required, value, onChange, 
                 required={required}
                 value={value}
                 disabled={disabled}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChange && onChange(e.target.value)}
             />
+            {
+                errorObject[name as keyof typeof errorObject].status &&
+                <span className="text-red-500 text-sm">{errorObject[name as keyof typeof errorObject].message}</span>
+            }
         </div>
     )
 }
 
-function AddNewCompetitor({ competitor, setCompetitor }: {
+function AddNewCompetitor({ competitor, setCompetitor, errorObject, setErrorObject }: {
     competitor: string[],
-    setCompetitor: (value: string[]) => void
+    setCompetitor: (value: string[]) => void,
+    errorObject: CompetiotrAnalysisFormErrorInterface,
+    setErrorObject: Dispatch<SetStateAction<CompetiotrAnalysisFormErrorInterface>>
 }) {
     const [newCompetitor, setNewCompetitor] = useState<string>('')
 
     return (
         <div className="flex flex-col gap-2">
             <label className="text-sm text-gray-500">Add new competitor</label>
-            <div className="flex gap-2 items-center border border-gray-300 rounded-lg overflow-hidden outline-none">
+            <div className={
+                "flex gap-2 items-center border border-gray-300 rounded-lg overflow-hidden outline-none" +
+                (errorObject.competitor.status ? ' border-red-500' : '')
+            }>
                 <input
                     className="outline-none p-2 w-full"
                     type="text"
@@ -121,9 +153,28 @@ function AddNewCompetitor({ competitor, setCompetitor }: {
                     onChange={(e) => setNewCompetitor(e.target.value)}
                 />
                 <button
-                    className="bg-primary py-2 px-3 text-white"
+                    className={`bg-primary py-2 px-3 text-white ${errorObject.competitor.status ? "bg-red-500" : ""}`}
                     type="button"
                     onClick={() => {
+                        const urlRegEx = /^(http(s):\/\/.|http:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}$/
+                        if (!urlRegEx.test(newCompetitor)) {
+                            setErrorObject((prev) => ({
+                                ...prev,
+                                competitor: {
+                                    message: 'Competitor URL is not valid.',
+                                    status: true,
+                                },
+                            }))
+                            return
+                        } else {
+                            setErrorObject((prev) => ({
+                                ...prev,
+                                competitor: {
+                                    message: 'Competitor URL is not valid.',
+                                    status: false,
+                                },
+                            }))
+                        }
                         setCompetitor([...competitor, newCompetitor])
                         setNewCompetitor('')
                     }}
@@ -131,11 +182,15 @@ function AddNewCompetitor({ competitor, setCompetitor }: {
                     <RiAddLine size={24} />
                 </button>
             </div>
+            {
+                errorObject.competitor.status &&
+                <span className="text-red-500 text-sm">{errorObject.competitor.message}</span>
+            }
         </div>
     )
 }
 
-function ListCompetitors({competitors, setCompetitor}: {
+function ListCompetitors({ competitors, setCompetitor }: {
     competitors: string[],
     setCompetitor: (value: string[]) => void
 }) {
@@ -144,22 +199,22 @@ function ListCompetitors({competitors, setCompetitor}: {
             <label className="text-sm text-gray-500">Competitors</label>
             <div className="flex flex-wrap gap-3">
                 {competitors.length === 0 ?
-                <span className="text-gray-500">No competitors added yet.</span>:
-                competitors.map((competitor, index) => (
-                    <div key={index} className="flex gap-2 items-center bg-white py-2 px-3 rounded-md overflow-hidden shadow-md">
-                        <span>{competitor}</span>
-                        <button
-                            className="text-red-500 p-1"
-                            type="button"
-                            onClick={() => {
-                                competitors.splice(index, 1)
-                                setCompetitor([...competitors])
-                            }}
-                        >
-                            <RiCloseLine size={18} />
-                        </button>
-                    </div>
-                ))}
+                    <span className="text-gray-500">No competitors added yet.</span> :
+                    competitors.map((competitor, index) => (
+                        <div key={index} className="flex gap-2 items-center bg-white py-2 px-3 rounded-md overflow-hidden shadow-md">
+                            <span>{competitor}</span>
+                            <button
+                                className="text-red-500 p-1"
+                                type="button"
+                                onClick={() => {
+                                    competitors.splice(index, 1)
+                                    setCompetitor([...competitors])
+                                }}
+                            >
+                                <RiCloseLine size={18} />
+                            </button>
+                        </div>
+                    ))}
             </div>
         </div>
     )
