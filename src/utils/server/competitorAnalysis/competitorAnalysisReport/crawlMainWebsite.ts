@@ -4,6 +4,7 @@ import { generateInteractiveDoc } from "../../sheetReport/jsDomValidate";
 import { checkCallToAction } from "./crawlParts/checkCallToAction";
 import { generateNiche } from "./crawlParts/generateNiche";
 import { chooseSiteCategory } from "./crawlParts/chooseCategory";
+import { checkBlogPageExist } from "./crawlParts/checkBlogPageExist";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -31,6 +32,10 @@ export async function crawlMainWebsite({ page, url }: {
             // choose category of website
             const siteCategory = await chooseSiteCategory({ DOM });
             console.log(`Site category: ${siteCategory}`);
+
+            // check blogs page exist
+            const blogsPageCheck = await checkBlogPageExist({page, baseUrl: url});
+            console.log(`Blogs page status: ${blogsPageCheck}`);
 
             resolve()
         } catch (err) {
