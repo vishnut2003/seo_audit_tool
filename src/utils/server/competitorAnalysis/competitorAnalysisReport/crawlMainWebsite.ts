@@ -6,6 +6,7 @@ import { generateNiche } from "./crawlParts/generateNiche";
 import { chooseSiteCategory } from "./crawlParts/chooseCategory";
 import { checkBlogPageExist } from "./crawlParts/checkBlogPageExist";
 import { socialConnectivityCheck } from "./crawlParts/socialConnectivityCheck";
+import { checkMainDomainCanonical } from "./crawlParts/canonicalCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -41,6 +42,10 @@ export async function crawlMainWebsite({ page, url }: {
             // check social connectivity
             const socialCheck = await socialConnectivityCheck({ DOM });
             console.log(`Social connectivity: ${socialCheck}`);
+
+            // check main domain canonical link
+            const mainDomainCanonicalIssue = await checkMainDomainCanonical({ DOM, page, url});
+            console.log(`Main domain canonical issue: ${mainDomainCanonicalIssue}`);
 
             resolve()
         } catch (err) {
