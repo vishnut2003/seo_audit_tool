@@ -2,6 +2,8 @@ import { Page } from "puppeteer";
 import { checkSecurityProtocol } from "./crawlParts/checkSecurityProtocol";
 import { generateInteractiveDoc } from "../../sheetReport/jsDomValidate";
 import { checkCallToAction } from "./crawlParts/checkCallToAction";
+import { generateNiche } from "./crawlParts/generateNiche";
+import { chooseSiteCategory } from "./crawlParts/chooseCategory";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -21,6 +23,14 @@ export async function crawlMainWebsite({ page, url }: {
             // check if site have call to action element
             const callToActionCheck = await checkCallToAction({ DOM });
             console.log(`Call to action: ${callToActionCheck}`)
+
+            // generate Niche or about site using AI
+            const siteNiche = await generateNiche({ DOM });
+            console.log(`Website Niche: ${siteNiche}`);
+
+            // choose category of website
+            const siteCategory = await chooseSiteCategory({ DOM });
+            console.log(`Site category: ${siteCategory}`);
 
             resolve()
         } catch (err) {

@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@react-pdf/renderer": "^4.1.5",
     "@remixicon/react": "^4.5.0",
     "@sparticuz/chromium": "^131.0.1",
