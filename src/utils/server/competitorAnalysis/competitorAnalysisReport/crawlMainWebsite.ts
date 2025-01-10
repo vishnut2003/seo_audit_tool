@@ -7,6 +7,7 @@ import { chooseSiteCategory } from "./crawlParts/chooseCategory";
 import { checkBlogPageExist } from "./crawlParts/checkBlogPageExist";
 import { socialConnectivityCheck } from "./crawlParts/socialConnectivityCheck";
 import { checkMainDomainCanonical } from "./crawlParts/canonicalCheck";
+import { checkXmlSitemap } from "./crawlParts/xmlSitemapCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -46,6 +47,10 @@ export async function crawlMainWebsite({ page, url }: {
             // check main domain canonical link
             const mainDomainCanonicalIssue = await checkMainDomainCanonical({ DOM, page, url});
             console.log(`Main domain canonical issue: ${mainDomainCanonicalIssue}`);
+
+            // check if xmlSitemap exist
+            const xmlSitemapCheck = await checkXmlSitemap({baseUrl: url, page})
+            console.log(`XML sitemap status: ${xmlSitemapCheck}`);
 
             resolve()
         } catch (err) {
