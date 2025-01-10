@@ -9,6 +9,7 @@ import { socialConnectivityCheck } from "./crawlParts/socialConnectivityCheck";
 import { checkMainDomainCanonical } from "./crawlParts/canonicalCheck";
 import { checkXmlSitemap } from "./crawlParts/xmlSitemapCheck";
 import { checkHtmlSitemap } from "./crawlParts/htmlSitemapCheck";
+import { robotTxtCheck } from "./crawlParts/robotTxtCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -56,6 +57,10 @@ export async function crawlMainWebsite({ page, url }: {
             // check if HTML Sitemap exist
             const htmlSitemapCheck = await checkHtmlSitemap({ baseUrl: url, DOM, page })
             console.log(`HTML Sitemap Check: ${htmlSitemapCheck}`)
+
+            // check if robots.txt file exist
+            const robotTxtStatus = await robotTxtCheck({ baseUrl: url, page });
+            console.log(`Robot.txt file status: ${robotTxtStatus}`)
 
             resolve()
         } catch (err) {
