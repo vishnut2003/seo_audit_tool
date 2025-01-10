@@ -10,6 +10,7 @@ import { checkMainDomainCanonical } from "./crawlParts/canonicalCheck";
 import { checkXmlSitemap } from "./crawlParts/xmlSitemapCheck";
 import { checkHtmlSitemap } from "./crawlParts/htmlSitemapCheck";
 import { robotTxtCheck } from "./crawlParts/robotTxtCheck";
+import { checkMetaTagsQuality } from "./crawlParts/metaTagsQualityCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -61,6 +62,10 @@ export async function crawlMainWebsite({ page, url }: {
             // check if robots.txt file exist
             const robotTxtStatus = await robotTxtCheck({ baseUrl: url, page });
             console.log(`Robot.txt file status: ${robotTxtStatus}`)
+
+            // check meta tags quality
+            const metaTagCheck = await checkMetaTagsQuality({DOM, page, pageCount: 10, baseUrl: url});
+            console.log(`MetaTag Quality: ${metaTagCheck}`);
 
             resolve()
         } catch (err) {
