@@ -8,6 +8,7 @@ import { checkBlogPageExist } from "./crawlParts/checkBlogPageExist";
 import { socialConnectivityCheck } from "./crawlParts/socialConnectivityCheck";
 import { checkMainDomainCanonical } from "./crawlParts/canonicalCheck";
 import { checkXmlSitemap } from "./crawlParts/xmlSitemapCheck";
+import { checkHtmlSitemap } from "./crawlParts/htmlSitemapCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -45,12 +46,16 @@ export async function crawlMainWebsite({ page, url }: {
             console.log(`Social connectivity: ${socialCheck}`);
 
             // check main domain canonical link
-            const mainDomainCanonicalIssue = await checkMainDomainCanonical({ DOM, page, url});
+            const mainDomainCanonicalIssue = await checkMainDomainCanonical({ DOM, page, url });
             console.log(`Main domain canonical issue: ${mainDomainCanonicalIssue}`);
 
             // check if xmlSitemap exist
-            const xmlSitemapCheck = await checkXmlSitemap({baseUrl: url, page})
+            const xmlSitemapCheck = await checkXmlSitemap({ baseUrl: url, page })
             console.log(`XML sitemap status: ${xmlSitemapCheck}`);
+
+            // check if HTML Sitemap exist
+            const htmlSitemapCheck = await checkHtmlSitemap({ baseUrl: url, DOM, page })
+            console.log(`HTML Sitemap Check: ${htmlSitemapCheck}`)
 
             resolve()
         } catch (err) {
