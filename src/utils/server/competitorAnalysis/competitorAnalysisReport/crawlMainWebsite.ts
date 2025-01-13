@@ -12,6 +12,7 @@ import { checkHtmlSitemap } from "./crawlParts/htmlSitemapCheck";
 import { robotTxtCheck } from "./crawlParts/robotTxtCheck";
 import { checkMetaTagsQuality } from "./crawlParts/metaTagsQualityCheck";
 import { checkImageAltText } from "./crawlParts/imageAltTextCheck";
+import { checkH1TitleTag } from "./crawlParts/H1TitleCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -71,6 +72,10 @@ export async function crawlMainWebsite({ page, url }: {
             // check image alt text in home page
             const imageAltCheck = await checkImageAltText({ DOM });
             console.log(`Image Alt Text Check: ${imageAltCheck}`);
+
+            // check H1 tag existence
+            const h1TagCheck = await checkH1TitleTag({ baseUrl: url, DOM, page });
+            console.log(`H1 tag check: ${h1TagCheck}`);
 
             resolve()
         } catch (err) {
