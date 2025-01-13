@@ -13,6 +13,7 @@ import { robotTxtCheck } from "./crawlParts/robotTxtCheck";
 import { checkMetaTagsQuality } from "./crawlParts/metaTagsQualityCheck";
 import { checkImageAltText } from "./crawlParts/imageAltTextCheck";
 import { checkH1TitleTag } from "./crawlParts/H1TitleCheck";
+import { checkContentQuality } from "./crawlParts/contentQualityCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -76,6 +77,10 @@ export async function crawlMainWebsite({ page, url }: {
             // check H1 tag existence
             const h1TagCheck = await checkH1TitleTag({ baseUrl: url, DOM, page });
             console.log(`H1 tag check: ${h1TagCheck}`);
+
+            // check content quality
+            const contentQualityCheck = await checkContentQuality({ baseUrl: url, DOM, page });
+            console.log(`Content quality check: ${contentQualityCheck}`);
 
             resolve()
         } catch (err) {
