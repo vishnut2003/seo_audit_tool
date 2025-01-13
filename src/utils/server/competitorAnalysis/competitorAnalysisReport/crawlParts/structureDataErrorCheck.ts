@@ -26,6 +26,7 @@ function validateJson ({data}: {data: string}) {
             JSON.parse(data);
             return resolve(true)
         } catch (err) {
+            console.log("Error from JSON parse.", err);
             return resolve(false);
         }
     })
