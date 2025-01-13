@@ -14,6 +14,7 @@ import { checkMetaTagsQuality } from "./crawlParts/metaTagsQualityCheck";
 import { checkImageAltText } from "./crawlParts/imageAltTextCheck";
 import { checkH1TitleTag } from "./crawlParts/H1TitleCheck";
 import { checkContentQuality } from "./crawlParts/contentQualityCheck";
+import { checkStructureDataError } from "./crawlParts/structureDataErrorCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -81,6 +82,10 @@ export async function crawlMainWebsite({ page, url }: {
             // check content quality
             const contentQualityCheck = await checkContentQuality({ baseUrl: url, DOM, page });
             console.log(`Content quality check: ${contentQualityCheck}`);
+
+            // check structure data (Schema JSON)
+            const structureDataCheck = await checkStructureDataError({ DOM })
+            console.log(`Structure Data check: ${structureDataCheck}`);
 
             resolve()
         } catch (err) {
