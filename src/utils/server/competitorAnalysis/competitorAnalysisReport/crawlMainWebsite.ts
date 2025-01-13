@@ -11,6 +11,7 @@ import { checkXmlSitemap } from "./crawlParts/xmlSitemapCheck";
 import { checkHtmlSitemap } from "./crawlParts/htmlSitemapCheck";
 import { robotTxtCheck } from "./crawlParts/robotTxtCheck";
 import { checkMetaTagsQuality } from "./crawlParts/metaTagsQualityCheck";
+import { checkImageAltText } from "./crawlParts/imageAltTextCheck";
 
 export async function crawlMainWebsite({ page, url }: {
     page: Page,
@@ -64,8 +65,12 @@ export async function crawlMainWebsite({ page, url }: {
             console.log(`Robot.txt file status: ${robotTxtStatus}`)
 
             // check meta tags quality
-            const metaTagCheck = await checkMetaTagsQuality({DOM, page, pageCount: 10, baseUrl: url});
+            const metaTagCheck = await checkMetaTagsQuality({ DOM, page, pageCount: 10, baseUrl: url });
             console.log(`MetaTag Quality: ${metaTagCheck}`);
+
+            // check image alt text in home page
+            const imageAltCheck = await checkImageAltText({ DOM });
+            console.log(`Image Alt Text Check: ${imageAltCheck}`);
 
             resolve()
         } catch (err) {
