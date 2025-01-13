@@ -1,6 +1,6 @@
 import { CompetiotrAnalysisFormSubmitInterface } from "@/Interfaces/CompetitorAnalysisInterface/FormSubmitInterface";
 import { initializePuppeteer } from "../../initializePuppeteer";
-import { crawlMainWebsite } from "./crawlMainWebsite";
+import { auditSingleSite } from "./auditSingleSite";
 
 export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFormSubmitInterface) {
     return new Promise<void>( async (resolve, reject) => {
@@ -11,7 +11,8 @@ export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFo
             const page = await browser.newPage();
 
             // crawl main website
-            await crawlMainWebsite({page, url: reportEntry.website})
+            const mainSiteReport = await auditSingleSite({page, url: reportEntry.website})
+            console.log(mainSiteReport);
 
             await browser.close()
             resolve()

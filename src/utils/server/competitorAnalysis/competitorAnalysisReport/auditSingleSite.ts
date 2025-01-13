@@ -15,12 +15,13 @@ import { checkImageAltText } from "./crawlParts/imageAltTextCheck";
 import { checkH1TitleTag } from "./crawlParts/H1TitleCheck";
 import { checkContentQuality } from "./crawlParts/contentQualityCheck";
 import { checkStructureDataError } from "./crawlParts/structureDataErrorCheck";
+import { competitorAnalysisRawInterface } from "./dataInterface";
 
-export async function crawlMainWebsite({ page, url }: {
+export async function auditSingleSite({ page, url }: {
     page: Page,
     url: string,
 }) {
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise<competitorAnalysisRawInterface>(async (resolve, reject) => {
         try {
             console.log(`Opening ${url}`)
             const httpResponse = await page.goto(url, { timeout: 0 });
@@ -87,7 +88,77 @@ export async function crawlMainWebsite({ page, url }: {
             const structureDataCheck = await checkStructureDataError({ DOM })
             console.log(`Structure Data check: ${structureDataCheck}`);
 
-            resolve()
+            resolve({
+                website: url,
+                overview: {
+                    siteSecurity: {
+                        label: "HTTP/HTTPS",
+                        value: siteSecurity,
+                    },
+                    callToAction: {
+                        label: "Call to action",
+                        value: callToActionCheck,
+                    },
+                    niche: {
+                        label: "Niche",
+                        value: siteNiche,
+                    },
+                    siteCategory: {
+                        label: "Site category",
+                        value: siteCategory,
+                    },
+                    validBlogPage: {
+                        label: "Company Blog/ News",
+                        value: blogsPageCheck,
+                    },
+                    socialConnection: {
+                        label: "Social Connectivity [Instgram,Twitter,FB]",
+                        value: socialCheck,
+                    }
+                },
+                websiteIssues: {
+                    mainDomainCanonical: {
+                        label: "Canonical Issue (Main Domain)",
+                        value: mainDomainCanonicalIssue,
+                    }
+                },
+                crawlAccess: {
+                    xmlSitemap: {
+                        label: "XML Sitemap Exist?",
+                        value: xmlSitemapCheck,
+                    },
+                    htmlSitemap: {
+                        label: "HTML Sitemap Exist?",
+                        value: htmlSitemapCheck,
+                    },
+                    robotTxt: {
+                        label: "Robots.txt fle Exist?",
+                        value: robotTxtStatus,
+                    }
+                },
+                optimization: {
+                    metaQuality: {
+                        label: "Meta tags quality etc. - High, Medium, Low",
+                        value: metaTagCheck,
+                    },
+                    imageAltText: {
+                        label: "Images Alt Tags Exist?",
+                        value: imageAltCheck,
+                    },
+                    h1Tag: {
+                        label: "<h1> tags Exist?",
+                        value: h1TagCheck,
+                    },
+                    contentOptimization: {
+                        label: "Content optimization - High, Medium, Low",
+                        value: contentQualityCheck,
+                    },
+                    structureDataError: {
+                        label: "Structured Data Errors (if any)",
+                        value: structureDataCheck,
+                    }
+                }
+            })
         } catch (err) {
             return reject(err);
         }

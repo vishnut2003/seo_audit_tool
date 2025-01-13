@@ -7,7 +7,7 @@ const SSL_ENABLED = "SSL INSTALLED";
 export async function checkSecurityProtocol ({httpResponse}: {
     httpResponse: HTTPResponse | null,
 }) {
-    return new Promise <string> ((resolve, reject) => {
+    return new Promise <"NO PROTOCOL FOUND" | "SSL NOT INSTALLED" | "SSL INSTALLED"> ((resolve, reject) => {
         try {
             // check if security protocol exist
             if (!httpResponse) {
