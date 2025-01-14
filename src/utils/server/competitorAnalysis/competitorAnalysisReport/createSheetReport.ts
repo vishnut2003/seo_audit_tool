@@ -1,34 +1,42 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { googleApiAuth } from "../../sheetReport/googleSheet/auth";
 import { competitorAnalysisRawInterface } from "./dataInterface";
+import { onSiteAnalysisTab } from "./googleSpreadSheet/onSiteAnalysis_Tab";
 
 export async function createSheetReport({
-    mainSiteAnalysisReport, 
-    competitorsAnalysisReport
+    mainWebsite,
+    onSiteAnalysis,
 }: {
-    mainSiteAnalysisReport: competitorAnalysisRawInterface,
-    competitorsAnalysisReport: competitorAnalysisRawInterface[],
+    mainWebsite: string,
+    onSiteAnalysis: {
+        mainSite: competitorAnalysisRawInterface,
+        competitors: competitorAnalysisRawInterface[]
+    },
 }) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
         try {
-            // create header with initial values
-            const headerValues: string[] = [
-                "Competitor Analysis",
-                mainSiteAnalysisReport.website,
-            ];
-
-            for (const competitor of competitorsAnalysisReport) {
-                headerValues.push(competitor.website);
-            }
-
             const serviceAccountAuth = googleApiAuth();
             const sheet = await GoogleSpreadsheet.createNewSpreadsheetDocument(
                 serviceAccountAuth,
                 {
-                    title: `Sheet report of ${mainSiteAnalysisReport.website}`
+                    title: `Competitor Analysis of ${onSiteAnalysis.mainSite.website}`
                 }
             );
 
+            await onSiteAnalysisTab({
+                mainWebsiteReport: onSiteAnalysis.mainSite,
+                competitorsReport: onSiteAnalysis.competitors,
+                sheet
+            })
+
+            const officialGmail = process.env.GOOGLE_OFFICIAL_GMAIL || "vishnu@webspidersolutions.com";
+            await sheet.setPublicAccessLevel('reader');
+            await sheet.share(officialGmail, {
+                emailMessage: `Competitor Analysis ${mainWebsite}`,
+                role: "writer",
+            })
+
+            resolve()
         } catch (err) {
             return reject(err);
         }
