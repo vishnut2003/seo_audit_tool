@@ -39,7 +39,7 @@ export async function checkMetaTagsQuality({ page, DOM, pageCount, baseUrl }: {
             type qualityOptions = "HIGH" | "MEDIUM" | "LOW";
             const overallQuality: qualityOptions[] = [];
             for (const validUrl of validUrls) {
-                await page.goto(validUrl);
+                await page.goto(validUrl, { timeout: 0 });
                 const content = await page.content();
                 const innerPageDom = await generateInteractiveDoc({ content })
                 const pageMetaQuality = await checkCharLengthQuality({ DOM: innerPageDom })

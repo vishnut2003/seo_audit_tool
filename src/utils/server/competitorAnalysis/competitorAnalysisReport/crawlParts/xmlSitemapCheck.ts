@@ -1,15 +1,15 @@
 import { Page } from "puppeteer";
 
-export async function checkXmlSitemap({page, baseUrl}: {
+export async function checkXmlSitemap({ page, baseUrl }: {
     page: Page,
     baseUrl: string,
 }) {
-    return new Promise<"PRESENT" | "NOT PRESENT">( async (resolve, reject) => {
+    return new Promise<"PRESENT" | "NOT PRESENT">(async (resolve, reject) => {
         try {
             const sitemapUrl = `${baseUrl}/sitemap.xml`;
 
             // goto sitemap page
-            const httpResponse = await page.goto(sitemapUrl);
+            const httpResponse = await page.goto(sitemapUrl, { timeout: 0 });
 
             // check if page exist
             if (!httpResponse || httpResponse.status() !== 200) {

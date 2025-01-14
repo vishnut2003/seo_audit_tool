@@ -7,7 +7,7 @@ export async function checkH1TitleTag({ DOM, page, baseUrl }: {
     page: Page,
     baseUrl: string,
 }) {
-    return new Promise<"PRESENT" | "NOT PRESENT">( async (resolve, reject) => {
+    return new Promise<"PRESENT" | "NOT PRESENT">(async (resolve, reject) => {
         try {
             // check if home page have H1 tag
             const h1Element = DOM.window.document.querySelector("h1");
@@ -51,7 +51,7 @@ function crawlPageCheckH1Tag({ pageUrl, page }: {
     return new Promise<boolean>(async (resolve, reject) => {
         try {
             // crawl page content
-            await page.goto(pageUrl);
+            await page.goto(pageUrl, { timeout: 0 });
             const content = await page.content();
             const DOM = await generateInteractiveDoc({ content });
 

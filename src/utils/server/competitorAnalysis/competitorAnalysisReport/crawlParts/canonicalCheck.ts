@@ -6,10 +6,10 @@ export async function checkMainDomainCanonical({ DOM, page, url }: {
     page: Page,
     url: string,
 }) {
-    return new Promise<"PRESENT" | "NOT PRESENT">( async (resolve, reject) => {
+    return new Promise<"PRESENT" | "NOT PRESENT">(async (resolve, reject) => {
         try {
             // fetch current page url
-            await page.goto(url)
+            await page.goto(url, { timeout: 0 })
             const currentUrl = page.url();
 
             // fetch canonical url

@@ -19,7 +19,7 @@ export async function checkHtmlSitemap({ page, baseUrl, DOM }: {
                 const htmlSitemapUrl = `${baseUrl}/${endpoint}`;
 
                 // check if sitemap exist
-                const httpResponse = await page.goto(htmlSitemapUrl);
+                const httpResponse = await page.goto(htmlSitemapUrl, { timeout: 0 });
 
                 if (httpResponse && httpResponse.status() >= 200 && httpResponse.status() < 300) {
                     return resolve("PRESENT");

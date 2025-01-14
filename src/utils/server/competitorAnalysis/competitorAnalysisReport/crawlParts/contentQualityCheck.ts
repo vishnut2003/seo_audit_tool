@@ -58,7 +58,7 @@ function checkSinglePageContentQuality({ pageUrl, page }: {
 }) {
     return new Promise<"LOW" | "MEDIUM" | "HIGH">(async (resolve, reject) => {
         try {
-            await page.goto(pageUrl);
+            await page.goto(pageUrl, { timeout: 0 });
             const content = await page.content();
             const DOM = await generateInteractiveDoc({ content });
 
