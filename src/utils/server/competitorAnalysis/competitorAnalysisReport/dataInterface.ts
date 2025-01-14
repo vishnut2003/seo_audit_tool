@@ -1,6 +1,6 @@
 
 export interface competitorAnalysisRawInterface {
-    website: string | null,
+    website: string,
     overview: {
         siteSecurity: {
             label: string,
