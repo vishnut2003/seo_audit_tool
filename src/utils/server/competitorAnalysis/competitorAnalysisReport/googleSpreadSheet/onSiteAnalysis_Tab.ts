@@ -41,6 +41,7 @@ export async function onSiteAnalysisTab({
                     const categoryItems = mainWebsiteReport[category as keyof competitorAnalysisRawInterface]
                     const testKeyItem = categoryItems[testKey as keyof typeof categoryItems] as { label: string, value: string }
                     const row = { competitor_analysis: testKeyItem.label }
+                    row[mainWebsiteReport.website as keyof typeof row] = testKeyItem.value;
 
                     // travers all competitors
                     for (const report of competitorsReport) {
