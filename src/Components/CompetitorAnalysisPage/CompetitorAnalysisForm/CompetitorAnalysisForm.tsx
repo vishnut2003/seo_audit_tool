@@ -171,6 +171,11 @@ function AddNewCompetitor({ competitor, setCompetitor, errorObject, setErrorObje
                 (errorObject.competitor.status ? ' border-red-500' : '')
             }>
                 <input
+                    onKeyDown={(e) => {
+                        if (e.key == "Enter") {
+                            e.preventDefault()
+                        }
+                    }}
                     className="outline-none p-2 w-full"
                     type="text"
                     placeholder="Enter competitor's website URL"
