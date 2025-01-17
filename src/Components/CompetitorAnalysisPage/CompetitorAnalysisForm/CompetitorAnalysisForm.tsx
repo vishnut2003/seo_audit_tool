@@ -8,7 +8,7 @@ import FormSubmitLoader from "./FormSubmitLoader"
 const CompetitorAnalysisForm = ({ setFormPopup }: {
     setFormPopup: (value: boolean) => void
 }) => {
-    const [showLoader, setShowLoader] = useState<boolean>(false);
+    const [showLoader, setShowLoader] = useState<boolean>(true);
     const [formData, setFormData] = useState<CompetiotrAnalysisFormSubmitInterface>({
         reportId: 'Generating...',
         website: '',
