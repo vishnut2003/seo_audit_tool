@@ -3,11 +3,12 @@ import { RiAddLine, RiCloseLine, RiGlobalLine } from "@remixicon/react"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { submitCompetitorAnalysisForm } from "./submitAction"
 import { generateReportId } from "./generateReportId"
+import FormSubmitLoader from "./FormSubmitLoader"
 
 const CompetitorAnalysisForm = ({ setFormPopup }: {
     setFormPopup: (value: boolean) => void
 }) => {
-
+    const [showLoader, setShowLoader] = useState<boolean>(true);
     const [formData, setFormData] = useState<CompetiotrAnalysisFormSubmitInterface>({
         reportId: 'Generating...',
         website: '',
@@ -113,6 +114,11 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                         </button>
                     </div>
                 </form>
+
+                {/* Form submit loader */
+                    showLoader && <FormSubmitLoader/>
+                }
+                
             </div>
         </div>
     )
