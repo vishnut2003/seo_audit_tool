@@ -1,5 +1,5 @@
 import { CompetiotrAnalysisFormErrorInterface, CompetiotrAnalysisFormSubmitInterface } from "@/Interfaces/CompetitorAnalysisInterface/FormSubmitInterface"
-import { RiAddLine, RiCloseLine } from "@remixicon/react"
+import { RiAddLine, RiCloseLine, RiGlobalLine } from "@remixicon/react"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { submitCompetitorAnalysisForm } from "./submitAction"
 import { generateReportId } from "./generateReportId"
@@ -32,13 +32,13 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
     useEffect(() => {
         generateReportId()
             .then((newReportId) => {
-                setFormData( prev => ({
+                setFormData(prev => ({
                     ...prev,
                     reportId: newReportId,
                 }))
             })
             .catch(() => {
-                setErrorObject( prev => ({
+                setErrorObject(prev => ({
                     ...prev,
                     reportId: {
                         status: true,
@@ -46,7 +46,7 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                     }
                 }))
 
-                setFormData( prev => ({
+                setFormData(prev => ({
                     ...prev,
                     reportId: ''
                 }))
@@ -224,27 +224,63 @@ function ListCompetitors({ competitors, setCompetitor }: {
     competitors: string[],
     setCompetitor: (value: string[]) => void
 }) {
+    const [showCompetitor, setShowCompetitor] = useState<boolean>(false);
     return (
         <div className="flex flex-col gap-2 max-h-60 overflow-auto p-2">
             <label className="text-sm text-gray-500">Competitors</label>
             <div className="flex flex-wrap gap-3">
                 {competitors.length === 0 ?
                     <span className="text-gray-500">No competitors added yet.</span> :
-                    competitors.map((competitor, index) => (
-                        <div key={index} className="flex gap-2 items-center bg-white py-2 px-3 rounded-md overflow-hidden shadow-md">
-                            <span>{competitor}</span>
-                            <button
-                                className="text-red-500 p-1"
-                                type="button"
-                                onClick={() => {
-                                    competitors.splice(index, 1)
-                                    setCompetitor([...competitors])
-                                }}
-                            >
-                                <RiCloseLine size={18} />
-                            </button>
+                    <div>
+                        <div>
+                            <span className="text-gray-500">
+                                {competitors.length} competitors added.
+                                <span
+                                    className="cursor-pointer ml-2 text-primary font-semibold"
+                                    onClick={() => setShowCompetitor(!showCompetitor)}
+                                >
+                                    Show Competitors
+                                </span>
+                            </span>
                         </div>
-                    ))}
+                        {
+                            showCompetitor &&
+                            <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center drop-shadow-2xl">
+                                <div className="bg-white flex flex-col gap-4 rounded-md">
+                                    <div className="w-full py-3 px-5 flex justify-between items-center shadow-md">
+                                        <h2 className="text-xl font-semibold">Competitors</h2>
+                                        <RiCloseLine
+                                            className="cursor-pointer"
+                                            onClick={() => setShowCompetitor(!showCompetitor)}
+                                            size={24} />
+                                    </div>
+                                    <div className="flex flex-col gap-2 p-4 pt-0 max-h-96 overflow-auto">
+                                        <div className="flex flex-col gap-2">
+                                        {
+                                            competitors.map((competitor, index) => (
+                                                <div key={index} className="flex gap-2 items-center bg-white py-2 px-3 rounded-md overflow-hidden shadow-md">
+                                                    <RiGlobalLine size={20} className="opacity-40" />
+                                                    <span>{competitor}</span>
+                                                    <button
+                                                        className="text-red-500 p-1"
+                                                        type="button"
+                                                        onClick={() => {
+                                                            competitors.splice(index, 1)
+                                                            setCompetitor([...competitors])
+                                                        }}
+                                                    >
+                                                        <RiCloseLine size={18} />
+                                                    </button>
+                                                </div>
+                                            ))
+                                        }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
     )
