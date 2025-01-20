@@ -75,7 +75,13 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                 </div>
 
                 {/* Competitor analysis form */}
-                <form onSubmit={(e) => submitCompetitorAnalysisForm({ formData, formEvent: e, setErrorObject, errorObject, setShowLoader })}>
+                <form onSubmit={(e) => submitCompetitorAnalysisForm({
+                    formData,
+                    formEvent: e,
+                    setErrorObject,
+                    errorObject,
+                    setShowLoader,
+                })}>
                     <div className="flex flex-col gap-4">
                         <FormField
                             label="Report ID"
@@ -116,9 +122,14 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                 </form>
 
                 {/* Form submit loader */
-                    showLoader && <FormSubmitLoader reportId={formData.reportId} siteList={[formData.website, ...formData.competitor]}/>
+                    showLoader &&
+                    <FormSubmitLoader
+                        reportId={formData.reportId}
+                        siteList={[formData.website, ...formData.competitor]}
+                        setShowLoader={setShowLoader}
+                    />
                 }
-                
+
             </div>
         </div>
     )
@@ -262,24 +273,24 @@ function ListCompetitors({ competitors, setCompetitor }: {
                                     </div>
                                     <div className="flex flex-col gap-2 p-4 pt-0 max-h-96 overflow-auto">
                                         <div className="flex flex-col gap-2">
-                                        {
-                                            competitors.map((competitor, index) => (
-                                                <div key={index} className="flex gap-2 items-center bg-white py-2 px-3 rounded-md overflow-hidden shadow-md">
-                                                    <RiGlobalLine size={20} className="opacity-40" />
-                                                    <span>{competitor}</span>
-                                                    <button
-                                                        className="text-red-500 p-1"
-                                                        type="button"
-                                                        onClick={() => {
-                                                            competitors.splice(index, 1)
-                                                            setCompetitor([...competitors])
-                                                        }}
-                                                    >
-                                                        <RiCloseLine size={18} />
-                                                    </button>
-                                                </div>
-                                            ))
-                                        }
+                                            {
+                                                competitors.map((competitor, index) => (
+                                                    <div key={index} className="flex gap-2 items-center bg-white py-2 px-3 rounded-md overflow-hidden shadow-md">
+                                                        <RiGlobalLine size={20} className="opacity-40" />
+                                                        <span>{competitor}</span>
+                                                        <button
+                                                            className="text-red-500 p-1"
+                                                            type="button"
+                                                            onClick={() => {
+                                                                competitors.splice(index, 1)
+                                                                setCompetitor([...competitors])
+                                                            }}
+                                                        >
+                                                            <RiCloseLine size={18} />
+                                                        </button>
+                                                    </div>
+                                                ))
+                                            }
                                         </div>
                                     </div>
                                 </div>

@@ -13,7 +13,7 @@ export async function createSheetReport({
         competitors: competitorAnalysisRawInterface[]
     },
 }) {
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise<string>(async (resolve, reject) => {
         try {
             const serviceAccountAuth = googleApiAuth();
             const sheet = await GoogleSpreadsheet.createNewSpreadsheetDocument(
@@ -36,7 +36,7 @@ export async function createSheetReport({
                 role: "writer",
             })
 
-            resolve()
+            resolve(sheet.spreadsheetId)
         } catch (err) {
             return reject(err);
         }
