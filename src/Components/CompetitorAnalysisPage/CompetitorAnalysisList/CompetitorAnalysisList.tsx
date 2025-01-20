@@ -52,7 +52,7 @@ const CompetitorAnalysisList = () => {
         <tbody>
           {
             reports.map((report, index) => (
-              <tr className="bg-white border-b">
+              <tr key={index} className="bg-white border-b">
                 <td className="px-6 py-4">
                   {report.createdAt.split("T")[0]}
                 </td>

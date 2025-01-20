@@ -16,7 +16,7 @@ export async function createCompetitorAnalysisReport ({formData}: {
 }
 
 export async function getAllCompetitorAnalysisReports () {
-    return new Promise<CompetitorAnalysisRecordModelInterface[]>(async (resolve, reject) => {
+    return new Promise<CompetitorAnalysisRecordModelInterface[]>(async (resolve) => {
         try {
             const response = await axios.get("/api/competitor-analysis/get-all-reports");
             const data = response.data as {
