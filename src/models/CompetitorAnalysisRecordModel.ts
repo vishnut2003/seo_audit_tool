@@ -7,6 +7,8 @@ export interface CompetitorAnalysisRecordModelInterface extends mongoose.Documen
     sheetId?: string,
     status: string,
     finishedSites: string[],
+    createdAt: string,
+    updatedAt: string,
 }
 
 const CompetitorAnalysisSchema = new mongoose.Schema<CompetitorAnalysisRecordModelInterface>({
