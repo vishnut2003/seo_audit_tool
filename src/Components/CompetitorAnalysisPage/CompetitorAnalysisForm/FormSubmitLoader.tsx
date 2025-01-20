@@ -1,26 +1,24 @@
 'use client';
 
 import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoading"
+import { RiCheckboxCircleLine, RiGlobalLine, RiRefreshLine } from "@remixicon/react";
 import { useEffect, useState } from "react"
 
-interface EventData {
-    message: string
-    time: string
-}
+const FormSubmitLoader = ({ siteList, reportId }: {
+    siteList: string[],
+    reportId: string,
+}) => {
 
-const FormSubmitLoader = () => {
-
-    const [events, setEvents] = useState<EventData[]>([])
+    const [completedSites, setCompletedSites] = useState<string[]>([])
 
     useEffect(() => {
         // Create EventSource connection
-        const eventSource = new EventSource('/api/competitor-analysis/create-report/sse-progress')
+        const eventSource = new EventSource(`/api/competitor-analysis/create-report/sse-progress?reportid=${reportId}`)
 
         // Handle incoming messages
         eventSource.onmessage = (event) => {
-            const parsedData: EventData = JSON.parse(event.data)
+            const parsedData = JSON.parse(event.data)
             console.log(parsedData);
-            setEvents(prevEvents => [parsedData, ...prevEvents].slice(0, 5))
         }
 
         // Handle connection errors
@@ -33,37 +31,38 @@ const FormSubmitLoader = () => {
         return () => {
             eventSource.close()
         }
-    }, [])
+    }, [reportId])
 
     return (
         <div className="absolute top-0 left-0 w-full h-full bg-white rounded-md flex flex-col gap-3 justify-center items-center p-10">
             <div className="flex flex-col gap-1 text-center">
                 <TripleDotLoading />
                 <p className="text-foreground mt-3">Competitor Analysis in Progress...</p>
-                <p className="text-foreground">Estimate time: <span className="font-semibold">00:05:00</span></p>
+                <p className="text-foreground">Last updated: <span className="font-semibold">00:05:00</span></p>
             </div>
-            <div className="bg-gray-50 border border-gray-300 w-full h-full">
-                <div className="py-3 px-5 border-b border-gray-300 flex justify-between">
-                    <h2 className="text-base font-medium">Progress Log</h2>
-                    <button className="text-red-400 font-medium">Stop</button>
-                </div>
-
-                {/* Log showing section */}
-                <div className="py-3 px-5">
-                    <div className="flex flex-col gap-2">
-
-                        {/* single log */}
-                        <div className="text-gray-600">
-                            <span className="text-gray-700 font-medium">00:05:40 : </span>
-                            <span>Launching Browser...</span>
+            <div
+                className="bg-white border px-6 rounded-md py-4 w-max h-max flex flex-col gap-5"
+            >
+                <p className="font-semibold">Progress</p>
+                {
+                    siteList.map((site, index) => (
+                        <div
+                            className="flex gap-5 justify-between items-center"
+                            key={index}>
+                            <div className="flex gap-2 items-center justify-start">
+                                <RiGlobalLine size={18} />
+                                <p>{site}</p>
+                            </div>
+                            <div>
+                                {
+                                    completedSites.includes(site) ?
+                                    <RiCheckboxCircleLine size={30} className="text-green-500 p-[6px] bg-green-100 rounded-full" />:
+                                    <RiRefreshLine size={30} className="text-orange-600 p-[7px] bg-orange-100 rounded-full animate-spin" />
+                                }
+                            </div>
                         </div>
-
-                        <div className="text-gray-600">
-                            <span className="text-gray-700 font-medium">00:05:40 : </span>
-                            <span>Opening https://wallsanddreams.com</span>
-                        </div>
-                    </div>
-                </div>
+                    ))
+                }
             </div>
         </div>
     )

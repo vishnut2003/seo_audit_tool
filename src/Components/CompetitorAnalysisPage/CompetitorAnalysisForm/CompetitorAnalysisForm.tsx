@@ -8,7 +8,7 @@ import FormSubmitLoader from "./FormSubmitLoader"
 const CompetitorAnalysisForm = ({ setFormPopup }: {
     setFormPopup: (value: boolean) => void
 }) => {
-    const [showLoader, setShowLoader] = useState<boolean>(true);
+    const [showLoader, setShowLoader] = useState<boolean>(false);
     const [formData, setFormData] = useState<CompetiotrAnalysisFormSubmitInterface>({
         reportId: 'Generating...',
         website: '',
@@ -75,7 +75,7 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                 </div>
 
                 {/* Competitor analysis form */}
-                <form onSubmit={(e) => submitCompetitorAnalysisForm({ formData, formEvent: e, setErrorObject, errorObject })}>
+                <form onSubmit={(e) => submitCompetitorAnalysisForm({ formData, formEvent: e, setErrorObject, errorObject, setShowLoader })}>
                     <div className="flex flex-col gap-4">
                         <FormField
                             label="Report ID"
@@ -116,7 +116,7 @@ const CompetitorAnalysisForm = ({ setFormPopup }: {
                 </form>
 
                 {/* Form submit loader */
-                    showLoader && <FormSubmitLoader/>
+                    showLoader && <FormSubmitLoader reportId={formData.reportId} siteList={[formData.website, ...formData.competitor]}/>
                 }
                 
             </div>
