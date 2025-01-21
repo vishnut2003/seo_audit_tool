@@ -9,6 +9,7 @@ import { useState } from 'react';
 const CompetitorAnalysis = () => {
 
     const [formPopup, setFormPopup] = useState<boolean>(false);
+    const [refreshTableList, setRefreshTableList] = useState<number>(1);
 
     return (
         <BasicLayout>
@@ -30,7 +31,9 @@ const CompetitorAnalysis = () => {
                             {formPopup && <CompetitorAnalysisForm setFormPopup={setFormPopup} />}
 
                             {/* Refresh table button */}
-                            <button className='flex gap-2 items-center bg-gray-100 hover:bg-gray-200 py-3 px-4 rounded-lg font-semibold'>
+                            <button 
+                            onClick={() => setRefreshTableList(prev => ++prev)}
+                            className='flex gap-2 items-center bg-gray-100 hover:bg-gray-200 py-3 px-4 rounded-lg font-semibold'>
                                 <RiRefreshLine size={23} />
                                 Refresh table
                             </button>
@@ -39,7 +42,7 @@ const CompetitorAnalysis = () => {
                     </div>
 
                     {/* Competitors analysis table start */}
-                    <CompetitorAnalysisList/>
+                    <CompetitorAnalysisList refreshTableList={refreshTableList}/>
 
                 </div>
             </div>

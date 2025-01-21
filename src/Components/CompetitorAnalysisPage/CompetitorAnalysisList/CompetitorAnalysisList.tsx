@@ -4,16 +4,20 @@ import { CompetitorAnalysisRecordModelInterface } from '@/models/CompetitorAnaly
 import { getAllCompetitorAnalysisReports } from '@/utils/client/CompetitorAnalysisReport';
 import React, { useEffect, useState } from 'react'
 
-const CompetitorAnalysisList = () => {
+const CompetitorAnalysisList = ({refreshTableList}: {
+  refreshTableList: number,
+}) => {
 
   const [reports, setReports] = useState<CompetitorAnalysisRecordModelInterface[]>([])
+  const [listLoading, setListLoading] = useState<boolean>(true);
 
   useEffect(() => {
     getAllCompetitorAnalysisReports()
       .then((reports) => {
+        setListLoading(false)
         setReports(reports);
       })
-  }, [])
+  }, [refreshTableList])
 
   return (
     <div className="relative overflow-x-auto shadow-sm sm:rounded-lg bg-white h-full">
@@ -51,7 +55,11 @@ const CompetitorAnalysisList = () => {
         </thead>
         <tbody>
           {
-            reports.map((report, index) => (
+            listLoading ?
+            <tr>
+              <td className='px-5 py-4'>Loading...</td>
+            </tr> :
+            [...reports].reverse().map((report, index) => (
               <tr key={index} className="bg-white border-b">
                 <td className="px-6 py-4">
                   {report.createdAt.split("T")[0]}
