@@ -9,7 +9,10 @@ const sidebarMenuItems = [
     {
         name: 'Projects',
         icon: RiFolder5Line,
-        link: '/projects'
+        link: '/dashboard/projects',
+        subPages: [
+            "/dashboard/projects/add-new"
+        ]
     },
     {
         name: 'PDF Reports',

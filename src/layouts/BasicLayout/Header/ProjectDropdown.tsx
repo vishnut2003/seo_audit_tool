@@ -27,8 +27,8 @@ const ProjectDropdown = () => {
 
                 {/* Create new Project button */}
                 <Link
-                    href={'/dashboard/new-project'}
-                    className='text-foreground text-sm font-medium flex justify-center items-center gap-3 bg-white rounded-md py-3 px-5 shadow-xl shadow-gray-200 hover:bg-gray-50'
+                    href={'/dashboard/projects/add-new'}
+                    className='text-foreground text-sm font-medium hidden md:flex justify-center items-center gap-3 bg-white rounded-md py-3 px-5 shadow-xl shadow-gray-200 hover:bg-gray-50'
                 >
                     <RiAddLargeLine
                         size={20}
