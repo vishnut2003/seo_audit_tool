@@ -13,7 +13,7 @@ const LogoutButton = ({iconType, className}: {
         onClick={() => signOut()}
         className={`${className} min-w-max`}>
             { iconType && <RiLogoutBoxRLine size={24} /> }
-            <p className='whitespace-nowrap'>Logout</p>
+            <p className='whitespace-nowrap font-medium'>Logout</p>
         </button>
     )
 }
