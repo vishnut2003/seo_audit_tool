@@ -9,7 +9,7 @@ const page = () => {
             
 
             {/* empty project layout */}
-            <div className="w-full h-full bg-white rounded-md shadow-xl shadow-gray-200 flex flex-col gap-3 justify-center items-center">
+            <div className="w-full h-full rounded-md flex flex-col gap-3 justify-center items-center">
               
               <RiFolder5Line
                 size={50}

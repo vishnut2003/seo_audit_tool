@@ -11,11 +11,6 @@ const footerMenuItems: footerMenuIterface[] = [
         name: 'My Account',
         icon: RiSettings4Line,
         link: '/dashboard/advance/my-account',
-    },
-    {
-        name: 'User Management',
-        icon: RiUser3Line,
-        link: "/dashboard/advance/user-management"
     }
 ]
 
