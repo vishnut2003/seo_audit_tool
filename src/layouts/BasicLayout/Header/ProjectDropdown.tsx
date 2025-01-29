@@ -1,6 +1,6 @@
 'use client';
 
-import { RiAddLargeLine, RiCloseLargeLine, RiDeleteBack2Line, RiDeleteBin2Line, RiDeleteBinLine, RiEarthLine, RiFolder5Line, RiFolderCloseLine } from '@remixicon/react'
+import { RiAddLargeLine, RiDeleteBinLine, RiFolder5Line } from '@remixicon/react'
 import Link from 'next/link';
 import { useState } from 'react'
 

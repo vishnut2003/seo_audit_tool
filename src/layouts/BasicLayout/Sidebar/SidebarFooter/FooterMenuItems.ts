@@ -1,4 +1,4 @@
-import { RemixiconComponentType, RiSettings4Line, RiUser3Line } from "@remixicon/react";
+import { RemixiconComponentType, RiSettings4Line } from "@remixicon/react";
 
 export interface footerMenuIterface {
     name: string,

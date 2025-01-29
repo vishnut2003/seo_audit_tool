@@ -42,7 +42,11 @@ const handler = NextAuth({
                         }
                         
                     } catch (err) {
-                        return null;
+                        if (err) {
+                            return null;
+                        }
+                        
+                        return null
                     }
 
                 } catch (err) {

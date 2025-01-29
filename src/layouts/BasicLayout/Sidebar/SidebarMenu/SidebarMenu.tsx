@@ -3,7 +3,6 @@
 import sidebarMenuItems from "./items"
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useEffect } from "react";
 
 const SidebarMenu = () => {
 
