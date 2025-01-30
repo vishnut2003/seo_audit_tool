@@ -29,14 +29,12 @@ const AddNewProject = () => {
   }
 
   return (
-    <BasicLayout>
-
-      <h2
-        className="text-3xl font-extrabold mb-10"
-      >Projects</h2>
+    <BasicLayout
+      pageTitle="Projects"
+    >
 
       <form
-        className="flex flex-col items-start gap-5"
+        className="flex flex-col items-start gap-5 pb-5"
         onSubmit={async (e) => {
           setInProgress(true)
           await handleNewProjectFormSubmit(e, formData, setFormError, setFormSuccess, setInProgress);

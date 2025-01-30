@@ -2,7 +2,9 @@ import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
 
 const Projects = () => {
   return (
-    <BasicLayout>
+    <BasicLayout
+      pageTitle="Reports"
+    >
         Projects
     </BasicLayout>
   )
