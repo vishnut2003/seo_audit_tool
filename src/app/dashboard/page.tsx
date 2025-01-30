@@ -4,11 +4,9 @@ import Link from "next/link"
 
 const page = () => {
   return (
-    <BasicLayout>
-
-      <h2
-        className="text-3xl font-extrabold mb-10"
-      >Dashboard</h2>
+    <BasicLayout
+      pageTitle="Dashboard"
+    >
 
       <div className="w-full h-full">
 
@@ -17,7 +15,7 @@ const page = () => {
 
           <RiFolder5Line
             size={50}
-            className="text-secondary mb-3"
+            className="text-themesecondary mb-3"
           />
 
           <h2
