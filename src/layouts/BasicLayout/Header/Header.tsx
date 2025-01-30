@@ -4,7 +4,7 @@ import UserCard from "./UserCard"
 
 const Header = () => {
   return (
-    <header className="min-h-0 py-7 px-9 flex flex-nowrap items-center justify-between gap-4">
+    <header className="min-h-0 py-7 px-5 md:px-9 flex flex-nowrap items-center justify-between gap-4">
       <div
         className="flex flex-nowrap"
       >

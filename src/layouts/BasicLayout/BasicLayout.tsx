@@ -18,10 +18,10 @@ const BasicLayout = ({ children, pageTitle }: Readonly<{
         <Header />
 
         <h2
-          className="text-3xl font-extrabold mb-3 pl-9 pt-4"
+          className="text-3xl font-extrabold mb-3 pl-5 md:pl-9 pt-4"
         >{pageTitle}</h2>
 
-        <div className="w-full h-full min-h-0 overflow-y-auto p-9 flex justify-center">
+        <div className="w-full h-full min-h-0 overflow-y-auto p-5 md:p-9 flex justify-center">
 
           {/* Page Content */}
           <div className="w-full max-w-screen-2xl max-h-max h-full flex flex-col">
