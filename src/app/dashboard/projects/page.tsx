@@ -1,3 +1,5 @@
+'use client';
+
 import { Checkbox } from "@/Components/ui/checkbox"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
@@ -9,8 +11,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/Components/ui/select"
+import { useEffect, useState } from "react"
+import { getSession } from "next-auth/react"
+import axios from "axios"
 
 const Projects = () => {
+
+  const [tablePage, setTablePage] = useState<number>(1);
+
+  useEffect(() => {
+    getSession().then(async (session) => {
+      if (session && session.user && session.user.email) {
+        await axios.post('/api/project/get-all', { page: tablePage, email: session.user.email });
+      }
+    });
+  }, [])
+
   return (
     <BasicLayout
       pageTitle="Projects"
@@ -206,15 +222,15 @@ const Projects = () => {
             <button
               className="bg-white py-3 px-5 rounded-md shadow-xl shadow-gray-200 flex justify-center items-center gap-2 text-sm"
             >
-              <RiArrowLeftSLine size={20}/>
+              <RiArrowLeftSLine size={20} />
               <p>Prev</p>
             </button>
-            
+
             <button
               className="bg-white py-3 px-5 rounded-md shadow-xl shadow-gray-200 flex justify-center items-center gap-2 text-sm"
             >
               <p>Next</p>
-              <RiArrowRightSLine size={20}/>
+              <RiArrowRightSLine size={20} />
             </button>
           </div>
         </div>
