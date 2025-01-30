@@ -1,8 +1,9 @@
 'use client';
 
-import { RiAddLargeLine, RiDeleteBinLine, RiFolder5Line } from '@remixicon/react'
+import { RiAddLargeLine, RiCheckLine, RiFolder5Line } from '@remixicon/react'
 import Link from 'next/link';
 import { useState } from 'react'
+import { motion } from "framer-motion";
 
 const ProjectDropdown = () => {
 
@@ -41,14 +42,25 @@ const ProjectDropdown = () => {
                 // Project selecting dropdown
 
                 showDropdown &&
-                <div
-                    className='absolute top-[80px] md:top-14 left-2 w-[95%] md:w-[350px] min-w-0 bg-white shadow-2xl p-4 rounded-md before:w-4 before:h-4 before:bg-white before:hidden md:before:block before:absolute before:-top-2 before:rotate-45'
+                <motion.div
+                    className='absolute top-[80px] md:top-16 left-2 w-[95%] md:w-[350px] min-w-0 bg-white shadow-xl shadow-gray-200 p-4 rounded-md before:w-4 before:h-4 before:bg-white before:hidden md:before:block before:absolute before:-top-2 before:rotate-45'
+                    initial={{
+                        scale: 0.7,
+                    }}
+                    animate={{
+                        scale: 1,
+                    }}
                 >
                     <div
-                        className='flex gap-3 mb-2'
+                        className='flex flex-col gap-3 mb-2'
                     >
+                        <label 
+                            htmlFor="project-search"
+                            className='text-sm font-medium underline underline-offset-8'
+                        >Select Project</label>
                         <input
                             type="text"
+                            id='project-search'
                             placeholder='Search Projects'
                             className='w-full py-2 px-3 rounded-md border text-sm border-gray-100'
                         />
@@ -56,58 +68,37 @@ const ProjectDropdown = () => {
 
                     {/* list all projects */}
                     <ul>
-                        <li>
-                            <div
-                                className='flex justify-between items-center py-4 px-3 border-t border-gray-100'
-                            >
-                                <div
-                                    className='flex flex-col items-start'
-                                >
-                                    <p
-                                        className='text-sm font-medium'
-                                    >webspidersoutions.com</p>
-
-                                    <button
-                                        className='text-xs opacity-70'
+                        {
+                            [1, 2].map((project, index) => (
+                                <li key={index}>
+                                    <div
+                                        className='flex justify-between items-center py-4 px-3 border-t border-gray-100 hover:bg-gray-50'
                                     >
-                                        Select Project
-                                    </button>
-                                </div>
-                                <button>
-                                    <RiDeleteBinLine
-                                        size={30}
-                                        className='p-[6px] bg-[#ff000020] text-[#ff0000] rounded-md hover:bg-[#ff0000] hover:text-white'
-                                    />
-                                </button>
-                            </div>
-                        </li>
+                                        <div
+                                            className='flex flex-col items-start'
+                                        >
+                                            <p
+                                                className='text-sm font-medium'
+                                            >webspidersoutions.com</p>
 
-                        <li>
-                            <div
-                                className='flex justify-between items-center py-4 px-3 border-t border-gray-100'
-                            >
-                                <div
-                                    className='flex flex-col items-start'
-                                >
-                                    <p
-                                        className='text-sm font-medium'
-                                    >webspidersoutions.com</p>
-                                    <button
-                                        className='text-xs opacity-70'
-                                    >
-                                        Select Project
-                                    </button>
-                                </div>
-                                <button>
-                                    <RiDeleteBinLine
-                                        size={30}
-                                        className='p-[6px] bg-[#ff000020] text-[#ff0000] rounded-md hover:bg-[#ff0000] hover:text-white'
-                                    />
-                                </button>
-                            </div>
-                        </li>
+                                            <button
+                                                className='text-xs opacity-70'
+                                            >
+                                                Select Project
+                                            </button>
+                                        </div>
+                                        <button>
+                                            <RiCheckLine
+                                                size={27}
+                                                className='p-[6px] bg-gray-100 text-gray-300 rounded-full'
+                                            />
+                                        </button>
+                                    </div>
+                                </li>
+                            ))
+                        }
                     </ul>
-                </div>
+                </motion.div>
             }
 
         </div>
