@@ -7,7 +7,7 @@ const BasicLayout = ({ children, pageTitle }: Readonly<{
   pageTitle?: string,
 }>) => {
   return (
-    <div className="w-full h-[100dvh] flex">
+    <div className="w-full h-[100dvh] flex bg-gray-100">
       {/* Basic Layout Sidebar */}
       <Sidebar />
 

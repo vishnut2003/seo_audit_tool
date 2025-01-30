@@ -4,8 +4,8 @@
 
 :root {
   --forground-white: #ffffff;
-  --primary: #1c2434;
-  --secondary: #3c50e0;
+  --theme-primary: #1c2434;
+  --theme-secondary: #3c50e0;
 }
 
 @layer base {

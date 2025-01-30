@@ -11,9 +11,11 @@ export default {
   theme: {
   	extend: {
   		colors: {
+  			foregroundwhite: 'var(--forground-white)',
+  			themeprimary: 'var(--theme-primary)',
+  			themesecondary: 'var(--theme-secondary)',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
-  			foregroundwhite: 'var(--forground-white)',
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'

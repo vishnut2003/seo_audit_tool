@@ -142,7 +142,7 @@ const AddNewProject = () => {
         </div>
 
         <button
-          className="py-4 px-7 bg-secondary text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60"
+          className="py-4 px-7 bg-themesecondary text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60"
           disabled={inProgress}
         >
           <RiAddLargeLine

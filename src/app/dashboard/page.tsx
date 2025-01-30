@@ -15,7 +15,7 @@ const page = () => {
 
           <RiFolder5Line
             size={50}
-            className="text-secondary mb-3"
+            className="text-themesecondary mb-3"
           />
 
           <h2
