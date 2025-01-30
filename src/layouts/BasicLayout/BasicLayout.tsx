@@ -15,10 +15,10 @@ const BasicLayout = ({children}: Readonly<{
           
           {/* Header of basic layout */}
           <Header/>
-          <div className="w-full h-full min-h-0 overflow-y-auto p-5 flex justify-center">
+          <div className="w-full h-full min-h-0 overflow-y-auto p-9 flex justify-center">
 
             {/* Page Content */}
-            <div className="w-full max-w-screen-2xl h-full">
+            <div className="w-full max-w-screen-2xl h-full flex flex-col">
             {children}
             </div>
           </div>

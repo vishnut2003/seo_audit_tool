@@ -1,4 +1,4 @@
-import { fetchMainAdmin, verifyIsMainAdmin } from "@/utils/server/authUtils";
+import { authenticateUser, fetchMainAdmin, verifyIsMainAdmin } from "@/utils/server/authUtils";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
@@ -30,7 +30,24 @@ const handler = NextAuth({
                         return mainAdminInfo as any
                     }
 
-                    return null
+                    // Verify for users
+                    try {
+                        const user = await authenticateUser({
+                            email: credentials?.email,
+                            password: credentials?.password,
+                        })
+
+                        if (user) {
+                            return user;
+                        }
+                        
+                    } catch (err) {
+                        if (err) {
+                            return null;
+                        }
+                        
+                        return null
+                    }
 
                 } catch (err) {
                     console.log(err);

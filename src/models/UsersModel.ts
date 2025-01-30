@@ -1,18 +1,21 @@
 import mongoose from "mongoose";
 
 export interface UserModelInterface extends mongoose.Document {
-    username: string,
+    userId: string,
+    name: string,
     email: string,
     password: string,
     image: string,
-    name?: string,
-    phone?: string
 }
 
 const userSchema = new mongoose.Schema<UserModelInterface>({
-    username: {
+    userId: {
         type: String,
+        required: true,
         unique: true,
+    },
+    name: {
+        type: String,
         required: true
     },
     email: {
@@ -29,8 +32,6 @@ const userSchema = new mongoose.Schema<UserModelInterface>({
         required: true,
         default: "/users/default-avatar.png"
     },
-    name: String,
-    phone: String
 })
 
 export default mongoose.models.Users || mongoose.model<UserModelInterface>('Users', userSchema);

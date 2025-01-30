@@ -1,6 +1,24 @@
-import React from 'react'
+'use client';
 
-const CompetitorAnalysisList = () => {
+import { CompetitorAnalysisRecordModelInterface } from '@/models/CompetitorAnalysisRecordModel';
+import { getAllCompetitorAnalysisReports } from '@/utils/client/CompetitorAnalysisReport';
+import React, { useEffect, useState } from 'react'
+
+const CompetitorAnalysisList = ({refreshTableList}: {
+  refreshTableList: number,
+}) => {
+
+  const [reports, setReports] = useState<CompetitorAnalysisRecordModelInterface[]>([])
+  const [listLoading, setListLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    getAllCompetitorAnalysisReports()
+      .then((reports) => {
+        setListLoading(false)
+        setReports(reports);
+      })
+  }, [refreshTableList])
+
   return (
     <div className="relative overflow-x-auto shadow-sm sm:rounded-lg bg-white h-full">
 
@@ -36,36 +54,45 @@ const CompetitorAnalysisList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white border-b">
-            <td className="px-6 py-4">
-              2021-09-01
-            </td>
+          {
+            listLoading ?
+            <tr>
+              <td className='px-5 py-4'>Loading...</td>
+            </tr> :
+            [...reports].reverse().map((report, index) => (
+              <tr key={index} className="bg-white border-b">
+                <td className="px-6 py-4">
+                  {report.createdAt.split("T")[0]}
+                </td>
 
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-              123456
-            </th>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  {report.recordId}
+                </th>
 
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-              https://www.example.com
-            </th>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  {report.website}
+                </th>
 
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-              5
-            </th>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  {report.competitors.length}
+                </th>
 
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-              <span
-                className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-500">
-                Completed
-              </span>
-            </th>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  <span
+                    className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${report.status == "completed" ? 'bg-green-100 text-green-500': "bg-orange-100 text-orange-500"}`}>
+                    {report.status}
+                  </span>
+                </th>
 
-            <td align="left" className="px-6 py-4 text-right">
-              <p className="text-left">
-                <a href='#' target='_blank' rel="noopener noreferrer" className="font-medium text-secondary hover:underline">View Sheet</a>
-              </p>
-            </td>
-          </tr>
+                <td align="left" className="px-6 py-4 text-right">
+                  <p className="text-left">
+                    <a href={`https://docs.google.com/spreadsheets/d/${report.sheetId}`} target='_blank' rel="noopener noreferrer" className="font-medium text-secondary hover:underline">View Sheet</a>
+                  </p>
+                </td>
+              </tr>
+            ))
+          }
+
         </tbody>
       </table>
     </div>

@@ -1,10 +1,18 @@
-import { RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiLineChartLine } from "@remixicon/react";
+import { RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine } from "@remixicon/react";
 
 const sidebarMenuItems = [
     {
         name: 'Dashboard',
         icon: RiDashboardLine,
         link: '/dashboard'
+    },
+    {
+        name: 'Projects',
+        icon: RiFolder5Line,
+        link: '/dashboard/projects',
+        subPages: [
+            "/dashboard/projects/add-new"
+        ]
     },
     {
         name: 'PDF Reports',
