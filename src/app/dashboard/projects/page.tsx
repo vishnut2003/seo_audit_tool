@@ -1,7 +1,7 @@
 'use client';
 
 import { Checkbox } from "@/Components/ui/checkbox"
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
 import { RiArrowLeftSLine, RiArrowRightSLine, RiArrowUpDownLine, RiCalendar2Line, RiLink, RiMoreLine, RiSearchLine } from "@remixicon/react"
 import {
@@ -17,7 +17,7 @@ import axios from "axios"
 
 const Projects = () => {
 
-  const [tablePage, setTablePage] = useState<number>(1);
+  const [tablePage] = useState<number>(1);
 
   useEffect(() => {
     getSession().then(async (session) => {
@@ -25,7 +25,7 @@ const Projects = () => {
         await axios.post('/api/project/get-all', { page: tablePage, email: session.user.email });
       }
     });
-  }, [])
+  }, [tablePage])
 
   return (
     <BasicLayout
