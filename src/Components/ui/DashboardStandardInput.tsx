@@ -8,12 +8,14 @@ const DashboardStandardInput = ({
     inputValue,
     inputPlaceholder,
     inputOnChange,
+    name
 }: {
     label: string,
     subLabel: string,
     inputValue: string,
     inputPlaceholder: string,
     inputOnChange: (e: ChangeEvent<HTMLInputElement>) => any,
+    name: string,
 }) => {
   return (
     <div 
@@ -45,6 +47,7 @@ const DashboardStandardInput = ({
                 placeholder={inputPlaceholder}
                 value={inputValue}
                 onChange={inputOnChange}
+                name={name}
             />
         </div>
     </div>
