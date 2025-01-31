@@ -4,6 +4,8 @@ export interface ProjectModelInterface extends mongoose.Document {
     email: string,
     domain: string,
     competitors: string[],
+    createdAt: string,
+    updatedAt: string,
 }
 
 const projectSchema = new mongoose.Schema<ProjectModelInterface>({

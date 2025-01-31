@@ -3,7 +3,7 @@
 import { Checkbox } from "@/Components/ui/checkbox"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
-import { RiArrowLeftSLine, RiArrowRightSLine, RiArrowUpDownLine, RiCalendar2Line, RiLink, RiMoreLine, RiSearchLine } from "@remixicon/react"
+import { RiAddLargeLine, RiArrowLeftSLine, RiArrowRightSLine, RiArrowUpDownLine, RiCalendar2Line, RiLink, RiMoreLine, RiSearchLine } from "@remixicon/react"
 import {
   Select,
   SelectContent,
@@ -15,6 +15,12 @@ import { useEffect, useState } from "react"
 import { getSession } from "next-auth/react"
 import axios from "axios"
 import DatePicker from "@/Components/ui/datepicker";
+import { ProjectModelInterface } from "@/models/ProjectsModel";
+import EmptyProjectTemplate from "./EmptyProjectTemplate";
+import LoadingProjectsTemplate from "./LoadingProjectsTemplate";
+import ErrorProjectTemplate from "./ErrorProjectTemplate";
+import TableDataRow from "./TableDataRow";
+import Link from "next/link";
 
 interface DateRangeInterface {
   startDate: Date | null,
@@ -23,16 +29,45 @@ interface DateRangeInterface {
 
 const Projects = () => {
 
-  const [tablePage] = useState<number>(1);
+  const [projects, setProjects] = useState<ProjectModelInterface[]>([]);
+
+  // fetching projects
+  const [inProgress, setInProgress] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+
+  // filter options
+  const [tablePage, setTablePage] = useState<number>(1);
+  const [projectCount, setProjectCount] = useState<number>(0)
   const [dateRange, setDateRange] = useState<DateRangeInterface>({
     startDate: null,
     endDate: null,
   })
 
   useEffect(() => {
+    setError(false);
+    setInProgress(true);
+    console.log(tablePage)
     getSession().then(async (session) => {
       if (session && session.user && session.user.email) {
-        await axios.post('/api/project/get-all', { page: tablePage, email: session.user.email });
+        try {
+          const { data }: {
+            data: {
+              projects: ProjectModelInterface[],
+              count: number,
+            }
+          } = await axios.post('/api/project/get-all', {
+            page: tablePage,
+            email: session.user.email
+          });
+
+          setProjectCount(data.count);
+          setProjects(data.projects);
+
+          setInProgress(false);
+
+        } catch (err) {
+          setError(true);
+        }
       }
     });
   }, [tablePage])
@@ -50,19 +85,35 @@ const Projects = () => {
           className="flex flex-col md:flex-row gap-4 justify-between items-center"
         >
 
-          {/* Project Search */}
           <div
-            className="flex gap-2 bg-white py-3 px-4 rounded-md shadow-xl shadow-gray-200"
+            className="flex gap-3"
           >
-            <RiSearchLine
-              size={20}
-              className="text-gray-400"
-            />
-            <input
-              type="text"
-              placeholder="Search Projects"
-              className="outline-none font-md bg-transparent"
-            />
+
+            {/* Add new button */}
+            <Link
+              href={'/dashboard/projects/add-new'}
+              className='text-foreground text-sm font-medium flex justify-center items-center gap-3 bg-white rounded-md py-3 px-5 shadow-xl shadow-gray-200 hover:bg-gray-50'
+            >
+              <RiAddLargeLine
+                size={20}
+              />
+              <p className='mt-1 hidden md:flex'>New Project</p>
+            </Link>
+
+            {/* Project Search */}
+            <div
+              className="flex gap-2 bg-white py-3 px-4 rounded-md shadow-xl shadow-gray-200"
+            >
+              <RiSearchLine
+                size={20}
+                className="text-gray-400"
+              />
+              <input
+                type="text"
+                placeholder="Search Projects"
+                className="outline-none font-md bg-transparent"
+              />
+            </div>
           </div>
 
           {/* Date Dange */}
@@ -109,97 +160,48 @@ const Projects = () => {
         <div
           className="bg-white rounded-md overflow-hidden shadow-xl shadow-gray-200"
         >
-          <Table
-            className="space-y-4"
-          >
-            <TableHeader>
-              <TableRow>
-                <TableHead></TableHead>
-                <TableHead className="items-center">
-                  Date
-                  <RiArrowUpDownLine
-                    size={15}
-                    className="inline ml-2"
-                  />
-                </TableHead>
-                <TableHead>Domain</TableHead>
-                <TableHead>Last Updated</TableHead>
-                <TableHead>No. of Competitors</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-
-            {/* Table Body */}
-            <TableBody>
-
-              <TableRow>
-                <TableCell className="w-[50px] h-14">
-                  <Checkbox />
-                </TableCell>
-                <TableCell>12/10/2025</TableCell>
-                <TableCell>
-                  <p className="text-base font-semibold">webspidersolutions.com</p>
-                  <button className="text-xs font-medium text-gray-400">Select Project</button>
-                </TableCell>
-                <TableCell>12/10/2025</TableCell>
-                <TableCell>Test Data</TableCell>
-                <TableCell>
-                  <button
-                    className="p-2 hover:bg-gray-100 rounded-md"
+          {
+            inProgress ?
+              <LoadingProjectsTemplate /> :
+              error ?
+                <ErrorProjectTemplate /> :
+                projects.length < 1 ?
+                  <EmptyProjectTemplate /> :
+                  <Table
+                    className="space-y-4"
                   >
-                    <RiMoreLine
-                      size={20}
-                    />
-                  </button>
-                </TableCell>
-              </TableRow>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead></TableHead>
+                        <TableHead className="items-center">
+                          Date
+                          <RiArrowUpDownLine
+                            size={15}
+                            className="inline ml-2"
+                          />
+                        </TableHead>
+                        <TableHead>Domain</TableHead>
+                        <TableHead>Last Updated</TableHead>
+                        <TableHead>No. of Competitors</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
 
-              <TableRow>
-                <TableCell className="w-[50px] h-14">
-                  <Checkbox />
-                </TableCell>
-                <TableCell>12/10/2025</TableCell>
-                <TableCell>
-                  <p className="text-base font-semibold">webspidersolutions.com</p>
-                  <button className="text-xs font-medium text-gray-400">Select Project</button>
-                </TableCell>
-                <TableCell>12/10/2025</TableCell>
-                <TableCell>Test Data</TableCell>
-                <TableCell>
-                  <button
-                    className="p-2 hover:bg-gray-100 rounded-md"
-                  >
-                    <RiMoreLine
-                      size={20}
-                    />
-                  </button>
-                </TableCell>
-              </TableRow>
+                    {/* Table Body */}
+                    <TableBody>
 
-              <TableRow>
-                <TableCell className="w-[50px] h-14">
-                  <Checkbox />
-                </TableCell>
-                <TableCell>12/10/2025</TableCell>
-                <TableCell>
-                  <p className="text-base font-semibold">webspidersolutions.com</p>
-                  <button className="text-xs font-medium text-gray-400">Select Project</button>
-                </TableCell>
-                <TableCell>12/10/2025</TableCell>
-                <TableCell>Test Data</TableCell>
-                <TableCell>
-                  <button
-                    className="p-2 hover:bg-gray-100 rounded-md"
-                  >
-                    <RiMoreLine
-                      size={20}
-                    />
-                  </button>
-                </TableCell>
-              </TableRow>
+                      {
+                        projects.map((project, index) => (
+                          <TableDataRow
+                            rowData={project}
+                            key={index}
+                          />
+                        ))
+                      }
 
-            </TableBody>
-          </Table>
+                    </TableBody>
+                  </Table>
+          }
         </div>
 
         {/* Table Footer */}
@@ -229,17 +231,25 @@ const Projects = () => {
 
           {/* Pagination */}
           <div
-            className="flex gap-5"
+            className="flex gap-5 items-center"
           >
             <button
-              className="bg-white py-3 px-5 rounded-md shadow-xl shadow-gray-200 flex justify-center items-center gap-2 text-sm"
+              className="bg-white disabled:opacity-60 py-3 px-5 rounded-md shadow-xl shadow-gray-200 flex justify-center items-center gap-2 text-sm"
+              disabled={tablePage === 1 || inProgress || projects.length === 0}
+              onClick={() => setTablePage(prev => --prev)}
             >
               <RiArrowLeftSLine size={20} />
               <p>Prev</p>
             </button>
 
+            <p
+              className="text-sm text-gray-500"
+            >{tablePage} of {Math.ceil(projectCount / 10)}</p>
+
             <button
-              className="bg-white py-3 px-5 rounded-md shadow-xl shadow-gray-200 flex justify-center items-center gap-2 text-sm"
+              className="bg-white disabled:opacity-60 py-3 px-5 rounded-md shadow-xl shadow-gray-200 flex justify-center items-center gap-2 text-sm"
+              disabled={tablePage === Math.ceil(projectCount / 10) || inProgress || projects.length === 0}
+              onClick={() => setTablePage(prev => ++prev)}
             >
               <p>Next</p>
               <RiArrowRightSLine size={20} />
