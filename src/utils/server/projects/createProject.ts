@@ -1,6 +1,7 @@
 import { NewProjectFormData } from "@/app/dashboard/projects/add-new/handleSubmit";
 import { dbConnect } from "@/database/DBConfig";
 import ProjectsModel from "@/models/ProjectsModel";
+import bcrypt from 'bcrypt';
 
 export async function createProject({ formData, email }: {
     formData: NewProjectFormData,
@@ -27,11 +28,17 @@ export async function createProject({ formData, email }: {
                 competitors.push(competitor);
             }
 
+            // create project id
+            const saltRound = 10;
+            const salt = await bcrypt.genSalt(saltRound);
+            const projectId = await bcrypt.hash(formData.domain, salt);
+
             // write to database
             await ProjectsModel.create({
                 email,
                 domain: formData.domain,
                 competitors,
+                projectId,
             });
 
             return resolve();

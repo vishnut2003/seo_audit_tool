@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export interface ProjectModelInterface extends mongoose.Document {
+    projectId: string,
     email: string,
     domain: string,
     competitors: string[],
@@ -9,6 +10,10 @@ export interface ProjectModelInterface extends mongoose.Document {
 }
 
 const projectSchema = new mongoose.Schema<ProjectModelInterface>({
+    projectId: {
+        type: String,
+        required: true,
+    },
     email: {
         type: String,
         required: true,

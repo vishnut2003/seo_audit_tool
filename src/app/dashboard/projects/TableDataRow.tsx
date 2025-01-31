@@ -1,11 +1,19 @@
+'use client';
+
 import { Checkbox } from "@/Components/ui/checkbox"
 import { TableCell, TableRow } from "@/Components/ui/table"
 import { ProjectModelInterface } from "@/models/ProjectsModel"
+import { setProjectId } from "@/utils/client/projects"
 import { RiMoreLine } from "@remixicon/react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
-const TableDataRow = ({rowData}: {
+const TableDataRow = ({ rowData }: {
     rowData: ProjectModelInterface,
 }) => {
+    const [inProgress, setInProgress] = useState<boolean>(false);
+    const router = useRouter();
+
     return (
         <TableRow>
             <TableCell className="w-[50px] h-14">
@@ -18,7 +26,14 @@ const TableDataRow = ({rowData}: {
             {/* Website */}
             <TableCell>
                 <p className="text-base font-semibold">{rowData.domain}</p>
-                <button className="text-xs font-medium text-gray-400">Select Project</button>
+                <button
+                    className="text-xs font-medium text-gray-400"
+                    onClick={async () => {
+                        setInProgress(true)
+                        await setProjectId(rowData.projectId);
+                        router.push('/dashboard')
+                    }}
+                >{inProgress ? 'selecting...' : 'select project'}</button>
             </TableCell>
 
             {/* Last updated */}

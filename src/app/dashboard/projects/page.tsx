@@ -1,9 +1,8 @@
 'use client';
 
-import { Checkbox } from "@/Components/ui/checkbox"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
-import { RiAddLargeLine, RiArrowLeftSLine, RiArrowRightSLine, RiArrowUpDownLine, RiCalendar2Line, RiLink, RiMoreLine, RiSearchLine } from "@remixicon/react"
+import { RiAddLargeLine, RiArrowLeftSLine, RiArrowRightSLine, RiArrowUpDownLine, RiLink, RiSearchLine } from "@remixicon/react"
 import {
   Select,
   SelectContent,
@@ -67,6 +66,7 @@ const Projects = () => {
 
         } catch (err) {
           setError(true);
+          return err;
         }
       }
     });
@@ -244,7 +244,7 @@ const Projects = () => {
 
             <p
               className="text-sm text-gray-500"
-            >{tablePage} of {Math.ceil(projectCount / 10)}</p>
+            >{tablePage} of {Math.ceil(projectCount / 10) === 0 ? 1 : Math.ceil(projectCount / 10)}</p>
 
             <button
               className="bg-white disabled:opacity-60 py-3 px-5 rounded-md shadow-xl shadow-gray-200 flex justify-center items-center gap-2 text-sm"
