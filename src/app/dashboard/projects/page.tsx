@@ -14,10 +14,20 @@ import {
 import { useEffect, useState } from "react"
 import { getSession } from "next-auth/react"
 import axios from "axios"
+import DatePicker from "@/Components/ui/datepicker";
+
+interface DateRangeInterface {
+  startDate: Date | null,
+  endDate: Date | null,
+}
 
 const Projects = () => {
 
   const [tablePage] = useState<number>(1);
+  const [dateRange, setDateRange] = useState<DateRangeInterface>({
+    startDate: null,
+    endDate: null,
+  })
 
   useEffect(() => {
     getSession().then(async (session) => {
@@ -59,16 +69,17 @@ const Projects = () => {
           <div
             className="flex gap-4 items-center"
           >
+            {/* start date */}
             <div
-              className="py-3 px-4 bg-white rounded-md flex items-center gap-2 shadow-xl shadow-gray-200"
+              className="bg-white rounded-md flex gap-2 shadow-xl shadow-gray-200"
             >
-              <RiCalendar2Line
-                size={20}
-                className="text-gray-400 hidden md:block"
-              />
-              <input
-                type="date"
+              <DatePicker
                 placeholder="Start Date"
+                date={dateRange.startDate}
+                setDate={(date) => setDateRange(prev => ({
+                  ...prev,
+                  startDate: date,
+                }))}
               />
             </div>
 
@@ -77,16 +88,17 @@ const Projects = () => {
               className="text-gray-400 hidden md:block"
             />
 
+            {/* End date */}
             <div
-              className="py-3 px-4 bg-white rounded-md flex items-center gap-2 shadow-xl shadow-gray-200"
+              className="bg-white rounded-md flex items-center gap-2 shadow-xl shadow-gray-200"
             >
-              <RiCalendar2Line
-                size={20}
-                className="text-gray-400 hidden md:block"
-              />
-              <input
-                type="date"
-                placeholder="Start Date"
+              <DatePicker
+                placeholder="End Date"
+                date={dateRange.endDate}
+                setDate={(date) => setDateRange(prev => ({
+                  ...prev,
+                  endDate: date,
+                }))}
               />
             </div>
           </div>
