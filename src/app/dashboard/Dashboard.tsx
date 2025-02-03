@@ -1,4 +1,4 @@
-import { PDFReportColumn } from "@/Components/Dashboard/GridColumns"
+import { CompetitorAnalysisColumn, PDFReportColumn, SheetReportColumn } from "@/Components/Dashboard/GridColumns"
 import { ProjectModelInterface } from "@/models/ProjectsModel"
 import { RiArrowLeftSLine, RiFolder5Line } from "@remixicon/react"
 import Link from "next/link"
@@ -57,6 +57,20 @@ const Dashboard = ({ currentProject }: {
                         className="bg-white py-5 px-6 flex flex-col gap-5 shadow-xl shadow-gray-200 rounded-md"
                     >
                         <PDFReportColumn/>
+                    </div>
+                    
+                    {/* Sheet Report Option */}
+                    <div
+                        className="bg-white py-5 px-6 flex flex-col gap-5 shadow-xl shadow-gray-200 rounded-md"
+                    >
+                        <SheetReportColumn/>
+                    </div>
+                    
+                    {/* Competitor Analysis Report Option */}
+                    <div
+                        className="bg-white py-5 px-6 flex flex-col gap-5 shadow-xl shadow-gray-200 rounded-md"
+                    >
+                        <CompetitorAnalysisColumn/>
                     </div>
 
                 </div>
