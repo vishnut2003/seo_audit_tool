@@ -22,7 +22,6 @@ export function createNewAudit({ domainName, projectId, email }: {
     })
 }
 
-// not using
 export async function getOneReportById({ reportId }: {
     reportId: number
 }) {
@@ -33,19 +32,6 @@ export async function getOneReportById({ reportId }: {
             resolve(data);
         } catch (err) {
             reject(err);
-        }
-    })
-}
-
-// not using
-export function getAllReportRecords() {
-    return new Promise<createReportMDocInterface>(async (resolve) => {
-        try {
-            const response = await axios.get('/api/audit-report/get-all/1');
-            const records = (response.data) as createReportMDocInterface;
-            resolve(records);
-        } catch (err) {
-            console.log(err);
         }
     })
 }

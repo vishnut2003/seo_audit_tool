@@ -95,39 +95,6 @@ export async function saveReportToDatabase({ reportResponse, projectId, userEmai
             reportRecord: reportResponse,
         });
 
-        // const reportRecord = await ReportRecordModel.findOne({name: 'report'});
-        // console.log(reportRecord);
-
-        // if (!reportRecord) {
-
-        //     await ReportRecordModel.create({
-        //         name: 'report',
-        //         reportRecord: [reportResponse]
-        //     });
-
-        // } else {
-
-        //     await ReportRecordModel.findOneAndUpdate({name: 'report'}, {
-        //         $push: {
-        //             reportRecord: reportResponse
-        //         }
-        //     });
-
-        // }
-
         resolve();
-    })
-}
-
-export async function getAllReportRecords() {
-    return new Promise <createReportMDocInterface> ( async (resolve, reject) => {
-        try {
-            await dbConnect();
-            const records = await ReportRecordModel.findOne({name: 'report'});
-            resolve(records);
-        } catch (err) {
-            console.log(err);
-            reject(err);
-        }
     })
 }
