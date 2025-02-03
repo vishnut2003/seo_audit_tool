@@ -81,31 +81,39 @@ export async function getReport({ reportId }: {
     })
 }
 
-export async function saveReportToDatabase({ reportResponse }: {
-    reportResponse: createReportResponseInterface
+export async function saveReportToDatabase({ reportResponse, projectId, userEmail }: {
+    reportResponse: createReportResponseInterface,
+    projectId: string,
+    userEmail: string,
 }) {
     return new Promise<void>(async (resolve) => {
         await dbConnect();
 
-        const reportRecord = await ReportRecordModel.findOne({name: 'report'});
-        console.log(reportRecord);
+        await ReportRecordModel.create({
+            projectId,
+            email: userEmail,
+            reportRecord: reportResponse,
+        });
 
-        if (!reportRecord) {
+        // const reportRecord = await ReportRecordModel.findOne({name: 'report'});
+        // console.log(reportRecord);
 
-            await ReportRecordModel.create({
-                name: 'report',
-                reportRecord: [reportResponse]
-            });
+        // if (!reportRecord) {
 
-        } else {
+        //     await ReportRecordModel.create({
+        //         name: 'report',
+        //         reportRecord: [reportResponse]
+        //     });
 
-            await ReportRecordModel.findOneAndUpdate({name: 'report'}, {
-                $push: {
-                    reportRecord: reportResponse
-                }
-            });
+        // } else {
 
-        }
+        //     await ReportRecordModel.findOneAndUpdate({name: 'report'}, {
+        //         $push: {
+        //             reportRecord: reportResponse
+        //         }
+        //     });
+
+        // }
 
         resolve();
     })

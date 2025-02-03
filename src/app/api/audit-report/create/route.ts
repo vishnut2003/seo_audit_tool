@@ -3,7 +3,11 @@ import { createReport, saveReportToDatabase } from "@/utils/server/seoOptimerApi
 
 export async function POST(request: NextRequest) {
     try {
-        const body = (await request.json()) as { domain: string };
+        const body = (await request.json()) as {
+            domain: string,
+            projectId: string,
+            email: string,
+        };
 
         // Create new report
         const createdReport = await createReport({ domainName: body.domain });
@@ -12,7 +16,11 @@ export async function POST(request: NextRequest) {
         if (!createdReport.data || !createdReport.data.id) throw new Error('No data body or data.id in created report response.');
 
         // Save to database
-        await saveReportToDatabase({reportResponse: createdReport});
+        await saveReportToDatabase({
+            reportResponse: createdReport,
+            projectId: body.projectId,
+            userEmail: body.email,
+        });
 
         return NextResponse.json({success: true});
 

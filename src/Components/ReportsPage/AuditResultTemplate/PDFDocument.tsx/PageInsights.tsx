@@ -26,7 +26,7 @@ const PageInsights = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Mobile PageInsights</Text>
                         {
-                            fullReport.data.output.mobilePageInsights.passed ?
+                            fullReport.data.output.mobilePageInsights?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -79,12 +79,12 @@ const PageInsights = ({ fullReport }: {
                             <Text style={{
                                 fontWeight: 600,
                                 color: fullReport.data.output.mobilePageInsights.passed ? 'green' : 'red'
-                            }}>{fullReport.data.output.mobilePageInsights.data.score}</Text>
+                            }}>{fullReport.data.output.mobilePageInsights?.data?.score}</Text>
                         </View>
 
                         {/* Other Scores */}
                         <View>
-                            {fullReport.data.output.mobilePageInsights.data.labdata.map((metricsItem, index) => (
+                            {fullReport.data.output.mobilePageInsights?.data?.labdata.map((metricsItem, index) => (
                                 <View key={index} style={{
                                     display: "flex",
                                     flexDirection: "row",
@@ -170,13 +170,13 @@ const PageInsights = ({ fullReport }: {
                             <Text>Desktop Overall Score:</Text>
                             <Text style={{
                                 fontWeight: 600,
-                                color: fullReport.data.output.desktopPageInsights.passed ? 'green' : 'red'
-                            }}>{fullReport.data.output.desktopPageInsights.data.score}</Text>
+                                color: fullReport.data.output.desktopPageInsights?.passed ? 'green' : 'red'
+                            }}>{fullReport.data.output.desktopPageInsights?.data?.score}</Text>
                         </View>
 
                         {/* Other Scores */}
                         <View>
-                            {fullReport.data.output.desktopPageInsights.data.labdata.map((metricsItem, index) => (
+                            {fullReport.data.output.desktopPageInsights?.data?.labdata.map((metricsItem, index) => (
                                 <View key={index} style={{
                                     display: "flex",
                                     flexDirection: "row",

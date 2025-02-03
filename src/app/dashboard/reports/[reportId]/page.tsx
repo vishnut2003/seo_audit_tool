@@ -43,7 +43,7 @@ const Page = () => {
 
             <div className="h-full">
                 {/* audit result section layout */
-                    inProgress ? <AuditResultProgress loadingText="Fetching Report..." /> : auditResult ? <AuditResultTemplate fullReport={auditResult} /> : auditError && <AditResultError/>
+                    auditError ? <AditResultError/> : inProgress ? <AuditResultProgress loadingText="Fetching Report..." /> : auditResult && <AuditResultTemplate fullReport={auditResult} />
                 }
             </div>
         </div>

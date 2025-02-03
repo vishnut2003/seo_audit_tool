@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
 export interface createReportMDocInterface extends mongoose.Document {
-    name: string,
+    projectId: string,
+    email: string,
     reportRecord: {
         success: boolean,
         data?: {
@@ -11,23 +12,28 @@ export interface createReportMDocInterface extends mongoose.Document {
             template: boolean,
             id: number
         }
-    }[]
+    }
 }
 
 const reportRecordSchema = new mongoose.Schema<createReportMDocInterface>({
-    name: String,
-    reportRecord: [
-        {
-            success: Boolean,
-            data: {
-                url: String,
-                pdf: Boolean,
-                callback: Boolean,
-                template: Boolean,
-                id: Number
-            }
+    projectId: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    reportRecord: {
+        success: Boolean,
+        data: {
+            url: String,
+            pdf: Boolean,
+            callback: Boolean,
+            template: Boolean,
+            id: Number
         }
-    ]
+    }
 }, { timestamps: true });
 
 export default mongoose.models.ReportRecord || mongoose.model<createReportMDocInterface>('ReportRecord', reportRecordSchema);
