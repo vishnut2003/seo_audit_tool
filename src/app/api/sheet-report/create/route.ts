@@ -7,12 +7,18 @@ import {v4 as uuid} from "uuid";
 
 export async function POST(request: NextRequest) {
     const body = await request.json() as {
-        baseUrl: string
+        baseUrl: string,
+        reportId: string,
     }
 
     try {
+        const reportId = body.reportId || uuid();
 
-        const reportId = uuid();
+        // check if the base url is in the form of domain or url
+        const domainRegex = /^[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}$/;
+        if (domainRegex.test(body.baseUrl)) {
+            body.baseUrl = "https://" + body.baseUrl
+        }
 
         // create new report in database
         await databaseCreateSheetReport({reportId, websiteUrl: body.baseUrl});
@@ -26,7 +32,7 @@ export async function POST(request: NextRequest) {
         })
 
         await updateSheetLink({reportId, sheetId})
-        return NextResponse.json({ success: true });
+        return NextResponse.json({ sheetId });
     } catch (err) {
         console.log(err);
         return NextResponse.json({ error: err }, { status: 500 });

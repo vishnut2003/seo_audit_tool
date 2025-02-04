@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
 export interface sheetReportRecordInterface extends mongoose.Document {
+    projectId?: string,
+    email?: string,
     reportId: string,
     status: "processing" | "success" | "error",
     totalPage: number,
@@ -10,6 +12,12 @@ export interface sheetReportRecordInterface extends mongoose.Document {
 }
 
 const sheetReportSchema = new mongoose.Schema<sheetReportRecordInterface>({
+    projectId: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
     reportId: {
         type: String,
         required: true,

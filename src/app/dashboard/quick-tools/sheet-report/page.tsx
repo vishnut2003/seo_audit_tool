@@ -1,28 +1,30 @@
 'use client';
 
-import DashboardStandardInput from '@/Components/ui/DashboardStandardInput'
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
-import { RiAddLargeLine, RiArrowLeftSLine } from '@remixicon/react';
+import { RiAddLargeLine, RiArrowLeftSLine, RiFileExcel2Line } from '@remixicon/react'
 import React, { FormEvent, useState } from 'react';
 import { motion } from "framer-motion";
-import axios from 'axios';
 import Link from 'next/link';
+import DashboardStandardInput from '@/Components/ui/DashboardStandardInput';
+import axios from 'axios';
+import SheetCreationLoader from '@/Components/SheetReportPage/SheetReportForm/SheetCreationLoader';
 
-const QuickToolsPDFReport = () => {
+const QuickToolsSheetReport = () => {
 
     const [domain, setDomain] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(false);
+    const [reportId, setReportId] = useState<string | null>(null);
 
-    const [reportId, setReportId] = useState<number | null>(null);
+    // generated sheet report id
+    const [sheetId, setSheetId] = useState<string | null>(null);
 
-    async function handleFormSubmit(e: FormEvent) {
+    async function handleSubmit(e: FormEvent) {
         e.preventDefault();
-        setError(null);
         setInProgress(true);
+        setError(null);
         if (!domain) {
-            setError("Domain field is required.");
-            setInProgress(false);
+            setError('Domain field is required.');
             return;
         }
 
@@ -34,25 +36,39 @@ const QuickToolsPDFReport = () => {
         }
 
         try {
+            // generate report id
             const { data }: {
                 data: {
-                    reportId: number
+                    reportId: string,
                 }
-            } = await axios.post('/api/audit-report/quick-tools', { domain });
-            console.log(data)
+            } = await axios.get("/api/sheet-report/generate-report-id");
+
             setReportId(data.reportId);
+
+            // create sheet report
+            const response: {
+                data: {
+                    sheetId: string,
+                }
+            } = await axios.post("/api/sheet-report/create", {
+                baseUrl: domain,
+                reportId: data.reportId
+            })
+
+            setSheetId(response.data.sheetId);
+
             setInProgress(false);
+            setReportId(null);
         } catch (err) {
             console.log(err);
             setError("Something went wrong!");
             setInProgress(false);
         }
-
     }
 
     return (
         <BasicLayout
-            pageTitle='PDF Report'
+            pageTitle='Technical Report'
         >
             <div
                 className='w-full max-w-screen-md'
@@ -68,20 +84,20 @@ const QuickToolsPDFReport = () => {
                 </Link>
                 <h2
                     className='text-xl mb-1 font-semibold'
-                >OnSite Audit Report</h2>
+                >OnSite Technical Report</h2>
                 <p
                     className='text-sm mb-3'
-                >The PDF you generate will not be saved, but the generated link will remain accessible in the future.</p>
+                >The SpreadSheet you generate will not be saved, but the generated link will remain accessible in the future.</p>
                 <form
                     className='space-y-4'
-                    onSubmit={handleFormSubmit}
+                    onSubmit={handleSubmit}
                 >
                     <div
                         className='bg-white rounded-md shadow-xl shadow-gray-200 overflow-hidden'
                     >
                         <DashboardStandardInput
                             label='Domain Name'
-                            subLabel='Enter the website domain to generate the on-site PDF report'
+                            subLabel='Enter the website domain to generate the on-site Sheet report'
                             name='domain'
                             inputValue={domain}
                             inputPlaceholder='example.com'
@@ -115,23 +131,33 @@ const QuickToolsPDFReport = () => {
                             <RiAddLargeLine
                                 size={20}
                             />
-                            {inProgress ? "Creating Report" : "Generate Report Link"}
+                            {inProgress ? "Creating..." : "Create Report"}
                         </button>
-
                         {
-                            reportId &&
-                            <a
-                                className="py-4 px-7 bg-themesecondary text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60"
-                                href={`/dashboard/reports/${reportId}`}
-                                target='_blank'
+                            sheetId &&
+                            <Link
+                                href={`https://docs.google.com/spreadsheets/d/${sheetId}`}
+                                className="py-4 px-7 bg-themeprimary text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60 animate-in"
                                 rel='noopener noreferrer'
-                            >View Report</a>
+                                target='_blank'
+                            >
+                                <RiFileExcel2Line
+                                    size={20}
+                                />
+                                Open Sheeet
+                            </Link>
                         }
                     </div>
                 </form>
+                {
+                    reportId && inProgress &&
+                    <SheetCreationLoader
+                        reportId={reportId}
+                    />
+                }
             </div>
         </BasicLayout>
     )
 }
 
-export default QuickToolsPDFReport
+export default QuickToolsSheetReport

@@ -1,11 +1,13 @@
+import { dbConnect } from "@/database/DBConfig";
 import SheetReportRecordModel, { sheetReportRecordInterface } from "@/models/SheetReportRecordModel";
 
-export async function getCurrentProcessingSheetRecord () {
-    return new Promise<sheetReportRecordInterface | null>( async (resolve, reject) => {
+export async function getCurrentProcessingSheetRecord({ reportId }: {
+    reportId: string,
+}) {
+    return new Promise<sheetReportRecordInterface | null>(async (resolve, reject) => {
         try {
-            const record = await SheetReportRecordModel.findOne({
-                status: "processing",
-            });
+            await dbConnect();
+            const record = await SheetReportRecordModel.findOne({ reportId });
 
             return resolve(record);
         } catch (err) {
