@@ -9,7 +9,10 @@ const sidebarMenuItems = [
     {
         name: 'Quick Tools',
         icon: RiToolsLine,
-        link: '/dashboard/quick-tools'
+        link: '/dashboard/quick-tools',
+        subPages: [
+            "/dashboard/quick-tools/pdf-report"
+        ]
     },
     "My Projects",
     {
