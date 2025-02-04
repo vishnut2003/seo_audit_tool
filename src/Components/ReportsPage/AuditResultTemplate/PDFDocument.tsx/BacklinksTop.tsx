@@ -28,7 +28,7 @@ const BacklinksTop = ({ fullReport }: {
                         display: "flex",
                         flexDirection: "column"
                     }}>
-                        {fullReport.data.output.backlinksTopAnchors && fullReport.data.output.backlinksTopAnchors.data.list.map((anchorText, index) => {
+                        {fullReport.data.output.backlinksTopAnchors && fullReport.data.output.backlinksTopAnchors.data.list?.map((anchorText, index) => {
                             if (index < 5) return (
                                 <View key={index} style={{
                                     display: "flex",
@@ -69,7 +69,7 @@ const BacklinksTop = ({ fullReport }: {
                         flexDirection: "column"
                     }}>
                         <Text style={{ fontSize: "11px", fontWeight: 600 }}>TLDs Lists</Text>
-                        {fullReport.data.output.backlinksTopGeographies && fullReport.data.output.backlinksTopGeographies.data.tlds.map((tdl, index) => {
+                        {fullReport.data.output.backlinksTopGeographies && fullReport.data.output.backlinksTopGeographies.data.tlds?.map((tdl, index) => {
                             if (index < 2) return (
                                 <View key={index} style={{
                                     display: "flex",
@@ -97,7 +97,7 @@ const BacklinksTop = ({ fullReport }: {
                         flexDirection: "column"
                     }}>
                         <Text style={{ fontSize: "11px", fontWeight: 600 }}>Country Lists</Text>
-                        {fullReport.data.output.backlinksTopGeographies && fullReport.data.output.backlinksTopGeographies.data.countries.map((country, index) => {
+                        {fullReport.data.output.backlinksTopGeographies && fullReport.data.output.backlinksTopGeographies.data.countries?.map((country, index) => {
                             if (index < 3) return (
                                 <View key={index} style={{
                                     display: "flex",
