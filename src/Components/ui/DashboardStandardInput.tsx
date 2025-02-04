@@ -40,10 +40,13 @@ const DashboardStandardInput = ({
 
         {/* second col */}
         <div
-            className="w-full flex flex-col gap-2 items-end"
+            className="w-full flex items-stretch border border-gray-200 rounded-md"
         >
+            <p
+                className="bg-gray-200 font-medium text-gray-600 px-4 flex items-center"
+            >https://</p>
             <input
-                className="text-md w-full py-3 px-5 border border-gray-200 rounded-md"
+                className="text-md w-full py-3 px-5 outline-none"
                 placeholder={inputPlaceholder}
                 value={inputValue}
                 onChange={inputOnChange}

@@ -2,12 +2,10 @@
 
 import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoading"
 import { sheetReportRecordInterface } from "@/models/SheetReportRecordModel";
-import { getCurrentProcessingSheetRecord } from "@/utils/client/sheetReport";
-import { RiRefreshLine } from "@remixicon/react";
 import { useEffect, useState } from "react";
 
 const SheetCreationLoader = ({ reportId }: {
-  reportId: string,
+  reportId?: string,
 }) => {
 
   const [progressData, setProgressData] = useState<sheetReportRecordInterface | null>(null);
@@ -36,7 +34,7 @@ const SheetCreationLoader = ({ reportId }: {
     return () => {
       eventSource.close()
     }
-  }, []);
+  }, [reportId]);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full p-5 bg-[#ffffff70] flex justify-center items-center z-50">

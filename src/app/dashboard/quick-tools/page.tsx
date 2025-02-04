@@ -1,8 +1,7 @@
 'use client';
 
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
-import { RiCloseLargeLine, RiFileChartLine } from '@remixicon/react'
-import Link from 'next/link';
+import { RiCloseLargeLine } from '@remixicon/react'
 import React, { useState } from 'react'
 import PDFReportCol from './PDFReportCol';
 import SheetReportCol from './SheetReportCol';
