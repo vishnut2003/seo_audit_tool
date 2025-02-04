@@ -1,4 +1,4 @@
-import { RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine } from "@remixicon/react";
+import { RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine, RiToolsLine } from "@remixicon/react";
 
 const sidebarMenuItems = [
     {
@@ -6,6 +6,12 @@ const sidebarMenuItems = [
         icon: RiDashboardLine,
         link: '/dashboard'
     },
+    {
+        name: 'Quick Tools',
+        icon: RiToolsLine,
+        link: '/dashboard/quick-tools'
+    },
+    "My Projects",
     {
         name: 'Projects',
         icon: RiFolder5Line,
