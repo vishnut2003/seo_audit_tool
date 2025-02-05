@@ -78,7 +78,7 @@ const DomainMetrics = ({ fullReport }: {
                         justifyContent: "space-between"
                     }}>
                         <Text>Domain Strength</Text>
-                        <Text>{fullReport.data.output.backlinks.data.domain_strength} <Text style={{ fontSize: "11px" }}>/100</Text></Text>
+                        <Text>{fullReport.data.output.backlinks?.data?.domain_strength} <Text style={{ fontSize: "11px" }}>/100</Text></Text>
                     </View>
 
                     <View style={{
@@ -94,7 +94,7 @@ const DomainMetrics = ({ fullReport }: {
                         justifyContent: "space-between"
                     }}>
                         <Text>Total Backlinks</Text>
-                        <Text>{fullReport.data.output.backlinks.data.allbacklinks}</Text>
+                        <Text>{fullReport.data.output.backlinks?.data?.allbacklinks}</Text>
                     </View>
 
                     <View style={{
@@ -110,7 +110,7 @@ const DomainMetrics = ({ fullReport }: {
                         justifyContent: "space-between"
                     }}>
                         <Text>Referring Domains</Text>
-                        <Text>{fullReport.data.output.backlinks.data.referring_domains}</Text>
+                        <Text>{fullReport.data.output.backlinks?.data?.referring_domains}</Text>
                     </View>
                     
                     <View style={{
@@ -126,7 +126,7 @@ const DomainMetrics = ({ fullReport }: {
                         justifyContent: "space-between"
                     }}>
                         <Text>Page Strength</Text>
-                        <Text>{fullReport.data.output.backlinks.data.page_strength}</Text>
+                        <Text>{fullReport.data.output.backlinks?.data?.page_strength}</Text>
                     </View>
                     
                     <View style={{
@@ -142,7 +142,7 @@ const DomainMetrics = ({ fullReport }: {
                         justifyContent: "space-between"
                     }}>
                         <Text>NoFollow Backlinks</Text>
-                        <Text>{fullReport.data.output.backlinks.data.nofollow_backlinks}</Text>
+                        <Text>{fullReport.data.output.backlinks?.data?.nofollow_backlinks}</Text>
                     </View>
                     
                     <View style={{
@@ -158,7 +158,7 @@ const DomainMetrics = ({ fullReport }: {
                         justifyContent: "space-between"
                     }}>
                         <Text>DoFollow Backlinks</Text>
-                        <Text>{fullReport.data.output.backlinks.data.dofollow_backlinks}</Text>
+                        <Text>{fullReport.data.output.backlinks?.data?.dofollow_backlinks}</Text>
                     </View>
                     
                     <View style={{
@@ -174,7 +174,7 @@ const DomainMetrics = ({ fullReport }: {
                         justifyContent: "space-between"
                     }}>
                         <Text>Edu Backlinks</Text>
-                        <Text>{fullReport.data.output.backlinks.data.edu_backlinks}</Text>
+                        <Text>{fullReport.data.output.backlinks?.data?.edu_backlinks}</Text>
                     </View>
                     
                     <View style={{
@@ -190,7 +190,7 @@ const DomainMetrics = ({ fullReport }: {
                         justifyContent: "space-between"
                     }}>
                         <Text>Gov Backlinks</Text>
-                        <Text>{fullReport.data.output.backlinks.data.gov_backlinks}</Text>
+                        <Text>{fullReport.data.output.backlinks?.data?.gov_backlinks}</Text>
                     </View>
 
                 </View>

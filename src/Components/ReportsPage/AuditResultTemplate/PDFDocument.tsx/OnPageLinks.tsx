@@ -25,7 +25,7 @@ const OnPageLinks = ({ fullReport }: {
 
                 <View>
                     {
-                        Object.keys(fullReport.data.output.onPageLinks.data).map((point, index) => (
+                        fullReport.data.output.onPageLinks?.data && Object.keys(fullReport.data.output.onPageLinks.data).map((point, index) => (
                             <View key={index} style={{
                                 display: "flex",
                                 flexDirection: "row",
@@ -38,7 +38,7 @@ const OnPageLinks = ({ fullReport }: {
                                 textTransform: "capitalize"
                             }}>
                                 <Text>{point}</Text>
-                                <Text>{fullReport.data.output.onPageLinks.data[point as keyof typeof fullReport.data.output.onPageLinks.data]}</Text>
+                                <Text>{fullReport.data.output.onPageLinks?.data?.[point as keyof typeof fullReport.data.output.onPageLinks.data]}</Text>
                             </View>
                         ))
                     }
@@ -57,7 +57,7 @@ const OnPageLinks = ({ fullReport }: {
                 }}>
                     <Text style={{ fontSize: "18px", fontWeight: 600 }}>Friendly Urls</Text>
                     {
-                        fullReport.data.output.friendlyUrls.passed ?
+                        fullReport.data.output.friendlyUrls?.passed ?
                             <Text style={{
                                 backgroundColor: "green",
                                 color: "white",
@@ -88,7 +88,7 @@ const OnPageLinks = ({ fullReport }: {
                 <Text style={{
                     fontSize: "13px",
                     fontWeight: 600
-                }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.friendlyUrls.shortAnswer}</Text></Text>
+                }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.friendlyUrls?.shortAnswer}</Text></Text>
 
             </View>
 

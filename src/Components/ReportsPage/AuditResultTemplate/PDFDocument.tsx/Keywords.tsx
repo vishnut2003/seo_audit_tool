@@ -29,7 +29,7 @@ const Keywords = ({ fullReport }: {
                 }}>
                     <Text style={{ fontSize: "18px", fontWeight: 600 }}>Keywords Usage</Text>
                     {
-                        fullReport.data.output.keywords.passed ?
+                        fullReport.data.output.keywords?.passed ?
                             <Text style={{
                                 backgroundColor: "green",
                                 color: "white",
@@ -61,7 +61,7 @@ const Keywords = ({ fullReport }: {
                 <Text style={{
                     fontSize: "13px",
                     fontWeight: 600
-                }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.keywords.shortAnswer}</Text></Text>
+                }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.keywords?.shortAnswer}</Text></Text>
 
                 <View style={{
                     display: "flex",
@@ -78,7 +78,7 @@ const Keywords = ({ fullReport }: {
                     }}>
                         {/* List of keywords. */
 
-                            fullReport.data.output.keywords.data.keywords.map((keyword, index) => {
+                            fullReport.data.output.keywords?.data?.keywords?.map((keyword, index) => {
                                 if (index < 5) return (
                                     <View key={index} style={{
                                         fontSize: "12px",

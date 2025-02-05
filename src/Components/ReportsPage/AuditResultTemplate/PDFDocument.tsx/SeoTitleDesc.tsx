@@ -36,7 +36,7 @@ const SeoTitleDesc = ({ fullReport }: {
             <Text style={{ fontSize: "15px" }}>Title Tag</Text>
 
             {
-              fullReport.data.output.title.passed ?
+              fullReport.data.output.title?.passed ?
                 <Text style={{
                   backgroundColor: "green",
                   color: "white",
@@ -64,7 +64,7 @@ const SeoTitleDesc = ({ fullReport }: {
           </View>
 
           {/* Title short answer */}
-          <Text style={{ fontSize: "11px" }}>{fullReport.data.output.title.shortAnswer}</Text>
+          <Text style={{ fontSize: "11px" }}>{fullReport.data.output.title?.shortAnswer}</Text>
         </View>
 
 
@@ -74,7 +74,7 @@ const SeoTitleDesc = ({ fullReport }: {
             <Text style={{ fontSize: "15px" }}>Meta Description</Text>
 
             {
-              fullReport.data.output.description.passed ?
+              fullReport.data.output.description?.passed ?
                 <Text style={{
                   backgroundColor: "green",
                   color: "white",
@@ -102,7 +102,7 @@ const SeoTitleDesc = ({ fullReport }: {
           </View>
 
           {/* Title short answer */}
-          <Text style={{ fontSize: "11px" }}>{fullReport.data.output.description.shortAnswer}</Text>
+          <Text style={{ fontSize: "11px" }}>{fullReport.data.output.description?.shortAnswer}</Text>
         </View>
         
         {/* hreflang Attribute */}
@@ -111,7 +111,7 @@ const SeoTitleDesc = ({ fullReport }: {
             <Text style={{ fontSize: "15px" }}>hreflang attribute</Text>
 
             {
-              fullReport.data.output.hasHreflang.passed ?
+              fullReport.data.output.hasHreflang?.passed ?
                 <Text style={{
                   backgroundColor: "green",
                   color: "white",
@@ -139,7 +139,7 @@ const SeoTitleDesc = ({ fullReport }: {
           </View>
 
           {/* Title short answer */}
-          <Text style={{ fontSize: "11px" }}>{fullReport.data.output.hasHreflang.shortAnswer}</Text>
+          <Text style={{ fontSize: "11px" }}>{fullReport.data.output.hasHreflang?.shortAnswer}</Text>
         </View>
         
         {/* lang Attribute */}
@@ -148,7 +148,7 @@ const SeoTitleDesc = ({ fullReport }: {
             <Text style={{ fontSize: "15px" }}>lang attribute</Text>
 
             {
-              fullReport.data.output.langCheck.passed ?
+              fullReport.data.output.langCheck?.passed ?
                 <Text style={{
                   backgroundColor: "green",
                   color: "white",
@@ -176,7 +176,7 @@ const SeoTitleDesc = ({ fullReport }: {
           </View>
 
           {/* Title short answer */}
-          <Text style={{ fontSize: "11px" }}>{fullReport.data.output.langCheck.shortAnswer}</Text>
+          <Text style={{ fontSize: "11px" }}>{fullReport.data.output.langCheck?.shortAnswer}</Text>
         </View>
 
       </View>

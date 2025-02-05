@@ -32,7 +32,7 @@ const FontTapSizing = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Legible Fonts</Text>
                         {
-                            fullReport.data.output.legibleFonts.passed ?
+                            fullReport.data.output.legibleFonts?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -66,7 +66,7 @@ const FontTapSizing = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.legibleFonts.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.legibleFonts?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Tap Target Sizing */}
@@ -80,7 +80,7 @@ const FontTapSizing = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Tap Target Sizing</Text>
                         {
-                            fullReport.data.output.tapTargetSizing.passed ?
+                            fullReport.data.output.tapTargetSizing?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -114,7 +114,7 @@ const FontTapSizing = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.tapTargetSizing.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.tapTargetSizing?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

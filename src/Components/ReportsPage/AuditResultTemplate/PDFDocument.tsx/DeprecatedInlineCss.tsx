@@ -26,7 +26,7 @@ const DeprecatedInlineCss = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Deprecated</Text>
                         {
-                            fullReport.data.output.deprecated.passed ?
+                            fullReport.data.output.deprecated?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -60,7 +60,7 @@ const DeprecatedInlineCss = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.deprecated.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.deprecated?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Inline CSS */}
@@ -74,7 +74,7 @@ const DeprecatedInlineCss = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Inline CSS</Text>
                         {
-                            fullReport.data.output.inlineCss.passed ?
+                            fullReport.data.output.inlineCss?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -108,7 +108,7 @@ const DeprecatedInlineCss = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.inlineCss.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.inlineCss?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

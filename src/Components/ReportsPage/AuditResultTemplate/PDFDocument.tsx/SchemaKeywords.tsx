@@ -32,7 +32,7 @@ const SchemaKeywords = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Schema Check</Text>
                         {
-                            fullReport.data.output.schemaOrg.passed ?
+                            fullReport.data.output.schemaOrg?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -65,7 +65,7 @@ const SchemaKeywords = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.schemaOrg.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.schemaOrg?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Keywords Position */}
@@ -88,14 +88,14 @@ const SchemaKeywords = ({ fullReport }: {
                     <Text style={{
                         fontSize: "11px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.keywordPositions.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.keywordPositions?.shortAnswer}</Text></Text>
 
                     {/* Positions */}
                     <View style={{
                         display: "flex",
                         flexDirection: "column"
                     }}>
-                        {fullReport.data.output.keywordPositions && Object.keys(fullReport.data.output.keywordPositions.data).map((position, index) => {
+                        {fullReport.data.output.keywordPositions?.data && Object.keys(fullReport.data.output.keywordPositions.data).map((position, index) => {
                             if (index < 5) return (
                                 <View key={index} style={{
                                     display: "flex",
@@ -109,7 +109,7 @@ const SchemaKeywords = ({ fullReport }: {
                                         <Text style={{ fontWeight: 600 }}>{position}</Text>
                                     </View>
                                     <View style={{ width: "100%" }}>
-                                        <Text>{fullReport.data.output.keywordPositions.data[position as keyof typeof fullReport.data.output.keywordPositions.data]}</Text>
+                                        <Text>{fullReport.data.output.keywordPositions?.data?.[position as keyof typeof fullReport.data.output.keywordPositions.data]}</Text>
                                     </View>
                                 </View>
                             )

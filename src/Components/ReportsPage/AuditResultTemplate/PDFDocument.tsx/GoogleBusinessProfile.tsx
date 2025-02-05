@@ -32,7 +32,7 @@ const GoogleBusinessProfile = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Google My Business</Text>
                         {
-                            fullReport.data.output.gbpIdentified.passed ?
+                            fullReport.data.output.gbpIdentified?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -66,7 +66,7 @@ const GoogleBusinessProfile = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.gbpIdentified.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.gbpIdentified?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Google My Business Review */}
@@ -80,7 +80,7 @@ const GoogleBusinessProfile = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Google My Business Review</Text>
                         {
-                            fullReport.data.output.gbpReviews.passed ?
+                            fullReport.data.output.gbpReviews?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -114,7 +114,7 @@ const GoogleBusinessProfile = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.gbpReviews.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.gbpReviews?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

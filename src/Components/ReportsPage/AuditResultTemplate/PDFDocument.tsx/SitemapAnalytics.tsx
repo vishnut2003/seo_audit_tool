@@ -26,7 +26,7 @@ const SitemapAnalytics = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Sitemap Check</Text>
                         {
-                            fullReport.data.output.sitemap.passed ?
+                            fullReport.data.output.sitemap?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -60,7 +60,7 @@ const SitemapAnalytics = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.sitemap.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.sitemap?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Analytics */}
@@ -74,7 +74,7 @@ const SitemapAnalytics = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Analytics</Text>
                         {
-                            fullReport.data.output.analytics.passed ?
+                            fullReport.data.output.analytics?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -108,7 +108,7 @@ const SitemapAnalytics = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.analytics.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.analytics?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

@@ -32,7 +32,7 @@ const SslHttpsRedirect = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>SSL Certificate</Text>
                         {
-                            fullReport.data.output.sslEnabled.passed ?
+                            fullReport.data.output.sslEnabled?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -66,7 +66,7 @@ const SslHttpsRedirect = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.sslEnabled.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.sslEnabled?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* HTTPS Redirect */}
@@ -80,7 +80,7 @@ const SslHttpsRedirect = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>HTTPS Force Redirect</Text>
                         {
-                            fullReport.data.output.httpsRedirect.passed ?
+                            fullReport.data.output.httpsRedirect?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -114,7 +114,7 @@ const SslHttpsRedirect = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.httpsRedirect.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.httpsRedirect?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

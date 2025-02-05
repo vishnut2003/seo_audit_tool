@@ -32,7 +32,7 @@ const HasH1Tag = ({ fullReport }: {
           }}>
             <Text style={{ fontSize: "15px", fontWeight: 600 }}>Status</Text>
             {
-              fullReport.data.output.hasH1Header.passed ?
+              fullReport.data.output.hasH1Header?.passed ?
                 <Text style={{
                   backgroundColor: "green",
                   color: "white",
@@ -62,7 +62,7 @@ const HasH1Tag = ({ fullReport }: {
           <Text style={{
             fontSize: "13px",
             fontWeight: 600
-          }}>Details: {fullReport.data.output.hasH1Header.shortAnswer}</Text>
+          }}>Details: {fullReport.data.output.hasH1Header?.shortAnswer}</Text>
 
         </View>
 
@@ -84,7 +84,7 @@ const HasH1Tag = ({ fullReport }: {
           }}>
             <Text style={{ fontSize: "15px", fontWeight: 600 }}>Status</Text>
             {
-              fullReport.data.output.headers.passed ?
+              fullReport.data.output.headers?.passed ?
                 <Text style={{
                   backgroundColor: "green",
                   color: "white",
@@ -114,7 +114,7 @@ const HasH1Tag = ({ fullReport }: {
           <Text style={{
             fontSize: "13px",
             fontWeight: 600
-          }}>Details: {fullReport.data.output.headers.shortAnswer}</Text>
+          }}>Details: {fullReport.data.output.headers?.shortAnswer}</Text>
 
         </View>
 

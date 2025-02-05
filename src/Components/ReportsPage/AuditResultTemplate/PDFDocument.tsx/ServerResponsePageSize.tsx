@@ -26,7 +26,7 @@ const ServerResponsePageSize = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Server Response Time</Text>
                         {
-                            fullReport.data.output.serverResponseTime.passed ?
+                            fullReport.data.output.serverResponseTime?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -60,13 +60,13 @@ const ServerResponsePageSize = ({ fullReport }: {
                     <Text style={{
                         fontSize: "11px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.serverResponseTime.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.serverResponseTime?.shortAnswer}</Text></Text>
 
                     <View>
 
                         {/* response details */}
                         <View>
-                            {Object.keys(fullReport.data.output.serverResponseTime.data).map((serverMetrics, index) => (
+                            {fullReport.data.output.serverResponseTime?.data && Object.keys(fullReport.data.output.serverResponseTime.data).map((serverMetrics, index) => (
                                 <View key={index} style={{
                                     display: "flex",
                                     flexDirection: "row",
@@ -79,7 +79,7 @@ const ServerResponsePageSize = ({ fullReport }: {
                                     textTransform: "capitalize"
                                 }}>
                                     <Text>{serverMetrics}:</Text>
-                                    <Text>{fullReport.data.output.serverResponseTime.data[serverMetrics as keyof typeof fullReport.data.output.serverResponseTime.data]}</Text>
+                                    <Text>{fullReport.data.output.serverResponseTime?.data?.[serverMetrics as keyof typeof fullReport.data.output.serverResponseTime.data]}</Text>
                                 </View>
                             ))}
                         </View>
@@ -101,7 +101,7 @@ const ServerResponsePageSize = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Page Size</Text>
                         {
-                            fullReport.data.output.pageSize.passed ?
+                            fullReport.data.output.pageSize?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -135,13 +135,13 @@ const ServerResponsePageSize = ({ fullReport }: {
                     <Text style={{
                         fontSize: "11px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.pageSize.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.pageSize?.shortAnswer}</Text></Text>
 
                     <View>
 
                         {/* Page size Metrics */}
                         <View>
-                            {Object.keys(fullReport.data.output.pageSize.data).map((pageSizeMetrics, index) => (
+                            {fullReport.data.output.pageSize?.data && Object.keys(fullReport.data.output.pageSize.data).map((pageSizeMetrics, index) => (
                                 <View key={index} style={{
                                     display: "flex",
                                     flexDirection: "row",
@@ -154,7 +154,7 @@ const ServerResponsePageSize = ({ fullReport }: {
                                     textTransform: "capitalize"
                                 }}>
                                     <Text>{pageSizeMetrics}:</Text>
-                                    <Text>{fullReport.data.output.pageSize.data[pageSizeMetrics as keyof typeof fullReport.data.output.pageSize.data]}</Text>
+                                    <Text>{fullReport.data.output.pageSize?.data?.[pageSizeMetrics as keyof typeof fullReport.data.output.pageSize.data]}</Text>
                                 </View>
                             ))}
                         </View>

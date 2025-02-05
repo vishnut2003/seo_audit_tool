@@ -32,7 +32,7 @@ const Backlinks = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Backlink Activity</Text>
                         {
-                            fullReport.data.output.backlinks.passed ?
+                            fullReport?.data?.output?.backlinks?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -63,7 +63,7 @@ const Backlinks = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.backlinks.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport?.data?.output?.backlinks?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Backlinks list */}
@@ -78,7 +78,7 @@ const Backlinks = ({ fullReport }: {
                         gap: "10px"
                     }}>
                         {
-                            !fullReport.data.output.backlinksList.data.list || fullReport.data.output.backlinksList.data.list.length < 1 ?
+                            !fullReport?.data?.output?.backlinksList?.data?.list || fullReport.data.output.backlinksList.data.list.length < 1 ?
                                 <Text style={{ fontSize: "12px", fontWeight: 600, color: 'red' }}>No Backlink Sites</Text> :
                                 fullReport.data.output.backlinksList.data.list.map((site, index) => {
                                     if (index < 5) return (

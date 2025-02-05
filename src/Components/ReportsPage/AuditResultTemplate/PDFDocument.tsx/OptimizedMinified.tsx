@@ -32,7 +32,7 @@ const OptimizedMinified = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Image Optimization</Text>
                         {
-                            fullReport.data.output.optimizedImages.passed ?
+                            fullReport.data.output.optimizedImages?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -66,7 +66,7 @@ const OptimizedMinified = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.optimizedImages.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.optimizedImages?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Minified */}
@@ -80,7 +80,7 @@ const OptimizedMinified = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Files Minified</Text>
                         {
-                            fullReport.data.output.minified.passed ?
+                            fullReport.data.output.minified?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -114,7 +114,7 @@ const OptimizedMinified = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.minified.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.minified?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

@@ -26,7 +26,7 @@ const NoIndex = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>NoIndex Tag</Text>
                         {
-                            fullReport.data.output.noindexTags.passed ?
+                            fullReport.data.output.noindexTags?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -59,7 +59,7 @@ const NoIndex = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.noindexTags.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.noindexTags?.shortAnswer}</Text></Text>
                 </View>
                 
                 {/* NoIndex Header */}
@@ -73,7 +73,7 @@ const NoIndex = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>NoIndex Header</Text>
                         {
-                            fullReport.data.output.noindexHeaders.passed ?
+                            fullReport.data.output.noindexHeaders?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -106,7 +106,7 @@ const NoIndex = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.noindexHeaders.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.noindexHeaders?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

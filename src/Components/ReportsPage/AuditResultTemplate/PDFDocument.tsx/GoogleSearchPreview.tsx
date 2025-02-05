@@ -27,7 +27,7 @@ const GoogleSearchPreview = ({ fullReport }: {
                     <Text style={{ fontSize: "18px", fontWeight: 600 }}>Google Search Preview</Text>
 
                     {/* Paragraph */}
-                    <Text style={{ fontSize: "11px" }}>{fullReport.data.output.googleSearchPreview.shortAnswer}</Text>
+                    <Text style={{ fontSize: "11px" }}>{fullReport.data.output.googleSearchPreview?.shortAnswer}</Text>
 
                     {/* Details */}
                     <Text style={{
@@ -48,11 +48,11 @@ const GoogleSearchPreview = ({ fullReport }: {
                             color: "#0000ff",
                             fontSize: "14px",
                             fontWeight: 600
-                        }}>{fullReport.data.output.googleSearchPreview.data.title}</Text>
+                        }}>{fullReport.data.output.googleSearchPreview?.data?.title}</Text>
                         
                         <Text style={{
                             fontSize: "12px"
-                        }}>{fullReport.data.output.googleSearchPreview.data.description}</Text>
+                        }}>{fullReport.data.output.googleSearchPreview?.data?.description}</Text>
                     </View>
                 </View>
 
@@ -67,7 +67,7 @@ const GoogleSearchPreview = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Local Business Schema</Text>
                         {
-                            fullReport.data.output.localBusinessSchema.passed ?
+                            fullReport.data.output.localBusinessSchema?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -101,7 +101,7 @@ const GoogleSearchPreview = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.localBusinessSchema.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.localBusinessSchema?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

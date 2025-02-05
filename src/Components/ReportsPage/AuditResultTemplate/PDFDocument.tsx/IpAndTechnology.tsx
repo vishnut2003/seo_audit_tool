@@ -24,7 +24,7 @@ const IpAndTechnology = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.ip.data}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.ip?.data}</Text></Text>
                 </View>
 
                 {/* Webserver details */}
@@ -36,7 +36,7 @@ const IpAndTechnology = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.webServer.data}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.webServer?.data}</Text></Text>
                 </View>
 
                 {/* Technologies */}
@@ -48,13 +48,13 @@ const IpAndTechnology = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.technologies.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.technologies?.shortAnswer}</Text></Text>
 
                     <View>
 
                         {/* response details */}
                         <View>
-                            {fullReport.data.output.technologies.data.map((technology, index) => (
+                            {fullReport.data.output.technologies?.data?.map((technology, index) => (
                                 <View key={index} style={{
                                     display: "flex",
                                     flexDirection: "row",
@@ -89,7 +89,7 @@ const IpAndTechnology = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>DMARC Check</Text>
                         {
-                            fullReport.data.output.dmarc.passed ?
+                            fullReport.data.output.dmarc?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -118,7 +118,7 @@ const IpAndTechnology = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.dmarc.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.dmarc?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* SPF check */}
@@ -132,7 +132,7 @@ const IpAndTechnology = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>SPF Check</Text>
                         {
-                            fullReport.data.output.spf.passed ?
+                            fullReport.data.output.spf?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -161,7 +161,7 @@ const IpAndTechnology = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.spf.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.spf?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

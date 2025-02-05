@@ -32,7 +32,7 @@ const RobotsTxt = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Robots.txt Check</Text>
                         {
-                            fullReport.data.output.robotsTxt.passed ?
+                            fullReport.data.output.robotsTxt?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -65,7 +65,7 @@ const RobotsTxt = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.robotsTxt.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.robotsTxt?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Blocked by Robot.txt */}
@@ -79,7 +79,7 @@ const RobotsTxt = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Blocked By Robots.txt</Text>
                         {
-                            fullReport.data.output.blockedByRobotsTxt.passed ?
+                            fullReport.data.output.blockedByRobotsTxt?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -112,7 +112,7 @@ const RobotsTxt = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.blockedByRobotsTxt.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.blockedByRobotsTxt?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

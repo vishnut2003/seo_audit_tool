@@ -26,7 +26,7 @@ const JsErrorHttp2 = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Javascript Errors</Text>
                         {
-                            fullReport.data.output.javascriptErrors.passed ?
+                            fullReport.data.output.javascriptErrors?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -59,7 +59,7 @@ const JsErrorHttp2 = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.javascriptErrors.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.javascriptErrors?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* HTTP/2 latest version */}
@@ -73,7 +73,7 @@ const JsErrorHttp2 = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>HTTP/2 Latest Version</Text>
                         {
-                            fullReport.data.output.http2.passed ?
+                            fullReport.data.output.http2?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -106,7 +106,7 @@ const JsErrorHttp2 = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.http2.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.http2?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

@@ -26,7 +26,7 @@ const PhoneAddressEmail = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Email Address</Text>
                         {
-                            fullReport.data.output.email.passed ?
+                            fullReport.data.output.email?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -59,7 +59,7 @@ const PhoneAddressEmail = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.email.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.email?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Phone number and address */}
@@ -73,7 +73,7 @@ const PhoneAddressEmail = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Phone Number, Address</Text>
                         {
-                            fullReport.data.output.websitePhoneAddress.passed ?
+                            fullReport.data.output.websitePhoneAddress?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -106,12 +106,12 @@ const PhoneAddressEmail = ({fullReport}: {
                     <Text style={{
                         fontSize: "11px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.websitePhoneAddress.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.websitePhoneAddress?.shortAnswer}</Text></Text>
                     
                     <Text style={{
                         fontSize: "11px",
                         fontWeight: 600
-                    }}>Component: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.websitePhoneAddress.data?.missing}</Text></Text>
+                    }}>Component: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.websitePhoneAddress?.data?.missing}</Text></Text>
                 </View>
 
             </View>

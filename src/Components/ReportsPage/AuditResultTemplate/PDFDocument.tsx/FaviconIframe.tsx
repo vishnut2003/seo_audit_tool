@@ -26,7 +26,7 @@ const FaviconIframe = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Website icon</Text>
                         {
-                            fullReport.data.output.favicon.passed ?
+                            fullReport.data.output.favicon?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -59,7 +59,7 @@ const FaviconIframe = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.favicon.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.favicon?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Iframe */}
@@ -73,7 +73,7 @@ const FaviconIframe = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Iframe Usage</Text>
                         {
-                            fullReport.data.output.iframe.passed ?
+                            fullReport.data.output.iframe?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -106,7 +106,7 @@ const FaviconIframe = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.iframe.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.iframe?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

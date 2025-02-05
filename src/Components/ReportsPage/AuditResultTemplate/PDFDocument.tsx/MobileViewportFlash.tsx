@@ -32,7 +32,7 @@ const MobileViewportFlash = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Mobile Viewport</Text>
                         {
-                            fullReport.data.output.mobileViewport.passed ?
+                            fullReport.data.output.mobileViewport?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -65,7 +65,7 @@ const MobileViewportFlash = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.mobileViewport.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.mobileViewport?.shortAnswer}</Text></Text>
                 </View>
 
                 {/* Flash content */}
@@ -79,7 +79,7 @@ const MobileViewportFlash = ({fullReport}: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Flash Content</Text>
                         {
-                            fullReport.data.output.flash.passed ?
+                            fullReport.data.output.flash?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -113,7 +113,7 @@ const MobileViewportFlash = ({fullReport}: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.flash.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.flash?.shortAnswer}</Text></Text>
                 </View>
 
             </View>

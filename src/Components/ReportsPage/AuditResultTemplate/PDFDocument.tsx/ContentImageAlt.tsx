@@ -26,7 +26,7 @@ const ContentImageAlt = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Content Length</Text>
                         {
-                            fullReport.data.output.contentLength.passed ?
+                            fullReport?.data?.output?.contentLength?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -57,7 +57,7 @@ const ContentImageAlt = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.contentLength.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.contentLength?.shortAnswer}</Text></Text>
 
                 </View>
                 
@@ -73,7 +73,7 @@ const ContentImageAlt = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Image Alt</Text>
                         {
-                            fullReport.data.output.imageAlt.passed ?
+                            fullReport.data.output.imageAlt?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -104,7 +104,7 @@ const ContentImageAlt = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.imageAlt.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.imageAlt?.shortAnswer}</Text></Text>
 
                 </View>
 

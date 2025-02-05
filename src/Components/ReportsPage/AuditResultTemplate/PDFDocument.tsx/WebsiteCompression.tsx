@@ -32,7 +32,7 @@ const WebsiteCompression = ({ fullReport }: {
                     }}>
                         <Text style={{ fontSize: "18px", fontWeight: 600 }}>Website Compression</Text>
                         {
-                            fullReport.data.output.gzip.passed ?
+                            fullReport.data.output.gzip?.passed ?
                                 <Text style={{
                                     backgroundColor: "green",
                                     color: "white",
@@ -65,13 +65,13 @@ const WebsiteCompression = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.gzip.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.gzip?.shortAnswer}</Text></Text>
 
                     <View>
 
                         {/* response details */}
                         <View>
-                            {Object.keys(fullReport.data.output.gzip.data).map((sizeDetail, index) => {
+                            {fullReport.data.output.gzip?.data && Object.keys(fullReport.data.output.gzip.data).map((sizeDetail, index) => {
                                 if (index < 8) return (
                                     <View key={index} style={{
                                         display: "flex",
@@ -85,7 +85,7 @@ const WebsiteCompression = ({ fullReport }: {
                                         textTransform: "capitalize"
                                     }}>
                                         <Text>{sizeDetail}:</Text>
-                                        <Text>{fullReport.data.output.gzip.data[sizeDetail as keyof typeof fullReport.data.output.gzip.data]}</Text>
+                                        <Text>{fullReport.data.output.gzip?.data?.[sizeDetail as keyof typeof fullReport.data.output.gzip.data]}</Text>
                                     </View>
                                 )
                             })}

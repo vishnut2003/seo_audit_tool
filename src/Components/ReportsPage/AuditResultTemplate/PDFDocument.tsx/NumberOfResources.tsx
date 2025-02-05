@@ -29,13 +29,13 @@ const NumberOfResources = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.numberOfResources.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.numberOfResources?.shortAnswer}</Text></Text>
 
                     <View>
 
                         {/* Resources list */}
                         <View>
-                            {Object.keys(fullReport.data.output.numberOfResources.data).map((resourceName, index) => (
+                            {fullReport.data.output.numberOfResources?.data && Object.keys(fullReport.data.output.numberOfResources.data).map((resourceName, index) => (
                                 <View key={index} style={{
                                     display: "flex",
                                     flexDirection: "row",
@@ -48,7 +48,7 @@ const NumberOfResources = ({ fullReport }: {
                                     textTransform: "capitalize"
                                 }}>
                                     <Text>{resourceName}:</Text>
-                                    <Text>{fullReport.data.output.numberOfResources.data[resourceName as keyof typeof fullReport.data.output.numberOfResources.data]}</Text>
+                                    <Text>{fullReport.data.output.numberOfResources?.data?.[resourceName as keyof typeof fullReport.data.output.numberOfResources.data]}</Text>
                                 </View>
                             ))}
                         </View>
@@ -74,13 +74,13 @@ const NumberOfResources = ({ fullReport }: {
                     <Text style={{
                         fontSize: "13px",
                         fontWeight: 600
-                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.hasAmp.shortAnswer}</Text></Text>
+                    }}>Details: <Text style={{ fontWeight: 400 }}>{fullReport.data.output.hasAmp?.shortAnswer}</Text></Text>
 
                     <View>
 
                         {/* Page size Metrics */}
                         <View>
-                            {Object.keys(fullReport.data.output.hasAmp.data).map((ampType, index) => (
+                            {fullReport.data.output.hasAmp?.data && Object.keys(fullReport.data.output.hasAmp.data).map((ampType, index) => (
                                 <View key={index} style={{
                                     display: "flex",
                                     flexDirection: "row",
@@ -93,7 +93,7 @@ const NumberOfResources = ({ fullReport }: {
                                     textTransform: "capitalize"
                                 }}>
                                     <Text>{ampType}:</Text>
-                                    <Text>{fullReport.data.output.hasAmp.data[ampType as keyof typeof fullReport.data.output.hasAmp.data] ? <>Yes</> : <>No</>}</Text>
+                                    <Text>{fullReport.data.output.hasAmp?.data?.[ampType as keyof typeof fullReport.data.output.hasAmp.data] ? <>Yes</> : <>No</>}</Text>
                                 </View>
                             ))}
                         </View>
