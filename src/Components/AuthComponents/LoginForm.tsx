@@ -96,7 +96,7 @@ const LoginForm = () => {
             />
 
             <button
-                className='w-full p-3 bg-secondary text-lg text-foregroundwhite font-semibold mt-4 rounded-lg shadow-sm shadow-secondary'
+                className='w-full p-3 bg-themeprimary text-lg text-foregroundwhite font-semibold mt-4 rounded-lg shadow-sm shadow-secondary'
                 type='submit'>{inProgress ? "Verifying..." : "Login"}</button>
 
             {/* error message slot */
