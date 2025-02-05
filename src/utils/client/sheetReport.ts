@@ -1,13 +1,13 @@
 import { sheetReportRecordInterface } from "@/models/SheetReportRecordModel";
 import axios from "axios"
 
-export function createSheetReport({baseUrl}: {
+export function createSheetReport({ baseUrl }: {
     baseUrl: string,
 }) {
-    return new Promise<void>( async (resolve, reject) => {
-        
+    return new Promise<void>(async (resolve, reject) => {
+
         try {
-            await axios.post('/api/sheet-report/create', {baseUrl});
+            await axios.post('/api/sheet-report/create', { baseUrl });
             resolve();
         } catch (err) {
             console.log(err);
@@ -17,30 +17,19 @@ export function createSheetReport({baseUrl}: {
     })
 }
 
-export function getAllSheetReport ({page}: {
-    page: number
+export async function getLatestOneReport({ projectId, email }: {
+    projectId: string,
+    email: string,
 }) {
-    return new Promise<sheetReportRecordInterface[]>( async (resolve) => {
-        
+    return new Promise<sheetReportRecordInterface | null>(async (resolve, reject) => {
         try {
-            const response = await axios.get(`/api/sheet-report/get-all/${page}`);
-            const records: sheetReportRecordInterface[] = response.data.records;
-            resolve(records)
+            const { data } = await axios.post('/api/sheet-report/get-latest-one-report', {
+                projectId,
+                email,
+            })
+            return resolve(data);
         } catch (err) {
-            console.log(err);
-        }
-    })
-}
-
-// not using
-export function getCurrentProcessingSheetRecord () {
-    return new Promise <sheetReportRecordInterface | null> ( async (resolve) => {
-        try {
-            const resoponse = await axios.get('/api/sheet-report/get-current-processing')
-            const record = resoponse.data as sheetReportRecordInterface | null;
-            return resolve(record)
-        } catch (err) {
-            console.log(err);
+            return reject(err);
         }
     })
 }

@@ -9,6 +9,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json() as {
         baseUrl: string,
         reportId: string,
+        projectId?: string,
+        email?: string,
     }
 
     try {
@@ -21,14 +23,19 @@ export async function POST(request: NextRequest) {
         }
 
         // create new report in database
-        await databaseCreateSheetReport({reportId, websiteUrl: body.baseUrl});
+        await databaseCreateSheetReport({
+            reportId, 
+            websiteUrl: body.baseUrl,
+            projectId: body.projectId,
+            email: body.email,
+        });
 
         // create sheet
         const report = await createSheetReport({ baseUrl: body.baseUrl, reportId });
 
         const sheetId = await createNewSpreadSheet({
             websiteUrl: body.baseUrl,
-            report
+            report,
         })
 
         await updateSheetLink({reportId, sheetId})
