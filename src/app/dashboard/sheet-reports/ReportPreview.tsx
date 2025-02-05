@@ -2,9 +2,8 @@
 
 import { ProjectModelInterface } from '@/models/ProjectsModel'
 import { sheetReportRecordInterface } from '@/models/SheetReportRecordModel'
-import { getSessionProject } from '@/utils/client/projects'
 import { getLatestOneReport } from '@/utils/client/sheetReport'
-import { RiDownloadLine, RiFileExcel2Line, RiFullscreenLine } from '@remixicon/react'
+import { RiDownloadLine, RiFileExcel2Line } from '@remixicon/react'
 import { getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -38,7 +37,7 @@ const ReportPreview = ({ project }: {
                 console.log(err);
             }
         });
-    }, [])
+    }, [project.projectId, router])
 
     return (
         <div
