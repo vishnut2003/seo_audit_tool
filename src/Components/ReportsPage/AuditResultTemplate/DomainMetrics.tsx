@@ -37,22 +37,22 @@ const DomainMetrics = ({fullReport}: {
         <div className="grid grid-cols-2 gap-7">
 
           <div className="flex justify-center items-center flex-col p-5 shadow-md shadow-primary rounded-md bg-primary">
-            <h3 className="text-2xl font-semibold text-white">{fullReport.data.output.backlinks.data.mozda} <span className="text-secondary text-base">/ 100</ span></h3>
+            <h3 className="text-2xl font-semibold text-white">{fullReport.data.output.backlinks?.data?.mozda} <span className="text-secondary text-base">/ 100</ span></h3>
             <p className="text-foregroundwhite opacity-80">Domain Authority</p>
           </div>
 
           <div className="flex justify-center items-center flex-col p-5 shadow-md shadow-primary rounded-md bg-primary">
-            <h3 className="text-2xl font-semibold text-white">{fullReport.data.output.backlinks.data.allbacklinks}</h3>
+            <h3 className="text-2xl font-semibold text-white">{fullReport.data.output.backlinks?.data?.allbacklinks}</h3>
             <p className="text-foregroundwhite opacity-80">Total Backlinks</p>
           </div>
 
           <div className="flex justify-center items-center flex-col p-5 shadow-md shadow-primary rounded-md bg-primary">
-            <h3 className="text-2xl font-semibold text-white">{fullReport.data.output.backlinks.data.domain_strength}</h3>
+            <h3 className="text-2xl font-semibold text-white">{fullReport.data.output.backlinks?.data?.domain_strength}</h3>
             <p className="text-foregroundwhite opacity-80">Domain Strength</p>
           </div>
 
           <div className="flex justify-center items-center flex-col p-5 shadow-md shadow-primary rounded-md bg-primary">
-            <h3 className="text-2xl font-semibold text-white">{fullReport.data.output.backlinks.data.referring_domains}</h3>
+            <h3 className="text-2xl font-semibold text-white">{fullReport.data.output.backlinks?.data?.referring_domains}</h3>
             <p className="text-foregroundwhite opacity-80">Referring Domains</p>
           </div>
 
