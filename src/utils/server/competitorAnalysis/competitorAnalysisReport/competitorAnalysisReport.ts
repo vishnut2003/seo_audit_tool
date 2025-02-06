@@ -15,6 +15,8 @@ export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFo
                 reportId: reportEntry.reportId,
                 mainSite: reportEntry.website,
                 competitors: reportEntry.competitor,
+                email: reportEntry.email,
+                projectId: reportEntry.projectId,
             });
 
             const browser = await initializePuppeteer();

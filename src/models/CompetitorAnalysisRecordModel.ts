@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
 export interface CompetitorAnalysisRecordModelInterface extends mongoose.Document {
+    email?: string,
+    projectId?: string,
     recordId: string,
     website: string,
     competitors: string[],
@@ -12,6 +14,12 @@ export interface CompetitorAnalysisRecordModelInterface extends mongoose.Documen
 }
 
 const CompetitorAnalysisSchema = new mongoose.Schema<CompetitorAnalysisRecordModelInterface>({
+    email: {
+        type: String,
+    },
+    projectId: {
+        type: String,
+    },
     recordId: {
         type: String,
         required: true,

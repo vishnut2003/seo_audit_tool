@@ -1,31 +1,28 @@
 import { CompetiotrAnalysisFormSubmitInterface } from "@/Interfaces/CompetitorAnalysisInterface/FormSubmitInterface";
-import { CompetitorAnalysisRecordModelInterface } from "@/models/CompetitorAnalysisRecordModel";
 import axios from "axios";
 
-export async function createCompetitorAnalysisReport ({formData}: {
+export async function createCompetitorAnalysisReport({ formData }: {
     formData: CompetiotrAnalysisFormSubmitInterface
 }) {
-    return new Promise ( async () => {
+    return new Promise<void>(async (resolve, reject) => {
         try {
-            const response = await axios.post('/api/competitor-analysis/create-report', formData);
-            console.log(response);
+            await axios.post('/api/competitor-analysis/create-report', formData);
+            return resolve();
         } catch (err) {
-            console.log(err);
+            return reject(err);
         }
     })
 }
 
-export async function getAllCompetitorAnalysisReports () {
-    return new Promise<CompetitorAnalysisRecordModelInterface[]>(async (resolve) => {
+export async function generateReportId() {
+    return new Promise<string>(async (resolve, reject) => {
         try {
-            const response = await axios.get("/api/competitor-analysis/get-all-reports");
-            const data = response.data as {
-                reports: CompetitorAnalysisRecordModelInterface[],
-            }
-
-            return resolve(data.reports);
+            const response = await axios.get('/api/competitor-analysis/generate-report-id');
+            const reportId: string = response.data;
+            return resolve(reportId);
         } catch (err) {
-            console.log(err);
+            console.log(err)
+            return reject();
         }
     })
 }
