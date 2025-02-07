@@ -35,14 +35,14 @@ export function PDFReportColumn() {
             >
                 <RiFileChartLine
                     size={38}
-                    className="text-themeprimary"
+                    className="text-themeprimary min-w-[40px]"
                 />
                 <div
-                    className="flex flex-col gap-0"
+                    className="flex flex-col gap-0 overflow-hidden"
                 >
-                    <h2>OnSite PDF Report</h2>
+                    <h2 className="truncate">OnSite PDF Report</h2>
                     <p
-                        className="text-sm font-normal opacity-70 flex items-center gap-1"
+                        className="text-sm font-normal opacity-70 truncate"
                     >OnSite Analysis export as PDF</p>
                 </div>
             </div>
@@ -112,14 +112,14 @@ export function SheetReportColumn() {
             >
                 <RiFileExcel2Line
                     size={38}
-                    className="text-themeprimary"
+                    className="text-themeprimary min-w-[40px]"
                 />
                 <div
-                    className="flex flex-col gap-0"
+                    className="flex flex-col gap-0 overflow-hidden"
                 >
-                    <h2>OnSite Sheet Report</h2>
+                    <h2 className="truncate">OnSite Sheet Report</h2>
                     <p
-                        className="text-sm font-normal opacity-70 flex items-center gap-1"
+                        className="text-sm font-normal opacity-70 truncate"
                     >OnSite Analysis export as SpreadSheet</p>
                 </div>
             </div>
@@ -173,14 +173,14 @@ export function CompetitorAnalysisColumn() {
             >
                 <RiLineChartLine
                     size={38}
-                    className="text-themeprimary"
+                    className="text-themeprimary min-w-[40px]"
                 />
                 <div
-                    className="flex flex-col gap-0"
+                    className="flex flex-col gap-0 overflow-hidden"
                 >
-                    <h2>Competitor Analysis Report</h2>
+                    <h2 className="truncate">Competitor Analysis Report</h2>
                     <p
-                        className="text-sm font-normal opacity-70 flex items-center gap-1"
+                        className="text-sm font-normal opacity-70 truncate"
                     >Compare performance with competitors</p>
                 </div>
             </div>

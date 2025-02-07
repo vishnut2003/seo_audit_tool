@@ -10,14 +10,14 @@ const SheetReportCol = () => {
             >
                 <RiFileChartLine
                     size={38}
-                    className="text-themeprimary"
+                    className="text-themeprimary min-w-[40px]"
                 />
                 <div
-                    className="flex flex-col gap-0"
+                    className="flex flex-col gap-0 overflow-hidden"
                 >
-                    <h2>Technical Report</h2>
+                    <h2 className='truncate'>Technical Report</h2>
                     <p
-                        className="text-sm font-normal opacity-70 flex items-center gap-1"
+                        className="text-sm font-normal opacity-70 truncate"
                     >Audit Report Export as Sheet</p>
                 </div>
             </div>

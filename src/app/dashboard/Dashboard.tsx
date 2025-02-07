@@ -8,7 +8,7 @@ const Dashboard = ({ currentProject }: {
 }) => {
     return (
         <div
-            className="space-y-7"
+            className="space-y-7 max-w-screen-xl"
         >
             <div
                 className="flex items-center gap-1 md:gap-5"
@@ -49,7 +49,7 @@ const Dashboard = ({ currentProject }: {
 
                 {/* Left Col */}
                 <div
-                    className="w-full grid grid-cols-1 md:grid-cols-4 gap-4"
+                    className="w-full grid grid-cols-1 md:grid-cols-3 gap-4"
                 >
 
                     {/* PDF Report Option */}
