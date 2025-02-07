@@ -23,6 +23,11 @@ export async function checkStructureDataError({ DOM }: {
 function validateJson ({data}: {data: string}) {
     return new Promise<boolean>((resolve) => {
         try {
+
+            if (!data) {
+                return resolve(true);
+            }
+
             JSON.parse(data);
             return resolve(true)
         } catch (err) {

@@ -6,7 +6,15 @@ export async function checkBlogPageExist({ page, baseUrl }: {
 }) {
     return new Promise<"PRESENT" | "NOT PRESENT">(async (resolve, reject) => {
         try {
-            const possibleEndpoints: string[] = ["blogs", "blog", "news"];
+            const possibleEndpoints: string[] = [
+                "blogs", 
+                "blog", 
+                "news",
+                "resource",
+                "resources",
+                "travel-blogs",
+                "travel-blog",
+            ];
             console.log("\nchecking if blogs page exist\n");
 
             for (const endpoint of possibleEndpoints) {
