@@ -35,7 +35,7 @@ function QuickTools() {
 
                 {/* Tools Items */}
                 <div
-                    className='grid grid-cols-4 gap-5'
+                    className='grid grid-cols-3 gap-5 max-w-screen-xl'
                 >
                     {
                         [PDFReportCol, SheetReportCol].map((ColItem, index) => (

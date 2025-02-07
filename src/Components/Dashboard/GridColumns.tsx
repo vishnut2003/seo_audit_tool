@@ -1,32 +1,30 @@
+import { CompetitorAnalysisRecordModelInterface } from "@/models/CompetitorAnalysisRecordModel";
+import { ProjectModelInterface } from "@/models/ProjectsModel";
 import { createReportMDocInterface } from "@/models/ReportRecordModel";
+import { sheetReportRecordInterface } from "@/models/SheetReportRecordModel";
 import { getCurrentProjectLatestReport } from "@/utils/client/auditReport";
-import { getSessionProject } from "@/utils/client/projects";
-import { RiArrowRightSLine, RiDownloadLine, RiFileChartLine, RiFileExcel2Line, RiFullscreenLine, RiLineChartLine } from "@remixicon/react";
+import { getLatestOneReport } from "@/utils/client/sheetReport";
+import { RiAddLargeLine, RiArrowRightSLine, RiFileChartLine, RiFileExcel2Line, RiFullscreenLine, RiLineChartLine } from "@remixicon/react";
+import axios from "axios";
+import { getSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function PDFReportColumn() {
+export function PDFReportColumn({ project }: {
+    project: ProjectModelInterface,
+}) {
 
     const [report, setReport] = useState<createReportMDocInterface | null>(null);
-    const [noReports, setNoReports] = useState<boolean>(false);
-    const router = useRouter();
+    const [inProgress, setInProgress] = useState<boolean>(true);
 
     useEffect(() => {
         (async () => {
-            const project = await getSessionProject();
-            if (!project) {
-                return;
-            }
-
+            setInProgress(true);
             const report = await getCurrentProjectLatestReport(project.projectId);
-            if (!report) {
-                setNoReports(true)
-            } else {
-                setReport(report);
-            }
+            setInProgress(false);
+            setReport(report);
         })();
-    }, [])
+    }, [project.projectId])
 
     return (
         <>
@@ -61,50 +59,60 @@ export function PDFReportColumn() {
             </div>
 
             <div
-                className="flex gap-2"
+                className="flex gap-2 items-center"
             >
                 {
-                    noReports ?
-                        <Link
-                            href={'/dashboard/reports'}
-                            className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite"
-                        >
-                            Create New Report
-                        </Link> :
-                        <>
-                            <button
-                                className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite disabled:opacity-50"
-                                disabled={!report ? true : false}
-                                onClick={() => {
-                                    if (report) {
-                                        router.push(`dashboard/reports/${report.reportRecord.data?.id}`)
-                                    } else {
-                                        return;
-                                    }
-                                }}
-                            >
-                                <RiFullscreenLine
-                                    size={17}
-                                />
-                                {report ? 'Preview' : 'Loading...'}
-                            </button>
-
-                            <button
+                    inProgress ?
+                        <p className="text-sm">Loading...</p> :
+                        !report?.reportRecord.data?.id ?
+                            <Link
+                                href={'/dashboard/reports'}
                                 className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite"
                             >
-                                <RiDownloadLine
-                                    size={17}
-                                />
-                                Download
-                            </button>
-                        </>
+                                Create New Report
+                            </Link> :
+                            <>
+                                <a
+                                    className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite disabled:opacity-50"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    href={`dashboard/reports/${report.reportRecord.data?.id}`}
+                                >
+                                    <RiFullscreenLine
+                                        size={17}
+                                    />
+                                    Open Report
+                                </a>
+                            </>
                 }
             </div>
         </>
     )
 }
 
-export function SheetReportColumn() {
+export function SheetReportColumn({ project }: {
+    project: ProjectModelInterface,
+}) {
+
+    const [report, setReport] = useState<sheetReportRecordInterface | null>(null);
+    const [inProgress, setInProgress] = useState<boolean>(true);
+
+    useEffect(() => {
+        (async () => {
+            setInProgress(true);
+            const session = await getSession();
+            if (!session || !session?.user?.email) {
+                return;
+            }
+            const report = await getLatestOneReport({
+                email: session.user.email,
+                projectId: project.projectId,
+            })
+            setInProgress(false);
+            setReport(report);
+        })();
+    }, [project.projectId])
+
     return (
         <>
             <div
@@ -140,32 +148,65 @@ export function SheetReportColumn() {
             <div
                 className="flex gap-2"
             >
-                <>
-                    <button
-                        className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite disabled:opacity-50"
-                        disabled={true}
-                    >
-                        <RiFullscreenLine
-                            size={17}
-                        />
-                        Loading
-                    </button>
-
-                    <button
-                        className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite"
-                    >
-                        <RiDownloadLine
-                            size={17}
-                        />
-                        Download
-                    </button>
-                </>
+                {
+                    inProgress ?
+                        <p className="text-sm">Loading...</p> :
+                        !report?.sheetLink ?
+                            <Link
+                                href={'/dashboard/sheet-reports'}
+                                className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite"
+                            >
+                                <RiAddLargeLine
+                                    size={17}
+                                />
+                                Create New Report
+                            </Link> :
+                            <>
+                                <a
+                                    className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite disabled:opacity-50"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    href={report.sheetLink}
+                                >
+                                    <RiFileExcel2Line
+                                        size={17}
+                                    />
+                                    Open Report
+                                </a>
+                            </>
+                }
             </div>
         </>
     )
 }
 
-export function CompetitorAnalysisColumn() {
+export function CompetitorAnalysisColumn({ project }: {
+    project: ProjectModelInterface,
+}) {
+
+    const [report, setReport] = useState<CompetitorAnalysisRecordModelInterface | null>(null);
+    const [inProgress, setInProgress] = useState<boolean>(true);
+
+    useEffect(() => {
+        (async () => {
+            setInProgress(true);
+            const session = await getSession();
+            if (!session || !session?.user?.email) {
+                return;
+            }
+
+            const { data }: {
+                data: CompetitorAnalysisRecordModelInterface | null,
+            } = await axios.post('/api/competitor-analysis/get-latest-one-report', {
+                email: session.user.email,
+                projectId: project.projectId
+            })
+
+            setInProgress(false);
+            setReport(data);
+        })();
+    }, [project.projectId])
+
     return (
         <>
             <div
@@ -201,26 +242,33 @@ export function CompetitorAnalysisColumn() {
             <div
                 className="flex gap-2"
             >
-                <>
-                    <button
-                        className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite disabled:opacity-50"
-                        disabled={true}
-                    >
-                        <RiFullscreenLine
-                            size={17}
-                        />
-                        Loading
-                    </button>
-
-                    <button
-                        className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite"
-                    >
-                        <RiDownloadLine
-                            size={17}
-                        />
-                        Download
-                    </button>
-                </>
+                {
+                    inProgress ?
+                        <p className="text-sm">Loading...</p> :
+                        !report?.sheetId ?
+                            <Link
+                                href={'/dashboard/compatitor-analysis'}
+                                className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite"
+                            >
+                                <RiAddLargeLine
+                                    size={17}
+                                />
+                                Create New Report
+                            </Link> :
+                            <>
+                                <a
+                                    className="flex gap-2 items-center text-xs font-medium py-2 px-4 rounded-md bg-themeprimary text-foregroundwhite disabled:opacity-50"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    href={`https://docs.google.com/spreadsheets/d/${report.sheetId}`}
+                                >
+                                    <RiFileExcel2Line
+                                        size={17}
+                                    />
+                                    Open Report
+                                </a>
+                            </>
+                }
             </div>
         </>
     )

@@ -4,7 +4,7 @@ import { RiArrowLeftSLine, RiFolder5Line } from "@remixicon/react"
 import Link from "next/link"
 
 const Dashboard = ({ currentProject }: {
-    currentProject: ProjectModelInterface | null
+    currentProject: ProjectModelInterface
 }) => {
     return (
         <div
@@ -56,21 +56,27 @@ const Dashboard = ({ currentProject }: {
                     <div
                         className="bg-white py-5 px-6 flex flex-col gap-5 shadow-xl shadow-gray-200 rounded-md"
                     >
-                        <PDFReportColumn/>
+                        <PDFReportColumn
+                            project={currentProject}
+                        />
                     </div>
                     
                     {/* Sheet Report Option */}
                     <div
                         className="bg-white py-5 px-6 flex flex-col gap-5 shadow-xl shadow-gray-200 rounded-md"
                     >
-                        <SheetReportColumn/>
+                        <SheetReportColumn
+                            project={currentProject}
+                        />
                     </div>
                     
                     {/* Competitor Analysis Report Option */}
                     <div
                         className="bg-white py-5 px-6 flex flex-col gap-5 shadow-xl shadow-gray-200 rounded-md"
                     >
-                        <CompetitorAnalysisColumn/>
+                        <CompetitorAnalysisColumn
+                            project={currentProject}
+                        />
                     </div>
 
                 </div>

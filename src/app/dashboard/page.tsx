@@ -18,12 +18,12 @@ const Page = () => {
     (async () => {
       try {
         const project = await getSessionProject();
-        setProject(project)
         if (!project) {
           router.push('/dashboard/projects')
-        } else {
-          setCurrentActive("dashboard");
+          return;
         }
+        setProject(project)
+        setCurrentActive("dashboard");
       } catch (err) {
         console.log(err);
       }
@@ -42,7 +42,7 @@ const Page = () => {
           >
             <p>Loading Options...</p>
           </div> :
-            currentActive === "dashboard" && 
+            project && 
             <Dashboard 
               currentProject={project}
             />
