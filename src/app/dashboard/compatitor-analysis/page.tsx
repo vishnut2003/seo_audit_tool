@@ -144,7 +144,7 @@ const CompetitorAnalysis = () => {
                 reportId && inProgress &&
                 <FormSubmitLoader
                     reportId={reportId}
-                    siteList={currentProject?.competitors || []}
+                    siteList={currentProject?.competitors ? [currentProject.domain, ...currentProject.competitors] : []}
                     setShowLoader={(exit) => {
                         setInProgress(exit);
                         setReportId(null);

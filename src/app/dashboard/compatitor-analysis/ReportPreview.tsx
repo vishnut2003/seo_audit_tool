@@ -62,6 +62,7 @@ const ReportPreview = ({ project }: {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className='text-foreground mt-3 text-sm font-medium flex justify-center items-center gap-3 bg-white rounded-md py-3 px-5 shadow-xl shadow-gray-200 hover:bg-gray-50'
+                                href={`https://docs.google.com/spreadsheets/d/${report.sheetId}`}
                             >
                                 <RiFileExcel2Line
                                     size={20}
