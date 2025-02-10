@@ -5,6 +5,7 @@ import { RiCloseLargeLine } from '@remixicon/react'
 import React, { useState } from 'react'
 import PDFReportCol from './PDFReportCol';
 import SheetReportCol from './SheetReportCol';
+import CompetitorReportCol from './CompetitorReportCol';
 
 function QuickTools() {
     const [showDisclaimer, setShowDisclaimer] = useState<boolean>(true);
@@ -38,7 +39,7 @@ function QuickTools() {
                     className='grid grid-cols-3 gap-5 max-w-screen-xl'
                 >
                     {
-                        [PDFReportCol, SheetReportCol].map((ColItem, index) => (
+                        [PDFReportCol, SheetReportCol, CompetitorReportCol].map((ColItem, index) => (
                             <div
                                 className='bg-white py-5 px-6 flex flex-col gap-5 shadow-xl shadow-gray-200 rounded-md'
                                 key={index}

@@ -12,7 +12,8 @@ const sidebarMenuItems = [
         link: '/dashboard/quick-tools',
         subPages: [
             "/dashboard/quick-tools/pdf-report",
-            "/dashboard/quick-tools/sheet-report"
+            "/dashboard/quick-tools/sheet-report",
+            "/dashboard/quick-tools/competitor-analysis",
         ]
     },
     "My Projects",
