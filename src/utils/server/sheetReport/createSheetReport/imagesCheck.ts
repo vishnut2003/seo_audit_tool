@@ -49,13 +49,24 @@ export async function checkImagesSizeOver100KB({ DOM, url, title }: {
             const imageOver100Kb: imageFileSizeOver100KbInterface[] = [];
 
             for (const imageElement of imagesElements) {
-                const imageUrl = imageElement.src;
-                console.log(imageUrl);
-                if (!URL.canParse(imageUrl)) {
-                    console.log("image url is not valid!")
-                    continue;
-                }
+                let imageUrl = imageElement.src;
                 
+                if (!URL.canParse(imageUrl)) {
+                    
+                    // recheck the url
+                    const domainIndex = imageUrl.split("/").findIndex(part => part === url.split('/')[2]);
+                    const urlEndPart = imageUrl.split('/').slice(domainIndex + 1);
+
+                    imageUrl = "https://" + url.split('/')[2] + '/' + urlEndPart.join('/');
+
+                    if (!URL.canParse(imageUrl)){
+                        console.log("Image url not valid");
+                        continue;
+                    }
+                }
+
+                console.log(imageUrl);
+
                 const blob = await fetch(imageUrl).then((res) => res.blob());
                 const fileSize = blob.size;
                 const sizeInKb = Math.round(fileSize / 1000)

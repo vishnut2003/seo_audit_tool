@@ -11,6 +11,7 @@ import { generateInteractiveDoc } from "./jsDomValidate";
 import { validateDescBelow70, validateDescEmpty, validateDescOver155 } from "./createSheetReport/descriptionCheck";
 import { checkImagesAlt, checkImagesSizeOver100KB } from "./createSheetReport/imagesCheck";
 import { checkH1Missing } from "./createSheetReport/h1Checks";
+import { crawlValidLinks } from "./common/crawlValidLinks";
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -20,26 +21,10 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
         try {
             // fetch sitemap for the site using base url
-            const pagesList: string[] = await fetchSitemap({ baseUrl });
-
-            // update total page in database
-            await updateTotalPage({
-                pageCount: pagesList.length,
-                reportId: reportId
-            });
-
-            // sheet crietirias
-            const titleLessThan30: titileLessThan30Interface[] = [];
-            const titleAbove60: titileAbove60Interface[] = [];
-            const metaDescBelow70: metaDescBelow70Interface[] = [];
-            const metaDescOver155: metaDescOver155Interface[] = [];
-            const metaDescEmpty: metaDescEmptyInterface[] = [];
-            let imageAltMissing: imagesAltMissingInterface[] = [];
-            let imageFileSizeOver100Kb: imageFileSizeOver100KbInterface[] = [];
-            const h1Missing: H1MissingInterface[] = [];
+            let pagesList: string[] | null = await fetchSitemap({ baseUrl });
 
             // Lauch puppeteer browser
-            console.log("lauching browser!")
+            console.log("lauching browser!");
 
             let browser;
 
@@ -58,6 +43,26 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     timeout: 0
                 })
             }
+
+            if (!pagesList) {
+                pagesList = await crawlValidLinks({ browser: (browser as any), url: baseUrl });
+            }
+
+            // update total page in database
+            await updateTotalPage({
+                pageCount: pagesList.length,
+                reportId: reportId
+            });
+
+            // sheet crietirias
+            const titleLessThan30: titileLessThan30Interface[] = [];
+            const titleAbove60: titileAbove60Interface[] = [];
+            const metaDescBelow70: metaDescBelow70Interface[] = [];
+            const metaDescOver155: metaDescOver155Interface[] = [];
+            const metaDescEmpty: metaDescEmptyInterface[] = [];
+            let imageAltMissing: imagesAltMissingInterface[] = [];
+            let imageFileSizeOver100Kb: imageFileSizeOver100KbInterface[] = [];
+            const h1Missing: H1MissingInterface[] = [];
 
             const page = await browser.newPage();
 

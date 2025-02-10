@@ -21,7 +21,7 @@ interface sitemapParseDataInterface {
 export async function fetchSitemap({ baseUrl }: {
     baseUrl: string,
 }) {
-    return new Promise<string[]>(async (resolve, reject) => {
+    return new Promise<string[] | null>(async (resolve, reject) => {
         try {
             const sitemapUrl = `${baseUrl}/sitemap.xml`;
             const sitemapsList: string[] = [];
@@ -79,7 +79,7 @@ export async function fetchSitemap({ baseUrl }: {
             if (err instanceof AxiosError) {
                 // return axios error if sitemap not found.
                 console.log(err);
-                reject("Sitemap not found!");
+                resolve(null);
             }
 
             console.log(err);
