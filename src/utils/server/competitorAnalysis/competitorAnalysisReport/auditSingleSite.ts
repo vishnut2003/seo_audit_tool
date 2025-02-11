@@ -69,7 +69,7 @@ export async function auditSingleSite({ page, url }: {
             console.log(`Robot.txt file status: ${robotTxtStatus}`)
 
             // check meta tags quality
-            const metaTagCheck = await checkMetaTagsQuality({ DOM, page, pageCount: 10, baseUrl: url });
+            const metaTagCheck = await checkMetaTagsQuality({ DOM, page, pageCount: 1, baseUrl: url });
             console.log(`MetaTag Quality: ${metaTagCheck}`);
 
             // check image alt text in home page

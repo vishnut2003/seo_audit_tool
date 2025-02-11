@@ -13,30 +13,32 @@ export async function checkH1TitleTag({ DOM, page, baseUrl }: {
             const h1Element = DOM.window.document.querySelector("h1");
 
             // return if no H1 tag
-            if (!h1Element) {
+            if (h1Element) {
+                return resolve("PRESENT");
+            } else {
                 return resolve("NOT PRESENT");
             }
 
             // If exist the crawl few more pages and check h1 tag
-            const anchorElements: HTMLCollectionOf<HTMLAnchorElement> = DOM.window.document.getElementsByTagName("a");
-            const validPages: string[] = [];
-            for (const anchorElement of anchorElements) {
-                if (anchorElement.href.includes(baseUrl) && anchorElement.href.length > (baseUrl.length + 3)) {
-                    validPages.push(anchorElement.href);
-                    if (validPages.length === 10) {
-                        break;
-                    }
-                }
-            }
+            // const anchorElements: HTMLCollectionOf<HTMLAnchorElement> = DOM.window.document.getElementsByTagName("a");
+            // const validPages: string[] = [];
+            // for (const anchorElement of anchorElements) {
+            //     if (anchorElement.href.includes(baseUrl) && anchorElement.href.length > (baseUrl.length + 3)) {
+            //         validPages.push(anchorElement.href);
+            //         if (validPages.length === 10) {
+            //             break;
+            //         }
+            //     }
+            // }
 
-            for (const pageUrl of validPages) {
-                const hasH1Tag = await crawlPageCheckH1Tag({ page, pageUrl });
-                if (!hasH1Tag) {
-                    return resolve("NOT PRESENT")
-                }
-            }
+            // for (const pageUrl of validPages) {
+            //     const hasH1Tag = await crawlPageCheckH1Tag({ page, pageUrl });
+            //     if (!hasH1Tag) {
+            //         return resolve("NOT PRESENT")
+            //     }
+            // }
 
-            return resolve("PRESENT")
+            // return resolve("PRESENT")
 
         } catch (err) {
             return reject(err);
