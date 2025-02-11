@@ -38,6 +38,10 @@ export async function fetchSitemap({ baseUrl }: {
 
             const sitemapParser = new XMLParser();
             const parsedSitemap: sitemapParseDataInterface = sitemapParser.parse(sitemapData);
+            
+            if (!parsedSitemap.hasOwnProperty("?xml")) {
+                return resolve(null);
+            }
 
             if (parsedSitemap.sitemapindex) {
 
