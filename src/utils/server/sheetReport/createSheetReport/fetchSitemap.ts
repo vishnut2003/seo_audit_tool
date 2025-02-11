@@ -7,7 +7,9 @@ interface sitemapParseDataInterface {
     sitemapindex?: {
         sitemap: {
             loc: string,
-        }[]
+        }[] | {
+            loc: string,
+        }
     },
     urlset?: {
         url: {
@@ -27,7 +29,32 @@ export async function fetchSitemap({ baseUrl }: {
             const sitemapsList: string[] = [];
             const pagesList: string[] = [];
 
-            const response = await axios.get(sitemapUrl);
+            // check all possible sitemap endpoints
+            const sitemapEndpoinds = [
+                "/sitemap.xml",
+                "/sitemap_index.xml",
+            ];
+
+            let response = null;
+            for (const endpoind of sitemapEndpoinds) {
+                const sitemapResponse = await axios.get(baseUrl + endpoind, {
+                    validateStatus: (status) => {
+                        return status < 500
+                    },
+                });
+                
+                if (sitemapResponse.status >= 400) {
+                    continue;
+                }
+
+                response = sitemapResponse;
+                break;
+            }
+
+            if (!response) {
+                return resolve(null);
+            }
+
             const sitemapData: string = response.data;
 
             const isXMLValid = XMLValidator.validate(sitemapData, {
@@ -38,18 +65,21 @@ export async function fetchSitemap({ baseUrl }: {
 
             const sitemapParser = new XMLParser();
             const parsedSitemap: sitemapParseDataInterface = sitemapParser.parse(sitemapData);
-            
+
             if (!parsedSitemap.hasOwnProperty("?xml")) {
                 return resolve(null);
             }
 
             if (parsedSitemap.sitemapindex) {
+                console.log(parsedSitemap)
 
-                // if its sitmapindex push to sitemaps
-                const saveSitemaps = parsedSitemap.sitemapindex.sitemap.map((sitemap) => {
-                    sitemapsList.push(sitemap.loc);
-                })
-                await Promise.allSettled(saveSitemaps);
+                if ('loc' in parsedSitemap.sitemapindex.sitemap) {
+                    sitemapsList.push(parsedSitemap.sitemapindex.sitemap.loc);
+                } else {
+                    for (const sitemap of parsedSitemap.sitemapindex.sitemap) {
+                        sitemapsList.push(sitemap.loc)
+                    }
+                }
 
             } else if (parsedSitemap.urlset && Array.isArray(parsedSitemap.urlset.url)) {
 
@@ -63,7 +93,7 @@ export async function fetchSitemap({ baseUrl }: {
             }
 
             // loop list of sitemaps and push to pageList
-            for(const sitemap of sitemapsList) {
+            for (const sitemap of sitemapsList) {
                 const response = await axios.get(sitemap);
                 const parsedData: sitemapParseDataInterface = sitemapParser.parse(response.data);
 
