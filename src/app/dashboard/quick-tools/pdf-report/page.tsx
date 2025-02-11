@@ -86,6 +86,7 @@ const QuickToolsPDFReport = () => {
                             inputValue={domain}
                             inputPlaceholder='example.com'
                             inputOnChange={(e) => setDomain(e.target.value)}
+                            domainInput
                         />
 
                         {

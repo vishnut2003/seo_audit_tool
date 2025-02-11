@@ -102,6 +102,7 @@ const QuickToolsSheetReport = () => {
                             inputValue={domain}
                             inputPlaceholder='example.com'
                             inputOnChange={(e) => setDomain(e.target.value)}
+                            domainInput
                         />
 
                         {

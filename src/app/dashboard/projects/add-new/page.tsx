@@ -63,6 +63,7 @@ const AddNewProject = () => {
             inputPlaceholder="example.com"
             inputOnChange={handleInputOnchange}
             name="domain"
+            domainInput
           />
         </div>
 
@@ -88,6 +89,7 @@ const AddNewProject = () => {
             inputPlaceholder="example.com"
             inputOnChange={handleInputOnchange}
             name="competitor1"
+            domainInput
           />
 
           <DashboardStandardInput
@@ -97,6 +99,7 @@ const AddNewProject = () => {
             inputPlaceholder="example.com"
             inputOnChange={handleInputOnchange}
             name="competitor2"
+            domainInput
           />
 
           <DashboardStandardInput
@@ -106,6 +109,7 @@ const AddNewProject = () => {
             inputPlaceholder="example.com"
             inputOnChange={handleInputOnchange}
             name="competitor3"
+            domainInput
           />
 
           {

@@ -8,7 +8,8 @@ const DashboardStandardInput = ({
     inputValue,
     inputPlaceholder,
     inputOnChange,
-    name
+    name,
+    domainInput,
 }: {
     label: string,
     subLabel: string,
@@ -16,6 +17,7 @@ const DashboardStandardInput = ({
     inputPlaceholder: string,
     inputOnChange: (e: ChangeEvent<HTMLInputElement>) => any,
     name: string,
+    domainInput?: boolean,
 }) => {
   return (
     <div 
@@ -49,7 +51,15 @@ const DashboardStandardInput = ({
                 className="text-md w-full py-3 px-5 outline-none"
                 placeholder={inputPlaceholder}
                 value={inputValue}
-                onChange={inputOnChange}
+                onChange={(e) => {
+                    let event = e;
+                    if (domainInput && URL.canParse(e.target.value)) {
+                        const urlObject = URL.parse(e.target.value);
+                        event.target.value = urlObject?.hostname || e.target.value;
+                    }
+
+                    inputOnChange(event);
+                }}
                 name={name}
             />
         </div>

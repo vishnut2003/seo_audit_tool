@@ -95,6 +95,7 @@ const QuickToolsCompetitorAnalysis = () => {
                             inputValue={domain}
                             inputPlaceholder='example.com'
                             inputOnChange={(e) => setDomain(e.target.value)}
+                            domainInput
                         />
                     </div>
 
@@ -110,6 +111,7 @@ const QuickToolsCompetitorAnalysis = () => {
                                     name={`competitor${index + 1}`}
                                     inputValue={competitor}
                                     inputPlaceholder='example.com'
+                                    domainInput
                                     inputOnChange={(e) => {
                                         setCompetitors(prev => {
                                             prev[index] = e.target.value;
