@@ -52,7 +52,7 @@ const DashboardStandardInput = ({
                 placeholder={inputPlaceholder}
                 value={inputValue}
                 onChange={(e) => {
-                    let event = e;
+                    const event = e;
                     if (domainInput && URL.canParse(e.target.value)) {
                         const urlObject = URL.parse(e.target.value);
                         event.target.value = urlObject?.hostname || e.target.value;

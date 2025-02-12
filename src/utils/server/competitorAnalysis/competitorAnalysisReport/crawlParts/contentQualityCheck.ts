@@ -1,9 +1,7 @@
 import { Page } from "puppeteer";
-import { JSDOM } from "jsdom";
 import { generateInteractiveDoc } from "@/utils/server/sheetReport/jsDomValidate";
 
-export async function checkContentQuality({ DOM, page, baseUrl }: {
-    DOM: JSDOM,
+export async function checkContentQuality({ page, baseUrl }: {
     page: Page,
     baseUrl: string,
 }) {

@@ -70,7 +70,9 @@ export async function checkImagesSizeOver100KB({ DOM, url, title }: {
                 try {
                     blob = await fetch(imageUrl).then((res) => res.blob());
                 } catch (err) {
-                    console.log(`${imageUrl} fatch failed`);
+                    if (err) {
+                        console.log(`${imageUrl} fatch failed`);
+                    }
                 }
 
                 const fileSize = blob ? blob.size : 0;

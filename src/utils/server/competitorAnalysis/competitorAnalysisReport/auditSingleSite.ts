@@ -77,11 +77,11 @@ export async function auditSingleSite({ page, url }: {
             console.log(`Image Alt Text Check: ${imageAltCheck}`);
 
             // check H1 tag existence
-            const h1TagCheck = await checkH1TitleTag({ baseUrl: url, DOM, page });
+            const h1TagCheck = await checkH1TitleTag({ DOM });
             console.log(`H1 tag check: ${h1TagCheck}`);
 
             // check content quality
-            const contentQualityCheck = await checkContentQuality({ baseUrl: url, DOM, page });
+            const contentQualityCheck = await checkContentQuality({ baseUrl: url, page });
             console.log(`Content quality check: ${contentQualityCheck}`);
 
             // check structure data (Schema JSON)

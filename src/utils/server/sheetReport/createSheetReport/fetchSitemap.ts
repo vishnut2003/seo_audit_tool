@@ -25,7 +25,7 @@ export async function fetchSitemap({ baseUrl }: {
 }) {
     return new Promise<string[] | null>(async (resolve, reject) => {
         try {
-            const sitemapUrl = `${baseUrl}/sitemap.xml`;
+            // const sitemapUrl = `${baseUrl}/sitemap.xml`;
             const sitemapsList: string[] = [];
             const pagesList: string[] = [];
 

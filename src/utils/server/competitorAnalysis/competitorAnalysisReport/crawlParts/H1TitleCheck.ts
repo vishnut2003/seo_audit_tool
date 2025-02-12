@@ -1,11 +1,7 @@
-import { Page } from "puppeteer";
 import { JSDOM } from "jsdom";
-import { generateInteractiveDoc } from "@/utils/server/sheetReport/jsDomValidate";
 
-export async function checkH1TitleTag({ DOM, page, baseUrl }: {
+export async function checkH1TitleTag({ DOM }: {
     DOM: JSDOM,
-    page: Page,
-    baseUrl: string,
 }) {
     return new Promise<"PRESENT" | "NOT PRESENT">(async (resolve, reject) => {
         try {
@@ -46,27 +42,27 @@ export async function checkH1TitleTag({ DOM, page, baseUrl }: {
     })
 }
 
-function crawlPageCheckH1Tag({ pageUrl, page }: {
-    pageUrl: string,
-    page: Page,
-}) {
-    return new Promise<boolean>(async (resolve, reject) => {
-        try {
-            // crawl page content
-            await page.goto(pageUrl, { timeout: 0 });
-            const content = await page.content();
-            const DOM = await generateInteractiveDoc({ content });
+// function crawlPageCheckH1Tag({ pageUrl, page }: {
+//     pageUrl: string,
+//     page: Page,
+// }) {
+//     return new Promise<boolean>(async (resolve, reject) => {
+//         try {
+//             // crawl page content
+//             await page.goto(pageUrl, { timeout: 0 });
+//             const content = await page.content();
+//             const DOM = await generateInteractiveDoc({ content });
 
-            // check if h1 tag exist
-            const h1Element = DOM.window.document.querySelector("h1");
-            if (!h1Element) {
-                return resolve(false);
-            } else {
-                return resolve(true);
-            }
+//             // check if h1 tag exist
+//             const h1Element = DOM.window.document.querySelector("h1");
+//             if (!h1Element) {
+//                 return resolve(false);
+//             } else {
+//                 return resolve(true);
+//             }
 
-        } catch (err) {
-            return reject(err);
-        }
-    })
-}
+//         } catch (err) {
+//             return reject(err);
+//         }
+//     })
+// }
