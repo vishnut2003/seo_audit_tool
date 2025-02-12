@@ -48,6 +48,8 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 pagesList = await crawlValidLinks({ browser: (browser as any), url: baseUrl });
             }
 
+            console.log(pagesList)
+
             // update total page in database
             await updateTotalPage({
                 pageCount: pagesList.length,
@@ -65,10 +67,22 @@ export async function createSheetReport({ baseUrl, reportId }: {
             const h1Missing: H1MissingInterface[] = [];
 
             const page = await browser.newPage();
+            let timeoutCount = 0;
 
             for (const url of pagesList) {
+
                 console.log(`Opening ${url}`)
-                await page.goto(url, { timeout: 0 });
+                try {
+                    await page.goto(url, { timeout: 0 });
+                } catch (err) {
+                    console.log(err);
+                    timeoutCount++
+                    if (timeoutCount === 3) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
 
                 // fetch page full content
                 const content = await page.content();
