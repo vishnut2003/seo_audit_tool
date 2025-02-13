@@ -20,6 +20,8 @@ const Page = () => {
   const [currentProject, setCurrentProject] = useState<ProjectModelInterface | null>(null);
   const [reportId, setReportId] = useState<string | null>(null);
 
+  const [showCreateLoader, setShowCreationLoader] = useState<boolean>(false);
+
   useEffect(() => {
     setInProgress(true);
     getSessionProject().then((project) => {
@@ -46,6 +48,7 @@ const Page = () => {
         }
       } = await axios.get("/api/sheet-report/generate-report-id");
       setReportId(data.reportId);
+      setShowCreationLoader(true);
 
       // create sheet report
       await axios.post("/api/sheet-report/create", {
@@ -56,10 +59,10 @@ const Page = () => {
       })
 
       setInProgress(false);
-      setReportId(null);
     } catch (err) {
       console.log(err);
       setError('Something went wrong!');
+      setShowCreationLoader(false);
       setReportId(null);
       setInProgress(false);
     }
@@ -138,9 +141,14 @@ const Page = () => {
       </div>
 
       {
-        reportId && inProgress &&
+        reportId && showCreateLoader &&
         <SheetCreationLoader
           reportId={reportId}
+          inProgress={inProgress}
+          popupClose={() => {
+            setShowCreationLoader(false);
+            setReportId(null);
+          }}
         />
       }
 

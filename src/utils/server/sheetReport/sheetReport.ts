@@ -1,6 +1,7 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
 import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface, imageFileSizeOver100KbInterface, H1MissingInterface } from "./sheetReportInterfaces";
+import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
 import updateFinishPage from "./databaseActions/updateFinishPage";
@@ -25,13 +26,23 @@ export async function createSheetReport({ baseUrl, reportId }: {
             // Lauch puppeteer browser
             console.log("lauching browser!");
 
-            const browser = await puppeteer_core.launch({
-                args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
-                defaultViewport: chromium.defaultViewport,
-                executablePath: await chromium.executablePath(),
-                headless: true,
-                timeout: 0
-            })
+            let browser;
+
+            if (process.env.DEVMODE !== "DEV") {
+                console.log('Assigning browser for Production!')
+                browser = await puppeteer_core.launch({
+                    args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+                    defaultViewport: chromium.defaultViewport,
+                    executablePath: await chromium.executablePath(),
+                    headless: true,
+                    timeout: 0
+                })
+            } else {
+                console.log('Assigning browser for local run!')
+                browser = await puppeteer.launch({
+                    timeout: 0
+                })
+            }
 
             if (!pagesList) {
                 pagesList = await crawlValidLinks({ browser: (browser as any), url: baseUrl });
@@ -121,7 +132,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 }
 
                 // check H1 missing
-                const failedH1MissingCheck = await checkH1Missing({ DOM, url, pageTitle });
+                const failedH1MissingCheck = await checkH1Missing({DOM, url, pageTitle});
                 if (failedH1MissingCheck) {
 
                 }

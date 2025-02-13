@@ -1,7 +1,7 @@
 'use client';
 
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
-import { RiAddLargeLine, RiArrowLeftSLine, RiFileExcel2Line } from '@remixicon/react'
+import { RiAddLargeLine, RiArrowLeftSLine } from '@remixicon/react'
 import React, { FormEvent, useState } from 'react';
 import { motion } from "framer-motion";
 import Link from 'next/link';
@@ -15,9 +15,7 @@ const QuickToolsSheetReport = () => {
     const [error, setError] = useState<string | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(false);
     const [reportId, setReportId] = useState<string | null>(null);
-
-    // generated sheet report id
-    const [sheetId, setSheetId] = useState<string | null>(null);
+    const [showLoaderPopup, setShowLoaderPopup] = useState<boolean>(false);
 
     async function handleSubmit(e: FormEvent) {
         e.preventDefault();
@@ -25,6 +23,7 @@ const QuickToolsSheetReport = () => {
         setError(null);
         if (!domain) {
             setError('Domain field is required.');
+            setInProgress(false);
             return;
         }
 
@@ -44,24 +43,20 @@ const QuickToolsSheetReport = () => {
             } = await axios.get("/api/sheet-report/generate-report-id");
 
             setReportId(data.reportId);
+            setShowLoaderPopup(true);
 
             // create sheet report
-            const response: {
-                data: {
-                    sheetId: string,
-                }
-            } = await axios.post("/api/sheet-report/create", {
+            await axios.post("/api/sheet-report/create", {
                 baseUrl: domain,
                 reportId: data.reportId
             })
 
-            setSheetId(response.data.sheetId);
-
             setInProgress(false);
-            setReportId(null);
+
         } catch (err) {
             console.log(err);
             setError("Something went wrong!");
+            setShowLoaderPopup(false);
             setInProgress(false);
         }
     }
@@ -134,26 +129,17 @@ const QuickToolsSheetReport = () => {
                             />
                             {inProgress ? "Creating..." : "Create Report"}
                         </button>
-                        {
-                            sheetId &&
-                            <Link
-                                href={`https://docs.google.com/spreadsheets/d/${sheetId}`}
-                                className="py-4 px-7 bg-themeprimary text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60 animate-in"
-                                rel='noopener noreferrer'
-                                target='_blank'
-                            >
-                                <RiFileExcel2Line
-                                    size={20}
-                                />
-                                Open Sheeet
-                            </Link>
-                        }
                     </div>
                 </form>
                 {
-                    reportId && inProgress &&
+                    showLoaderPopup && reportId &&
                     <SheetCreationLoader
                         reportId={reportId}
+                        inProgress={inProgress}
+                        popupClose={() => {
+                            setShowLoaderPopup(false);
+                            setReportId(null);
+                        }}
                     />
                 }
             </div>

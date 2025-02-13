@@ -24,22 +24,32 @@ export async function POST(request: NextRequest) {
 
         // create new report in database
         await databaseCreateSheetReport({
-            reportId, 
+            reportId,
             websiteUrl: body.baseUrl,
             projectId: body.projectId,
             email: body.email,
         });
 
         // create sheet
-        const report = await createSheetReport({ baseUrl: body.baseUrl, reportId });
+        createSheetReport({ baseUrl: body.baseUrl, reportId })
+            .then(async (report) => {
+                try {
+                    const sheetId = await createNewSpreadSheet({
+                        websiteUrl: body.baseUrl,
+                        report,
+                    })
+    
+                    await updateSheetLink({ reportId, sheetId })
+                } catch (err) {
+                    console.log("Google spread sheet failed", err);
+                }
+            })
+            .catch((err) => {
+                console.log("Creating sheet report failed.", err)
+            })
 
-        const sheetId = await createNewSpreadSheet({
-            websiteUrl: body.baseUrl,
-            report,
-        })
 
-        await updateSheetLink({reportId, sheetId})
-        return NextResponse.json({ sheetId });
+        return NextResponse.json({ success: true });
     } catch (err) {
         console.log(err);
         return NextResponse.json({ error: err }, { status: 500 });
