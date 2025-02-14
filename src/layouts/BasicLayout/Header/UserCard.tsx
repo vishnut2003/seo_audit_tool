@@ -5,6 +5,7 @@ import { getSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Notification from "./Notification";
 
 function UserCard() {
   const [userSession, setUserSession] = useState<Session | null>(null)
@@ -16,7 +17,10 @@ function UserCard() {
   }, [])
 
   return (
-    <div>
+    <div
+      className="flex items-center gap-5"
+    >
+      <Notification />
       <div
         className="flex flex-col items-end"
       >
