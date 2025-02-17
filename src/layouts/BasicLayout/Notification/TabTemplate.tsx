@@ -13,7 +13,7 @@ const TabTemplate = ({ currentTab }: {
             className='w-full flex flex-col gap-2'
         >
             <button
-                className='flex justify-between items-center gap-3 w-full py-3 px-5 shadow-xl shadow-gray-200 rounded-md bg-themeprimary text-white'
+                className='flex justify-between items-center gap-3 w-full py-3 px-5 shadow-xl shadow-gray-200 rounded-md border border-gray-400'
                 onClick={() => setOpen(prev => !prev)}
             >
                 <p>{currentTab.title}</p>

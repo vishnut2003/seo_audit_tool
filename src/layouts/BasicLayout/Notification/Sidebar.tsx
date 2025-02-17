@@ -16,7 +16,7 @@ const NotificationSidebar = ({ closeAction }: {
             transition={{
                 ease: [0.01, 0.01, 0.01, 0.01],
             }}
-            className='fixed top-0 right-0 z-50 bg-white h-full w-[90%] md:w-full md:max-w-[390px] shadow-xl shadow-gray-200 py-5 px-7 flex flex-col gap-5'
+            className='fixed top-0 right-0 z-50 bg-white h-full w-[90%] md:w-full md:max-w-[390px] shadow-xl shadow-gray-200 py-5 px-7 flex flex-col gap-5 overflow-auto'
         >
             {/* Header section */}
             <div
