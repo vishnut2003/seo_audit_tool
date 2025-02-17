@@ -20,7 +20,11 @@ export async function POST(request: NextRequest) {
         }
         
         // create report
-        await competitorAnalysisReport(body);
+        competitorAnalysisReport(body)
+            .catch((err) => {
+                console.log(err);
+                console.log("Competitor analysis failed!");
+            });
 
         return NextResponse.json({ success: true })
     } catch (err) {

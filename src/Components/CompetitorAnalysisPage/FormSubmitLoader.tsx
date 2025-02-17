@@ -4,10 +4,11 @@ import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoa
 import { RiCheckboxCircleLine, RiCloseLargeLine, RiFileExcel2Line, RiGlobalLine, RiRefreshLine } from "@remixicon/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
-const FormSubmitLoader = ({ siteList, reportId, setShowLoader }: {
+const FormSubmitLoader = ({ siteList, reportId, setShowLoader, inProgress }: {
     siteList: string[],
     reportId: string,
     setShowLoader: Dispatch<SetStateAction<boolean>>,
+    inProgress: boolean,
 }) => {
 
     const [completedSites, setCompletedSites] = useState<string[]>([]);
@@ -33,8 +34,8 @@ const FormSubmitLoader = ({ siteList, reportId, setShowLoader }: {
             setLastUpdated(parsedData.time.split(" "))
             // update status if status is completed
             if (parsedData.status === "completed") {
-                setReportSuccess(true);
                 setSheetLink(parsedData.sheetLink);
+                setReportSuccess(true);
                 eventSource.close();
             }
 
@@ -64,14 +65,15 @@ const FormSubmitLoader = ({ siteList, reportId, setShowLoader }: {
             className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-white/50 z-50 px-5"
         >
             <div className="bg-white w-full max-w-screen-sm rounded-md flex flex-col gap-3 justify-center items-center p-20 shadow-xl shadow-gray-200">
-                {
-                    !reportSuccess &&
-                    <div className="flex flex-col gap-1 text-center">
+
+                <div className="flex flex-col gap-1 text-center">
+                    {
+                        inProgress || !reportSuccess &&
                         <TripleDotLoading />
-                        <p className="text-foreground mt-3">Competitor Analysis in Progress...</p>
-                        <p className="text-foreground">Last updated: <span className="font-semibold">{lastUpdated[0]} <span className="uppercase">{lastUpdated[1]}</span></span></p>
-                    </div>
-                }
+                    }
+                    <p className="text-foreground mt-3">{inProgress ? "Initiating Competitor Analysis" : reportSuccess ? "Report is Ready!" : "Competitor Analysis in Progress..."}</p>
+                    <p className="text-foreground">Last updated: <span className="font-semibold">{lastUpdated[0]} <span className="uppercase">{lastUpdated[1]}</span></span></p>
+                </div>
 
                 <div
                     className="bg-white drop-shadow-2xl px-6 rounded-md py-4 w-max h-max flex flex-col gap-5"
@@ -98,22 +100,29 @@ const FormSubmitLoader = ({ siteList, reportId, setShowLoader }: {
                     }
                 </div>
 
-                {/* report sheet link and close button */
-                    reportSuccess &&
-                    <div className="flex gap-5 mt-5">
-                        <a target="_blank" rel="noopener noreferrer" href={sheetLink} className="py-3 px-5 bg-green-100 text-green-500 flex gap-2 items-center rounded-md">
-                            <RiFileExcel2Line size={19} />
-                            <p>View Sheet</p>
-                        </a>
+                <div className="flex gap-5 mt-5">
+                    {
+                        sheetLink ?
+                            <a target="_blank" rel="noopener noreferrer" href={sheetLink} className="py-3 px-5 bg-green-100 text-green-500 flex gap-2 items-center rounded-md">
+                                <RiFileExcel2Line size={19} />
+                                <p>View Sheet</p>
+                            </a> :
+                            <button className="py-3 px-5 bg-green-100 text-green-500 flex gap-2 items-center rounded-md">
+                                <RiRefreshLine
+                                    size={20}
+                                    className="animate-spin"
+                                />
+                                <p>Loading...</p>
+                            </button>
+                    }
 
-                        <button
-                            onClick={() => setShowLoader(false)}
-                            className="py-3 px-5 bg-red-100 text-red-500 flex gap-2 items-center rounded-md">
-                            <RiCloseLargeLine size={17} />
-                            <p>Close</p>
-                        </button>
-                    </div>
-                }
+                    <button
+                        onClick={() => setShowLoader(false)}
+                        className="py-3 px-5 bg-red-100 text-red-500 flex gap-2 items-center rounded-md">
+                        <RiCloseLargeLine size={17} />
+                        <p>Close</p>
+                    </button>
+                </div>
 
 
             </div>

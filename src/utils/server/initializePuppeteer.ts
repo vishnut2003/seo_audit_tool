@@ -10,8 +10,8 @@ export async function initializePuppeteer() {
 
             let browser;
 
-            if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-                console.log('Assigning browser for AWS Lambda!')
+            if (process.env.DEVMODE !== "DEV") {
+                console.log('Assigning browser for Production!')
                 browser = await puppeteer_core.launch({
                     args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
                     defaultViewport: chromium.defaultViewport,

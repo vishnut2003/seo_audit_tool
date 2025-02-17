@@ -3,7 +3,6 @@
 import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoading"
 import { sheetReportRecordInterface } from "@/models/SheetReportRecordModel";
 import { RiCloseLargeLine, RiFileExcel2Line, RiNotification2Line, RiRefreshLine } from "@remixicon/react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const SheetCreationLoader = ({ reportId, popupClose, inProgress }: {
@@ -97,14 +96,17 @@ const SheetCreationLoader = ({ reportId, popupClose, inProgress }: {
 
               {
                 progressData?.sheetLink ?
-                  <Link
+                  <a
                     className="py-4 px-6 bg-green-200 text-green-600 rounded-sm flex gap-3 items-center"
-                    href={progressData.sheetLink}>
+                    href={progressData.sheetLink}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
                     <RiFileExcel2Line
                       size={20}
                     />
                     Open Report
-                  </Link> :
+                  </a> :
                   <button
                     className="py-4 px-6 bg-green-200 text-green-600 opacity-70 rounded-sm flex gap-3 items-center"
                   >

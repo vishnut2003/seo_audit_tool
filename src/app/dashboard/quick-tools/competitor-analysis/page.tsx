@@ -14,6 +14,7 @@ const QuickToolsCompetitorAnalysis = () => {
 
     const [error, setError] = useState<string | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(false);
+    const [showLoader, setShowLoader] = useState<boolean>(false);
 
     const [reportId, setReportId] = useState<string | null>(null);
     const [domain, setDomain] = useState<string>('');
@@ -41,6 +42,7 @@ const QuickToolsCompetitorAnalysis = () => {
         try {
             const reportId = await generateReportId();
             setReportId(reportId);
+            setShowLoader(true);
 
             const formData: CompetiotrAnalysisFormSubmitInterface = {
                 reportId,
@@ -49,6 +51,7 @@ const QuickToolsCompetitorAnalysis = () => {
             }
 
             await createCompetitorAnalysisReport({formData});
+            setInProgress(false);
             
         } catch (err) {
             console.log(err);
@@ -172,13 +175,14 @@ const QuickToolsCompetitorAnalysis = () => {
                     </div>
                 </form>
                 {
-                    reportId && inProgress &&
+                    reportId && showLoader &&
                     <FormSubmitLoader
                         reportId={reportId}
                         siteList={[domain, ...competitors]}
+                        inProgress={inProgress}
                         setShowLoader={() => {
                             setReportId(null);
-                            setInProgress(false);
+                            setShowLoader(false);
                             setDomain("");
                             setCompetitors(['']);
                         }}

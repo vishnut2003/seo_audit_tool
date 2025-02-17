@@ -20,6 +20,7 @@ const CompetitorAnalysis = () => {
     const [currentProject, setCurrentProject] = useState<ProjectModelInterface | null>(null);
     const [reportId, setReportId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [showLoader, setShowLoader] = useState<boolean>(false);
 
     useEffect(() => {
         setInProgress(true);
@@ -29,7 +30,7 @@ const CompetitorAnalysis = () => {
         })
     }, []);
 
-    async function createNewCompetitorReport () {
+    async function createNewCompetitorReport() {
         try {
             const session = await getSession();
 
@@ -44,6 +45,7 @@ const CompetitorAnalysis = () => {
 
             setReportId(reportId);
             setInProgress(true);
+            setShowLoader(true);
 
             const formData: CompetiotrAnalysisFormSubmitInterface = {
                 email: session.user.email,
@@ -52,9 +54,9 @@ const CompetitorAnalysis = () => {
                 website: currentProject.domain,
                 competitor: currentProject.competitors,
             }
-            console.log(reportId)
 
-            await createCompetitorAnalysisReport({formData});
+            await createCompetitorAnalysisReport({ formData });
+            setInProgress(false);
 
         } catch (err) {
             if (typeof err === "string" && err.length > 2) {
@@ -64,6 +66,7 @@ const CompetitorAnalysis = () => {
             }
 
             setInProgress(false);
+            setShowLoader(false);
             setReportId(null);
         }
     }
@@ -141,13 +144,20 @@ const CompetitorAnalysis = () => {
             </div>
 
             {
-                reportId && inProgress &&
+                reportId && showLoader &&
                 <FormSubmitLoader
                     reportId={reportId}
                     siteList={currentProject?.competitors ? [currentProject.domain, ...currentProject.competitors] : []}
-                    setShowLoader={(exit) => {
-                        setInProgress(exit);
+                    inProgress={inProgress}
+                    setShowLoader={() => {
+                        setShowLoader(false);
                         setReportId(null);
+
+                        setInProgress(true);
+                        getSessionProject().then((project) => {
+                            setCurrentProject(project);
+                            setInProgress(false);
+                        })
                     }}
                 />
             }
