@@ -4,7 +4,7 @@ import { RouteSheetReportGetReport } from '@/app/api/sheet-report/get-reports/ro
 import SheetCreationLoader from '@/Components/SheetReportPage/SheetReportForm/SheetCreationLoader';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
 import { sheetReportRecordInterface } from '@/models/SheetReportRecordModel';
-import { RiArrowDownSLine, RiRefreshLine } from '@remixicon/react';
+import { RiArrowDownSLine } from '@remixicon/react';
 import axios, { AxiosError } from 'axios';
 import { getSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
@@ -86,47 +86,53 @@ const SheetReportTab = () => {
                     </div> :
                     inProgress ?
                         <p>Loading...</p> :
-                        reports.map((report, index) => (
+                        reports.length === 0 ?
                             <div
-                                key={index}
-                                className='pb-3 mb-3 border-b border-gray-100 flex flex-nowrap justify-between items-center'
+                                className='flex justify-center items-center p-5 text-sm opacity-80'
                             >
+                                <p>No Data</p>
+                            </div>
+                            : reports.map((report, index) => (
                                 <div
-                                    className='flex flex-col gap-2 w-full'
+                                    key={index}
+                                    className='pb-3 mb-3 border-b border-gray-100 flex flex-nowrap justify-between items-center'
                                 >
-                                    <p
-                                        className='font-medium whitespace-nowrap truncate'
-                                    >{URL.canParse(report.websiteUrl) ? URL.parse(report.websiteUrl)?.hostname : report.websiteUrl}</p>
-                                    <p
-                                        className='text-sm'
-                                    >status:
-                                        <span
-                                            className={`
+                                    <div
+                                        className='flex flex-col gap-2 w-full'
+                                    >
+                                        <p
+                                            className='font-medium whitespace-nowrap truncate'
+                                        >{URL.canParse(report.websiteUrl) ? URL.parse(report.websiteUrl)?.hostname : report.websiteUrl}</p>
+                                        <p
+                                            className='text-sm'
+                                        >status:
+                                            <span
+                                                className={`
                                                 text-xs ml-2 py-1 px-2 rounded-md capitalize 
                                                 ${report.status === "error" && "bg-red-100 text-red-600"}
                                                 ${report.status === "success" && "bg-green-100 text-green-600"}
                                                 ${report.status === "processing" && "bg-orange-100 text-orange-600"}
                                             `}
-                                        >{report.status}</span>
-                                    </p>
-                                </div>
-                                <div
-                                    className='flex flex-col items-end gap-2 w-full'
-                                >
-                                    <p
-                                        className='text-sm whitespace-nowrap text-right truncate font-semibold'
+                                            >{report.status}</span>
+                                        </p>
+                                    </div>
+                                    <div
+                                        className='flex flex-col items-end gap-2 w-full'
                                     >
-                                        <span>{report.finishPage}/{report.totalPage}</span>
-                                    </p>
-                                    <button
-                                        className='text-sm text-themesecondary underline font-semibold'
-                                        onClick={() => setReportId(report.reportId)}
-                                    >
-                                        View
-                                    </button>
+                                        <p
+                                            className='text-sm whitespace-nowrap text-right truncate font-semibold'
+                                        >
+                                            <span>{report.finishPage}/{report.totalPage}</span>
+                                        </p>
+                                        <button
+                                            className='text-sm text-themesecondary underline font-semibold'
+                                            onClick={() => setReportId(report.reportId)}
+                                        >
+                                            View
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))
             }
             {
                 !inProgress &&

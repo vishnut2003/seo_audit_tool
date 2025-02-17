@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import FormSubmitLoader from '@/Components/CompetitorAnalysisPage/FormSubmitLoader'
 import { CompetiotrAnalysisFormSubmitInterface } from '@/Interfaces/CompetitorAnalysisInterface/FormSubmitInterface';
 import { createCompetitorAnalysisReport, generateReportId } from '@/utils/client/CompetitorAnalysisReport';
+import { getSession } from 'next-auth/react';
 
 const QuickToolsCompetitorAnalysis = () => {
 
@@ -40,11 +41,19 @@ const QuickToolsCompetitorAnalysis = () => {
         }
 
         try {
+
+            const session = await getSession();
+            if (!session?.user?.email) {
+                setError("Please login.");
+                return;
+            }
+
             const reportId = await generateReportId();
             setReportId(reportId);
             setShowLoader(true);
 
             const formData: CompetiotrAnalysisFormSubmitInterface = {
+                email: session.user.email,
                 reportId,
                 website: domain,
                 competitor: competitors,

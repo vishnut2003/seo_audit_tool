@@ -8,6 +8,7 @@ import Link from 'next/link';
 import DashboardStandardInput from '@/Components/ui/DashboardStandardInput';
 import axios from 'axios';
 import SheetCreationLoader from '@/Components/SheetReportPage/SheetReportForm/SheetCreationLoader';
+import { getSession } from 'next-auth/react';
 
 const QuickToolsSheetReport = () => {
 
@@ -35,6 +36,14 @@ const QuickToolsSheetReport = () => {
         }
 
         try {
+
+            // get session
+            const session = await getSession();
+            if (!session?.user?.email) {
+                setError("Please login.");
+                return;
+            }
+
             // generate report id
             const { data }: {
                 data: {
@@ -48,7 +57,8 @@ const QuickToolsSheetReport = () => {
             // create sheet report
             await axios.post("/api/sheet-report/create", {
                 baseUrl: domain,
-                reportId: data.reportId
+                reportId: data.reportId,
+                email: session.user.email,
             })
 
             setInProgress(false);

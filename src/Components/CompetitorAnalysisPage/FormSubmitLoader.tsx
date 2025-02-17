@@ -28,12 +28,12 @@ const FormSubmitLoader = ({ siteList, reportId, setShowLoader, inProgress }: {
             const parsedData = JSON.parse(event.data) as {
                 sites: string[],
                 time: string,
-                status: "pending" | "completed",
+                status: "processing" | "success",
                 sheetLink: string,
             }
             setLastUpdated(parsedData.time.split(" "))
             // update status if status is completed
-            if (parsedData.status === "completed") {
+            if (parsedData.status === "success") {
                 setSheetLink(parsedData.sheetLink);
                 setReportSuccess(true);
                 eventSource.close();

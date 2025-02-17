@@ -23,7 +23,7 @@ export async function createNewCompetitorAnalysisReport ({
                 recordId: reportId,
                 website: mainSite,
                 competitors,
-                status: "pending",
+                status: "processing",
                 finishedSites: [],
             })
 

@@ -3,7 +3,7 @@ import CompetitorAnalysisRecordModel from "@/models/CompetitorAnalysisRecordMode
 
 export async function updateReportStatus ({reportId, status}: {
     reportId: string,
-    status: string,
+    status: "processing" | "success" | "error",
 }) {
     return new Promise<void>(async (resolve, reject) => {
         try {

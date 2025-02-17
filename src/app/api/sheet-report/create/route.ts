@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
         baseUrl: string,
         reportId: string,
         projectId?: string,
-        email?: string,
+        email: string,
     }
 
     try {

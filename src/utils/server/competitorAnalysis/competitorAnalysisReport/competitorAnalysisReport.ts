@@ -70,7 +70,7 @@ export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFo
 
             await updateReportStatus({
                 reportId: reportEntry.reportId,
-                status: "completed",
+                status: "success",
             })
             
             resolve()
