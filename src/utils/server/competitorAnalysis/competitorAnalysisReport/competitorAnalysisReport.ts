@@ -23,9 +23,10 @@ export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFo
             
             // open new page
             const page = await browser.newPage();
+            // const page2 = await browser.newPage();
 
             // crawl main website
-            const mainSiteReport = await auditSingleSite({page, url: reportEntry.website})
+            const mainSiteReport = await auditSingleSite({page, url: reportEntry.website});
             
             // add mainsite to finishedsite list in database
             await updateReportFinishedSite({
