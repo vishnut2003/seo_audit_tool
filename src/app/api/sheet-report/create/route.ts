@@ -1,9 +1,10 @@
 import databaseCreateSheetReport from "@/utils/server/sheetReport/databaseActions/createNewSheet";
 import updateSheetLink from "@/utils/server/sheetReport/databaseActions/updateSheetLink";
+import updateStatus from "@/utils/server/sheetReport/databaseActions/updateStatus";
 import { createNewSpreadSheet } from "@/utils/server/sheetReport/googleSheet/createNewSheet";
 import { createSheetReport } from "@/utils/server/sheetReport/sheetReport";
 import { NextRequest, NextResponse } from "next/server";
-import {v4 as uuid} from "uuid";
+import { v4 as uuid } from "uuid";
 
 export async function POST(request: NextRequest) {
     const body = await request.json() as {
@@ -38,14 +39,22 @@ export async function POST(request: NextRequest) {
                         websiteUrl: body.baseUrl,
                         report,
                     })
-    
+
                     await updateSheetLink({ reportId, sheetId })
                 } catch (err) {
                     console.log("Google spread sheet failed", err);
+                    await updateStatus({
+                        reportId, 
+                        status: "error"
+                    })
                 }
             })
-            .catch((err) => {
+            .catch(async (err) => {
                 console.log("Creating sheet report failed.", err)
+                await updateStatus({
+                    reportId, 
+                    status: "error"
+                })
             })
 
 

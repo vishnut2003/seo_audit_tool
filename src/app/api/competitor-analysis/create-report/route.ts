@@ -1,5 +1,6 @@
 import { CompetiotrAnalysisFormSubmitInterface } from "@/Interfaces/CompetitorAnalysisInterface/FormSubmitInterface";
 import { competitorAnalysisReport } from "@/utils/server/competitorAnalysis/competitorAnalysisReport/competitorAnalysisReport";
+import { updateReportStatus } from "@/utils/server/competitorAnalysis/competitorAnalysisReport/database/updateReportStatusOrSheetLink";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -21,9 +22,12 @@ export async function POST(request: NextRequest) {
         
         // create report
         competitorAnalysisReport(body)
-            .catch((err) => {
-                console.log(err);
-                console.log("Competitor analysis failed!");
+            .catch(async (err) => {
+                console.log("Competitor analysis failed!", err);
+                await updateReportStatus({
+                    reportId: body.reportId,
+                    status: "error",
+                })
             });
 
         return NextResponse.json({ success: true })
