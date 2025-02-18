@@ -164,7 +164,18 @@ const QuickToolsCompetitorAnalysis = () => {
                         {/* Remove last competitors field */}
                         <button
                             className="py-4 px-7 bg-red-500 text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60"
-                            onClick={() => setCompetitors([''])}
+                            onClick={() => {
+                                setCompetitors(prev => {
+
+                                    if (prev.length <= 1) {
+                                        return prev;
+                                    }
+
+                                    const updatedCompetitors = [...prev];
+                                    updatedCompetitors.pop();
+                                    return updatedCompetitors;
+                                })
+                            }}
                             type='button'
                         >Remove</button>
                     </div>
