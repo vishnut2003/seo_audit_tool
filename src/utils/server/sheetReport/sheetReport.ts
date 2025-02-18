@@ -1,6 +1,6 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
-import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface, imageFileSizeOver100KbInterface, H1MissingInterface } from "./sheetReportInterfaces";
+import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface, imageFileSizeOver100KbInterface, H1MissingInterface, sheetReportTotalPages } from "./sheetReportInterfaces";
 import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
@@ -12,6 +12,7 @@ import { validateDescBelow70, validateDescEmpty, validateDescOver155 } from "./c
 import { checkImagesAlt, checkImagesSizeOver100KB } from "./createSheetReport/imagesCheck";
 import { checkH1Missing } from "./createSheetReport/h1Checks";
 import { crawlValidLinks } from "./common/crawlValidLinks";
+import { getPagesDetails } from "./createSheetReport/getPageDetails";
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -57,6 +58,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             });
 
             // sheet crietirias
+            const pageDetailsList: sheetReportTotalPages[] = [];
             const titleLessThan30: titileLessThan30Interface[] = [];
             const titleAbove60: titileAbove60Interface[] = [];
             const metaDescBelow70: metaDescBelow70Interface[] = [];
@@ -71,9 +73,11 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
             for (const url of pagesList) {
 
+                let httpResponse = null;
+
                 console.log(`Opening ${url}`)
                 try {
-                    await page.goto(url, { timeout: 0 });
+                    httpResponse = await page.goto(url, { timeout: 0 });
                 } catch (err) {
                     console.log(err);
                     timeoutCount++
@@ -84,12 +88,25 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     }
                 }
 
+                if (!httpResponse) {
+                    continue;
+                }
+
                 // fetch page full content
                 const content = await page.content();
                 const DOM = await generateInteractiveDoc({ content });
 
                 // check page title
                 const pageTitle = await page.title();
+
+                // list all pages
+                const pageDetails = await getPagesDetails({
+                    url,
+                    DOM,
+                    title: pageTitle,
+                    httpResponse: (httpResponse as any),
+                })
+                pageDetailsList.push(pageDetails);
 
                 // page length < 30
                 const failedTitleL30check = await checkTitleLessThat30({ title: pageTitle, url });
@@ -161,6 +178,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 imageAltMissing: imageAltMissing,
                 imageOver100Kb: imageFileSizeOver100Kb,
                 h1Missing: h1Missing,
+                pageDetailsList,
             }
 
             // update report record status to success

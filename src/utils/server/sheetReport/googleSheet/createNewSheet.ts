@@ -9,6 +9,7 @@ import { metaDescEmptyTab } from "./metaDescEmpty_Tab";
 import { imagesAltMissingTab } from "./imagesAltMissing_Tab";
 import { imageFileSizeOver100KBTab } from "./imageFileSizeOver100Kb_Tab";
 import { h1MissingTab } from "./h1Missing_Tab";
+import { pageDetailsListTab } from "./pageDetailsLIst_Tab";
 
 export async function createNewSpreadSheet({
     websiteUrl,
@@ -30,6 +31,12 @@ export async function createNewSpreadSheet({
                     title: `Sheet report of ${websiteUrl}`
                 }
             );
+
+            // add first tab of list of all pages
+            await pageDetailsListTab({
+                pageDetailsList: report.pageDetailsList,
+                sheet,
+            })
 
             // add title less than 30 check tab
             await titleLess30Tab({
@@ -79,7 +86,7 @@ export async function createNewSpreadSheet({
                 sheet
             })
 
-            await sheet.setPublicAccessLevel('reader');
+            await sheet.setPublicAccessLevel('writer');
             await sheet.share(officialGmail, {
                 emailMessage: `Report for ${websiteUrl}`,
                 role: "writer",

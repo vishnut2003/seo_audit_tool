@@ -7,6 +7,16 @@ export interface ForSheetGroupInterface {
     imageAltMissing: imagesAltMissingInterface[],
     imageOver100Kb: imageFileSizeOver100KbInterface[],
     h1Missing: H1MissingInterface[],
+    pageDetailsList: sheetReportTotalPages[],
+}
+
+// First Spreadsheet Report Tab
+
+export interface sheetReportTotalPages {
+    address: string,
+    title: string,
+    description: string,
+    status: number,
 }
 
 // Title check interfaces
