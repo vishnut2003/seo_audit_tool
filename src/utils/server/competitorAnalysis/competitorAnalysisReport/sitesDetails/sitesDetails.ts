@@ -1,12 +1,11 @@
 import { generateInteractiveDoc } from "@/utils/server/sheetReport/jsDomValidate";
-import { resolve } from "path";
 import { Page } from "puppeteer-core";
 
 export async function getSitesDetails({ page, baseUrl }: {
     page: Page,
     baseUrl: string,
 }) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
         try {
 
             const checkingEndpoints: string[] = [
@@ -35,6 +34,8 @@ export async function getSitesDetails({ page, baseUrl }: {
                 }
 
             }
+
+            return resolve();
         } catch (err) {
             return reject(err);
         }
