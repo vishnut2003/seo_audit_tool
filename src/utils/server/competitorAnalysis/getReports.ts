@@ -4,7 +4,16 @@ import CompetitorAnalysisRecordModel, { CompetitorAnalysisRecordModelInterface }
 export async function getCompetitorReports({ email, status, limit }: RouteCompetitorGetReport) {
     return new Promise<CompetitorAnalysisRecordModelInterface[]>(async (resolve, reject) => {
         try {
-            const reports = await CompetitorAnalysisRecordModel.find({ email, status }, null, { limit, sort: { $natural: -1 } });
+            const reports = await CompetitorAnalysisRecordModel.find({
+                email, 
+                status: status || {
+                    $in: [
+                        "processing",
+                        "success",
+                        "error",
+                    ]
+                }
+            }, null, { limit, sort: { $natural: -1 } });
             return resolve(reports);
         } catch (err) {
             return reject(err);

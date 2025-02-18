@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export interface RouteSheetReportGetReport {
     email: string,
-    status: "processing" | "success" | "error",
+    status: "processing" | "success" | "error" | null,
     limit: number,
 }
 

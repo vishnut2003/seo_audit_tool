@@ -5,12 +5,13 @@ import { CompetitorAnalysisRecordModelInterface } from '@/models/CompetitorAnaly
 import axios, { AxiosError } from 'axios';
 import { getSession } from 'next-auth/react';
 import FormSubmitLoader from '@/Components/CompetitorAnalysisPage/FormSubmitLoader';
+import { RouteCompetitorGetReport } from '@/app/api/competitor-analysis/get-report/route';
 
 const CompetitorReportTab = () => {
 
     const [error, setError] = useState<string | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(true)
-    const [queryStatus, setQueryStatus] = useState<"processing" | "success" | "error">("processing");
+    const [queryStatus, setQueryStatus] = useState<"processing" | "success" | "error" | null>(null);
     const [limit, setLimit] = useState<number>(5);
 
     const [reports, setReports] = useState<CompetitorAnalysisRecordModelInterface[]>([])
@@ -29,7 +30,7 @@ const CompetitorReportTab = () => {
                     return;
                 }
 
-                const data = {
+                const data: RouteCompetitorGetReport = {
                     email: session.user.email,
                     status: queryStatus,
                     limit,
@@ -65,12 +66,13 @@ const CompetitorReportTab = () => {
                     className='text-sm font-semibold'
                 >Filter by Status</p>
                 <Select
-                    onValueChange={(value) => setQueryStatus(value as any)}
+                    onValueChange={(value) => setQueryStatus(value === "all" ? null : (value as any))}
                 >
                     <SelectTrigger className="w-[150px] h-10 py-2 px-3">
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem value="all">All</SelectItem>
                         <SelectItem value="processing">Processing</SelectItem>
                         <SelectItem value="success">Success</SelectItem>
                         <SelectItem value="error">Failed</SelectItem>

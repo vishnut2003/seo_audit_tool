@@ -13,7 +13,7 @@ const SheetReportTab = () => {
 
     const [error, setError] = useState<string | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(true)
-    const [queryStatus, setQueryStatus] = useState<"processing" | "success" | "error">("processing");
+    const [queryStatus, setQueryStatus] = useState<"processing" | "success" | "error" | null>(null);
     const [limit, setLimit] = useState<number>(5);
 
     const [reports, setReports] = useState<sheetReportRecordInterface[]>([])
@@ -64,12 +64,13 @@ const SheetReportTab = () => {
                     className='text-sm font-semibold'
                 >Filter by Status</p>
                 <Select
-                    onValueChange={(value) => setQueryStatus(value as any)}
+                    onValueChange={(value) => setQueryStatus(value === "all" ? null : (value as any))}
                 >
                     <SelectTrigger className="w-[150px] h-10 py-2 px-3">
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem value="all">All</SelectItem>
                         <SelectItem value="processing">Processing</SelectItem>
                         <SelectItem value="success">Success</SelectItem>
                         <SelectItem value="error">Failed</SelectItem>
