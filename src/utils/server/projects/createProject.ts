@@ -20,14 +20,6 @@ export async function createProject({ formData, email }: {
                 });
             }
 
-            const competitorsKeys: string[] = Object.keys(formData).filter((key) => key.includes('competitor'));
-            const competitors: string[] = [];
-
-            for (const key of competitorsKeys) {
-                const competitor = formData[key as keyof typeof formData];
-                competitors.push(competitor);
-            }
-
             // create project id
             const saltRound = 10;
             const salt = await bcrypt.genSalt(saltRound);
@@ -36,9 +28,8 @@ export async function createProject({ formData, email }: {
             // write to database
             await ProjectsModel.create({
                 email,
-                domain: formData.domain,
-                competitors,
                 projectId,
+                ...formData,
             });
 
             return resolve();

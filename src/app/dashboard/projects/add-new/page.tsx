@@ -14,9 +14,7 @@ const AddNewProject = () => {
   const [inProgress, setInProgress] = useState<boolean>(false);
   const [formData, setFormData] = useState<NewProjectFormData>({
     domain: "",
-    competitor1: "",
-    competitor2: "",
-    competitor3: "",
+    competitors: [""]
   });
 
   const router = useRouter();
@@ -82,35 +80,25 @@ const AddNewProject = () => {
         <div
           className="w-full max-w-screen-md bg-white rounded-md overflow-hidden shadow-xl shadow-gray-200"
         >
-          <DashboardStandardInput
-            label="Competitor 1"
-            subLabel="Used in competitor Analysis"
-            inputValue={formData.competitor1}
-            inputPlaceholder="example.com"
-            inputOnChange={handleInputOnchange}
-            name="competitor1"
-            domainInput
-          />
-
-          <DashboardStandardInput
-            label="Competitor 2"
-            subLabel="Used in competitor Analysis"
-            inputValue={formData.competitor2}
-            inputPlaceholder="example.com"
-            inputOnChange={handleInputOnchange}
-            name="competitor2"
-            domainInput
-          />
-
-          <DashboardStandardInput
-            label="Competitor 3"
-            subLabel="Used in competitor Analysis"
-            inputValue={formData.competitor3}
-            inputPlaceholder="example.com"
-            inputOnChange={handleInputOnchange}
-            name="competitor3"
-            domainInput
-          />
+          {
+            formData.competitors.map((competitor, index) => (
+              <DashboardStandardInput
+                key={index}
+                label={`Competitor ${index + 1}`}
+                subLabel="Used in competitor Analysis"
+                inputValue={competitor}
+                inputPlaceholder="example.com"
+                inputOnChange={(e) => {
+                  setFormData(prev => {
+                    prev.competitors[index] = e.target.value;
+                    return {...prev};
+                  })
+                }}
+                name={`competitor${index + 1}`}
+                domainInput
+              />
+            ))
+          }
 
           {
             // Form error
@@ -143,6 +131,46 @@ const AddNewProject = () => {
               <p>{formSuccess}</p>
             </motion.div>
           }
+        </div>
+
+        <div
+          className='flex justify-end gap-4 w-full max-w-screen-md'
+        >
+          {/* Add more competitors field */}
+          <button
+            className="py-4 px-7 bg-themesecondary text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60"
+            onClick={() => {
+              setFormData(prev => {
+                const updatedCompetitor = [...prev.competitors, ''];
+                return {
+                  domain: prev.domain,
+                  competitors: updatedCompetitor,
+                };
+              })
+            }}
+            type='button'
+          >Add Competitors</button>
+
+          {/* Remove last competitors field */}
+          <button
+            className="py-4 px-7 bg-red-500 text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60"
+            type='button'
+            onClick={() => {
+              setFormData(prev => {
+
+                if (prev.competitors.length <= 1) {
+                  return prev;
+                }
+
+                const competitors = [...prev.competitors];
+                competitors.pop();
+                return {
+                  domain: prev.domain,
+                  competitors,
+                }
+              })
+            }}
+          >Remove</button>
         </div>
 
         <button

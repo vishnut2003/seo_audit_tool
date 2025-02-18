@@ -4,9 +4,7 @@ import { getSession } from "next-auth/react";
 
 export interface NewProjectFormData {
     domain: string,
-    competitor1: string,
-    competitor2: string,
-    competitor3: string,
+    competitors: string[],
 }
 
 export function handleNewProjectFormSubmit(
@@ -22,18 +20,30 @@ export function handleNewProjectFormSubmit(
             setFormError(null);
 
             // check if domains are valid
-            const domains = ['domain', 'competitor1', 'competitor2', 'competitor3']
             const domainRegex = /^[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}$/
-            for (const domain of domains) {
-                const trimDomain = formData[domain as keyof typeof formData].trim();
+
+            // filtered entrues
+            const mainDomain = formData.domain.trim();
+            const competitors: string[] = [];
+
+            if (!domainRegex.test(mainDomain)) {
+                throw new Error(`Main Domain is not valid.`)
+            }
+
+            let competitorPos = 1;
+            for (const domain of formData.competitors) {
+                const trimDomain = domain.trim();
 
                 if (!trimDomain) {
-                    throw new Error(`${domain} field is required.`)
+                    throw new Error(`Competitor ${competitorPos++} field is required.`)
                 }
 
                 if (!domainRegex.test(trimDomain)) {
-                    throw new Error(`${trimDomain} is not a valid domain.`);
+                    throw new Error(`Competitor ${competitorPos++} is not a valid domain.`);
                 }
+
+                competitorPos++
+                competitors.push(trimDomain);
             }
 
             // Fetch user details
@@ -42,7 +52,16 @@ export function handleNewProjectFormSubmit(
                 throw new Error("something went wrong.");
             }
 
-            await axios.post('/api/project/add-new', { formData, email: userSession.user.email });
+            const FilteredSubmitData: NewProjectFormData = {
+                domain: mainDomain,
+                competitors,
+            };
+
+            await axios.post('/api/project/add-new', {
+                formData: FilteredSubmitData, 
+                email: userSession.user.email
+            });
+
             setFormSuccess("Project created Successfully");
 
             return resolve();
