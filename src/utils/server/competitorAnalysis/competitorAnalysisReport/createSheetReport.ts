@@ -6,12 +6,15 @@ import { sitesDetailsTab } from "./googleSpreadSheet/sitesDetails_Tab";
 import { sitesDetailsInterface } from "./sitesDetails/interfaces";
 import { DFS_tldComparison_response } from "./dataForSeoApi/TLD_Comparison/tldComparison";
 import { tldComparisonTab } from "./googleSpreadSheet/tldComparison_Tab";
+import { organicKeywordsTab } from "./googleSpreadSheet/organicKeywords_Tab";
+import { DFS_organic_keywords } from "./dataForSeoApi/organicKeywords/organicKeywords";
 
 export async function createSheetReport({
     mainWebsite,
     onSiteAnalysis,
     sitesDetails,
     tldComparisonReport,
+    organicKeywordsReport,
 }: {
     mainWebsite: string,
     onSiteAnalysis: {
@@ -20,6 +23,7 @@ export async function createSheetReport({
     },
     sitesDetails: sitesDetailsInterface[],
     tldComparisonReport: DFS_tldComparison_response[],
+    organicKeywordsReport: DFS_organic_keywords[],
 }) {
     return new Promise<string>(async (resolve, reject) => {
         try {
@@ -46,6 +50,13 @@ export async function createSheetReport({
                 tldComparisonReport,
                 sheet,
             })
+
+            for (const keywordData of organicKeywordsReport) {
+                await organicKeywordsTab({
+                    organicKeywordsReport: keywordData,
+                    sheet,
+                })
+            }
 
             const officialGmail = process.env.GOOGLE_OFFICIAL_GMAIL || "vishnu@webspidersolutions.com";
             await sheet.setPublicAccessLevel('writer');

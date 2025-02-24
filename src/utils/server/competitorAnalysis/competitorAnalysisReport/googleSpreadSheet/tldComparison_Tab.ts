@@ -47,7 +47,7 @@ export async function tldComparisonTab({ tldComparisonReport, sheet }: {
                 headerValues,
             })
 
-            currentSheet.addRows(rows);
+            await currentSheet.addRows(rows);
             return resolve();
 
         } catch (err) {
