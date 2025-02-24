@@ -19,7 +19,8 @@ export async function organicKeywordsTab ({organicKeywordsReport, sheet}: {
             try {
                 const urlObject = URL.parse(organicKeywordsReport.domain);
                 domainName = urlObject?.hostname || "domain.com";
-            } catch (err) {
+            } catch (error) {
+                console.error("Error parsing URL:", error);
                 domainName = "domain.com";
             }
 

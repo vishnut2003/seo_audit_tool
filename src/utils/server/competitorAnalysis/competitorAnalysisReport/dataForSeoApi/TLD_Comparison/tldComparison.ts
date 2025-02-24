@@ -1,13 +1,5 @@
 import DFS_test_backlinks_data from "./testData";
 
-export const tldLists = [
-    ".com",
-    ".net",
-    ".org",
-    ".in",
-    ".co",
-]
-
 export interface DFS_tldComparison_response {
     domain: string,
     tldList: string[],

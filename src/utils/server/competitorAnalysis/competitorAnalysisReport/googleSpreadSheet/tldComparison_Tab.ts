@@ -1,5 +1,5 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
-import { DFS_tldComparison_response, tldLists } from "../dataForSeoApi/TLD_Comparison/tldComparison";
+import { DFS_tldComparison_response } from "../dataForSeoApi/TLD_Comparison/tldComparison";
 
 export async function tldComparisonTab({ tldComparisonReport, sheet }: {
     tldComparisonReport: DFS_tldComparison_response[],
