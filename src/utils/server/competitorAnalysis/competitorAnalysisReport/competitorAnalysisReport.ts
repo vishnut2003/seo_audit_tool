@@ -8,6 +8,7 @@ import { updateReportFinishedSite } from "./database/updateReportFinishedSite";
 import { updateReportSheetLink, updateReportStatus } from "./database/updateReportStatusOrSheetLink";
 import { sitesDetailsInterface } from "./sitesDetails/interfaces";
 import { getSitesDetails } from "./sitesDetails/sitesDetails";
+import { DFS_tldComparison, DFS_tldComparison_response } from "./dataForSeoApi/TLD_Comparison/tldComparison";
 
 export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFormSubmitInterface) {
     return new Promise<void>( async (resolve, reject) => {
@@ -23,6 +24,7 @@ export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFo
 
             // Report Variables
             const sitesDetailsList: sitesDetailsInterface[] = [];
+            let tldComparisonReport: DFS_tldComparison_response[] = [];
 
             const browser = await initializePuppeteer();
             
@@ -37,6 +39,10 @@ export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFo
                 page: (page2 as any),
             })
             sitesDetailsList.push(sitesDetails);
+            await DFS_tldComparison(reportEntry.website)
+                .then((comparisonData) => {
+                    tldComparisonReport.push(comparisonData);
+                });
             
             // add mainsite to finishedsite list in database
             await updateReportFinishedSite({
@@ -67,13 +73,19 @@ export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFo
                 })
                 sitesDetailsList.push(sitesDetails);
 
+                await browser.close();
+
+                // tld Reffer domain comparison
+                await DFS_tldComparison(competitorSite)
+                    .then((tldComparison) => {
+                        tldComparisonReport.push(tldComparison);
+                    })
+
                 // update in finished site list in database
                 await updateReportFinishedSite({
                     reportId: reportEntry.reportId,
                     site: competitorSite,
                 })
-
-                await browser.close();
             }
 
             const sheetId = await createSheetReport({
@@ -83,6 +95,7 @@ export async function competitorAnalysisReport(reportEntry: CompetiotrAnalysisFo
                     competitors: competitorReport,
                 },
                 sitesDetails: sitesDetailsList,
+                tldComparisonReport,
             });
 
             await updateReportSheetLink({

@@ -4,11 +4,14 @@ import { competitorAnalysisRawInterface } from "./dataInterface";
 import { onSiteAnalysisTab } from "./googleSpreadSheet/onSiteAnalysis_Tab";
 import { sitesDetailsTab } from "./googleSpreadSheet/sitesDetails_Tab";
 import { sitesDetailsInterface } from "./sitesDetails/interfaces";
+import { DFS_tldComparison_response } from "./dataForSeoApi/TLD_Comparison/tldComparison";
+import { tldComparisonTab } from "./googleSpreadSheet/tldComparison_Tab";
 
 export async function createSheetReport({
     mainWebsite,
     onSiteAnalysis,
     sitesDetails,
+    tldComparisonReport,
 }: {
     mainWebsite: string,
     onSiteAnalysis: {
@@ -16,6 +19,7 @@ export async function createSheetReport({
         competitors: competitorAnalysisRawInterface[]
     },
     sitesDetails: sitesDetailsInterface[],
+    tldComparisonReport: DFS_tldComparison_response[],
 }) {
     return new Promise<string>(async (resolve, reject) => {
         try {
@@ -23,7 +27,7 @@ export async function createSheetReport({
             const sheet = await GoogleSpreadsheet.createNewSpreadsheetDocument(
                 serviceAccountAuth,
                 {
-                    title: `Competitor Analysis of ${onSiteAnalysis.mainSite}`
+                    title: `Competitor Analysis of ${mainWebsite}`
                 }
             );
 
@@ -38,6 +42,11 @@ export async function createSheetReport({
                 sheet
             })
 
+            await tldComparisonTab({
+                tldComparisonReport,
+                sheet,
+            })
+
             const officialGmail = process.env.GOOGLE_OFFICIAL_GMAIL || "vishnu@webspidersolutions.com";
             await sheet.setPublicAccessLevel('writer');
             await sheet.share(officialGmail, {
@@ -45,7 +54,7 @@ export async function createSheetReport({
                 role: "writer",
             })
 
-            resolve(sheet.spreadsheetId)
+            resolve(sheet.spreadsheetId);
         } catch (err) {
             return reject(err);
         }
