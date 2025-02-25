@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import Dashboard from "./Dashboard"
 import { ProjectModelInterface } from "@/models/ProjectsModel";
 import { useRouter } from "next/navigation";
+import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoading";
 
 const Page = () => {
 
@@ -38,8 +39,9 @@ const Page = () => {
       {
         !currentActive ?
           <div
-            className="w-full h-full flex justify-center items-center"
+            className="w-full h-full flex flex-col gap-3 justify-center items-center font-semibold"
           >
+            <TripleDotLoading />
             <p>Loading Options...</p>
           </div> :
             project && 
