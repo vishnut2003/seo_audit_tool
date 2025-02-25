@@ -31,7 +31,7 @@ const Projects = () => {
   const [projects, setProjects] = useState<ProjectModelInterface[]>([]);
 
   // fetching projects
-  const [inProgress, setInProgress] = useState<boolean>(false);
+  const [inProgress, setInProgress] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
 
   // filter options

@@ -6,6 +6,7 @@ import axios, { AxiosError } from 'axios';
 import { getSession } from 'next-auth/react';
 import FormSubmitLoader from '@/Components/CompetitorAnalysisPage/FormSubmitLoader';
 import { RouteCompetitorGetReport } from '@/app/api/competitor-analysis/get-report/route';
+import SkeletonLoader from './SkeletonLoader';
 
 const CompetitorReportTab = () => {
 
@@ -88,7 +89,7 @@ const CompetitorReportTab = () => {
                         {error}
                     </div> :
                     inProgress ?
-                        <p>Loading...</p> :
+                        <SkeletonLoader/> :
                         reports.length === 0 ?
                             <div
                                 className='flex justify-center items-center p-5 text-sm opacity-80'

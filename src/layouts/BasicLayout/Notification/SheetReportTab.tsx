@@ -8,6 +8,7 @@ import { RiArrowDownSLine } from '@remixicon/react';
 import axios, { AxiosError } from 'axios';
 import { getSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
+import SkeletonLoader from './SkeletonLoader';
 
 const SheetReportTab = () => {
 
@@ -86,7 +87,7 @@ const SheetReportTab = () => {
                         {error}
                     </div> :
                     inProgress ?
-                        <p>Loading...</p> :
+                        <SkeletonLoader/> :
                         reports.length === 0 ?
                             <div
                                 className='flex justify-center items-center p-5 text-sm opacity-80'
