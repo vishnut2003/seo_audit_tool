@@ -22,7 +22,7 @@ export async function organicKeywordsTab ({organicKeywordsReport, sheet, index}:
                 domainName = urlObject?.hostname || `domain.com ${index}`;
             } catch (error) {
                 console.error("Error parsing URL:", error);
-                domainName = "domain.com";
+                domainName = `domain.com ${index}`;
             }
 
             const currentSheet = await sheet.addSheet({

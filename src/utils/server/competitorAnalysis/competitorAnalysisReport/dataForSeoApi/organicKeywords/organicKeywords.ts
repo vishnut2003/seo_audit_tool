@@ -33,13 +33,14 @@ export async function DFS_organicKeywords(domain: string) {
             if (URL.canParse(domain)) {
                 const urlObject = URL.parse(domain);
                 hostname = urlObject?.hostname || domain;
+                console.log(hostname);
             }
 
             // const DFSAxios = await axiosDFSInstance();
 
             // const requestData: APIRequestDataInterface[] = [];
             // requestData.push({
-            //     target: domain,
+            //     target: hostname,
             //     limit: 1000,
             // })
 
