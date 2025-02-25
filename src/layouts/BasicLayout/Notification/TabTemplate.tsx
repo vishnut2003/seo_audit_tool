@@ -13,12 +13,23 @@ const TabTemplate = ({ currentTab }: {
             className='w-full flex flex-col gap-2'
         >
             <button
-                className='flex justify-between items-center gap-3 w-full py-3 px-5 shadow-xl shadow-gray-200 rounded-md border border-gray-400'
+                className='flex justify-between items-center gap-3 w-full py-3 px-5 bg-white shadow-md shadow-gray-200 rounded-md'
                 onClick={() => setOpen(prev => !prev)}
             >
-                <p>{currentTab.title}</p>
+                <div
+                    className='flex justify-start items-center gap-3'
+                >
+                    <currentTab.icon
+                        size={20}
+                        className='text-themesecondary'
+                    />
+                    <p
+                        className='font-medium'
+                    >{currentTab.title}</p>
+                </div>
                 <RiArrowDownSLine
                     size={20}
+                    className={`${open && "rotate-180"} transition-all`}
                 />
             </button>
 

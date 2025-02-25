@@ -14,7 +14,7 @@ const SheetReportTab = () => {
     const [error, setError] = useState<string | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(true)
     const [queryStatus, setQueryStatus] = useState<"processing" | "success" | "error" | null>(null);
-    const [limit, setLimit] = useState<number>(5);
+    const [limit, setLimit] = useState<number>(3);
 
     const [reports, setReports] = useState<sheetReportRecordInterface[]>([])
 

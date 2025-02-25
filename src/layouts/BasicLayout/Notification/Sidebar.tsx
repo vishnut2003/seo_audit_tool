@@ -20,7 +20,7 @@ const NotificationSidebar = ({ closeAction }: {
         >
             {/* Header section */}
             <div
-                className='w-full flex justify-between items-center gap-4 py-4 border-b border-gray-200'
+                className='w-full flex justify-between items-center gap-4 pb-4 border-b border-gray-100'
             >
                 <h2
                     className='text-lg font-semibold'
