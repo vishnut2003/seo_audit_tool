@@ -103,7 +103,7 @@ const SheetReportTab = () => {
                                         className='flex flex-col gap-2 w-full'
                                     >
                                         <p
-                                            className='font-medium whitespace-nowrap truncate'
+                                            className='font-medium whitespace-nowrap truncate text-sm'
                                         >{URL.canParse(report.websiteUrl) ? URL.parse(report.websiteUrl)?.hostname : report.websiteUrl}</p>
                                         <p
                                             className='text-sm'
@@ -122,9 +122,9 @@ const SheetReportTab = () => {
                                         className='flex flex-col items-end gap-2 w-full'
                                     >
                                         <p
-                                            className='text-sm whitespace-nowrap text-right truncate font-semibold'
+                                            className='text-sm whitespace-nowrap text-right truncate font-medium'
                                         >
-                                            <span>{report.finishPage}/{report.totalPage}</span>
+                                            <span>{report.createdAt.split("T")[0].split("-").join("/")}</span>
                                         </p>
                                         <button
                                             className='text-sm text-themesecondary underline font-semibold'

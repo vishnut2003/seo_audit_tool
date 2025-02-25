@@ -105,7 +105,7 @@ const CompetitorReportTab = () => {
                                         className='flex flex-col gap-2 w-full'
                                     >
                                         <p
-                                            className='font-medium whitespace-nowrap truncate'
+                                            className='font-medium whitespace-nowrap truncate text-sm'
                                         >{URL.canParse(report.website) ? URL.parse(report.website)?.hostname : report.website}</p>
                                         <p
                                             className='text-sm'
@@ -124,7 +124,7 @@ const CompetitorReportTab = () => {
                                         className='flex flex-col items-end gap-2 w-full'
                                     >
                                         <p
-                                            className='text-sm opacity-60'
+                                            className='text-sm whitespace-nowrap text-right truncate font-medium'
                                         >{report.createdAt.split('T')[0].split('-').join('/')}</p>
                                         <button
                                             className='text-sm text-themesecondary underline font-semibold'

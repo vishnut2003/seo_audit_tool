@@ -9,6 +9,8 @@ export interface sheetReportRecordInterface extends mongoose.Document {
     finishPage: number,
     sheetLink?: string,
     websiteUrl: string,
+    createdAt: string,
+    updatedAt: string,
 }
 
 const sheetReportSchema = new mongoose.Schema<sheetReportRecordInterface>({
