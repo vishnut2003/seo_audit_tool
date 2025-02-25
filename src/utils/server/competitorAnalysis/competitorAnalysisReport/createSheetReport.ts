@@ -51,11 +51,14 @@ export async function createSheetReport({
                 sheet,
             })
 
+            let index = 0;
             for (const keywordData of organicKeywordsReport) {
                 await organicKeywordsTab({
                     organicKeywordsReport: keywordData,
                     sheet,
+                    index,
                 })
+                index++;
             }
 
             const officialGmail = process.env.GOOGLE_OFFICIAL_GMAIL || "vishnu@webspidersolutions.com";

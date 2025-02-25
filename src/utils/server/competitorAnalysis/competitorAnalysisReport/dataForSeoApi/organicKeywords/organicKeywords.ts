@@ -12,6 +12,14 @@ interface keywords_items {
     url: string,
 }
 
+// interface APIRequestDataInterface {
+//     target: string,
+//     language_name?: string,
+//     location_code?: number,
+//     filters?: (string | string[])[],
+//     limit: number,
+// }
+
 export async function DFS_organicKeywords(domain: string) {
     return new Promise<DFS_organic_keywords>(async (resolve, reject) => {
         try {
@@ -20,7 +28,24 @@ export async function DFS_organicKeywords(domain: string) {
                 data: DFS_test_keywords_data,
             }
 
-            const apiResponse = response.data;
+            // convert url to domain
+            let hostname = null;
+            if (URL.canParse(domain)) {
+                const urlObject = URL.parse(domain);
+                hostname = urlObject?.hostname || domain;
+            }
+
+            // const DFSAxios = await axiosDFSInstance();
+
+            // const requestData: APIRequestDataInterface[] = [];
+            // requestData.push({
+            //     target: domain,
+            //     limit: 1000,
+            // })
+
+            // const response = await DFSAxios.post("/dataforseo_labs/google/ranked_keywords/live", requestData);
+
+            const apiResponse = response.data as typeof DFS_test_keywords_data;
 
             const finalResponse: DFS_organic_keywords = {
                 domain,
@@ -28,7 +53,13 @@ export async function DFS_organicKeywords(domain: string) {
             }
 
             for (const task of apiResponse.tasks) {
+                if (!task.result) {
+                    continue;
+                }
                 for (const result of task.result) {
+                    if (!result.items) {
+                        continue;
+                    }
                     // loop keywords one by one
                     for (const item of result.items) {
                         const data: keywords_items = {

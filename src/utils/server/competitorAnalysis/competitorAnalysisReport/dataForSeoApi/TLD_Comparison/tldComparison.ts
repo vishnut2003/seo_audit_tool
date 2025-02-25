@@ -10,6 +10,14 @@ export interface DFS_tldComparison_response {
     totalCount: number,
 }
 
+// interface APIRequestDataInterface {
+//     target: string,
+//     internal_list_limit: number,
+//     include_subdomains: boolean,
+//     backlinks_filters: string[],
+//     backlinks_status_type: string,
+// }
+
 export async function DFS_tldComparison(domain: string) {
     return new Promise<DFS_tldComparison_response>(async (resolve, reject) => {
         try {
@@ -18,7 +26,20 @@ export async function DFS_tldComparison(domain: string) {
                 data: DFS_test_backlinks_data,
             }
 
-            const apiResponse = response.data;
+            // const DFSAxios = await axiosDFSInstance();
+
+            // const requestData: APIRequestDataInterface[] = [];
+            // requestData.push({
+            //     target: domain,
+            //     internal_list_limit: 5,
+            //     include_subdomains: true,
+            //     backlinks_filters: [],
+            //     backlinks_status_type: "all",
+            // })
+
+            // const response = await DFSAxios.post("/backlinks/summary/live", requestData);
+
+            const apiResponse = response.data as typeof DFS_test_backlinks_data;
 
             const finalResponse: DFS_tldComparison_response = {
                 domain,

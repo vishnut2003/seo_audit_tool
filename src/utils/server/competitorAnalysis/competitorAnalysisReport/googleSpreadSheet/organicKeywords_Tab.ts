@@ -1,9 +1,10 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { DFS_organic_keywords } from "../dataForSeoApi/organicKeywords/organicKeywords";
 
-export async function organicKeywordsTab ({organicKeywordsReport, sheet}: {
+export async function organicKeywordsTab ({organicKeywordsReport, sheet, index}: {
     organicKeywordsReport: DFS_organic_keywords,
     sheet: GoogleSpreadsheet,
+    index: number,
 }) {
     return new Promise<void>(async (resolve, reject) => {
         try {
@@ -18,7 +19,7 @@ export async function organicKeywordsTab ({organicKeywordsReport, sheet}: {
 
             try {
                 const urlObject = URL.parse(organicKeywordsReport.domain);
-                domainName = urlObject?.hostname || "domain.com";
+                domainName = urlObject?.hostname || `domain.com ${index}`;
             } catch (error) {
                 console.error("Error parsing URL:", error);
                 domainName = "domain.com";
