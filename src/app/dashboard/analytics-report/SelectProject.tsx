@@ -1,9 +1,4 @@
-import { RiCloseLargeLine, RiErrorWarningLine, RiFolder5Line } from "@remixicon/react"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/Components/ui/popover"
+import { RiErrorWarningLine, RiFolder5Line } from "@remixicon/react"
 import Link from "next/link"
 
 const SelectProject = () => {

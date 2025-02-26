@@ -1,5 +1,4 @@
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
-import { ProjectModelInterface } from '@/models/ProjectsModel';
 import { getOneProject } from '@/utils/server/projects/getOneProject';
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation';
