@@ -1,4 +1,4 @@
-import { RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine, RiToolsLine } from "@remixicon/react";
+import { RiBarChart2Line, RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine, RiToolsLine } from "@remixicon/react";
 
 const sidebarMenuItems = [
     {
@@ -39,7 +39,13 @@ const sidebarMenuItems = [
         name: 'Competitor Analysis',
         icon: RiLineChartLine,
         link: '/dashboard/compatitor-analysis'
-    }
+    },
+    "Integrations",
+    {
+        name: "Analytics Reports",
+        icon: RiBarChart2Line,
+        link: "/dashboard/analytics-report",
+    },
 ]
 
 export default sidebarMenuItems;

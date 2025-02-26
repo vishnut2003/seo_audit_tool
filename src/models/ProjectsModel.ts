@@ -7,6 +7,8 @@ export interface ProjectModelInterface extends mongoose.Document {
     competitors: string[],
     createdAt: string,
     updatedAt: string,
+    analyticsApiEmail?: string,
+    analyticsApiPrivate?: string,
 }
 
 const projectSchema = new mongoose.Schema<ProjectModelInterface>({
@@ -26,6 +28,12 @@ const projectSchema = new mongoose.Schema<ProjectModelInterface>({
         type: [String],
         required: true,
         default: [],
+    },
+    analyticsApiEmail: {
+        type: String,
+    },
+    analyticsApiPrivate: {
+        type: String,
     },
 }, { timestamps: true });
 

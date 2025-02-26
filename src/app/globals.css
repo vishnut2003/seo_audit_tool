@@ -86,3 +86,14 @@
   background-color: #00000050;
   border-radius: 30px;
 }
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
