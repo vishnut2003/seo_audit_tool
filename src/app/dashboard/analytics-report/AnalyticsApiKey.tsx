@@ -11,13 +11,73 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/Components/ui/dialog"
-import { RiPlayCircleLine } from "@remixicon/react";
+import { RiErrorWarningLine, RiPlayCircleLine } from "@remixicon/react";
+import axios from "axios";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
+export interface GoogleAnalyticsFormSubmitInterface {
+    email: string,
+    projectId: string,
+    clientEmail: string,
+    privateKey: string,
+}
 
-const AnalyticsApiKey = () => {
+const AnalyticsApiKey = ({ projectId }: {
+    projectId: string,
+}) => {
 
     const [clientEmail, setClientEmail] = useState<string>('');
     const [privateKey, setPrivateKey] = useState<string>('');
+
+    const [error, setError] = useState<string | null>(null);
+    const [inProgress, setInProgress] = useState<boolean>(false);
+
+    const router = useRouter()
+
+    async function submitAPICredentials() {
+        try {
+            setError(null);
+            setInProgress(true);
+            // validate submit data
+            if (!clientEmail) {
+                setInProgress(false);
+                setError("client_email is required.");
+                return;
+            } else if (!privateKey) {
+                setInProgress(false);
+                setError("private_key is required.");
+                return;
+            }
+
+            const session = await getSession();
+
+            if (!session || !session.user?.email) {
+                setError("Please login.");
+                setInProgress(false);
+                return;
+            }
+
+            // submit data
+            const formData: GoogleAnalyticsFormSubmitInterface = {
+                clientEmail,
+                privateKey,
+                projectId,
+                email: session.user.email,
+            }
+
+            await axios.post('/api/project/analytics-api/google/create', formData);
+            
+            router.push('/dashboard/analytics-report/reports')
+
+        } catch (err) {
+            if (typeof err === "string") {
+                setError(err);
+            } else {
+                setError("Something went wrong!");
+            }
+        }
+    }
 
     return (
         <div
@@ -71,10 +131,24 @@ const AnalyticsApiKey = () => {
                     />
                 </div>
 
+                {
+                    error &&
+                    <div
+                        className="py-3 px-4 bg-red-50 text-red-500 w-full max-w-screen-lg rounded-md shadow-xl shadow-gray-200 flex items-center gap-3"
+                    >
+                        <RiErrorWarningLine
+                            size={20}
+                        />
+                        <p>{error}</p>
+                    </div>
+                }
+
                 <div>
                     <button
                         className="py-4 px-7 bg-themesecondary text-foregroundwhite rounded-md shadow-xl shadow-gray-200 flex gap-2 items-center font-medium disabled:opacity-60"
-                    >Save Credentials</button>
+                        onClick={submitAPICredentials}
+                        disabled={inProgress}
+                    >{inProgress ? "Saving..." : "Save Credentials"}</button>
                 </div>
             </div>
         </div>

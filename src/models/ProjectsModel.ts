@@ -7,9 +7,16 @@ export interface ProjectModelInterface extends mongoose.Document {
     competitors: string[],
     createdAt: string,
     updatedAt: string,
-    analyticsApiEmail?: string,
-    analyticsApiPrivate?: string,
+    googleAnalytics?: {
+        clientEmail: string,
+        privateKey: string,
+    }
 }
+
+const googleAnalyticsSchema = new mongoose.Schema({
+    clientEmail: String,
+    privateKey: String,
+})
 
 const projectSchema = new mongoose.Schema<ProjectModelInterface>({
     projectId: {
@@ -29,12 +36,9 @@ const projectSchema = new mongoose.Schema<ProjectModelInterface>({
         required: true,
         default: [],
     },
-    analyticsApiEmail: {
-        type: String,
-    },
-    analyticsApiPrivate: {
-        type: String,
-    },
+    googleAnalytics: {
+        type: googleAnalyticsSchema,
+    }
 }, { timestamps: true });
 
 export default mongoose.models.Projects || mongoose.model<ProjectModelInterface>('Projects', projectSchema);

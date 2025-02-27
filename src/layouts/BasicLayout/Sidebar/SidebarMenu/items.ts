@@ -45,6 +45,9 @@ const sidebarMenuItems = [
         name: "Analytics Reports",
         icon: RiBarChart2Line,
         link: "/dashboard/analytics-report",
+        subPages: [
+            "/dashboard/analytics-report/reports"
+        ]
     },
 ]
 

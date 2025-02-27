@@ -1,7 +1,7 @@
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
 import { getOneProject } from '@/utils/server/projects/getOneProject';
 import { cookies } from 'next/headers'
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import React from 'react'
 import SelectProject from './SelectProject';
 import AnalyticsApiKey from './AnalyticsApiKey';
@@ -27,9 +27,11 @@ const AnalyticsReport = async () => {
             {
                 !project ?
                 <SelectProject/>
-                : !project.analyticsApiEmail || !project.analyticsApiPrivate ?
-                <AnalyticsApiKey/>
-                : "Opening Charts"
+                : !project.googleAnalytics || !project.googleAnalytics.clientEmail || !project.googleAnalytics.privateKey ?
+                <AnalyticsApiKey
+                    projectId={project.projectId}
+                />
+                : redirect('/dashboard/analytics-report/reports')
             }
         </BasicLayout>
     )
