@@ -5,6 +5,7 @@ import ProjectsModel, { ProjectModelInterface } from "@/models/ProjectsModel";
 export async function createGoogleAnalyticsCredentials({
     clientEmail,
     privateKey,
+    propertyId,
     email,
     projectId,
 }: GoogleAnalyticsFormSubmitInterface) {
@@ -15,6 +16,7 @@ export async function createGoogleAnalyticsCredentials({
                 googleAnalytics: {
                     clientEmail,
                     privateKey,
+                    propertyId,
                 }
             }, { new: true });
 

@@ -27,7 +27,7 @@ const AnalyticsReport = async () => {
             {
                 !project ?
                 <SelectProject/>
-                : !project.googleAnalytics || !project.googleAnalytics.clientEmail || !project.googleAnalytics.privateKey ?
+                : !project.googleAnalytics || !project.googleAnalytics.clientEmail || !project.googleAnalytics.privateKey || !project.googleAnalytics.propertyId ?
                 <AnalyticsApiKey
                     projectId={project.projectId}
                 />

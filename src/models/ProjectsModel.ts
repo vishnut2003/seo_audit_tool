@@ -8,12 +8,14 @@ export interface ProjectModelInterface extends mongoose.Document {
     createdAt: string,
     updatedAt: string,
     googleAnalytics?: {
+        propertyId: string,
         clientEmail: string,
         privateKey: string,
     }
 }
 
 const googleAnalyticsSchema = new mongoose.Schema({
+    propertyId: String,
     clientEmail: String,
     privateKey: String,
 })

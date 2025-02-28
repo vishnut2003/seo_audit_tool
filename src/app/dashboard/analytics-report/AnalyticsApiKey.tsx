@@ -21,6 +21,7 @@ export interface GoogleAnalyticsFormSubmitInterface {
     projectId: string,
     clientEmail: string,
     privateKey: string,
+    propertyId: string,
 }
 
 const AnalyticsApiKey = ({ projectId }: {
@@ -29,6 +30,7 @@ const AnalyticsApiKey = ({ projectId }: {
 
     const [clientEmail, setClientEmail] = useState<string>('');
     const [privateKey, setPrivateKey] = useState<string>('');
+    const [propertyId, setPropertyId] = useState<string>('');
 
     const [error, setError] = useState<string | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(false);
@@ -62,6 +64,7 @@ const AnalyticsApiKey = ({ projectId }: {
             const formData: GoogleAnalyticsFormSubmitInterface = {
                 clientEmail,
                 privateKey,
+                propertyId,
                 projectId,
                 email: session.user.email,
             }
@@ -101,6 +104,21 @@ const AnalyticsApiKey = ({ projectId }: {
                     <WatchHowToGetAPI />
                 </div>
 
+                <div
+                    className="bg-white w-full max-w-screen-lg rounded-md shadow-xl shadow-gray-200"
+                >
+                    <DashboardStandardInput
+                        label="Property ID"
+                        subLabel="You can find the PROPERTY ID in Google Analytics Dashboard."
+                        inputPlaceholder="PROPERTY ID"
+                        name="property_id"
+                        inputValue={propertyId}
+                        inputOnChange={(event) => {
+                            setPropertyId(event.target.value);
+                        }}
+                    />
+                </div>
+                
                 <div
                     className="bg-white w-full max-w-screen-lg rounded-md shadow-xl shadow-gray-200"
                 >
