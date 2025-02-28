@@ -21,7 +21,7 @@ const SelectProject = () => {
 
             <Link
                 className="text-sm flex items-center gap-3 py-4 px-5 bg-background w-max shadow-xl shadow-gray-200 rounded-md"
-                href={'/dashboard/projects'}
+                href={`/dashboard/projects?redirect=${encodeURIComponent('/dashboard/analytics-report')}`}
             >
                 <RiFolder5Line
                     size={20}

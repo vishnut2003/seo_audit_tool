@@ -5,7 +5,7 @@ import { TableCell, TableRow } from "@/Components/ui/table"
 import { ProjectModelInterface } from "@/models/ProjectsModel"
 import { setProjectId } from "@/utils/client/projects"
 import { RemixiconComponentType, RiDeleteBin6Line, RiMoreLine, RiPencilLine } from "@remixicon/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 
 import {
@@ -20,6 +20,9 @@ const TableDataRow = ({ rowData }: {
 }) => {
     const [inProgress, setInProgress] = useState<boolean>(false);
     const router = useRouter();
+
+    const searchParams = useSearchParams();
+    const enableRedirect = searchParams.get('redirect');
 
     const moreOptions: {
         name: string,
@@ -55,7 +58,7 @@ const TableDataRow = ({ rowData }: {
                     onClick={async () => {
                         setInProgress(true)
                         await setProjectId(rowData.projectId);
-                        router.push('/dashboard')
+                        router.push(enableRedirect || '/dashboard')
                     }}
                 >{inProgress ? 'selecting...' : 'select project'}</button>
             </TableCell>
