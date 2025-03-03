@@ -173,7 +173,7 @@ const AnalyticsApiKey = ({ projectId }: {
     )
 }
 
-function WatchHowToGetAPI() {
+export function WatchHowToGetAPI() {
     return (
         <Dialog>
             <DialogTrigger

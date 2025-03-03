@@ -1,4 +1,4 @@
-import { RiBarChart2Line, RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine, RiToolsLine } from "@remixicon/react";
+import { RiBarChart2Line, RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine, RiSearchLine, RiToolsLine } from "@remixicon/react";
 
 const sidebarMenuItems = [
     {
@@ -47,6 +47,14 @@ const sidebarMenuItems = [
         link: "/dashboard/analytics-report",
         subPages: [
             "/dashboard/analytics-report/reports"
+        ]
+    },
+    {
+        name: "Search Console",
+        icon: RiSearchLine,
+        link: "/dashboard/google-search-console",
+        subPages: [
+            "/dashboard/google-search-console/report"
         ]
     },
 ]

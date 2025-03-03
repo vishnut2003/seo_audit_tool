@@ -11,11 +11,22 @@ export interface ProjectModelInterface extends mongoose.Document {
         propertyId: string,
         clientEmail: string,
         privateKey: string,
-    }
+    },
+    googleSearchConsole?: {
+        property: string,
+        clientEmail: string,
+        privateKey: string,
+    },
 }
 
 const googleAnalyticsSchema = new mongoose.Schema({
     propertyId: String,
+    clientEmail: String,
+    privateKey: String,
+})
+
+const googleSearchConsoleSchema = new mongoose.Schema({
+    property: String,
     clientEmail: String,
     privateKey: String,
 })
@@ -40,6 +51,9 @@ const projectSchema = new mongoose.Schema<ProjectModelInterface>({
     },
     googleAnalytics: {
         type: googleAnalyticsSchema,
+    },
+    googleSearchConsole: {
+        type: googleSearchConsoleSchema,
     }
 }, { timestamps: true });
 

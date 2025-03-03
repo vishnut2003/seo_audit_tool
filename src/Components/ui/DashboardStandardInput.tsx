@@ -10,6 +10,7 @@ const DashboardStandardInput = ({
     inputOnChange,
     name,
     domainInput,
+    disableInput
 }: {
     label: string,
     subLabel: string | JSX.Element,
@@ -18,6 +19,7 @@ const DashboardStandardInput = ({
     inputOnChange: (e: ChangeEvent<HTMLInputElement>) => any,
     name: string,
     domainInput?: boolean,
+    disableInput?: boolean
 }) => {
     return (
         <div
@@ -34,7 +36,7 @@ const DashboardStandardInput = ({
                     {label}
                 </label>
                 <label
-                    className="leading-[25px] opacity-60"
+                    className="leading-[25px] text-black/60"
                 >
                     {subLabel}
                 </label>
@@ -51,9 +53,10 @@ const DashboardStandardInput = ({
                     >https://</p>
                 }
                 <input
-                    className="text-md w-full py-3 px-5 outline-none"
+                    className="text-md w-full py-3 px-5 outline-none disabled:bg-gray-200 disabled:text-black/40"
                     placeholder={inputPlaceholder}
                     value={inputValue}
+                    disabled={disableInput ? true : false}
                     onChange={(e) => {
                         const event = e;
                         if (domainInput && URL.canParse(e.target.value)) {
