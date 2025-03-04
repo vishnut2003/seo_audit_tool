@@ -23,6 +23,18 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
     const [error, setError] = useState<string | null>(null)
     const [activeTabs, setActiveTabs] = useState<string[]>(["clicks", "impression"]);
 
+    const [totalCounts, setTotalCounts] = useState<{
+        clicks: number,
+        impression: number,
+        ctr: number,
+        position: number,
+    }>({
+        clicks: 0,
+        impression: 0,
+        ctr: 0,
+        position: 0,
+    });
+
     // filter options
     const [dateRange, setDateRange] = useState<{
         startDate: Date,
@@ -67,6 +79,7 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
     useEffect(() => {
         try {
             setData(graphData)
+            calculateSumFromDataPoint(graphData);
             setInProgress(false);
         } catch (err) {
             if (typeof err === "string") {
@@ -76,6 +89,26 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
             }
         }
     }, [graphData]);
+
+    function calculateSumFromDataPoint(dataPoints: GoogleSearchConsoleGraphRow[]) {
+        for (const row of dataPoints) {
+            setTotalCounts(prev => {
+                const temp = { ...prev };
+                for (const key of Object.keys(row)) {
+                    if (typeof row[key as keyof typeof row] === "number") {
+                        temp[key as keyof typeof temp] += row[key as keyof typeof row] as number;
+                        temp[key as keyof typeof temp] = roundToThreeDecimals(temp[key as keyof typeof temp])
+                    }
+                }
+
+                return { ...temp };
+            })
+        }
+
+        function roundToThreeDecimals(num: number): number {
+            return Math.round(num * 1000) / 1000;
+        }
+    }
 
     return (
         <div
@@ -115,7 +148,7 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
 
                             <p
                                 className='text-3xl font-semibold'
-                            >{index}</p>
+                            >{totalCounts[tab.value as keyof typeof totalCounts]}</p>
 
                         </button>
                     ))
