@@ -4,65 +4,37 @@ import React from 'react'
 import SelectProject from './SelectProject';
 import { getOneProject } from '@/utils/server/projects/getOneProject';
 import SearchConsoleApiKey from './SearchConsoleApiKey';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 const GoogleSearchConsole = async () => {
+  const cookieStore = await cookies();
+  const projectCookie = cookieStore.get('projectId');
+
+  let project = null;
+
   try {
-    const cookieStore = await cookies();
-    const projectId = cookieStore.get('projectId');
-
-    // select project first is not project id found
-    if (!projectId) {
-      return (
-        <BasicLayout
-          pageTitle='Google Search Console'
-        >
-          <SelectProject />
-        </BasicLayout>
-      )
-    }
-
-    const project = await getOneProject(projectId.value);
-
-    if (!project) {
-      return (
-        <BasicLayout
-          pageTitle='Google Search Console'
-        >
-          <SelectProject />
-        </BasicLayout>
-      )
-    }
-
-    if (
-      !project.googleSearchConsole ||
-      !project.googleSearchConsole.property ||
-      !project.googleSearchConsole.clientEmail ||
-      !project.googleSearchConsole.privateKey
-    ) {
-      return (
-        <BasicLayout>
-          <SearchConsoleApiKey
-            domain={project.domain}
-            projectId={project.projectId}
-          />
-        </BasicLayout>
-      )
-    }
-
+    project = await getOneProject(projectCookie?.value || null)
   } catch (err) {
-    if (typeof err === "string") {
-      return (
-        <BasicLayout
-          pageTitle='Google Search Console'
-        >
-          something went wrong!
-        </BasicLayout>
-      )
-    }
+    console.log(err);
+    return notFound();
   }
 
-  redirect('/dashboard/google-search-console/report');
+  return (
+    <BasicLayout
+      pageTitle='Analytics Report'
+    >
+      {
+        !project ?
+          <SelectProject />
+          : !project.googleSearchConsole || !project.googleSearchConsole.clientEmail || !project.googleSearchConsole.privateKey || !project.googleSearchConsole.property ?
+            <SearchConsoleApiKey
+              projectId={project.projectId}
+              domain={project.domain}
+            />
+            : redirect('/dashboard/google-search-console/report')
+      }
+    </BasicLayout>
+  )
 
 }
 
