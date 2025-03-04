@@ -6,6 +6,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
 import React from 'react'
 import GoogleSearchConsoleGraph from './GraphData';
+import OtherDataTabs from './OtherDataTabs';
 
 const GoogleSearchConsoleReports = async () => {
 
@@ -56,7 +57,7 @@ const GoogleSearchConsoleReports = async () => {
                 pageTitle='Google Search Console'
             >
                 <div
-                    className='h-max'
+                    className='h-max space-y-5 pb-[40px]'
                 >
                     <GoogleSearchConsoleGraph
                         graphData={graphData}
@@ -65,6 +66,7 @@ const GoogleSearchConsoleReports = async () => {
                             endDate,
                         }}
                     />
+                    <OtherDataTabs/>
                 </div>
             </BasicLayout>
         )

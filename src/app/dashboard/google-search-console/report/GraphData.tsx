@@ -103,7 +103,7 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
                 setError("something went wrong")
             }
         }
-    }, [graphData]);
+    }, [graphData, defaultDateRange]);
 
     function calculateSumFromDataPoint(dataPoints: GoogleSearchConsoleGraphRow[]) {
         for (const row of dataPoints) {
