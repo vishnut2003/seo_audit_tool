@@ -34,20 +34,20 @@ const GoogleSearchConsoleReports = async () => {
         })
 
         // set date range
-        const daysAgo = 8;
+        const daysAgo = 30;
 
         const dateObject = new Date();
         dateObject.setDate(dateObject.getDate() - daysAgo);
 
-        const startDate = dateObject.toISOString().split('T')[0];
-        const endDate = new Date().toISOString().split('T')[0];
+        const startDate = dateObject;
+        const endDate = new Date();
 
         const graphData = await graphReports({
             auth,
             property: project.googleSearchConsole.property,
             dateRange: {
-                from: startDate,
-                to: endDate,
+                from: startDate.toISOString().split('T')[0],
+                to: endDate.toISOString().split('T')[0],
             },
         });
 
@@ -60,6 +60,10 @@ const GoogleSearchConsoleReports = async () => {
                 >
                     <GoogleSearchConsoleGraph
                         graphData={graphData}
+                        defaultDateRange={{
+                            startDate,
+                            endDate,
+                        }}
                     />
                 </div>
             </BasicLayout>

@@ -2,7 +2,9 @@
 
 import TripleDotLoading from '@/Components/Loaders/TripleDotLoading/TripleDotLoading';
 import DatePicker from '@/Components/ui/datepicker';
+import { getSessionProject } from '@/utils/client/projects';
 import { GoogleSearchConsoleGraphRow } from '@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport'
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import {
     CartesianGrid,
@@ -14,8 +16,20 @@ import {
     YAxis,
 } from 'recharts';
 
-const GoogleSearchConsoleGraph = ({ graphData }: {
+export interface GoogleSearchConsoleGraphFilterInterface {
+    projectId: string,
+    dateRange: {
+        startDate: string,
+        endDate: string,
+    }
+}
+
+const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
     graphData: GoogleSearchConsoleGraphRow[],
+    defaultDateRange: {
+        startDate: Date,
+        endDate: Date,
+    }
 }) => {
 
     const [data, setData] = useState<GoogleSearchConsoleGraphRow[] | null>(null);
@@ -40,7 +54,7 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
         startDate: Date,
         endDate: Date,
     }>({
-        startDate: new Date(new Date().setDate(new Date().getDate() - 7)),
+        startDate: new Date(),
         endDate: new Date(),
     });
 
@@ -79,6 +93,7 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
     useEffect(() => {
         try {
             setData(graphData)
+            setDateRange(defaultDateRange);
             calculateSumFromDataPoint(graphData);
             setInProgress(false);
         } catch (err) {
@@ -107,6 +122,45 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
 
         function roundToThreeDecimals(num: number): number {
             return Math.round(num * 1000) / 1000;
+        }
+    }
+
+    async function updateGraphData() {
+        try {
+            const project = await getSessionProject();
+            if (!project?.projectId) {
+                return;
+            }
+
+            const filterData: GoogleSearchConsoleGraphFilterInterface = {
+                projectId: project.projectId,
+                dateRange: {
+                    startDate: dateRange.startDate.toISOString().split('T')[0],
+                    endDate: dateRange.endDate.toISOString().split('T')[0],
+                },
+            }
+
+            setInProgress(true);
+
+            const { data } = await axios.post('/api/project/search-console-api/google/get-report', filterData);
+            const newReport = data.report as GoogleSearchConsoleGraphRow[];
+
+            if (!newReport) {
+                throw new Error("Report is empty");
+            }
+
+            setData(newReport);
+            calculateSumFromDataPoint(newReport);
+            setInProgress(false);
+
+        } catch (err) {
+            if (typeof err === "string") {
+                setError(err);
+            } else {
+                setError("Something went wrong!");
+            }
+
+            setInProgress(false);
         }
     }
 
@@ -157,12 +211,12 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
 
             {/* Graph */}
             <div
-                className='min-h-[400px]'
+                className='min-h-[400px] flex flex-col justify-center'
             >
                 {
                     inProgress ?
                         <div
-                            className='w-full h-full flex justify-center items-center'
+                            className='w-full flex justify-center items-center'
                         >
                             <TripleDotLoading />
                         </div>
@@ -310,8 +364,9 @@ const GoogleSearchConsoleGraph = ({ graphData }: {
 
                 {/* filter submit button */}
                 <button
-                    className='px-3 py-2 bg-themeprimary text-white rounded-md text-sm'
+                    className='px-3 py-2 bg-themeprimary text-white rounded-md text-sm disabled:opacity-50'
                     disabled={inProgress}
+                    onClick={updateGraphData}
                 >
                     {inProgress ? "Loading..." : "Apply"}
                 </button>
