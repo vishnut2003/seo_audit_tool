@@ -292,15 +292,29 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
                                             }
 
                                             {
-                                                tabs.map((line, index) => (
-                                                    <YAxis
-                                                        domain={['dataMin - 10', 'dataMax + 10']}
-                                                        hide={true}
-                                                        yAxisId={line.value}
-                                                        tickCount={10}
-                                                        key={index}
-                                                    />
-                                                ))
+                                                tabs.map((line, index) => {
+                                                    if (line.value === "ctr") {
+                                                        return (
+                                                            <YAxis
+                                                                domain={['dataMin - 0.01', 'dataMax + 0.01']}
+                                                                hide={true}
+                                                                yAxisId={line.value}
+                                                                tickCount={10}
+                                                                key={index}
+                                                            />
+                                                        )
+                                                    } else {
+                                                        return (
+                                                            <YAxis
+                                                                domain={['dataMin - 10', 'dataMax + 10']}
+                                                                hide={true}
+                                                                yAxisId={line.value}
+                                                                tickCount={10}
+                                                                key={index}
+                                                            />
+                                                        )
+                                                    }
+                                                })
                                             }
                                         </LineChart>
                                     </ResponsiveContainer>
