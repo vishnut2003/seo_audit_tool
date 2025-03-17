@@ -13,6 +13,24 @@ import {
 } from "@/Components/ui/select"
 import axios from "axios";
 
+interface ExportOptionsInterface {
+    name: string,
+    descriptions: string,
+    value: string,
+}
+
+const exportOptions: ExportOptionsInterface[] = [
+    {
+        name: "SpreadSheet Export",
+        descriptions: "Export selected date range data as Google SpreadSheet",
+        value: "spreadsheet",
+    },
+    {
+        name: "Excel Export",
+        descriptions: "Export selected date range data as Excel File",
+        value: "excel",
+    }
+]
 
 const GoogleAnalyticsReportChart = ({ analyticsReport }: {
     analyticsReport: GoogleAnalyticsReportResponse | null,
@@ -169,11 +187,42 @@ const GoogleAnalyticsReportChart = ({ analyticsReport }: {
                     </div>
                 </div>
 
-                {/* Filter col */}
+                {/* Export Sidebar */}
                 <div
-                    className="w-[50%] h-full bg-background rounded-md shadow-xl shadow-gray-200 opacity-0"
+                    className="w-[50%] h-full min-h-[300px] bg-background rounded-md shadow-xl shadow-gray-200"
                 >
-                    Filter col
+                    <h2
+                        className="text-lg font-semibold pl-4 border-l-2 border-themesecondary mt-4"
+                    >Export Options</h2>
+
+                    <div
+                        className="px-5 py-4 space-y-4"
+                    >
+                        { // Exports options
+                            exportOptions.map((option, index) => (
+                                <div
+                                    key={index}
+                                    className="flex gap-3 justify-between items-center"
+                                >
+                                    <div>
+                                        <p
+                                            className="text-base font-semibold"
+                                        >{option.name}</p>
+                                        <p
+                                            className="text-sm font-normal"
+                                        >{option.descriptions}</p>
+                                    </div>
+                                    <div>
+                                        <button
+                                            className="bg-themeprimary py-2 px-4 rounded-md text-white text-sm hover:bg-themesecondary"
+                                        >
+                                            Export
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
         </div>
