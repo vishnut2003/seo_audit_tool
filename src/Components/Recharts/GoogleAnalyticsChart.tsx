@@ -73,7 +73,36 @@ const GoogleAnalyticsChart = ({ dataPoints, currentMetrics, inProgress, error }:
                                     hide={true}
                                 />
 
-                                <Tooltip />
+                                <Tooltip
+                                    content={({ active, payload, label }) => {
+                                        return (
+                                            <div
+                                                className='bg-white rounded-md shadow-xl shadow-gray-200 py-3 px-5 space-y-3'
+                                            >
+                                                <p
+                                                    className='text-base font-semibold'
+                                                >{label}</p>
+                                                <div>
+                                                    {
+                                                        active &&
+                                                        payload?.map((pyl, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className={`flex justify-between gap-4 font-medium`}
+                                                                style={{
+                                                                    color: pyl.color,
+                                                                }}
+                                                            >
+                                                                <p>{pyl.name}</p>
+                                                                <p>{pyl.value}</p>
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
+                                            </div>
+                                        )
+                                    }}
+                                />
                                 <CartesianGrid
                                     stroke="#00000014"
                                     vertical={false}
