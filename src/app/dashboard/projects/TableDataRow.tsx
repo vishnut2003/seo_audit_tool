@@ -31,12 +31,12 @@ const TableDataRow = ({ rowData }: {
     }[] = [
             {
                 name: "Edit Projects",
-                link: `/dashboard/projects/edit/${rowData.projectId}`,
+                link: `/dashboard/projects/edit/${encodeURIComponent(rowData.projectId)}`,
                 icon: RiPencilLine,
             },
             {
                 name: "Delete",
-                link: `/dashboard/projects/delete/${rowData.projectId}`,
+                link: `/dashboard/projects/delete/${encodeURIComponent(rowData.projectId)}`,
                 icon: RiDeleteBin6Line,
             },
         ]
