@@ -113,7 +113,7 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
             ctr: 0,
             position: 0,
         })
-        
+
         for (const [index, row] of dataPoints.entries()) {
             setTotalCounts(prev => {
                 const temp = { ...prev };
@@ -136,9 +136,10 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
             })
         }
 
-        function roundToThreeDecimals(num: number): number {
-            return Math.round(num * 1000) / 1000;
-        }
+    }
+    
+    function roundToThreeDecimals(num: number): number {
+        return Math.round(num * 1000) / 1000;
     }
 
     async function updateGraphData() {
@@ -304,7 +305,7 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
                                                                             }}
                                                                         >
                                                                             <p>{pyl.name}</p>
-                                                                            <p>{pyl.value}</p>
+                                                                            <p>{roundToThreeDecimals((pyl.value as number) * 100)}</p>
                                                                         </div>
                                                                     ))
                                                                 }
