@@ -1,6 +1,6 @@
 import { GoogleSearchConsoleTabsDataFilterInteface } from "@/app/dashboard/google-search-console/report/DataTabs/Queries_Tab";
 import { getOneProject } from "@/utils/server/projects/getOneProject";
-import { GoogleSearchConsoleAuth } from "@/utils/server/projects/googleSearchConsoleAPI/auth";
+import { GoogleSearchConsoleAuth, googleSearchConsoleOAuthClient } from "@/utils/server/projects/googleSearchConsoleAPI/auth";
 import { getGoogleSearchConsoleTabsData } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -21,13 +21,27 @@ export async function POST(request: NextRequest) {
             !project.googleSearchConsole?.privateKey ||
             !project.googleSearchConsole?.property
         ) {
-            throw new Error("Please setup Google search console API");
+            if (!project.googleSearchConsole?.token) {
+                throw new Error("Please setup Google search console API");
+            }
         }
 
-        const auth = await GoogleSearchConsoleAuth({
-            clientEmail: project.googleSearchConsole.clientEmail,
-            privateKey: project.googleSearchConsole.privateKey,
-        });
+        let auth;
+
+        if (
+            project.googleSearchConsole?.clientEmail &&
+            project.googleSearchConsole?.privateKey
+        ) {
+            auth = await GoogleSearchConsoleAuth({
+                clientEmail: project.googleSearchConsole.clientEmail,
+                privateKey: project.googleSearchConsole.privateKey,
+            })
+        } else {
+            const oauthClient = await googleSearchConsoleOAuthClient({
+                token: project.googleSearchConsole.token!,
+            });
+            auth = oauthClient;
+        }
 
         const report = await getGoogleSearchConsoleTabsData({
             dateRange,

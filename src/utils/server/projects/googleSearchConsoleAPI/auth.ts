@@ -1,4 +1,6 @@
-import { JWT } from "google-auth-library";
+import { Credentials, JWT, OAuth2Client } from "google-auth-library";
+import { resolve } from "path";
+import { createSearchConsoleOAuthClient } from "../../googleOAuth";
 
 export function GoogleSearchConsoleAuth({ clientEmail, privateKey }: {
     clientEmail?: string,
@@ -26,4 +28,19 @@ export function GoogleSearchConsoleAuth({ clientEmail, privateKey }: {
             return reject(typeof err === "string" ? err : "API Credentials Autherization Failed");
         }
     })
-} 
+}
+
+export async function googleSearchConsoleOAuthClient({ token }: {
+    token: Credentials,
+}) {
+    return new Promise<OAuth2Client>(async (resolve, reject) => {
+        try {
+            const [authClient] = await createSearchConsoleOAuthClient();
+            authClient.setCredentials(token);
+
+            return resolve(authClient);
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}

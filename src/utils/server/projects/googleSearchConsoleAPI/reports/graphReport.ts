@@ -1,4 +1,4 @@
-import { JWT } from "google-auth-library";
+import { JWT, OAuth2Client } from "google-auth-library";
 import { searchconsole } from "@googleapis/searchconsole";
 
 export interface GoogleSearchConsoleGraphRow {
@@ -10,7 +10,7 @@ export interface GoogleSearchConsoleGraphRow {
 }
 
 export async function graphReports({ auth, property, dateRange }: {
-    auth: JWT,
+    auth: JWT | OAuth2Client,
     property: string,
     dateRange: {
         from: string,

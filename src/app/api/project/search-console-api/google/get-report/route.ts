@@ -1,6 +1,6 @@
 import { GoogleSearchConsoleGraphFilterInterface } from "@/app/dashboard/google-search-console/report/GraphData";
 import { getOneProject } from "@/utils/server/projects/getOneProject";
-import { GoogleSearchConsoleAuth } from "@/utils/server/projects/googleSearchConsoleAPI/auth";
+import { GoogleSearchConsoleAuth, googleSearchConsoleOAuthClient } from "@/utils/server/projects/googleSearchConsoleAPI/auth";
 import { graphReports } from "@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,13 +15,27 @@ export async function POST(request: NextRequest) {
             !project.googleSearchConsole?.privateKey ||
             !project.googleSearchConsole?.property
         ) {
-            throw new Error("Credentials not found!");
+            if (!project?.googleSearchConsole?.token) {
+                throw new Error("Credentials not found!");
+            }
         }
 
-        const auth = await GoogleSearchConsoleAuth({
-            clientEmail: project.googleSearchConsole.clientEmail,
-            privateKey: project.googleSearchConsole.privateKey,
-        });
+        let auth;
+
+        if (
+            project.googleSearchConsole?.clientEmail &&
+            project.googleSearchConsole?.privateKey
+        ) {
+            auth = await GoogleSearchConsoleAuth({
+                clientEmail: project.googleSearchConsole.clientEmail,
+                privateKey: project.googleSearchConsole.privateKey,
+            })
+        } else {
+            const oauthClient = await googleSearchConsoleOAuthClient({
+                token: project.googleSearchConsole.token!,
+            });
+            auth = oauthClient;
+        }
 
         const report = await graphReports({
             auth,
@@ -34,6 +48,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ report });
     } catch (err) {
+        console.log(err)
         return NextResponse.json({ error: err }, { status: 500 })
     }
 }

@@ -19,6 +19,18 @@ const GoogleSearchConsole = async () => {
     return notFound();
   }
 
+  if (
+    project?.googleSearchConsole?.token &&
+    project.googleSearchConsole.property ||
+    project?.googleSearchConsole &&
+    project?.googleSearchConsole?.clientEmail &&
+    project?.googleSearchConsole?.privateKey &&
+    project?.googleSearchConsole?.property
+  ) {
+    console.log("Redirecing...")
+    redirect('/dashboard/google-search-console/report');
+  }
+
   return (
     <BasicLayout
       pageTitle='Analytics Report'

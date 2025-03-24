@@ -1,6 +1,6 @@
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
 import { getOneProject } from '@/utils/server/projects/getOneProject';
-import { GoogleSearchConsoleAuth } from '@/utils/server/projects/googleSearchConsoleAPI/auth';
+import { GoogleSearchConsoleAuth, googleSearchConsoleOAuthClient } from '@/utils/server/projects/googleSearchConsoleAPI/auth';
 import { graphReports } from '@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport';
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
@@ -25,14 +25,28 @@ const GoogleSearchConsoleReports = async () => {
         !project.googleSearchConsole?.clientEmail ||
         !project.googleSearchConsole?.privateKey
     ) {
-        redirect('/dashboard/google-search-console');
+        if (!project?.googleSearchConsole?.token) {
+            redirect('/dashboard/google-search-console');
+        }
     }
 
     try {
-        const auth = await GoogleSearchConsoleAuth({
-            clientEmail: project.googleSearchConsole.clientEmail,
-            privateKey: project.googleSearchConsole.privateKey,
-        })
+        let auth;
+
+        if (
+            project.googleSearchConsole?.clientEmail &&
+            project.googleSearchConsole?.privateKey
+        ) {
+            auth = await GoogleSearchConsoleAuth({
+                clientEmail: project.googleSearchConsole.clientEmail,
+                privateKey: project.googleSearchConsole.privateKey,
+            })
+        } else {
+            const oauthClient = await googleSearchConsoleOAuthClient({
+                token: project.googleSearchConsole.token!,
+            });
+            auth = oauthClient;
+        }
 
         // set date range
         const daysAgo = 30;
@@ -66,7 +80,7 @@ const GoogleSearchConsoleReports = async () => {
                             endDate,
                         }}
                     />
-                    <OtherDataTabs/>
+                    <OtherDataTabs />
                 </div>
             </BasicLayout>
         )

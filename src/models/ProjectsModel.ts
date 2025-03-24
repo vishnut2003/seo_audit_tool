@@ -19,8 +19,13 @@ export interface ProjectModelInterface extends mongoose.Document {
     },
     googleSearchConsole?: {
         property: string,
-        clientEmail: string,
-        privateKey: string,
+        clientEmail?: string,
+        privateKey?: string,
+        token?: {
+            access_token: string,
+            refresh_token: string,
+            expiry: number,
+        }
     },
 }
 
@@ -41,6 +46,7 @@ const googleSearchConsoleSchema = new mongoose.Schema({
     property: String,
     clientEmail: String,
     privateKey: String,
+    token: OAuthClientToken,
 })
 
 const projectSchema = new mongoose.Schema<ProjectModelInterface>({

@@ -1,4 +1,4 @@
-import { JWT } from "google-auth-library";
+import { JWT, OAuth2Client } from "google-auth-library";
 import { searchconsole } from "@googleapis/searchconsole";
 
 export interface GoogleSearchConsoleDataTabsRow {
@@ -13,7 +13,7 @@ export async function getGoogleSearchConsoleTabsData({
     property,
     dimension,
 }: {
-    auth: JWT,
+    auth: JWT | OAuth2Client,
     dateRange: {
         startDate: string,
         endDate: string,

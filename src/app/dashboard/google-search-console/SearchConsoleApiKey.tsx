@@ -5,7 +5,7 @@ import { RiDownloadLine, RiErrorWarningLine } from '@remixicon/react'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { WatchHowToGetAPI } from '../analytics-report/AnalyticsApiKey';
 import { getSessionProject } from '@/utils/client/projects';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -16,6 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select"
+import Image from 'next/image';
 
 
 export interface GoogleSearchConsoleApiFormDataInterface {
@@ -43,6 +44,8 @@ const SearchConsoleApiKey = ({ domain, projectId }: {
         clientEmail: string,
         privateKey: string,
     } | null>(null);
+
+    const [withGoogle_Error, setWithGoogle_Error] = useState<string | null>(null);
 
     const router = useRouter();
 
@@ -90,7 +93,7 @@ const SearchConsoleApiKey = ({ domain, projectId }: {
             const formData: GoogleSearchConsoleApiFormDataInterface = {
                 email: session.user.email,
                 projectId,
-                property: domainPrefix + mainDomain,
+                property: domainPrefix === "domain" ? mainDomain : domainPrefix + mainDomain,
                 clientEmail,
                 privateKey,
             }
@@ -122,6 +125,77 @@ const SearchConsoleApiKey = ({ domain, projectId }: {
                     disableInput
                     inputOnChange={() => { }}
                 />
+            </div>
+
+            <div
+                className="flex flex-col gap-1"
+            >
+                <h3
+                    className="text-lg font-medium"
+                >Connect with</h3>
+                <p
+                    className="text-sm"
+                >Connect with <b>Google</b> or provide <b>Google Service Account Credentials</b>.</p>
+            </div>
+
+            {
+                withGoogle_Error &&
+                <div
+                    className="py-3 px-4 bg-red-50 text-red-500 w-full max-w-screen-lg rounded-md shadow-xl shadow-gray-200 flex items-center gap-3"
+                >
+                    <RiErrorWarningLine
+                        size={20}
+                    />
+                    <p>{withGoogle_Error}</p>
+                </div>
+            }
+
+            <div>
+                <button
+                    className="flex w-max items-center gap-2 text-lg font-medium py-3 px-5 bg-white rounded-md shadow-xl shadow-gray-200"
+                    onClick={async () => {
+                        setWithGoogle_Error(null)
+                        try {
+                            const { data } = await axios.post('/api/project/google-oauth/search-console/get-auth-url',
+                                {
+                                    property: domainPrefix === "domain" ? mainDomain : domainPrefix + mainDomain,
+                                }
+                            )
+                            router.push(data);
+                        } catch (err) {
+                            if (err instanceof AxiosError) {
+                                setWithGoogle_Error(err.message);
+                            } else {
+                                setWithGoogle_Error("something went wrong!");
+                            }
+                        }
+                    }}
+                >
+                    <Image
+                        alt="Google icon"
+                        src={'/icons/google-icon.png'}
+                        width={100}
+                        height={100}
+                        style={{
+                            width: '23px',
+                        }}
+                    />
+                    <p>Connect with Google</p>
+                </button>
+            </div>
+
+            <div
+                className="flex items-center gap-5"
+            >
+                <div
+                    className="w-full h-[2px] bg-gray-200"
+                ></div>
+                <p
+                    className="text-lg font-medium opacity-50"
+                >Or</p>
+                <div
+                    className="w-full h-[2px] bg-gray-200"
+                ></div>
             </div>
 
             <div
