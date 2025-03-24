@@ -106,6 +106,14 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
     }, [graphData, defaultDateRange]);
 
     function calculateSumFromDataPoint(dataPoints: GoogleSearchConsoleGraphRow[]) {
+        // Reset the value to 0
+        setTotalCounts({
+            clicks: 0,
+            impression: 0,
+            ctr: 0,
+            position: 0,
+        })
+        
         for (const [index, row] of dataPoints.entries()) {
             setTotalCounts(prev => {
                 const temp = { ...prev };
