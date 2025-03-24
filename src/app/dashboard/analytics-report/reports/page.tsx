@@ -6,6 +6,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
 import React from 'react'
 import GoogleAnalyticsReportChart from './GoogleAnalyticsReportChart';
+import { RiErrorWarningLine } from '@remixicon/react';
 
 const AnalyticsReportsMain = async () => {
 
@@ -66,14 +67,26 @@ const AnalyticsReportsMain = async () => {
             </BasicLayout>
         )
 
-    } catch (err) {
+    } catch (err: any) {
         console.log(err);
-        const error = typeof err === "string" ? err : "Something went wrong"
+        let error = "Something went wrong!";
+
+        if ('details' in err && typeof err.details === "string") {
+            error = err.details;
+        }
+
         return (
             <BasicLayout
                 pageTitle='Analytics Reports'
             >
-                {error}
+                <div
+                    className='bg-red-500/10 text-red-500 flex items-center gap-3 py-3 px-5 rounded-md'
+                >
+                    <RiErrorWarningLine
+                        size={20}
+                    />
+                    <p>{error}</p>
+                </div>
             </BasicLayout>
         )
     }
