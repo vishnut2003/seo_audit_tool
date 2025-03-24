@@ -5,7 +5,7 @@ import DatePicker from '@/Components/ui/datepicker';
 import { getSessionProject } from '@/utils/client/projects';
 import { GoogleSearchConsoleGraphRow } from '@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport'
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
     CartesianGrid,
     Line,
@@ -90,22 +90,7 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
             },
         ]
 
-    useEffect(() => {
-        try {
-            setData(graphData)
-            setDateRange(defaultDateRange);
-            calculateSumFromDataPoint(graphData);
-            setInProgress(false);
-        } catch (err) {
-            if (typeof err === "string") {
-                setError(err);
-            } else {
-                setError("something went wrong")
-            }
-        }
-    }, [graphData, defaultDateRange]);
-
-    function calculateSumFromDataPoint(dataPoints: GoogleSearchConsoleGraphRow[]) {
+    const calculateSumFromDataPoint = useCallback((dataPoints: GoogleSearchConsoleGraphRow[]) => {
         // Reset the value to 0
         setTotalCounts({
             clicks: 0,
@@ -136,8 +121,23 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
             })
         }
 
-    }
-    
+    }, [])
+
+    useEffect(() => {
+        try {
+            setData(graphData)
+            setDateRange(defaultDateRange);
+            calculateSumFromDataPoint(graphData);
+            setInProgress(false);
+        } catch (err) {
+            if (typeof err === "string") {
+                setError(err);
+            } else {
+                setError("something went wrong")
+            }
+        }
+    }, [graphData, defaultDateRange, calculateSumFromDataPoint]);
+
     function roundToThreeDecimals(num: number): number {
         return Math.round(num * 1000) / 1000;
     }
