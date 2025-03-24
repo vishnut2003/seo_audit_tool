@@ -1,5 +1,4 @@
-import { createAnalyticsOAuthClient, createSearchConsoleOAuthClient } from "@/utils/server/googleOAuth";
-import { updatePropertyId } from "@/utils/server/projects/analyticsAPI/google/create";
+import { createSearchConsoleOAuthClient } from "@/utils/server/googleOAuth";
 import { updateProperty } from "@/utils/server/projects/googleSearchConsoleAPI/create";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";

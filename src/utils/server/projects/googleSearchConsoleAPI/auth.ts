@@ -1,5 +1,4 @@
 import { Credentials, JWT, OAuth2Client } from "google-auth-library";
-import { resolve } from "path";
 import { createSearchConsoleOAuthClient } from "../../googleOAuth";
 
 export function GoogleSearchConsoleAuth({ clientEmail, privateKey }: {
