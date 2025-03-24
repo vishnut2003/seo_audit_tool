@@ -1,5 +1,5 @@
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout';
-import { AnalyticsGoogleApiAuth } from '@/utils/server/projects/analyticsAPI/google/auth';
+import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth';
 import { fetchAnalyticsReport } from '@/utils/server/projects/analyticsAPI/google/fetchReport';
 import { getOneProject } from '@/utils/server/projects/getOneProject';
 import { cookies } from 'next/headers'
@@ -23,14 +23,27 @@ const AnalyticsReportsMain = async () => {
     }
 
     if (!project.googleAnalytics?.clientEmail || !project.googleAnalytics.privateKey || !project.googleAnalytics.propertyId) {
-        redirect('/dashboard/analytics-report');
+        if (!project.googleAnalytics?.token) {
+            redirect('/dashboard/analytics-report');
+        }
     }
 
     try {
-        const auth = await AnalyticsGoogleApiAuth({
-            clientEmail: project.googleAnalytics.clientEmail,
-            privateKey: project.googleAnalytics.privateKey,
-        });
+        let auth;
+
+        if (
+            project.googleAnalytics.clientEmail &&
+            project.googleAnalytics.privateKey
+        ) {
+            auth = await AnalyticsGoogleApiAuth({
+                clientEmail: project.googleAnalytics.clientEmail,
+                privateKey: project.googleAnalytics.privateKey,
+            });
+        } else {
+            auth = await authorizeWithOAuthClient({
+                token: project.googleAnalytics.token!,
+            })
+        }
 
         const report = await fetchAnalyticsReport({
             auth,
@@ -52,7 +65,7 @@ const AnalyticsReportsMain = async () => {
                 />
             </BasicLayout>
         )
-        
+
     } catch (err) {
         console.log(err);
         const error = typeof err === "string" ? err : "Something went wrong"

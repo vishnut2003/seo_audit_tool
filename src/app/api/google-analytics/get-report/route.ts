@@ -1,4 +1,4 @@
-import { AnalyticsGoogleApiAuth } from "@/utils/server/projects/analyticsAPI/google/auth";
+import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from "@/utils/server/projects/analyticsAPI/google/auth";
 import { fetchAnalyticsReport, GoogleAnalyticsReportFilterInterface } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import { getOneProject } from "@/utils/server/projects/getOneProject";
 import { cookies } from "next/headers";
@@ -22,13 +22,26 @@ export async function POST(request: NextRequest) {
             !project.googleAnalytics?.clientEmail ||
             !project.googleAnalytics?.privateKey
         ) {
-            throw new Error("Project or credentials not found!");
+            if (!project?.googleAnalytics?.token) {
+                throw new Error("Project or credentials not found!");
+            }
         }
 
-        const auth = await AnalyticsGoogleApiAuth({
-            clientEmail: project.googleAnalytics.clientEmail,
-            privateKey: project.googleAnalytics.privateKey,
-        });
+        let auth;
+
+        if (
+            project.googleAnalytics.clientEmail &&
+            project.googleAnalytics.privateKey
+        ) {
+            auth = await AnalyticsGoogleApiAuth({
+                clientEmail: project.googleAnalytics.clientEmail,
+                privateKey: project.googleAnalytics.privateKey,
+            });
+        } else {
+            auth = await authorizeWithOAuthClient({
+                token: project.googleAnalytics.token!,
+            })
+        }
 
         const report = await fetchAnalyticsReport({
             auth,

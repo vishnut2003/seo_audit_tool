@@ -1,5 +1,5 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
-import { JWT } from "google-auth-library"
+import { JWT, OAuth2Client } from "google-auth-library"
 
 export interface GoogleAnalyticsReportFilterInterface {
     dateRange: {
@@ -24,16 +24,24 @@ export interface GoogleAnalyticsDataPoints {
 }
 
 export async function fetchAnalyticsReport({ auth, propertyId, filter }: {
-    auth: JWT,
+    auth: JWT | OAuth2Client,
     propertyId: string,
     filter: GoogleAnalyticsReportFilterInterface,
 }) {
     return new Promise<GoogleAnalyticsReportResponse>(async (resolve, reject) => {
         try {
 
-            const analyticsDataClient = new BetaAnalyticsDataClient({
-                authClient: auth,
-            });
+            let analyticsDataClient;
+
+            if (auth instanceof JWT) {
+                analyticsDataClient = new BetaAnalyticsDataClient({
+                    authClient: auth,
+                });
+            } else {
+                analyticsDataClient = new BetaAnalyticsDataClient({
+                    authClient: (auth as any)
+                });
+            }
 
             const [response] = await analyticsDataClient.runReport({
                 property: `properties/${propertyId}`,
@@ -131,7 +139,7 @@ export async function fetchAnalyticsReport({ auth, propertyId, filter }: {
     })
 }
 
-function formatDate (dateString: string) {
+function formatDate(dateString: string) {
     // Extract year, month, and day from the string
     const year = dateString.slice(0, 4);
     const month = dateString.slice(4, 6);

@@ -20,18 +20,30 @@ const AnalyticsReport = async () => {
         return notFound();
     }
 
+    if (
+        project?.googleAnalytics?.token && 
+        project.googleAnalytics.propertyId ||
+        project?.googleAnalytics && 
+        project?.googleAnalytics?.clientEmail && 
+        project?.googleAnalytics?.privateKey && 
+        project?.googleAnalytics?.propertyId
+    ) {
+        console.log("Redirecing")
+        redirect('/dashboard/analytics-report/reports');
+    }
+
     return (
         <BasicLayout
             pageTitle='Analytics Report'
         >
             {
                 !project ?
-                <SelectProject/>
-                : !project.googleAnalytics || !project.googleAnalytics.clientEmail || !project.googleAnalytics.privateKey || !project.googleAnalytics.propertyId ?
-                <AnalyticsApiKey
-                    projectId={project.projectId}
-                />
-                : redirect('/dashboard/analytics-report/reports')
+                    <SelectProject />
+                    : !project.googleAnalytics || !project.googleAnalytics.clientEmail || !project.googleAnalytics.privateKey || !project.googleAnalytics.propertyId ?
+                        <AnalyticsApiKey
+                            projectId={project.projectId}
+                        />
+                        : redirect('/dashboard/analytics-report/reports')
             }
         </BasicLayout>
     )

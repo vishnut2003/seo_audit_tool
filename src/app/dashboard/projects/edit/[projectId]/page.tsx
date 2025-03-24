@@ -21,7 +21,7 @@ const EditProject = () => {
             console.log(data)
 
         })()
-    }, [])
+    }, [projectId])
 
     return (
         <div>{projectId}</div>

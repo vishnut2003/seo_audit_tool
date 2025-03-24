@@ -15,6 +15,7 @@ import { RiErrorWarningLine, RiPlayCircleLine } from "@remixicon/react";
 import axios from "axios";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export interface GoogleAnalyticsFormSubmitInterface {
     email: string,
@@ -34,6 +35,9 @@ const AnalyticsApiKey = ({ projectId }: {
 
     const [error, setError] = useState<string | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(false);
+
+    // continue with google related
+    const [withGoogle_Error, setWithGoogle_Error] = useState<string | null>(null);
 
     const router = useRouter()
 
@@ -70,7 +74,7 @@ const AnalyticsApiKey = ({ projectId }: {
             }
 
             await axios.post('/api/project/analytics-api/google/create', formData);
-            
+
             router.push('/dashboard/analytics-report/reports')
 
         } catch (err) {
@@ -89,6 +93,81 @@ const AnalyticsApiKey = ({ projectId }: {
             <div
                 className="flex flex-col gap-5"
             >
+                <div
+                    className="flex flex-col gap-5"
+                >
+                    <div
+                        className="bg-white w-full max-w-screen-lg rounded-md shadow-xl shadow-gray-200"
+                    >
+                        <DashboardStandardInput
+                            label="Property ID"
+                            subLabel="You can find the PROPERTY ID in Google Analytics Dashboard."
+                            inputPlaceholder="PROPERTY ID"
+                            name="property_id"
+                            inputValue={propertyId}
+                            inputOnChange={(event) => {
+                                setPropertyId(event.target.value);
+                            }}
+                        />
+                    </div>
+
+                    {
+                        withGoogle_Error &&
+                        <div
+                            className="py-3 px-4 bg-red-50 text-red-500 w-full max-w-screen-lg rounded-md shadow-xl shadow-gray-200 flex items-center gap-3"
+                        >
+                            <RiErrorWarningLine
+                                size={20}
+                            />
+                            <p>{withGoogle_Error}</p>
+                        </div>
+                    }
+
+                    <button
+                        className="flex w-max items-center gap-2 text-lg font-medium py-3 px-5 bg-white rounded-md shadow-xl shadow-gray-200"
+                        onClick={async () => {
+                            setWithGoogle_Error("");
+                            try {
+
+                                if (!propertyId) {
+                                    setWithGoogle_Error("PropertyId Required!");
+                                    return;
+                                }
+
+                                const { data } = await axios.post('/api/project/google-oauth/analytics/get-auth-url', { propertyId })
+                                router.push(data);
+                            } catch (err) {
+                                setWithGoogle_Error(typeof err === "string" ? err : "something went wrong");
+                            }
+                        }}
+                    >
+                        <Image
+                            alt="Google icon"
+                            src={'/icons/google-icon.png'}
+                            width={100}
+                            height={100}
+                            style={{
+                                width: '23px',
+                            }}
+                        />
+                        <p>Connect with Google</p>
+                    </button>
+                </div>
+
+                <div
+                    className="flex items-center gap-5"
+                >
+                    <div
+                        className="w-full h-[2px] bg-gray-200"
+                    ></div>
+                    <p
+                        className="text-lg font-medium opacity-50"
+                    >Or</p>
+                    <div
+                        className="w-full h-[2px] bg-gray-200"
+                    ></div>
+                </div>
+
                 <div
                     className="flex flex-col gap-1"
                 >
@@ -118,7 +197,7 @@ const AnalyticsApiKey = ({ projectId }: {
                         }}
                     />
                 </div>
-                
+
                 <div
                     className="bg-white w-full max-w-screen-lg rounded-md shadow-xl shadow-gray-200"
                 >

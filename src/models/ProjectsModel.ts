@@ -9,8 +9,13 @@ export interface ProjectModelInterface extends mongoose.Document {
     updatedAt: string,
     googleAnalytics?: {
         propertyId: string,
-        clientEmail: string,
-        privateKey: string,
+        clientEmail?: string,
+        privateKey?: string,
+        token?: {
+            access_token: string,
+            refresh_token: string,
+            expiry: number,
+        }
     },
     googleSearchConsole?: {
         property: string,
@@ -19,10 +24,17 @@ export interface ProjectModelInterface extends mongoose.Document {
     },
 }
 
+const OAuthClientToken = new mongoose.Schema({
+    access_token: String,
+    refresh_token: String,
+    expiry: Number,
+})
+
 const googleAnalyticsSchema = new mongoose.Schema({
     propertyId: String,
     clientEmail: String,
     privateKey: String,
+    token: OAuthClientToken,
 })
 
 const googleSearchConsoleSchema = new mongoose.Schema({

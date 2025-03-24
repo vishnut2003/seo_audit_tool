@@ -1,4 +1,5 @@
-import { JWT } from "google-auth-library";
+import { createAnalyticsOAuthClient } from "@/utils/server/googleOAuth";
+import { JWT, Credentials, OAuth2Client } from "google-auth-library";
 
 export function AnalyticsGoogleApiAuth({ clientEmail, privateKey }: {
     clientEmail?: string,
@@ -26,4 +27,19 @@ export function AnalyticsGoogleApiAuth({ clientEmail, privateKey }: {
             return reject(typeof err === "string" ? err : "API Credentials Autherization Failed");
         }
     })
-} 
+}
+
+export async function authorizeWithOAuthClient({ token }: {
+    token: Credentials,
+}) {
+    return new Promise<OAuth2Client>(async (resolve, reject) => {
+        try {
+            const [oauthclient] = await createAnalyticsOAuthClient();
+            oauthclient.setCredentials(token);
+
+            return resolve(oauthclient)
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}
