@@ -106,13 +106,21 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
     }, [graphData, defaultDateRange]);
 
     function calculateSumFromDataPoint(dataPoints: GoogleSearchConsoleGraphRow[]) {
-        for (const row of dataPoints) {
+        for (const [index, row] of dataPoints.entries()) {
             setTotalCounts(prev => {
                 const temp = { ...prev };
                 for (const key of Object.keys(row)) {
                     if (typeof row[key as keyof typeof row] === "number") {
-                        temp[key as keyof typeof temp] += row[key as keyof typeof row] as number;
-                        temp[key as keyof typeof temp] = roundToThreeDecimals(temp[key as keyof typeof temp])
+                        if (key === "position" && index === (dataPoints.length - 1)) {
+                            temp[key as keyof typeof temp] += row[key as keyof typeof row] as number;
+                            temp[key as keyof typeof temp] = roundToThreeDecimals(temp[key as keyof typeof temp] / dataPoints.length);
+                        } else if (key === "ctr" && index === (dataPoints.length - 1)) {
+                            temp[key as keyof typeof temp] += row[key as keyof typeof row] as number;
+                            temp[key as keyof typeof temp] = roundToThreeDecimals((temp[key as keyof typeof temp] / dataPoints.length) * 100);
+                        } else {
+                            temp[key as keyof typeof temp] += row[key as keyof typeof row] as number;
+                            temp[key as keyof typeof temp] = roundToThreeDecimals(temp[key as keyof typeof temp])
+                        }
                     }
                 }
 
