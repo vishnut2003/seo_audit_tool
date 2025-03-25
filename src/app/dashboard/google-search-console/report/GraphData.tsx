@@ -305,7 +305,7 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
                                                                             }}
                                                                         >
                                                                             <p>{pyl.name}</p>
-                                                                            <p>{roundToThreeDecimals((pyl.value as number) * 100)}</p>
+                                                                            <p>{roundToThreeDecimals((pyl.value as number))}</p>
                                                                         </div>
                                                                     ))
                                                                 }
