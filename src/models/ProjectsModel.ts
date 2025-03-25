@@ -32,7 +32,7 @@ export interface ProjectModelInterface extends mongoose.Document {
 const OAuthClientToken = new mongoose.Schema({
     access_token: String,
     refresh_token: String,
-    expiry: Number,
+    expiry_date: Number,
 })
 
 const googleAnalyticsSchema = new mongoose.Schema({

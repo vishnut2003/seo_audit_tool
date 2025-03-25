@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 import GoogleSearchConsoleGraph from './GraphData';
 import OtherDataTabs from './OtherDataTabs';
+import { RiErrorWarningLine } from '@remixicon/react';
 
 const GoogleSearchConsoleReports = async () => {
 
@@ -85,13 +86,25 @@ const GoogleSearchConsoleReports = async () => {
             </BasicLayout>
         )
 
-    } catch (err) {
-        console.log(err);
+    } catch (err: any) {
+        let error = 'Something went wrong';
+
+        if ('details' in err && typeof err.details === "string") {
+            error = err.details;
+        }
+
         return (
             <BasicLayout
                 pageTitle='Google Search Console'
             >
-                Something went wrong
+                <div
+                    className='bg-red-500/10 text-red-500 flex items-center gap-3 py-3 px-5 rounded-md'
+                >
+                    <RiErrorWarningLine
+                        size={20}
+                    />
+                    <p>{error}</p>
+                </div>
             </BasicLayout>
         )
     }

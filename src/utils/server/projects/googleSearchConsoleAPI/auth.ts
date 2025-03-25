@@ -1,5 +1,8 @@
 import { Credentials, JWT, OAuth2Client } from "google-auth-library";
 import { createSearchConsoleOAuthClient } from "../../googleOAuth";
+import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { createOAuthConsentToken } from "./create";
 
 export function GoogleSearchConsoleAuth({ clientEmail, privateKey }: {
     clientEmail?: string,
@@ -36,6 +39,38 @@ export async function googleSearchConsoleOAuthClient({ token }: {
         try {
             const [authClient] = await createSearchConsoleOAuthClient();
             authClient.setCredentials(token);
+            const expaired = Date.now() >= (token.expiry_date ?? 0);
+
+            if (expaired) {
+                console.log("Expaired initiated...")
+                try {
+                    console.log("Refresing...")
+                    const { credentials } = await authClient.refreshAccessToken();
+                    console.log(credentials);
+                    console.log("Refresh done!");
+                    const cookieStore = await cookies();
+                    const projectId = cookieStore.get('projectId');
+                    const session = await getServerSession();
+
+                    if (!projectId) {
+                        throw new Error("No Project ID found");
+                    } else if (!session?.user?.email) {
+                        throw new Error("User not found!");
+                    }
+
+                    await createOAuthConsentToken({
+                        email: session.user.email,
+                        projectId: projectId.value,
+                        token: credentials,
+                    });
+
+                    authClient.setCredentials(credentials);
+
+                } catch (err) {
+                    // refresh token expaired
+                    console.log("refresh token expaired!", err);
+                }
+            }
 
             return resolve(authClient);
         } catch (err) {
