@@ -1,5 +1,8 @@
 import { createAnalyticsOAuthClient } from "@/utils/server/googleOAuth";
 import { JWT, Credentials, OAuth2Client } from "google-auth-library";
+import { createOAuthConsentToken } from "./create";
+import { getServerSession } from "next-auth";
+import { cookies } from "next/headers";
 
 export function AnalyticsGoogleApiAuth({ clientEmail, privateKey }: {
     clientEmail?: string,
@@ -36,6 +39,38 @@ export async function authorizeWithOAuthClient({ token }: {
         try {
             const [oauthclient] = await createAnalyticsOAuthClient();
             oauthclient.setCredentials(token);
+            const expaired = Date.now() >= (token.expiry_date ?? 0);
+
+            if (expaired) {
+                console.log("Expaired initiated...")
+                try {
+                    console.log("Refresing...")
+                    const { credentials } = await oauthclient.refreshAccessToken();
+                    console.log(credentials);
+                    console.log("Refresh done!");
+                    const cookieStore = await cookies();
+                    const projectId = cookieStore.get('projectId');
+                    const session = await getServerSession();
+
+                    if (!projectId) {
+                        throw new Error("No Project ID found");
+                    } else if (!session?.user?.email) {
+                        throw new Error("User not found!");
+                    }
+
+                    await createOAuthConsentToken({
+                        email: session.user.email,
+                        projectId: projectId.value,
+                        token: credentials,
+                    });
+
+                    oauthclient.setCredentials(credentials);
+
+                } catch (err) {
+                    // refresh token expaired
+                    console.log("refresh token expaired!", err);
+                }
+            }
 
             return resolve(oauthclient)
         } catch (err) {

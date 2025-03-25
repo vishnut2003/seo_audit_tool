@@ -43,7 +43,7 @@ export async function createOAuthConsentToken({ token, email, projectId }: {
                 'googleAnalytics.token': {
                     access_token: token.access_token,
                     refresh_token: token.refresh_token,
-                    expiry: token.expiry_date,
+                    expiry_date: token.expiry_date,
                 }
             })
 
