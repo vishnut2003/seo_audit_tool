@@ -8,6 +8,7 @@ import React from 'react'
 import GoogleSearchConsoleGraph from './GraphData';
 import OtherDataTabs from './OtherDataTabs';
 import { RiErrorWarningLine } from '@remixicon/react';
+import GSC_ChatBot from '@/AiChat/GSC_ChatBot/GSC_ChatBot';
 
 const GoogleSearchConsoleReports = async () => {
 
@@ -83,6 +84,9 @@ const GoogleSearchConsoleReports = async () => {
                     />
                     <OtherDataTabs />
                 </div>
+
+                {/* Chat bot */}
+                <GSC_ChatBot/>
             </BasicLayout>
         )
 

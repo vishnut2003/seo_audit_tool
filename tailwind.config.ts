@@ -7,6 +7,7 @@ export default {
     "./src/Components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/layouts/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/AiChat/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
   	extend: {
