@@ -68,6 +68,23 @@ const GSC_ChatBot = () => {
                 event.preventDefault();
                 try {
 
+                    if (inProgress) {
+                        return;
+                    }
+
+                    setError(null);
+                    setInProgress(true);
+
+                    // Check if prompt is empty
+                    if (!prompt) {
+                        return setError('Please enter a prompt!');
+                    }
+
+                    // Validate Date Range
+                    if (dateRangeList.to < dateRangeList.from) {
+                        return setError("'From' date should be lower than 'To' date.");
+                    }
+
                     setConversationData(prev => ([
                         ...prev,
                         {

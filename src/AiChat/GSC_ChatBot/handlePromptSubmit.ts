@@ -35,23 +35,6 @@ export async function handleGSCPromptSubmition({
     return new Promise<string>(async (resolve, reject) => {
         try {
 
-            if (inProgress) {
-                return;
-            }
-
-            setError(null);
-            setInProgress(true);
-
-            // Check if prompt is empty
-            if (!prompt) {
-                return reject('Please enter a prompt!');
-            }
-
-            // Validate Date Range
-            if (dateRange.to < dateRange.from) {
-                return reject("'From' date should be lower than 'To' date.");
-            }
-
             const tempPrompt = prompt;
             setPrompt('');
 
