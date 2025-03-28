@@ -4,7 +4,7 @@ import { useState } from "react"
 import { ConversationDataInterface } from "../layout/ChatPopup/Conversation"
 import AiChatLayout from "../layout/Layout"
 import DatePicker from "@/Components/ui/datepicker";
-import { RiArrowDownSLine, RiExpandHorizontalSLine, RiQuestionLine } from "@remixicon/react";
+import { RiArrowDownSLine, RiCheckLine, RiExpandHorizontalSLine, RiLoader4Line, RiQuestionLine } from "@remixicon/react";
 
 import {
     Popover,
@@ -12,11 +12,23 @@ import {
     PopoverTrigger,
 } from "@/Components/ui/popover"
 import { handleGSCPromptSubmition } from "./handlePromptSubmit";
+import { GoogleSearchConsoleGraphRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport";
+import { GoogleSearchConsoleDataTabsRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
 
 
 export interface GSCDateRangeInterface {
     from: Date,
     to: Date,
+}
+
+export interface GSC_ChatbotFetchedData {
+    graphData: GoogleSearchConsoleGraphRow[],
+    dimensions: DimensionData[]
+}
+
+export interface DimensionData {
+    dimension: string,
+    data: GoogleSearchConsoleDataTabsRow[],
 }
 
 const GSC_ChatBot = () => {
@@ -28,19 +40,22 @@ const GSC_ChatBot = () => {
     },);
 
     const [inProgress, setInProgress] = useState<boolean>(false);
-    const [error] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [processingItems] = useState<string[]>([
+        "Fetching Google Search Console Data",
+        "Creating response",
+    ])
+    const [processed, setProcessed] = useState<number>(0)
 
     const [prompt, setPrompt] = useState<string>('');
-    const [conversationData] = useState<ConversationDataInterface[]>([
+    const [conversationData, setConversationData] = useState<ConversationDataInterface[]>([
         {
             message: "Hi there, how can i help you?",
             role: "assistant",
         },
-        {
-            role: "user",
-            message: "summarize the Google Search Console Data."
-        }
     ]);
+
+    const [gscFetchedData, setGscFetchedData] = useState<GSC_ChatbotFetchedData | null>(null);
 
     return (
         <AiChatLayout
@@ -49,14 +64,86 @@ const GSC_ChatBot = () => {
             setPrompt={setPrompt}
             inProgress={inProgress}
             error={error}
-            onSubmit={(event) => {
+            onSubmit={async (event) => {
                 event.preventDefault();
-                handleGSCPromptSubmition({
-                    prompt,
-                    dateRange: dateRangeList,
-                    setInProgress,
-                })
+                try {
+
+                    setConversationData(prev => ([
+                        ...prev,
+                        {
+                            role: 'user',
+                            message: prompt,
+                        }
+                    ]))
+
+                    const modelResponse = await handleGSCPromptSubmition({
+                        prompt,
+                        setPrompt,
+                        dateRange: dateRangeList,
+                        setInProgress,
+                        setError,
+                        inProgress,
+                        conversationData,
+                        GSCFetchecData: gscFetchedData,
+                        setGscFetchedData,
+                        setProcessed,
+                    })
+
+                    setConversationData(prev => {
+                        return [
+                            ...prev,
+                            {
+                                role: 'assistant',
+                                message: modelResponse,
+                            },
+                        ];
+                    })
+                } catch (err) {
+                    if (typeof err === "string") {
+                        setError(err)
+                    } else {
+                        setError("Something went wrong!");
+                    }
+
+                    setInProgress(false);
+                }
             }}
+
+            LoadingElement={() => (
+                <div
+                    className="flex flex-col gap-5"
+                >
+                    {processingItems.map((item, index) => (
+                        <div
+                            className="flex gap-3 items-center"
+                            key={index}
+                        >
+                            <div
+                                className={`p-2 rounded-full shadow-md ${(index + 1) > processed ? "bg-orange-50 text-orange-500" : "bg-green-50 text-green-500"}`}
+                            >
+                                {
+                                    (index + 1) > processed ?
+                                        <RiLoader4Line
+                                            size={15}
+                                            className="animate-spin"
+                                        />
+                                        : <RiCheckLine
+                                            size={15}
+                                        />
+                                }
+                            </div>
+                            <div>
+                                <p
+                                    className="text-sm font-semibold"
+                                >{item}</p>
+                                <p
+                                    className="text-xs"
+                                >{index === processed ? "Loading..." : index < processed ? "Compleated" : "Pending"}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         >
             <div
                 className="max-h-[250px] overflow-auto"

@@ -4,16 +4,23 @@ import { RiErrorWarningLine, RiLoader4Line } from "@remixicon/react";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ComponentType, useEffect, useState } from "react";
 
 export interface ConversationDataInterface {
     message: string,
     role: 'user' | 'assistant',
 }
 
-const Conversation = ({ conversationData, error }: {
+const Conversation = ({
+    conversationData, 
+    error,
+    inProgress,
+    LoadingElement,
+}: {
     conversationData: ConversationDataInterface[],
     error: string | null,
+    LoadingElement: ComponentType,
+    inProgress: boolean,
 }) => {
     const [userSession, setUserSession] = useState<Session | null>(null);
 
@@ -93,6 +100,11 @@ const Conversation = ({ conversationData, error }: {
                         />
                         <p>{error}</p>
                     </div>
+                }
+
+                {
+                    inProgress &&
+                    <LoadingElement/>
                 }
             </div>
         </div>

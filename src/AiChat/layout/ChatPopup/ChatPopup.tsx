@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import InputSection from "./InputSection";
-import { Dispatch, FormEvent, ReactNode, SetStateAction } from "react";
+import { ComponentType, Dispatch, FormEvent, ReactNode, SetStateAction } from "react";
 import { RiChatAiFill, RiCloseLargeLine } from "@remixicon/react";
 import Conversation, { ConversationDataInterface } from "./Conversation";
 
@@ -15,6 +15,7 @@ const ChatPopup = ({
     prompt,
     setPrompt,
     error,
+    LoadingElement,
 }: {
     closeAction: () => void,
     children: ReactNode,
@@ -24,6 +25,7 @@ const ChatPopup = ({
     inProgress: boolean,
     onSubmit: (event: FormEvent) => void,
     error: string | null,
+    LoadingElement: ComponentType,
 }) => {
     return (
         <motion.div
@@ -73,6 +75,8 @@ const ChatPopup = ({
                         <Conversation
                             conversationData={conversationData}
                             error={error}
+                            inProgress={inProgress}
+                            LoadingElement={LoadingElement}
                         />
 
                         <InputSection

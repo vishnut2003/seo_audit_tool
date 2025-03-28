@@ -1,7 +1,7 @@
 'use client';
 
 import { RiBardFill } from '@remixicon/react'
-import React, { Dispatch, FormEvent, ReactNode, SetStateAction, useState } from 'react'
+import React, { ComponentType, Dispatch, FormEvent, ReactNode, SetStateAction, useState } from 'react'
 import ChatPopup from './ChatPopup/ChatPopup';
 import { ConversationDataInterface } from './ChatPopup/Conversation';
 
@@ -13,6 +13,7 @@ const AiChatLayout = ({
     onSubmit,
     prompt,
     setPrompt,
+    LoadingElement,
 }: {
     children: ReactNode,
     conversationData: ConversationDataInterface[],
@@ -21,6 +22,7 @@ const AiChatLayout = ({
     inProgress: boolean,
     onSubmit: (event: FormEvent) => void,
     error: string | null,
+    LoadingElement: ComponentType,
 }) => {
 
     const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -48,6 +50,7 @@ const AiChatLayout = ({
                     onSubmit={onSubmit}
                     prompt={prompt}
                     setPrompt={setPrompt}
+                    LoadingElement={LoadingElement}
                 >{children}</ChatPopup>
             }
 
