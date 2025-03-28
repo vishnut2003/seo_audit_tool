@@ -4,7 +4,7 @@ import { useState } from "react"
 import { ConversationDataInterface } from "../layout/ChatPopup/Conversation"
 import AiChatLayout from "../layout/Layout"
 import DatePicker from "@/Components/ui/datepicker";
-import { RiArrowDownSLine, RiCheckLine, RiExpandHorizontalSLine, RiLoader4Line, RiQuestionLine } from "@remixicon/react";
+import { RiArrowDownSLine, RiCheckLine, RiExpandHorizontalSLine, RiLoader4Line, RiQuestionLine, RiRefreshLine } from "@remixicon/react";
 
 import {
     Popover,
@@ -98,6 +98,7 @@ const GSC_ChatBot = () => {
                             },
                         ];
                     })
+                    setProcessed(0);
                 } catch (err) {
                     if (typeof err === "string") {
                         setError(err)
@@ -199,7 +200,7 @@ const GSC_ChatBot = () => {
                 {
                     showDateRange &&
                     <div
-                        className="flex overflow-auto items-center justify-between w-full py-3 border-t border-gray-100 mb-2"
+                        className="flex overflow-auto items-center justify-between w-full py-3 border-t border-gray-100 mb-2 relative"
                     >
                         <div
                             className="w-[45%] truncate"
@@ -249,6 +250,25 @@ const GSC_ChatBot = () => {
                                 />
                             </div>
                         </div>
+
+                        {
+                            gscFetchedData &&
+                            <div
+                                className="absolute top-0 left-0 w-full h-full bg-white/80 flex justify-center items-center"
+                            >
+                                <button
+                                    className="flex items-center gap-3 bg-themesecondary shadow-lg shadow-themesecondary py-2 px-4 text-sm text-white rounded-md"
+                                    onClick={() => {
+                                        setGscFetchedData(null)
+                                    }}
+                                >
+                                    <RiRefreshLine
+                                        size={20}
+                                    />
+                                    Reset period
+                                </button>
+                            </div>
+                        }
                     </div>
                 }
 

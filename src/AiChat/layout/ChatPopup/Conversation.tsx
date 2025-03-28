@@ -4,7 +4,8 @@ import { RiErrorWarningLine, RiLoader4Line } from "@remixicon/react";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
-import { ComponentType, useEffect, useState } from "react";
+import { ComponentType, useEffect, useRef, useState } from "react";
+import Markdown from "markdown-to-jsx";
 
 export interface ConversationDataInterface {
     message: string,
@@ -12,7 +13,7 @@ export interface ConversationDataInterface {
 }
 
 const Conversation = ({
-    conversationData, 
+    conversationData,
     error,
     inProgress,
     LoadingElement,
@@ -29,7 +30,14 @@ const Conversation = ({
             .then((session) => {
                 setUserSession(session);
             })
-    }, []);
+
+        scrollWrapperRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+        })
+    }, [conversationData]);
+
+    const scrollWrapperRef = useRef<HTMLDivElement>(null)
 
     if (!userSession) {
         return (
@@ -51,6 +59,7 @@ const Conversation = ({
         >
             <div
                 className="flex flex-col gap-5 w-full"
+                ref={scrollWrapperRef}
             >
                 {conversationData.map((chat, index) => (
                     <div
@@ -85,7 +94,29 @@ const Conversation = ({
                         <div
                             className={`w-full ${chat.role === "user" && "text-right"}`}
                         >
-                            {chat.message}
+                            <Markdown
+                                options={{
+                                    overrides: {
+                                        p: {
+                                            props: {
+                                                className: 'mb-3'
+                                            }
+                                        },
+                                        ul: {
+                                            props: {
+                                                className: 'flex flex-col gap-3 mb-3'
+                                            }
+                                        },
+                                        code: {
+                                            props: {
+                                                className: 'py-[3px] px-[5px] bg-gray-200 rounded-md'
+                                            }
+                                        }
+                                    }
+                                }}
+                            >
+                                {chat.message}
+                            </Markdown>
                         </div>
                     </div>
                 ))}
@@ -104,7 +135,7 @@ const Conversation = ({
 
                 {
                     inProgress &&
-                    <LoadingElement/>
+                    <LoadingElement />
                 }
             </div>
         </div>
