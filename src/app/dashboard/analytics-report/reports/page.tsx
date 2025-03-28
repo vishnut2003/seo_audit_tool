@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 import GoogleAnalyticsReportChart from './GoogleAnalyticsReportChart';
 import { RiErrorWarningLine } from '@remixicon/react';
+import ResetConnectionButton from './ResetConnectionButton';
 
 const AnalyticsReportsMain = async () => {
 
@@ -87,6 +88,8 @@ const AnalyticsReportsMain = async () => {
                     />
                     <p>{error}</p>
                 </div>
+
+                <ResetConnectionButton />
             </BasicLayout>
         )
     }
