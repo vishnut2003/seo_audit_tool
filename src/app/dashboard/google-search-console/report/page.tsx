@@ -9,6 +9,7 @@ import GoogleSearchConsoleGraph from './GraphData';
 import OtherDataTabs from './OtherDataTabs';
 import { RiErrorWarningLine } from '@remixicon/react';
 import GSC_ChatBot from '@/AiChat/GSC_ChatBot/GSC_ChatBot';
+import ResetConnectionButton from './ResetConnectionButton';
 
 const GoogleSearchConsoleReports = async () => {
 
@@ -109,6 +110,8 @@ const GoogleSearchConsoleReports = async () => {
                     />
                     <p>{error}</p>
                 </div>
+
+                <ResetConnectionButton/>
             </BasicLayout>
         )
     }
