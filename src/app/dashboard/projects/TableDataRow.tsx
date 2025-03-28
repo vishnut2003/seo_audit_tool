@@ -4,7 +4,7 @@ import { Checkbox } from "@/Components/ui/checkbox"
 import { TableCell, TableRow } from "@/Components/ui/table"
 import { ProjectModelInterface } from "@/models/ProjectsModel"
 import { setProjectId } from "@/utils/client/projects"
-import { RemixiconComponentType, RiDeleteBin6Line, RiMoreLine, RiPencilLine } from "@remixicon/react"
+import { RemixiconComponentType, RiCheckboxCircleFill, RiCursorLine, RiDeleteBin6Line, RiMoreLine, RiPencilLine } from "@remixicon/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 
@@ -15,8 +15,9 @@ import {
 } from "@/Components/ui/popover"
 import Link from "next/link";
 
-const TableDataRow = ({ rowData }: {
+const TableDataRow = ({ rowData, isSelected }: {
     rowData: ProjectModelInterface,
+    isSelected: boolean,
 }) => {
     const [inProgress, setInProgress] = useState<boolean>(false);
     const router = useRouter();
@@ -51,16 +52,38 @@ const TableDataRow = ({ rowData }: {
             <TableCell>{rowData.createdAt.split('T')[0].split('-').join('/')}</TableCell>
 
             {/* Website */}
-            <TableCell>
+            <TableCell
+                className="space-y-2"
+            >
                 <p className="text-base font-semibold">{rowData.domain}</p>
-                <button
-                    className="text-xs font-medium text-gray-400"
-                    onClick={async () => {
-                        setInProgress(true)
-                        await setProjectId(rowData.projectId);
-                        router.push(enableRedirect || '/dashboard')
-                    }}
-                >{inProgress ? 'selecting...' : 'select project'}</button>
+                {
+                    isSelected ?
+                        <button
+                            className="text-xs font-medium bg-green-400 text-white py-1 px-2 rounded-md shadow-md shadow-green-200 flex items-center gap-2"
+                            onClick={async () => {
+                                setInProgress(true)
+                                await setProjectId(rowData.projectId);
+                                router.push(enableRedirect || '/dashboard')
+                            }}
+                            disabled={true}
+                        >
+                            <RiCheckboxCircleFill
+                                size={17}
+                            />
+                            Selected</button>
+                        : <button
+                            className="text-xs font-medium bg-orange-400 text-white py-1 px-2 rounded-md shadow-md shadow-orange-200 flex items-center gap-2"
+                            onClick={async () => {
+                                setInProgress(true)
+                                await setProjectId(rowData.projectId);
+                                router.push(enableRedirect || '/dashboard')
+                            }}
+                        >
+                            <RiCursorLine
+                                size={17}
+                            />
+                            {inProgress ? 'selecting...' : 'select project'}</button>
+                }
             </TableCell>
 
             {/* Last updated */}

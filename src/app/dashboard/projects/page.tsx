@@ -20,6 +20,7 @@ import LoadingProjectsTemplate from "./LoadingProjectsTemplate";
 import ErrorProjectTemplate from "./ErrorProjectTemplate";
 import TableDataRow from "./TableDataRow";
 import Link from "next/link";
+import { getSessionProject } from "@/utils/client/projects";
 
 interface DateRangeInterface {
   startDate: Date | null,
@@ -29,6 +30,7 @@ interface DateRangeInterface {
 const Projects = () => {
 
   const [projects, setProjects] = useState<ProjectModelInterface[]>([]);
+  const [currentProject, setCurrentProject] = useState<ProjectModelInterface | null>(null);
 
   // fetching projects
   const [inProgress, setInProgress] = useState<boolean>(true);
@@ -45,7 +47,12 @@ const Projects = () => {
   useEffect(() => {
     setError(false);
     setInProgress(true);
-    console.log(tablePage)
+    
+    // Fetch current project
+    getSessionProject()
+      .then((project) => setCurrentProject(project))
+      .catch((err) => console.log(err));
+
     getSession().then(async (session) => {
       if (session && session.user && session.user.email) {
         try {
@@ -195,6 +202,7 @@ const Projects = () => {
                           <TableDataRow
                             rowData={project}
                             key={index}
+                            isSelected={project.projectId === currentProject?.projectId}
                           />
                         ))
                       }
