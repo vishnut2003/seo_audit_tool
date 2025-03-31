@@ -67,6 +67,7 @@ export async function googleSearchConsoleOAuthClient({ token }: {
                     authClient.setCredentials(credentials);
 
                 } catch (err) {
+                    console.log(err);
                     // refresh token expaired
                     reject("Google authentication expired. Please authenticate again.")
                 }

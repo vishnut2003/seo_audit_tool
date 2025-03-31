@@ -15,7 +15,6 @@ export async function handleGSCPromptSubmition({
     dateRange,
     setInProgress,
     setError,
-    inProgress,
     conversationData,
     GSCFetchecData,
     setGscFetchedData,
