@@ -94,8 +94,12 @@ const GoogleSearchConsoleReports = async () => {
     } catch (err: any) {
         let error = 'Something went wrong';
 
-        if ('details' in err && typeof err.details === "string") {
+        if (typeof err === "string") {
+            error = err;
+        } else if ('details' in err && typeof err.details === "string") {
             error = err.details;
+        } else if (err instanceof Error) {
+            error = err.message;
         }
 
         return (

@@ -38,7 +38,7 @@ const MobileSidebar = () => {
                             size={25} />
                     </div>
 
-                    <div className="w-full h-full min-h-0 py-5 px-6">
+                    <div className="w-full h-full min-h-0 py-5 px-6 overflow-auto">
                         <div className="w-full">
                             <SidebarMenu />
                         </div>
