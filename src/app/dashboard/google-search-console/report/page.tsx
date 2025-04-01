@@ -4,12 +4,11 @@ import { GoogleSearchConsoleAuth, googleSearchConsoleOAuthClient } from '@/utils
 import { graphReports } from '@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport';
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
-import React from 'react'
-import GoogleSearchConsoleGraph from './GraphData';
-import OtherDataTabs from './OtherDataTabs';
+import React from 'react';
 import { RiErrorWarningLine } from '@remixicon/react';
 import GSC_ChatBot from '@/AiChat/GSC_ChatBot/GSC_ChatBot';
 import ResetConnectionButton from './ResetConnectionButton';
+import MainContent from './MainContent';
 
 const GoogleSearchConsoleReports = async () => {
 
@@ -73,18 +72,13 @@ const GoogleSearchConsoleReports = async () => {
             <BasicLayout
                 pageTitle='Google Search Console'
             >
-                <div
-                    className='h-max space-y-5 pb-[40px]'
-                >
-                    <GoogleSearchConsoleGraph
-                        graphData={graphData}
-                        defaultDateRange={{
-                            startDate,
-                            endDate,
-                        }}
-                    />
-                    <OtherDataTabs />
-                </div>
+                <MainContent
+                    graphData={graphData}
+                    defaultDateRange={{
+                        startDate,
+                        endDate,
+                    }}
+                />
 
                 {/* Chat bot */}
                 <GSC_ChatBot/>

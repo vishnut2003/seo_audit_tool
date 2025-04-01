@@ -15,7 +15,7 @@ const SidebarMenu = () => {
         if (pathname.includes('/dashboard/analytics-report/reports')) {
             setCurrentMenuItems(analyticsSidebarMenuItems);
         }
-    }, [pathname, analyticsSidebarMenuItems])
+    }, [pathname])
 
     return (
         <div className="w-full flex flex-col gap-2">

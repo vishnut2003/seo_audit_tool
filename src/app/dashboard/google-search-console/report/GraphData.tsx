@@ -1,11 +1,8 @@
 'use client';
 
 import TripleDotLoading from '@/Components/Loaders/TripleDotLoading/TripleDotLoading';
-import DatePicker from '@/Components/ui/datepicker';
-import { getSessionProject } from '@/utils/client/projects';
 import { GoogleSearchConsoleGraphRow } from '@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport'
-import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import {
     CartesianGrid,
     Line,
@@ -24,17 +21,21 @@ export interface GoogleSearchConsoleGraphFilterInterface {
     }
 }
 
-const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
+const GoogleSearchConsoleGraph = ({
+    graphData,
+    inProgress,
+    setInProgress,
+    error,
+    setError,
+}: {
     graphData: GoogleSearchConsoleGraphRow[],
-    defaultDateRange: {
-        startDate: Date,
-        endDate: Date,
-    }
+    setInProgress: Dispatch<SetStateAction<boolean>>,
+    inProgress: boolean,
+    error: string | null,
+    setError: Dispatch<SetStateAction<string | null>>,
 }) => {
 
     const [data, setData] = useState<GoogleSearchConsoleGraphRow[] | null>(null);
-    const [inProgress, setInProgress] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null)
     const [activeTabs, setActiveTabs] = useState<string[]>(["clicks", "impression"]);
 
     const [totalCounts, setTotalCounts] = useState<{
@@ -47,15 +48,6 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
         impression: 0,
         ctr: 0,
         position: 0,
-    });
-
-    // filter options
-    const [dateRange, setDateRange] = useState<{
-        startDate: Date,
-        endDate: Date,
-    }>({
-        startDate: new Date(),
-        endDate: new Date(),
     });
 
     const tabs: {
@@ -126,7 +118,6 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
     useEffect(() => {
         try {
             setData(graphData)
-            setDateRange(defaultDateRange);
             calculateSumFromDataPoint(graphData);
             setInProgress(false);
         } catch (err) {
@@ -136,49 +127,10 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
                 setError("something went wrong")
             }
         }
-    }, [graphData, defaultDateRange, calculateSumFromDataPoint]);
+    }, [graphData, calculateSumFromDataPoint, setInProgress, setError]);
 
     function roundToThreeDecimals(num: number): number {
         return Math.round(num * 1000) / 1000;
-    }
-
-    async function updateGraphData() {
-        try {
-            const project = await getSessionProject();
-            if (!project?.projectId) {
-                return;
-            }
-
-            const filterData: GoogleSearchConsoleGraphFilterInterface = {
-                projectId: project.projectId,
-                dateRange: {
-                    startDate: dateRange.startDate.toISOString().split('T')[0],
-                    endDate: dateRange.endDate.toISOString().split('T')[0],
-                },
-            }
-
-            setInProgress(true);
-
-            const { data } = await axios.post('/api/project/search-console-api/google/get-report', filterData);
-            const newReport = data.report as GoogleSearchConsoleGraphRow[];
-
-            if (!newReport) {
-                throw new Error("Report is empty");
-            }
-
-            setData(newReport);
-            calculateSumFromDataPoint(newReport);
-            setInProgress(false);
-
-        } catch (err) {
-            if (typeof err === "string") {
-                setError(err);
-            } else {
-                setError("Something went wrong!");
-            }
-
-            setInProgress(false);
-        }
     }
 
     return (
@@ -372,64 +324,6 @@ const GoogleSearchConsoleGraph = ({ graphData, defaultDateRange }: {
                                     <p>Nothing to show.</p>
                                 </div>
                 }
-            </div>
-
-            {/* date range filter */}
-            <div
-                className='flex justify-start items-end gap-5 py-3 px-5'
-            >
-                <div>
-                    <p
-                        className='text-sm font-medium'
-                    >Start Date</p>
-                    <div
-                        className='rounded-md overflow-hidden bg-gray-100'
-                    >
-                        <DatePicker
-                            date={dateRange.startDate}
-                            placeholder='Start Date'
-                            setDate={(prevDate) => {
-                                setDateRange(prev => {
-                                    return {
-                                        ...prev,
-                                        startDate: prevDate,
-                                    }
-                                })
-                            }}
-                        />
-                    </div>
-                </div>
-
-                <div>
-                    <p
-                        className='text-sm font-medium'
-                    >End Date</p>
-                    <div
-                        className='rounded-md overflow-hidden bg-gray-100'
-                    >
-                        <DatePicker
-                            date={dateRange.endDate}
-                            placeholder='End Date'
-                            setDate={(prevDate) => {
-                                setDateRange(prev => {
-                                    return {
-                                        ...prev,
-                                        endDate: prevDate,
-                                    }
-                                })
-                            }}
-                        />
-                    </div>
-                </div>
-
-                {/* filter submit button */}
-                <button
-                    className='px-3 py-2 bg-themeprimary text-white rounded-md text-sm disabled:opacity-50'
-                    disabled={inProgress}
-                    onClick={updateGraphData}
-                >
-                    {inProgress ? "Loading..." : "Apply"}
-                </button>
             </div>
         </div>
     )
