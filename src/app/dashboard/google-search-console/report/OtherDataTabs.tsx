@@ -1,25 +1,28 @@
 'use client';
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Queries_Tab from "./DataTabs/Queries_Tab";
-import Pages_Tab from "./DataTabs/Pages_Tab";
-import CountryTab from "./DataTabs/Country_Tab";
-import DeviceTab from "./DataTabs/Device_Tab";
-import SearchAppearanceTab from "./DataTabs/SearchAppearance_Tab";
-import DateTab from "./DataTabs/Date_Tab";
+import { GoogleSearchConsoleDataTabsRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
 
-const OtherDataTabs = () => {
-
-    const [tabs] = useState<string[]>([
-        "queries",
-        "pages",
-        "countries",
-        "devices",
-        "search_appearance",
-        "dates",
-    ]);
-
-    const [currentActive, setCurrentActive] = useState<string>('queries');
+const OtherDataTabs = ({
+    tabs,
+    currentActive,
+    setCurrentActive,
+    error,
+    inProgress,
+    setError,
+    setInProgress,
+    report,
+}: {
+    tabs: string[],
+    currentActive: string,
+    setCurrentActive: Dispatch<SetStateAction<string>>,
+    inProgress: boolean,
+    setInProgress: Dispatch<SetStateAction<boolean>>,
+    error: string | null,
+    setError: Dispatch<SetStateAction<string | null>>,
+    report: GoogleSearchConsoleDataTabsRow[],
+}) => {
 
     return (
         <div
@@ -48,20 +51,13 @@ const OtherDataTabs = () => {
             <div
                 className="min-h-[400px]"
             >
-                {
-                    currentActive === "queries" ?
-                    <Queries_Tab/>
-                    : currentActive === "pages" ?
-                    <Pages_Tab/>
-                    : currentActive === "countries" ?
-                    <CountryTab/>
-                    : currentActive === "devices" ?
-                    <DeviceTab/>
-                    : currentActive === "search_appearance" ?
-                    <SearchAppearanceTab/>
-                    : currentActive === "dates" ?
-                    <DateTab/> : ""
-                }
+                <Queries_Tab
+                    error={error}
+                    inProgress={inProgress}
+                    setError={setError}
+                    setInProgress={setInProgress}
+                    report={report}
+                />
             </div>
         </div>
     )

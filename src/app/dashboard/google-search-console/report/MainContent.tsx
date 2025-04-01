@@ -4,9 +4,11 @@ import { GoogleSearchConsoleGraphRow } from "@/utils/server/projects/googleSearc
 import GoogleSearchConsoleGraph, { GoogleSearchConsoleGraphFilterInterface } from "./GraphData";
 import OtherDataTabs from "./OtherDataTabs";
 import DatePicker from "@/Components/ui/datepicker";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getSessionProject } from "@/utils/client/projects";
 import axios from "axios";
+import { GoogleSearchConsoleTabsDataFilterInteface } from "./DataTabs/Queries_Tab";
+import { GoogleSearchConsoleDataTabsRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
 
 const MainContent = ({ graphData, defaultDateRange }: {
     graphData: GoogleSearchConsoleGraphRow[],
@@ -18,7 +20,11 @@ const MainContent = ({ graphData, defaultDateRange }: {
 
     const [passingGraphData, setPassingGraphData] = useState<GoogleSearchConsoleGraphRow[] | null>(null);
 
-    const [inProgress, setInProgress] = useState<boolean>(false);
+    const [currentActiveTab, setCurrentActiveTab] = useState<string>('query');
+    const [tabsDataReport, setTabDataReport] = useState<GoogleSearchConsoleDataTabsRow[]>([]);
+
+    const [inProgress_graph, setInProgress_graph] = useState<boolean>(true);
+    const [inProgress_tab, setInProgress_tab] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const [startDate, setStartDate] = useState<Date>(defaultDateRange.startDate);
@@ -40,7 +46,7 @@ const MainContent = ({ graphData, defaultDateRange }: {
                 },
             }
 
-            setInProgress(true);
+            setInProgress_graph(true);
 
             const { data } = await axios.post('/api/project/search-console-api/google/get-report', filterData);
             const newReport = data.report as GoogleSearchConsoleGraphRow[];
@@ -50,7 +56,7 @@ const MainContent = ({ graphData, defaultDateRange }: {
             }
 
             setPassingGraphData(newReport);
-            setInProgress(false);
+            setInProgress_graph(false);
 
         } catch (err) {
             if (typeof err === "string") {
@@ -59,9 +65,49 @@ const MainContent = ({ graphData, defaultDateRange }: {
                 setError("Something went wrong!");
             }
 
-            setInProgress(false);
+            setInProgress_graph(false);
         }
-    }, [startDate, endDate])
+    }, [startDate, endDate]);
+
+    const handleTabDataSubmition = useCallback(async () => {
+        try {
+            setError(null)
+            setInProgress_tab(true);
+            const project = await getSessionProject();
+
+            if (!project?.projectId) {
+                throw new Error("Project is not selected!");
+            }
+
+            const requestBody: GoogleSearchConsoleTabsDataFilterInteface = {
+                dateRange: {
+                    startDate: startDate.toISOString().split('T')[0],
+                    endDate: endDate.toISOString().split('T')[0],
+                },
+                projectId: project.projectId,
+                dimension: currentActiveTab,
+            }
+            
+            const response = await axios.post('/api/project/search-console-api/google/tabs-data', requestBody);
+            const newReport = response.data.report as GoogleSearchConsoleDataTabsRow[];
+            
+            setTabDataReport(newReport);
+            setInProgress_tab(false);
+        } catch (err) {
+            console.log(err)
+            if (typeof err === "string") {
+                setError(err);
+            } else {
+                setError("Something went wrong.");
+            }
+
+            setInProgress_tab(false);
+        }
+    }, [startDate, endDate, currentActiveTab])
+
+    useEffect(() => {
+        handleTabDataSubmition()
+    }, [currentActiveTab])
 
     return (
         <div
@@ -104,21 +150,40 @@ const MainContent = ({ graphData, defaultDateRange }: {
                 {/* filter submit button */}
                 <button
                     className='px-3 py-2 bg-themeprimary text-white rounded-md text-sm disabled:opacity-50'
-                    disabled={inProgress}
-                    onClick={handleGraphDataSubmit}
+                    disabled={inProgress_graph || inProgress_tab}
+                    onClick={async () => {
+                        await handleGraphDataSubmit();
+                        await handleTabDataSubmition();
+                    }}
                 >
-                    {inProgress ? "Loading..." : "Apply"}
+                    {inProgress_graph || inProgress_tab ? "Loading..." : "Apply"}
                 </button>
             </div>
 
             <GoogleSearchConsoleGraph
                 graphData={passingGraphData || graphData}
-                inProgress={inProgress}
-                setInProgress={setInProgress}
+                inProgress={inProgress_graph}
+                setInProgress={setInProgress_graph}
                 error={error}
                 setError={setError}
             />
-            <OtherDataTabs />
+            <OtherDataTabs
+                tabs={[
+                    "query",
+                    "page",
+                    "country",
+                    "device",
+                    "searchAppearance",
+                    "date"
+                ]}
+                currentActive={currentActiveTab}
+                setCurrentActive={setCurrentActiveTab}
+                error={error}
+                inProgress={inProgress_tab}
+                setError={setError}
+                setInProgress={setInProgress_tab}
+                report={tabsDataReport}
+            />
         </div>
     )
 }

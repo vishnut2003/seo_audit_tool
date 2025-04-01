@@ -14,7 +14,9 @@ const TableTemplate = ({ data }: {
             >
                 <TableHeader>
                     <TableRow>
-                        <TableHead></TableHead>
+                        <TableHead
+                            className='w-full'
+                        ></TableHead>
                         <TableHead>Clicks</TableHead>
                         <TableHead>Impression</TableHead>
                     </TableRow>

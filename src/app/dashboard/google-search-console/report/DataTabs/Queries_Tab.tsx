@@ -4,7 +4,7 @@ import DatePicker from '@/Components/ui/datepicker';
 import { getSessionProject } from '@/utils/client/projects';
 import { GoogleSearchConsoleDataTabsRow } from '@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData';
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import TableTemplate from './TableTemplate';
 import TableLoading from './TableLoading';
 
@@ -17,64 +17,19 @@ export interface GoogleSearchConsoleTabsDataFilterInteface {
     dimension: string,
 }
 
-const Queries_Tab = () => {
-
-    const [inProgress, setInProgress] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-
-    const [report, setReport] = useState<GoogleSearchConsoleDataTabsRow[]>([]);
-
-    // filter options
-    const [dateRange, setDateRange] = useState<{
-        startDate: Date,
-        endDate: Date,
-    }>({
-        startDate: new Date(new Date().setDate(new Date().getDate() - 30)),
-        endDate: new Date(),
-    });
-
-    const updateDataRef = useRef(() => {
-        updateData();
-    })
-
-    useEffect(() => {
-        updateDataRef.current();
-    }, []);
-
-    async function updateData() {
-        try {
-            setInProgress(true);
-            const project = await getSessionProject();
-
-            if (!project?.projectId) {
-                throw new Error("Project is not selected!");
-            }
-
-            const requestBody: GoogleSearchConsoleTabsDataFilterInteface = {
-                dateRange: {
-                    startDate: dateRange.startDate.toISOString().split('T')[0],
-                    endDate: dateRange.endDate.toISOString().split('T')[0],
-                },
-                projectId: project.projectId,
-                dimension: "query",
-            }
-
-            const response = await axios.post('/api/project/search-console-api/google/tabs-data', requestBody);
-            const newReport = response.data.report as GoogleSearchConsoleDataTabsRow[];
-
-            setReport(newReport);
-
-            setInProgress(false);
-        } catch (err) {
-            if (typeof err === "string") {
-                setError(err);
-            } else {
-                setError("Something went wrong.");
-            }
-
-            setInProgress(false);
-        }
-    }
+const Queries_Tab = ({
+    error,
+    inProgress,
+    setError,
+    setInProgress,
+    report,
+}: {
+    inProgress: boolean,
+    setInProgress: Dispatch<SetStateAction<boolean>>,
+    error: string | null,
+    setError: Dispatch<SetStateAction<string | null>>,
+    report: GoogleSearchConsoleDataTabsRow[],
+}) => {
 
     return (
         <div
@@ -84,10 +39,10 @@ const Queries_Tab = () => {
                 className='w-full h-full flex justify-center items-center'
             >
                 {
-                    error ?
-                        <p>{error}</p>
-                        : inProgress ?
-                            <TableLoading />
+                    inProgress ?
+                        <TableLoading />
+                        : error ?
+                            <p>{error}</p>
                             : report ?
                                 <TableTemplate
                                     data={report}
@@ -96,61 +51,7 @@ const Queries_Tab = () => {
                 }
             </div>
 
-            <div>
-                {/* date range filter */}
-                <div
-                    className='flex justify-start items-end gap-5 py-3 px-5'
-                >
-                    <div>
-                        <p
-                            className='text-sm font-medium'
-                        >Start Date</p>
-                        <div
-                            className='rounded-md overflow-hidden bg-gray-100'
-                        >
-                            <DatePicker
-                                date={dateRange.startDate}
-                                placeholder='Start Date'
-                                setDate={(prevDate) => {
-                                    setDateRange(prev => ({
-                                        ...prev,
-                                        startDate: prevDate,
-                                    }))
-                                }}
-                            />
-                        </div>
-                    </div>
 
-                    <div>
-                        <p
-                            className='text-sm font-medium'
-                        >End Date</p>
-                        <div
-                            className='rounded-md overflow-hidden bg-gray-100'
-                        >
-                            <DatePicker
-                                date={dateRange.endDate}
-                                placeholder='End Date'
-                                setDate={(prevDate) => {
-                                    setDateRange(prev => ({
-                                        ...prev,
-                                        endDate: prevDate,
-                                    }))
-                                }}
-                            />
-                        </div>
-                    </div>
-
-                    {/* filter submit button */}
-                    <button
-                        className='px-3 py-2 bg-themeprimary text-white rounded-md text-sm disabled:opacity-50'
-                        disabled={inProgress}
-                        onClick={updateData}
-                    >
-                        {inProgress ? "Loading..." : "Apply"}
-                    </button>
-                </div>
-            </div>
         </div>
     )
 }
