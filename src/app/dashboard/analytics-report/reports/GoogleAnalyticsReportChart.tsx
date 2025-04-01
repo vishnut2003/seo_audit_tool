@@ -12,9 +12,11 @@ import {
     SelectValue,
 } from "@/Components/ui/select"
 import axios from "axios";
+import { RemixiconComponentType, RiFileExcel2Line, RiFileExcelLine } from "@remixicon/react";
 
 interface ExportOptionsInterface {
     name: string,
+    icon: RemixiconComponentType,
     descriptions: string,
     value: string,
 }
@@ -22,11 +24,13 @@ interface ExportOptionsInterface {
 const exportOptions: ExportOptionsInterface[] = [
     {
         name: "SpreadSheet Export",
+        icon: RiFileExcelLine,
         descriptions: "Export selected date range data as Google SpreadSheet",
         value: "spreadsheet",
     },
     {
         name: "Excel Export",
+        icon: RiFileExcel2Line,
         descriptions: "Export selected date range data as Excel File",
         value: "excel",
     }
@@ -189,28 +193,35 @@ const GoogleAnalyticsReportChart = ({ analyticsReport }: {
 
                 {/* Export Sidebar */}
                 <div
-                    className="w-[50%] h-full min-h-[300px] bg-background rounded-md shadow-xl shadow-gray-200"
+                    className="w-[50%] h-full min-h-[300px] space-y-3"
                 >
                     <h2
-                        className="text-lg font-semibold pl-4 border-l-2 border-themesecondary mt-4"
+                        className="text-lg font-semibold"
                     >Export Options</h2>
 
                     <div
-                        className="px-5 py-4 space-y-4"
+                        className="px-5 py-4 space-y-4 bg-background rounded-md shadow-xl shadow-gray-200"
                     >
                         { // Exports options
                             exportOptions.map((option, index) => (
                                 <div
                                     key={index}
-                                    className="flex gap-3 justify-between items-center"
+                                    className={`flex gap-3 justify-between items-center ${index !== 0 && "border-t border-gray-200 pt-3"}`}
                                 >
-                                    <div>
-                                        <p
-                                            className="text-base font-semibold"
-                                        >{option.name}</p>
-                                        <p
-                                            className="text-sm font-normal"
-                                        >{option.descriptions}</p>
+                                    <div
+                                        className="flex gap-3 items-center"
+                                    >
+                                        <option.icon
+                                            size={30}
+                                        />
+                                        <div>
+                                            <p
+                                                className="text-base font-semibold"
+                                            >{option.name}</p>
+                                            <p
+                                                className="text-sm font-normal line-clamp-1"
+                                            >{option.descriptions}</p>
+                                        </div>
                                     </div>
                                     <div>
                                         <button
