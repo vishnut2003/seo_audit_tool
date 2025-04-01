@@ -1,10 +1,7 @@
 'use client';
 
-import DatePicker from '@/Components/ui/datepicker';
-import { getSessionProject } from '@/utils/client/projects';
 import { GoogleSearchConsoleDataTabsRow } from '@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData';
-import axios from 'axios';
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import React from 'react'
 import TableTemplate from './TableTemplate';
 import TableLoading from './TableLoading';
 
@@ -20,14 +17,10 @@ export interface GoogleSearchConsoleTabsDataFilterInteface {
 const Queries_Tab = ({
     error,
     inProgress,
-    setError,
-    setInProgress,
     report,
 }: {
     inProgress: boolean,
-    setInProgress: Dispatch<SetStateAction<boolean>>,
     error: string | null,
-    setError: Dispatch<SetStateAction<string | null>>,
     report: GoogleSearchConsoleDataTabsRow[],
 }) => {
 

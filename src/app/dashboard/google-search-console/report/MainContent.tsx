@@ -4,7 +4,7 @@ import { GoogleSearchConsoleGraphRow } from "@/utils/server/projects/googleSearc
 import GoogleSearchConsoleGraph, { GoogleSearchConsoleGraphFilterInterface } from "./GraphData";
 import OtherDataTabs from "./OtherDataTabs";
 import DatePicker from "@/Components/ui/datepicker";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { getSessionProject } from "@/utils/client/projects";
 import axios from "axios";
 import { GoogleSearchConsoleTabsDataFilterInteface } from "./DataTabs/Queries_Tab";
@@ -105,8 +105,12 @@ const MainContent = ({ graphData, defaultDateRange }: {
         }
     }, [startDate, endDate, currentActiveTab])
 
+    const tabDataRequestRef = useRef(() => {
+        handleTabDataSubmition();
+    })
+
     useEffect(() => {
-        handleTabDataSubmition()
+        tabDataRequestRef.current();
     }, [currentActiveTab])
 
     return (
@@ -180,8 +184,6 @@ const MainContent = ({ graphData, defaultDateRange }: {
                 setCurrentActive={setCurrentActiveTab}
                 error={error}
                 inProgress={inProgress_tab}
-                setError={setError}
-                setInProgress={setInProgress_tab}
                 report={tabsDataReport}
             />
         </div>

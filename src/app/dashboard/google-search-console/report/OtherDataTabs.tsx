@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Queries_Tab from "./DataTabs/Queries_Tab";
 import { GoogleSearchConsoleDataTabsRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
 
@@ -10,17 +10,13 @@ const OtherDataTabs = ({
     setCurrentActive,
     error,
     inProgress,
-    setError,
-    setInProgress,
     report,
 }: {
     tabs: string[],
     currentActive: string,
     setCurrentActive: Dispatch<SetStateAction<string>>,
     inProgress: boolean,
-    setInProgress: Dispatch<SetStateAction<boolean>>,
     error: string | null,
-    setError: Dispatch<SetStateAction<string | null>>,
     report: GoogleSearchConsoleDataTabsRow[],
 }) => {
 
@@ -54,8 +50,6 @@ const OtherDataTabs = ({
                 <Queries_Tab
                     error={error}
                     inProgress={inProgress}
-                    setError={setError}
-                    setInProgress={setInProgress}
                     report={report}
                 />
             </div>
