@@ -4,7 +4,7 @@ import { Checkbox } from "@/Components/ui/checkbox"
 import { TableCell, TableRow } from "@/Components/ui/table"
 import { ProjectModelInterface } from "@/models/ProjectsModel"
 import { setProjectId } from "@/utils/client/projects"
-import { RemixiconComponentType, RiCheckboxCircleFill, RiCursorLine, RiDeleteBin6Line, RiMoreLine, RiPencilLine } from "@remixicon/react"
+import { RemixiconComponentType, RiArrowRightSLine, RiCheckboxCircleFill, RiDeleteBin6Line, RiMoreLine, RiPencilLine } from "@remixicon/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 
@@ -59,7 +59,7 @@ const TableDataRow = ({ rowData, isSelected }: {
                 {
                     isSelected ?
                         <button
-                            className="text-xs font-medium bg-green-400 text-white py-1 px-2 rounded-md shadow-md shadow-green-200 flex items-center gap-2"
+                            className="text-xs font-medium bg-green-50 text-green-500 py-1 px-2 rounded-md flex items-center gap-2"
                             onClick={async () => {
                                 setInProgress(true)
                                 await setProjectId(rowData.projectId);
@@ -72,14 +72,14 @@ const TableDataRow = ({ rowData, isSelected }: {
                             />
                             Selected</button>
                         : <button
-                            className="text-xs font-medium bg-orange-400 text-white py-1 px-2 rounded-md shadow-md shadow-orange-200 flex items-center gap-2"
+                            className="text-xs font-medium bg-gray-100 text-gray-700 py-1 px-2 rounded-md flex items-center gap-2"
                             onClick={async () => {
                                 setInProgress(true)
                                 await setProjectId(rowData.projectId);
                                 router.push(enableRedirect || '/dashboard')
                             }}
                         >
-                            <RiCursorLine
+                            <RiArrowRightSLine
                                 size={17}
                             />
                             {inProgress ? 'selecting...' : 'select project'}</button>
