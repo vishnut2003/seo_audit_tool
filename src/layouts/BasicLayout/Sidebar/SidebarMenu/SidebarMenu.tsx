@@ -1,16 +1,25 @@
 'use client';
 
-import sidebarMenuItems from "./items"
+import sidebarMenuItems, { SidebarMenuItemsInterface } from "./items"
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import analyticsSidebarMenuItems from "./analyticsItems";
 
 const SidebarMenu = () => {
 
     const pathname = usePathname();
+    const [currentMenuItems, setCurrentMenuItems] = useState<(string | SidebarMenuItemsInterface)[]>(sidebarMenuItems);
+
+    useEffect(() => {
+        if (pathname.includes('/dashboard/analytics-report/reports')) {
+            setCurrentMenuItems(analyticsSidebarMenuItems);
+        }
+    }, [pathname, analyticsSidebarMenuItems])
 
     return (
         <div className="w-full flex flex-col gap-2">
-            {sidebarMenuItems.map((menuItem, index) => {
+            {currentMenuItems.map((menuItem, index) => {
                 if (typeof menuItem === "string") {
                     return (
                         <h2

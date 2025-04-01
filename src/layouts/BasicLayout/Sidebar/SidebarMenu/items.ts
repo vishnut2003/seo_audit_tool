@@ -1,6 +1,13 @@
-import { RiBarChart2Line, RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine, RiSearchLine, RiToolsLine } from "@remixicon/react";
+import { RemixiconComponentType, RiBarChart2Line, RiDashboardLine, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine, RiSearchLine, RiToolsLine } from "@remixicon/react";
 
-const sidebarMenuItems = [
+export interface SidebarMenuItemsInterface {
+    name: string,
+    icon: RemixiconComponentType,
+    link: string,
+    subPages?: string[],
+}
+
+const sidebarMenuItems: (string | SidebarMenuItemsInterface)[] = [
     {
         name: 'Dashboard',
         icon: RiDashboardLine,
