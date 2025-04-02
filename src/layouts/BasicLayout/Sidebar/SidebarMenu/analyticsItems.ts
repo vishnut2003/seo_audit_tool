@@ -1,4 +1,4 @@
-import { RiArrowGoForwardLine, RiArrowLeftSLine, RiLineChartLine, RiUser3Line } from "@remixicon/react";
+import { RiArrowLeftSLine, RiGroupLine, RiLineChartLine, RiUserLine } from "@remixicon/react";
 import { SidebarMenuItemsInterface } from "./items";
 
 const analyticsSidebarMenuItems: (string | SidebarMenuItemsInterface)[] = [
@@ -15,12 +15,12 @@ const analyticsSidebarMenuItems: (string | SidebarMenuItemsInterface)[] = [
     },
     "Acquisition",
     {
-        icon: RiUser3Line,
+        icon: RiUserLine,
         name: "User Acquisition",
-        link: "#"
+        link: "/dashboard/analytics-report/reports/user-acquisition"
     },
     {
-        icon: RiArrowGoForwardLine,
+        icon: RiGroupLine,
         name: "Traffic Acquisition",
         link: "#",
     }
