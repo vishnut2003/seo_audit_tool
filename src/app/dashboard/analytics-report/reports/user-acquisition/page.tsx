@@ -5,7 +5,6 @@ import ResetConnectionButton from '../ResetConnectionButton'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { getOneProject } from '@/utils/server/projects/getOneProject'
-import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth'
 
 const UserAcquisition = async () => {
 
@@ -30,21 +29,21 @@ const UserAcquisition = async () => {
 
     try {
 
-        let auth
+        // let auth
 
-        if (
-            project.googleAnalytics.clientEmail &&
-            project.googleAnalytics.privateKey
-        ) {
-            auth = await AnalyticsGoogleApiAuth({
-                clientEmail: project.googleAnalytics.clientEmail,
-                privateKey: project.googleAnalytics.privateKey,
-            });
-        } else {
-            auth = await authorizeWithOAuthClient({
-                token: project.googleAnalytics.token!,
-            })
-        }
+        // if (
+        //     project.googleAnalytics.clientEmail &&
+        //     project.googleAnalytics.privateKey
+        // ) {
+        //     auth = await AnalyticsGoogleApiAuth({
+        //         clientEmail: project.googleAnalytics.clientEmail,
+        //         privateKey: project.googleAnalytics.privateKey,
+        //     });
+        // } else {
+        //     auth = await authorizeWithOAuthClient({
+        //         token: project.googleAnalytics.token!,
+        //     })
+        // }
 
         return (
             <BasicLayout
