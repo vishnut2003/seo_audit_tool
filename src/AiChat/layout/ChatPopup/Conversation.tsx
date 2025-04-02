@@ -111,6 +111,33 @@ const Conversation = ({
                                             props: {
                                                 className: 'py-[3px] px-[5px] bg-gray-200 rounded-md'
                                             }
+                                        },
+
+                                        // Table
+                                        table: {
+                                            props: {
+                                                className: 'text-left mb-5 shadow-md shadow-gray-200 rounded-md overflow-hidden'
+                                            }
+                                        },
+                                        tr: {
+                                            props: {
+                                                className: 'even:bg-gray-100'
+                                            }
+                                        },
+                                        td: {
+                                            props: {
+                                                className: 'py-2 px-3'
+                                            }
+                                        },
+                                        th: {
+                                            props: {
+                                                className: 'py-2 px-3'
+                                            }
+                                        },
+                                        thead: {
+                                            props: {
+                                                className: 'bg-gray-200 text-sm text-themeprimery'
+                                            }
                                         }
                                     }
                                 }}
