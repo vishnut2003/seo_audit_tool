@@ -3,17 +3,11 @@
 import { useState } from "react"
 import { ConversationDataInterface } from "../layout/ChatPopup/Conversation"
 import AiChatLayout from "../layout/Layout"
-import DatePicker from "@/Components/ui/datepicker";
-import { RiArrowDownSLine, RiCheckLine, RiExpandHorizontalSLine, RiLoader4Line, RiQuestionLine, RiRefreshLine } from "@remixicon/react";
-
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/Components/ui/popover"
+import { RiCheckLine, RiLoader4Line } from "@remixicon/react";
 import { handleGSCPromptSubmition } from "./handlePromptSubmit";
 import { GoogleSearchConsoleGraphRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport";
 import { GoogleSearchConsoleDataTabsRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
+import DateRangeAIBotWidget from "../layout/Widgets/DateRange";
 
 
 export interface GSCDateRangeInterface {
@@ -156,140 +150,34 @@ const GSC_ChatBot = () => {
                                 >{item}</p>
                                 <p
                                     className="text-xs"
-                                >{index === processed ? "Loading..." : index < processed ? "Compleated" : "Pending"}</p>
+                                >{index === processed ? "Loading..." : index < processed ? "Completed" : "Pending"}</p>
                             </div>
                         </div>
                     ))}
                 </div>
             )}
         >
-            <div
-                className="max-h-[250px] overflow-auto"
-            >
-                <div
-                    className="w-full flex items-center justify-between py-2 pr-2 pl-1"
-                >
-                    <div
-                        className="flex gap-2 items-center relative"
-                    >
-                        <h2
-                            className="font-semibold"
-                        >Select date range</h2>
-
-                        <Popover>
-                            <PopoverTrigger>
-                                <RiQuestionLine
-                                    size={15}
-                                    className="opacity-50"
-                                />
-                            </PopoverTrigger>
-                            <PopoverContent
-                                align="start"
-                                side="top"
-                            >
-                                <div
-                                    className="absolute z-50 top-0 left-0 py-4 px-6 bg-orange-200 text-orange-500 rounded-lg shadow-xl w-max max-w-[300px]"
-                                >
-                                    <div
-                                        className="w-full flex justify-between mb-3"
-                                    >
-                                        <p
-                                            className="font-semibold"
-                                        >How to Use</p>
-                                    </div>
-                                    <p
-                                        className="text-sm text-left"
-                                    >You can ask question related to Google search console data from specified date range.</p>
-                                </div>
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <button
-                        onClick={() => setShowDateRange(prev => !prev)}
-                        className={`p-2 rounded-full shadow-lg shadow-gray-200 text-themesecondary transition-all ${!showDateRange && "rotate-180"}`}
-                    >
-                        <RiArrowDownSLine
-                            size={25}
-                        />
-                    </button>
-                </div>
-
-                {
-                    showDateRange &&
-                    <div
-                        className="flex overflow-auto items-center justify-between w-full py-3 border-t border-gray-100 mb-2 relative"
-                    >
-                        <div
-                            className="w-[45%] truncate"
-                        >
-                            <p
-                                className="text-xs font-medium"
-                            >From</p>
-                            <div
-                                className="bg-gray-100 border border-gray-200 rounded-md overflow-hidden w-full"
-                            >
-                                <DatePicker
-                                    date={dateRangeList.from}
-                                    setDate={(date) => {
-                                        setDateRangeList(prev => ({
-                                            ...prev,
-                                            from: date,
-                                        }))
-                                    }}
-                                    placeholder="From Date"
-                                />
-                            </div>
-                        </div>
-
-                        <RiExpandHorizontalSLine
-                            size={20}
-                            className="min-w-[20px]"
-                        />
-
-                        <div
-                            className="w-[45%] truncate"
-                        >
-                            <p
-                                className="text-xs font-medium"
-                            >To</p>
-                            <div
-                                className="bg-gray-100 border border-gray-200 rounded-md overflow-hidden w-full"
-                            >
-                                <DatePicker
-                                    date={dateRangeList.to}
-                                    setDate={(date) => {
-                                        setDateRangeList(prev => ({
-                                            ...prev,
-                                            to: date,
-                                        }))
-                                    }}
-                                    placeholder="To Date"
-                                />
-                            </div>
-                        </div>
-
-                        {
-                            gscFetchedData &&
-                            <div
-                                className="absolute top-0 left-0 w-full h-full bg-white/80 flex justify-center items-center"
-                            >
-                                <button
-                                    className="flex items-center gap-3 bg-themesecondary shadow-lg shadow-themesecondary py-2 px-4 text-sm text-white rounded-md"
-                                    onClick={() => {
-                                        setGscFetchedData(null)
-                                    }}
-                                >
-                                    <RiRefreshLine
-                                        size={20}
-                                    />
-                                    Reset period
-                                </button>
-                            </div>
-                        }
-                    </div>
-                }
-
-            </div>
+            <DateRangeAIBotWidget
+                dateRange={{
+                    startDate: dateRangeList.from,
+                    endDate: dateRangeList.to,
+                }}
+                setStartDate={(date) => {
+                    setDateRangeList(prev => ({
+                        ...prev,
+                        from: date,
+                    }))
+                }}
+                setEndDate={(date) => setDateRangeList(prev => ({
+                    ...prev,
+                    to: date,
+                }))}
+                toolTipText="You can ask question related to Google search console data from specified date range."
+                isResetButtonEnable={gscFetchedData ? true : false}
+                resetAction={() => setGscFetchedData(null)}
+                closeOrOpenStatus={showDateRange}
+                closeOpenAction={() => setShowDateRange(prev => !prev)}
+            />
         </AiChatLayout >
     )
 }

@@ -39,7 +39,7 @@ const InputSection = ({
                         placeholder="Ask Questions..."
                     />
                     <button
-                        className={`py-3 ${inProgress ? "px-3" : "px-6"} bg-themesecondary rounded-full text-white flex items-center gap-3 shadow-lg shadow-themesecondary disabled:opacity-70`}
+                        className={`py-3 ${inProgress ? "px-3" : "px-6"} bg-gradient-to-br from-themesecondary to-[#8400ff] rounded-full text-white flex items-center gap-3 shadow-lg shadow-[#8400ff50] disabled:opacity-70`}
                         disabled={inProgress}
                     >
                         {

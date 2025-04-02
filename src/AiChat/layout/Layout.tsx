@@ -31,7 +31,7 @@ const AiChatLayout = ({
         <>
             {/* Chat Toggle Button */}
             <button
-                className='fixed right-[20px] bottom-[20px] py-3 px-5 rounded-full bg-themesecondary shadow-2xl shadow-gray-700 flex items-center gap-3 text-lg text-white hover:scale-105 transition-all'
+                className='fixed right-[20px] bottom-[20px] py-3 px-5 rounded-full bg-gradient-to-br from-themesecondary to-[#8400ff] shadow-2xl shadow-gray-700 flex items-center gap-3 text-lg text-white hover:scale-105 transition-all'
                 onClick={() => setShowPopup(prev => !prev)}
             >
                 <RiBardFill

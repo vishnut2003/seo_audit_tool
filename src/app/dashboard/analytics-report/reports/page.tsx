@@ -8,6 +8,7 @@ import React from 'react'
 import GoogleAnalyticsReportChart from './GoogleAnalyticsReportChart';
 import { RiErrorWarningLine } from '@remixicon/react';
 import ResetConnectionButton from './ResetConnectionButton';
+import GA_ChatBot from '@/AiChat/GA_ChatBot/GA_ChatBot';
 
 const AnalyticsReportsMain = async () => {
 
@@ -65,6 +66,9 @@ const AnalyticsReportsMain = async () => {
                 <GoogleAnalyticsReportChart
                     analyticsReport={report}
                 />
+
+                {/* AI ChatBot */}
+                <GA_ChatBot/>
             </BasicLayout>
         )
 
