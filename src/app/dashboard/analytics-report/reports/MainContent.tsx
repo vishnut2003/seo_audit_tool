@@ -2,7 +2,7 @@
 
 import { AnalyticsDataByCountryInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import GoogleAnalyticsReportChart from "./GoogleAnalyticsReportChart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "@/Components/ui/datepicker";
 import { handleAnlyticsUpdateData } from "./handleUpdateAnlyticsData";
 
@@ -14,8 +14,8 @@ const MainContent = ({
     countryAnalyticsData: AnalyticsDataByCountryInterface[],
 }) => {
 
-    const [mainGraphReport, setMainGraphReport] = useState<GoogleAnalyticsReportResponse | null>(analyticsReport);
-    const [inProgress, setInProgress] = useState<boolean>(false);
+    const [mainGraphReport, setMainGraphReport] = useState<GoogleAnalyticsReportResponse | null>(null);
+    const [inProgress, setInProgress] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     // Date range
@@ -26,6 +26,11 @@ const MainContent = ({
         startDate: new Date(new Date().setDate(new Date().getDate() - 30)),
         endDate: new Date(),
     });
+
+    useEffect(() => {
+        setMainGraphReport(analyticsReport);
+        setInProgress(false);
+    }, [])
 
     return (
         <div

@@ -193,8 +193,8 @@ export async function fetchAnalyticsReportByCountry({
                 const data: AnalyticsDataByCountryInterface = {
                     country: row.dimensionValues?.[0].value || "no country",
                     activeUsers: parseInt(row.metricValues?.[0].value || "0") || 0,
-                    newUsers: parseInt(row.metricValues?.[0].value || "0") || 0,
-                    eventCount: parseInt(row.metricValues?.[0].value || "0") || 0,
+                    newUsers: parseInt(row.metricValues?.[1].value || "0") || 0,
+                    eventCount: parseInt(row.metricValues?.[2].value || "0") || 0,
                 }
 
                 byCountryData.push(data);

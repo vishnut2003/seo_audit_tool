@@ -66,7 +66,7 @@ const GoogleAnalyticsReportChart = ({
 
                 {/* Chart col */}
                 <div
-                    className="w-full bg-background rounded-md overflow-hidden shadow-xl shadow-gray-200"
+                    className="w-full bg-background rounded-md overflow-hidden shadow-xl shadow-gray-200 flex flex-col justify-between"
                 >
                     {/* Chart metrics tabs */}
                     <div
@@ -153,28 +153,35 @@ const GoogleAnalyticsReportChart = ({
 
                 {/* Export Sidebar */}
                 <div
-                    className="w-[50%] p-5 bg-white space-y-3 rounded-md shadow-xl shadow-gray-200 flex flex-col justify-between"
+                    className="w-full md:w-[50%] p-5 bg-white space-y-3 rounded-md shadow-xl shadow-gray-200 flex flex-col justify-between"
                 >
                     {/* Change Current Metrics */}
-                    <Select
-                        onValueChange={(value) => setCurrentMetrics(value)}
+                    <div
+                        className="flex items-center gap-3"
                     >
-                        <SelectTrigger
-                            className="w-[180px] h-[40px] px-5 shadow-none bg-gray-100 capitalize"
+                        <Select
+                            onValueChange={(value) => setCurrentMetrics(value)}
                         >
-                            <SelectValue placeholder={currentMetrics} />
-                        </SelectTrigger>
-                        <SelectContent
-                            className="capitalize"
-                        >
-                            {analyticsReport?.totals.map((value, index) => (
-                                <SelectItem
-                                    value={value.name}
-                                    key={index}
-                                >{value.name}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                            <SelectTrigger
+                                className="w-[180px] h-[40px] px-5 shadow-none bg-gray-100 capitalize"
+                            >
+                                <SelectValue placeholder={currentMetrics} />
+                            </SelectTrigger>
+                            <SelectContent
+                                className="capitalize"
+                            >
+                                {analyticsReport?.totals.map((value, index) => (
+                                    <SelectItem
+                                        value={value.name}
+                                        key={index}
+                                    >{value.name}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <p
+                            className="font-semibold"
+                        >by Country</p>
+                    </div>
 
                     {/* World map */}
                     <VectorMap
@@ -224,7 +231,7 @@ const GoogleAnalyticsReportChart = ({
                                         alt={key}
                                         width={100}
                                         height={50}
-                                        className="w-[30px] h-[20px] p-[2px] border border-gray-200"
+                                        className="w-[25px] border border-gray-200"
                                     />
                                     <p>{mapData[key]}</p>
                                 </div>
