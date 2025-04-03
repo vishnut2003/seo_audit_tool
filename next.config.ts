@@ -11,7 +11,11 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'seoptimer.com',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'flagcdn.com',
+      },
     ]
   }
 };

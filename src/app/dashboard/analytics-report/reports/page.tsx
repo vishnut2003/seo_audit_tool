@@ -1,14 +1,14 @@
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout';
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth';
-import { fetchAnalyticsReport } from '@/utils/server/projects/analyticsAPI/google/fetchReport';
+import { fetchAnalyticsReport, fetchAnalyticsReportByCountry } from '@/utils/server/projects/analyticsAPI/google/fetchReport';
 import { getOneProject } from '@/utils/server/projects/getOneProject';
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
 import React from 'react'
-import GoogleAnalyticsReportChart from './GoogleAnalyticsReportChart';
 import { RiErrorWarningLine } from '@remixicon/react';
 import ResetConnectionButton from './ResetConnectionButton';
 import GA_ChatBot from '@/AiChat/GA_ChatBot/GA_ChatBot';
+import MainContent from './MainContent';
 
 const AnalyticsReportsMain = async () => {
 
@@ -59,12 +59,24 @@ const AnalyticsReportsMain = async () => {
             }
         });
 
+        const dataByCountry = await fetchAnalyticsReportByCountry({
+            auth,
+            propertyId: project.googleAnalytics.propertyId,
+            filter: {
+                dateRange: {
+                    from: "10daysAgo",
+                    to: "today",
+                },
+            }
+        })
+
         return (
             <BasicLayout
                 pageTitle='Analytics Report'
             >
-                <GoogleAnalyticsReportChart
+                <MainContent
                     analyticsReport={report}
+                    countryAnalyticsData={dataByCountry}
                 />
 
                 {/* AI ChatBot */}

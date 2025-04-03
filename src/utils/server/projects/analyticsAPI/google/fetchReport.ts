@@ -139,6 +139,75 @@ export async function fetchAnalyticsReport({ auth, propertyId, filter }: {
     })
 }
 
+export interface AnalyticsDataByCountryInterface {
+    country: string,
+    activeUsers: number,
+    newUsers: number,
+    eventCount: number,
+}
+
+export async function fetchAnalyticsReportByCountry({
+    auth,
+    filter,
+    propertyId,
+}: {
+    auth: JWT | OAuth2Client,
+    propertyId: string,
+    filter: GoogleAnalyticsReportFilterInterface,
+}) {
+    return new Promise<AnalyticsDataByCountryInterface[]>(async (resolve, reject) => {
+        try {
+            const analyticsClient = new BetaAnalyticsDataClient({
+                authClient: (auth as any),
+            });
+
+            const [response] = await analyticsClient.runReport({
+                property: `properties/${propertyId}`,
+                dateRanges: [
+                    {
+                        startDate: filter.dateRange.from,
+                        endDate: filter.dateRange.to,
+                    },
+                ],
+                dimensions: [
+                    {
+                        name: "country",
+                    }
+                ],
+                metrics: [
+                    {
+                        name: "activeUsers",
+                    },
+                    {
+                        name: "newUsers",
+                    },
+                    {
+                        name: "eventCount"
+                    }
+                ],
+            });
+
+            const byCountryData: AnalyticsDataByCountryInterface[] = [];
+
+            for (const row of response.rows || []) {
+                const data: AnalyticsDataByCountryInterface = {
+                    country: row.dimensionValues?.[0].value || "no country",
+                    activeUsers: parseInt(row.metricValues?.[0].value || "0") || 0,
+                    newUsers: parseInt(row.metricValues?.[0].value || "0") || 0,
+                    eventCount: parseInt(row.metricValues?.[0].value || "0") || 0,
+                }
+
+                byCountryData.push(data);
+            }
+
+            return resolve(byCountryData);
+
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}
+
 function formatDate(dateString: string) {
     // Extract year, month, and day from the string
     const year = dateString.slice(0, 4);

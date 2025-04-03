@@ -1,8 +1,11 @@
 'use client';
 
 import GoogleAnalyticsChart from "@/Components/Recharts/GoogleAnalyticsChart";
-import { GoogleAnalyticsReportFilterInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
+import { AnalyticsDataByCountryInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import { useEffect, useState } from "react";
+// import { VectorMap } from "@react-jvectormap/core";
+import { worldMill } from "@react-jvectormap/world";
+import dynamic from "next/dynamic";
 
 import {
     Select,
@@ -11,93 +14,59 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select"
-import axios from "axios";
-import { RemixiconComponentType, RiFileExcel2Line, RiFileExcelLine } from "@remixicon/react";
+import countryNameToCode from "./countryCodeNames";
+import Image from "next/image";
 
-interface ExportOptionsInterface {
-    name: string,
-    icon: RemixiconComponentType,
-    descriptions: string,
-    value: string,
-}
+// import map using dynamic
+const VectorMap = dynamic(() => import('@react-jvectormap/core').then((mod) => mod.VectorMap), { ssr: false });
 
-const exportOptions: ExportOptionsInterface[] = [
-    {
-        name: "SpreadSheet Export",
-        icon: RiFileExcelLine,
-        descriptions: "Export selected date range data as Google SpreadSheet",
-        value: "spreadsheet",
-    },
-    {
-        name: "Excel Export",
-        icon: RiFileExcel2Line,
-        descriptions: "Export selected date range data as Excel File",
-        value: "excel",
-    }
-]
-
-const GoogleAnalyticsReportChart = ({ analyticsReport }: {
+const GoogleAnalyticsReportChart = ({
+    analyticsReport,
+    error,
+    inProgress,
+    countryAnalyticsReport,
+}: {
     analyticsReport: GoogleAnalyticsReportResponse | null,
+    inProgress: boolean,
+    error: string | null,
+    countryAnalyticsReport: AnalyticsDataByCountryInterface[],
 }) => {
 
-    const [report, setReport] = useState<GoogleAnalyticsReportResponse | null>(null);
-    const [inProgress, setInProgress] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
     const [currentMetrics, setCurrentMetrics] = useState("activeUsers")
-    const [filterDate, setFilterDate] = useState<{
-        from: string,
-        to: string,
-    }>({
-        from: '7daysAgo',
-        to: 'today',
-    });
+    const [mapData, setMapData] = useState<{
+        [key: string]: number,
+    }>({})
 
     useEffect(() => {
-        setInProgress(true);
-        setReport(analyticsReport);
-        setInProgress(false);
-    }, [analyticsReport])
-
-    async function updateAnalyticsReport() {
-        setInProgress(true);
-        setReport(null);
-        setError(null);
-        try {
-            const data: GoogleAnalyticsReportFilterInterface = {
-                dateRange: {
-                    from: filterDate.from,
-                    to: filterDate.to,
-                },
-            }
-            const response = await axios.post('/api/google-analytics/get-report', data)
-            const body = response.data as {
-                report: GoogleAnalyticsReportResponse,
+        console.log(countryAnalyticsReport)
+        // convert coutryData to map data
+        const countryData: {
+            [key: string]: number,
+        } = countryAnalyticsReport.reduce((accumulator, currentValue) => {
+            const countryCode = countryNameToCode[currentValue.country];
+            if (countryCode) {
+                console.log(currentMetrics)
+                const value = currentValue[currentMetrics as keyof AnalyticsDataByCountryInterface];
+                accumulator[countryCode] = typeof value === "number" ? value : 0;
             }
 
-            setReport(body.report);
-        } catch (err) {
-            if (typeof err === "string") {
-                setError(err);
-            } else {
-                setError("Something went wrong!")
-            }
-        }
-
-        setInProgress(false);
-    }
+            return accumulator;
+        }, {} as { [key: string]: number })
+        console.log(countryData)
+        setMapData(countryData);
+    }, [currentMetrics, countryAnalyticsReport])
 
     return (
         <div
             className="w-full h-full"
         >
             <div
-                className="flex flex-col md:flex-row justify-center gap-5 w-full"
+                className="flex flex-col md:flex-row justify-center items-stretch gap-5 w-full"
             >
 
                 {/* Chart col */}
                 <div
-                    className="w-full h-full bg-background rounded-md overflow-hidden shadow-xl shadow-gray-200"
+                    className="w-full bg-background rounded-md overflow-hidden shadow-xl shadow-gray-200"
                 >
                     {/* Chart metrics tabs */}
                     <div
@@ -107,7 +76,7 @@ const GoogleAnalyticsReportChart = ({ analyticsReport }: {
                             className="flex justify-start w-max"
                         >
                             {
-                                !report && inProgress &&
+                                !analyticsReport && inProgress &&
                                 [0, 1, 2].map((index) => (
                                     <div
                                         className={`px-5 md:px-7 py-3 md:py-4 flex flex-col items-start gap-1`}
@@ -124,8 +93,8 @@ const GoogleAnalyticsReportChart = ({ analyticsReport }: {
                             }
 
                             {
-                                report && !inProgress &&
-                                report.totals.map((total, index) => (
+                                analyticsReport && !inProgress &&
+                                analyticsReport.totals.map((total, index) => (
                                     <button
                                         className={`px-5 md:px-7 py-3 md:py-4 flex flex-col items-start gap-1 text-left ${total.name === currentMetrics && "bg-[#3c50e020] text-themesecondary border-b-2 border-themesecondary"}`}
                                         key={index}
@@ -146,7 +115,7 @@ const GoogleAnalyticsReportChart = ({ analyticsReport }: {
                     {/* chart */}
                     <div>
                         <GoogleAnalyticsChart
-                            dataPoints={report?.dataPoints}
+                            dataPoints={analyticsReport?.dataPoints}
                             currentMetrics={currentMetrics}
                             inProgress={inProgress}
                             error={error}
@@ -160,31 +129,22 @@ const GoogleAnalyticsReportChart = ({ analyticsReport }: {
                         <div
                             className="flex justify-start items-center gap-2"
                         >
-                            <Select
-                                onValueChange={(value) => setFilterDate({
-                                    from: value,
-                                    to: 'today',
-                                })}
-                            >
+                            <Select>
                                 <SelectTrigger
                                     className="w-[180px] h-[40px] px-5 shadow-none bg-gray-100"
                                 >
-                                    <SelectValue placeholder="Last 7 days" />
+                                    <SelectValue placeholder="Export as" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="7daysAgo">Last 7 days</SelectItem>
-                                    <SelectItem value="14daysAgo">Last 14 days</SelectItem>
-                                    <SelectItem value="30daysAgo">Last 30 days</SelectItem>
-                                    <SelectItem value="365daysAgo">Last 365 days</SelectItem>
+                                    <SelectItem value="gsheet">Google SpreadSheet</SelectItem>
+                                    <SelectItem value="excel">Excel File</SelectItem>
                                 </SelectContent>
                             </Select>
 
                             <button
                                 className="bg-themeprimary rounded-md py-2 px-4 text-white text-sm disabled:opacity-40"
-                                onClick={updateAnalyticsReport}
-                                disabled={inProgress}
                             >
-                                {inProgress ? "Loading..." : "Apply"}
+                                {inProgress ? "Loading..." : "Export"}
                             </button>
 
                         </div>
@@ -193,46 +153,83 @@ const GoogleAnalyticsReportChart = ({ analyticsReport }: {
 
                 {/* Export Sidebar */}
                 <div
-                    className="w-[50%] h-full min-h-[300px] space-y-3"
+                    className="w-[50%] p-5 bg-white space-y-3 rounded-md shadow-xl shadow-gray-200 flex flex-col justify-between"
                 >
-                    <h2
-                        className="text-lg font-semibold"
-                    >Export Options</h2>
+                    {/* Change Current Metrics */}
+                    <Select
+                        onValueChange={(value) => setCurrentMetrics(value)}
+                    >
+                        <SelectTrigger
+                            className="w-[180px] h-[40px] px-5 shadow-none bg-gray-100 capitalize"
+                        >
+                            <SelectValue placeholder={currentMetrics} />
+                        </SelectTrigger>
+                        <SelectContent
+                            className="capitalize"
+                        >
+                            {analyticsReport?.totals.map((value, index) => (
+                                <SelectItem
+                                    value={value.name}
+                                    key={index}
+                                >{value.name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    {/* World map */}
+                    <VectorMap
+                        map={worldMill}
+                        backgroundColor="#ffffff"
+                        regionStyle={{
+                            initial: { fill: "#D6D6DA" },
+                            hover: { fill: "#1c2434" },
+                            selected: { fill: "#E42" },
+                        }}
+                        style={{
+                            width: "100%",
+                            height: "300px"
+                        }}
+                        zoomOnScroll={false}
+                        series={{
+                            regions: [
+                                {
+                                    values: mapData,
+                                    attribute: "fill",
+                                    scale: ["#d7dcff", "#3c50e0"],
+                                    normalizeFunction: "polynomial",
+                                }
+                            ]
+                        }}
+                    />
+
+                    {/* Map hover content */}
 
                     <div
-                        className="px-5 py-4 space-y-4 bg-background rounded-md shadow-xl shadow-gray-200"
+                        className="flex flex-col gap-5"
                     >
-                        { // Exports options
-                            exportOptions.map((option, index) => (
+                        <p
+                            className="capitalize text-left text-lg font-semibold"
+                        >{currentMetrics}</p>
+
+                        <div
+                            className="flex flex-wrap items-center gap-x-7 gap-y-4"
+                        >
+                            {Object.keys(mapData).map((key, index) => (
                                 <div
                                     key={index}
-                                    className={`flex gap-3 justify-between items-center ${index !== 0 && "border-t border-gray-200 pt-3"}`}
+                                    className="flex items-center gap-2 font-semibold"
                                 >
-                                    <div
-                                        className="flex gap-3 items-center"
-                                    >
-                                        <option.icon
-                                            size={30}
-                                        />
-                                        <div>
-                                            <p
-                                                className="text-base font-semibold"
-                                            >{option.name}</p>
-                                            <p
-                                                className="text-sm font-normal line-clamp-1"
-                                            >{option.descriptions}</p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button
-                                            className="bg-themeprimary py-2 px-4 rounded-md text-white text-sm hover:bg-themesecondary"
-                                        >
-                                            Export
-                                        </button>
-                                    </div>
+                                    <Image
+                                        src={`https://flagcdn.com/w40/${key.toLowerCase()}.png`}
+                                        alt={key}
+                                        width={100}
+                                        height={50}
+                                        className="w-[30px] h-[20px] p-[2px] border border-gray-200"
+                                    />
+                                    <p>{mapData[key]}</p>
                                 </div>
-                            ))
-                        }
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
