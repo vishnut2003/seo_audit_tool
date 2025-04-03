@@ -8,7 +8,6 @@ import {
     XAxis,
     YAxis,
     Tooltip,
-    CartesianGrid,
 } from 'recharts'
 
 
