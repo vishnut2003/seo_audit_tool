@@ -290,7 +290,7 @@ export async function fetchReportByNewUsersSource({
                 const intactiveUserCount = typeof activeUsersCount === "string" ? parseInt(activeUsersCount) : 0;
 
                 const data: AnalyticsReportByNewUsersSourceDataInterface = {
-                    source: sourceMapping[`${row.dimensionValues?.[0].value}`] || "none",
+                    source: sourceMapping[`${row.dimensionValues?.[0].value}`] || row.dimensionValues?.[0].value || "none",
                     newUsers: intNewUserCount,
                     activeUsers: intactiveUserCount,
                 }

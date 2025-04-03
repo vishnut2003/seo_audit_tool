@@ -263,12 +263,12 @@ const GoogleAnalyticsReportChart = ({
 
             {/* Second section */}
             <div
-                className="min-h-[400px] flex items-stretch gap-5"
+                className="min-h-[400px] flex flex-col md:flex-row items-stretch gap-5"
             >
 
                 {/* Col 1 */}
                 <div
-                    className="w-full py-5 px-6 bg-white rounded-md shadow-lg shadow-gray-200 flex flex-col justify-between gap-5"
+                    className="w-full py-5 px-6 bg-white rounded-md shadow-lg shadow-gray-200 flex flex-col justify-between gap-10"
                 >
                     <div>
                         <h2

@@ -8,6 +8,7 @@ import {
     XAxis,
     YAxis,
     Tooltip,
+    CartesianGrid,
 } from 'recharts'
 
 
@@ -42,7 +43,7 @@ const GoogleAnalyticsBarChart = ({
                             className={'flex items-center'}
                         >
                             <BarChart
-                                data={newUserSourceData || []}
+                                data={newUserSourceData.filter((value, index) => index < 6 && value) || []}
                                 layout='horizontal'
                                 margin={{
                                     left: 30,
@@ -57,7 +58,7 @@ const GoogleAnalyticsBarChart = ({
                                     tickLine={false}
                                     strokeWidth={'1px'}
                                     strokeOpacity={'15%'}
-                                    className='text-sm font-semibold'
+                                    className='text-xs md:text-sm font-semibold'
                                 />
 
                                 <YAxis
@@ -96,6 +97,11 @@ const GoogleAnalyticsBarChart = ({
                                             </div>
                                         )
                                     }}
+                                />
+
+                                <CartesianGrid
+                                    stroke="#00000015"
+                                    vertical={false}
                                 />
 
                                 <Bar
