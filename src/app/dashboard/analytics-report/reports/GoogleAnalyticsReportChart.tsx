@@ -16,6 +16,7 @@ import {
 } from "@/Components/ui/select"
 import countryNameToCode from "./countryCodeNames";
 import Image from "next/image";
+import { RiLoader4Line } from "@remixicon/react";
 
 // import map using dynamic
 const VectorMap = dynamic(() => import('@react-jvectormap/core').then((mod) => mod.VectorMap), { ssr: false });
@@ -183,31 +184,43 @@ const GoogleAnalyticsReportChart = ({
                         >by Country</p>
                     </div>
 
-                    {/* World map */}
-                    <VectorMap
-                        map={worldMill}
-                        backgroundColor="#ffffff"
-                        regionStyle={{
-                            initial: { fill: "#D6D6DA" },
-                            hover: { fill: "#1c2434" },
-                            selected: { fill: "#E42" },
-                        }}
-                        style={{
-                            width: "100%",
-                            height: "300px"
-                        }}
-                        zoomOnScroll={false}
-                        series={{
-                            regions: [
-                                {
-                                    values: mapData,
-                                    attribute: "fill",
-                                    scale: ["#d7dcff", "#3c50e0"],
-                                    normalizeFunction: "polynomial",
-                                }
-                            ]
-                        }}
-                    />
+                    {/* World map */
+
+                        Object.keys(mapData).length !== 0 ?
+                            <VectorMap
+                                map={worldMill}
+                                backgroundColor="#ffffff"
+                                regionStyle={{
+                                    initial: { fill: "#D6D6DA" },
+                                    hover: { fill: "#1c2434" },
+                                }}
+                                style={{
+                                    width: "100%",
+                                    height: "300px"
+                                }}
+                                zoomOnScroll={false}
+                                series={{
+                                    regions: [
+                                        {
+                                            values: mapData,
+                                            attribute: "fill",
+                                            scale: ["#d7dcff", "#3c50e0"],
+                                            // normalizeFunction: "polynomial",
+                                        }
+                                    ]
+                                }}
+                            />
+                            : <div
+                                className="flex items-center justify-center min-h-[300px] gap-3"
+                            >
+                                <RiLoader4Line
+                                    size={20}
+                                    className="animate-spin"
+                                />
+
+                                <p>Loading...</p>
+                            </div>
+                    }
 
                     {/* Map hover content */}
 
