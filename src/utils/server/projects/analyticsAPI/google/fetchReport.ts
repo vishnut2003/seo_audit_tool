@@ -208,6 +208,103 @@ export async function fetchAnalyticsReportByCountry({
     })
 }
 
+export interface AnalyticsReportByNewUsersSourceDataInterface {
+    source: string,
+    activeUsers: number,
+    newUsers: number,
+}
+
+const sourceMapping: {
+    [key: string]: string,
+} = {
+    "(direct)": "Direct",
+    "google": "Google",
+    "bing": "Bing",
+    "yahoo": "Yahoo",
+    "duckduckgo": "DuckDuckGo",
+    "baidu": "Baidu",
+    "yandex": "Yandex",
+    "youtube.com": "YouTube",
+    "facebook.com": "Facebook",
+    "instagram.com": "Instagram",
+    "twitter.com": "Twitter",
+    "linkedin.com": "LinkedIn",
+    "reddit.com": "Reddit",
+    "quora.com": "Quora"
+};
+
+export async function fetchReportByNewUsersSource({
+    auth,
+    filter,
+    propertyId,
+}: {
+    auth: JWT | OAuth2Client,
+    propertyId: string,
+    filter: GoogleAnalyticsReportFilterInterface,
+}) {
+    return new Promise<AnalyticsReportByNewUsersSourceDataInterface[]>(async (resolve, reject) => {
+        try {
+            const analyticsClient = new BetaAnalyticsDataClient({
+                authClient: (auth as any),
+            });
+
+            const [response] = await analyticsClient.runReport({
+                property: `properties/${propertyId}`,
+                dateRanges: [
+                    {
+                        startDate: filter.dateRange.from,
+                        endDate: filter.dateRange.to,
+                    },
+                ],
+                dimensions: [
+                    {
+                        name: "sessionSource",
+                    }
+                ],
+                metrics: [
+                    {
+                        name: "newUsers",
+                    },
+                    {
+                        name: "activeUsers",
+                    },
+                ],
+                orderBys: [
+                    {
+                        metric: {
+                            metricName: 'newUsers',
+                        },
+                        desc: true,
+                    }
+                ]
+            });
+
+            const finalResponse: AnalyticsReportByNewUsersSourceDataInterface[] = [];
+
+            for (const row of response.rows || []) {
+
+                const newUserCount = row.metricValues?.[0].value;
+                const intNewUserCount = typeof newUserCount === "string" ? parseInt(newUserCount) : 0;
+                
+                const activeUsersCount = row.metricValues?.[1].value;
+                const intactiveUserCount = typeof activeUsersCount === "string" ? parseInt(activeUsersCount) : 0;
+
+                const data: AnalyticsReportByNewUsersSourceDataInterface = {
+                    source: sourceMapping[`${row.dimensionValues?.[0].value}`] || "none",
+                    newUsers: intNewUserCount,
+                    activeUsers: intactiveUserCount,
+                }
+
+                finalResponse.push(data);
+            }
+
+            return resolve(finalResponse);
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}
+
 function formatDate(dateString: string) {
     // Extract year, month, and day from the string
     const year = dateString.slice(0, 4);

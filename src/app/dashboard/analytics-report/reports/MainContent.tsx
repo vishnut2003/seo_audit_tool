@@ -1,6 +1,6 @@
 'use client';
 
-import { AnalyticsDataByCountryInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
+import { AnalyticsDataByCountryInterface, AnalyticsReportByNewUsersSourceDataInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import GoogleAnalyticsReportChart from "./GoogleAnalyticsReportChart";
 import { useEffect, useState } from "react";
 import DatePicker from "@/Components/ui/datepicker";
@@ -9,9 +9,11 @@ import { handleAnlyticsUpdateData } from "./handleUpdateAnlyticsData";
 const MainContent = ({
     analyticsReport,
     countryAnalyticsData,
+    newUsersSourceReport,
 }: {
     analyticsReport: GoogleAnalyticsReportResponse | null,
     countryAnalyticsData: AnalyticsDataByCountryInterface[],
+    newUsersSourceReport: AnalyticsReportByNewUsersSourceDataInterface[],
 }) => {
 
     const [mainGraphReport, setMainGraphReport] = useState<GoogleAnalyticsReportResponse | null>(null);
@@ -37,7 +39,7 @@ const MainContent = ({
 
     return (
         <div
-            className="w-full h-full space-y-5"
+            className="w-full space-y-5"
         >
             {/* Filter Date */}
             <div
@@ -107,6 +109,7 @@ const MainContent = ({
                 error={error}
                 inProgress={inProgress}
                 countryAnalyticsReport={passingCountryAnalyticsData}
+                newUsersSourceReport={newUsersSourceReport}
             />
         </div>
     )

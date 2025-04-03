@@ -1,7 +1,7 @@
 'use client';
 
 import GoogleAnalyticsChart from "@/Components/Recharts/GoogleAnalyticsChart";
-import { AnalyticsDataByCountryInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
+import { AnalyticsDataByCountryInterface, AnalyticsReportByNewUsersSourceDataInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import { useEffect, useState } from "react";
 // import { VectorMap } from "@react-jvectormap/core";
 import { worldMill } from "@react-jvectormap/world";
@@ -17,6 +17,7 @@ import {
 import countryNameToCode from "./countryCodeNames";
 import Image from "next/image";
 import { RiLoader4Line } from "@remixicon/react";
+import GoogleAnalyticsBarChart from "@/Components/Recharts/GoogleAnalyticsBarChart";
 
 // import map using dynamic
 const VectorMap = dynamic(() => import('@react-jvectormap/core').then((mod) => mod.VectorMap), { ssr: false });
@@ -26,11 +27,13 @@ const GoogleAnalyticsReportChart = ({
     error,
     inProgress,
     countryAnalyticsReport,
+    newUsersSourceReport,
 }: {
     analyticsReport: GoogleAnalyticsReportResponse | null,
     inProgress: boolean,
     error: string | null,
     countryAnalyticsReport: AnalyticsDataByCountryInterface[],
+    newUsersSourceReport: AnalyticsReportByNewUsersSourceDataInterface[],
 }) => {
 
     const [currentMetrics, setCurrentMetrics] = useState("activeUsers")
@@ -59,7 +62,7 @@ const GoogleAnalyticsReportChart = ({
 
     return (
         <div
-            className="w-full h-full"
+            className="w-full h-full space-y-7"
         >
             <div
                 className="flex flex-col md:flex-row justify-center items-stretch gap-5 w-full"
@@ -256,6 +259,36 @@ const GoogleAnalyticsReportChart = ({
                         </div>
                     </div>
                 </div>
+            </div>
+
+            {/* Second section */}
+            <div
+                className="min-h-[400px] flex items-stretch gap-5"
+            >
+
+                {/* Col 1 */}
+                <div
+                    className="w-full py-5 px-6 bg-white rounded-md shadow-lg shadow-gray-200 flex flex-col justify-between gap-5"
+                >
+                    <div>
+                        <h2
+                            className="text-lg font-semibold"
+                        >Source of Users</h2>
+                        <p
+                            className="text-sm"
+                        >Where do your newUser/activeUsers come from?</p>
+                    </div>
+                    <GoogleAnalyticsBarChart
+                        error={error}
+                        inProgress={inProgress}
+                        newUserSourceData={newUsersSourceReport}
+                    />
+                </div>
+
+                {/* Col 2 */}
+                <div
+                    className="w-[50%] py-5 px-6 bg-white rounded-md shadow-lg shadow-gray-200"
+                ></div>
             </div>
         </div>
     )
