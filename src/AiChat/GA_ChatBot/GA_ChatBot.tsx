@@ -4,13 +4,15 @@ import { useState } from "react";
 import AiChatLayout from "../layout/Layout";
 import { RiCheckLine, RiLoader4Line } from "@remixicon/react";
 import DateRangeAIBotWidget from "../layout/Widgets/DateRange";
-import { GoogleAnalyticsReportFilterInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
+import { AnalyticsDataByCountryInterface, GoogleAnalyticsReportFilterInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import { ConversationDataInterface } from "../layout/ChatPopup/Conversation";
 import axios from "axios";
 import { GAChatBotPromptSubmitionRequestDataInterface } from "@/app/api/ai-chatbot/ga-bot/submit-prompt/route";
+import { GoogleAnalyticsReportByCountryRequestInterface } from "@/app/api/google-analytics/get-report-by-country/route";
 
 export interface GA_ChatBotFetchedData {
     graphData: GoogleAnalyticsReportResponse,
+    byCountryData: AnalyticsDataByCountryInterface[],
 }
 
 const GA_ChatBot = () => {
@@ -143,8 +145,24 @@ const GA_ChatBot = () => {
                         return setError("failed to fetch Analytics Graph data!");
                     }
 
+                    // Fetch analytics data of by country
+                    const byCountryAnalyticsRequestEntry: GoogleAnalyticsReportByCountryRequestInterface = {
+                        dateRange: {
+                            from: dateRange.startDate.toISOString().split('T')[0],
+                            to: dateRange.endDate.toISOString().split('T')[0],
+                        },
+                    }
+
+                    const byCountryAnalyticsApiResponse = await axios.post('/api/google-analytics/get-report-by-country', byCountryAnalyticsRequestEntry);
+                    const byCountryReport = byCountryAnalyticsApiResponse.data.report as AnalyticsDataByCountryInterface[];
+
+                    if (!byCountryReport) {
+                        return setError("failed to fetch Analytics by Country data!");
+                    }
+
                     gaFetchedRequestData = {
                         graphData: GraphData,
+                        byCountryData: byCountryReport,
                     }
                 } else {
                     gaFetchedRequestData = gaFetchedData;

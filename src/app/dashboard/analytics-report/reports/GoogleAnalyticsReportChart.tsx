@@ -221,21 +221,25 @@ const GoogleAnalyticsReportChart = ({
                         <div
                             className="flex flex-wrap items-center gap-x-7 gap-y-4"
                         >
-                            {Object.keys(mapData).map((key, index) => (
-                                <div
-                                    key={index}
-                                    className="flex items-center gap-2 font-semibold"
-                                >
-                                    <Image
-                                        src={`https://flagcdn.com/w40/${key.toLowerCase()}.png`}
-                                        alt={key}
-                                        width={100}
-                                        height={50}
-                                        className="w-[25px] border border-gray-200"
-                                    />
-                                    <p>{mapData[key]}</p>
-                                </div>
-                            ))}
+                            {Object.keys(mapData).map((key, index) => {
+                                if (index <= 10) {
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="flex items-center gap-2 font-semibold"
+                                        >
+                                            <Image
+                                                src={`https://flagcdn.com/w40/${key.toLowerCase()}.png`}
+                                                alt={key}
+                                                width={100}
+                                                height={50}
+                                                className="w-[25px] border border-gray-200"
+                                            />
+                                            <p>{mapData[key]}</p>
+                                        </div>
+                                    )
+                                }
+                            })}
                         </div>
                     </div>
                 </div>
