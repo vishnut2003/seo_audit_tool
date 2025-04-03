@@ -33,7 +33,7 @@ const MainContent = ({
         setMainGraphReport(analyticsReport);
         setPassingCountryAnalyticsData(countryAnalyticsData);
         setInProgress(false);
-    }, [])
+    }, [analyticsReport, countryAnalyticsData])
 
     return (
         <div
