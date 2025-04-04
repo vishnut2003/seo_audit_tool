@@ -67,7 +67,13 @@ const UserAcquisition = async () => {
             <BasicLayout
                 pageTitle='User Acquisition'
             >
-                <UserAcquisitionMainContent />
+                <UserAcquisitionMainContent
+                    passingDateRange={{
+                        startDate,
+                        endDate,
+                    }}
+                    userAcquisitionGraphData={graphReport}
+                />
             </BasicLayout>
         )
 
