@@ -18,6 +18,7 @@ const MainContent = ({
 
     const [mainGraphReport, setMainGraphReport] = useState<GoogleAnalyticsReportResponse | null>(null);
     const [passingCountryAnalyticsData, setPassingCountryAnalyticsData] = useState<AnalyticsDataByCountryInterface[]>([])
+    const [passingNewUsersSourceReport, setPassingNewUsersSourceReport] = useState<AnalyticsReportByNewUsersSourceDataInterface[]>([])
 
     const [inProgress, setInProgress] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -34,6 +35,7 @@ const MainContent = ({
     useEffect(() => {
         setMainGraphReport(analyticsReport);
         setPassingCountryAnalyticsData(countryAnalyticsData);
+        setPassingNewUsersSourceReport(newUsersSourceReport);
         setInProgress(false);
     }, [analyticsReport, countryAnalyticsData])
 
@@ -97,6 +99,7 @@ const MainContent = ({
                             // Reports
                             setReport: setMainGraphReport,
                             setCountryAnalyticsData: setPassingCountryAnalyticsData,
+                            setNewUsersSourceReport: setPassingNewUsersSourceReport,
                         })
                     }}
                 >
@@ -109,7 +112,7 @@ const MainContent = ({
                 error={error}
                 inProgress={inProgress}
                 countryAnalyticsReport={passingCountryAnalyticsData}
-                newUsersSourceReport={newUsersSourceReport}
+                newUsersSourceReport={passingNewUsersSourceReport}
             />
         </div>
     )
