@@ -5,6 +5,9 @@ import ResetConnectionButton from '../ResetConnectionButton'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { getOneProject } from '@/utils/server/projects/getOneProject'
+import UserAcquisitionMainContent from './MainContent'
+import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth'
+import { fetchAnalyticsUserAcquisitionData } from '@/utils/server/projects/analyticsAPI/google/userAcquisitionData'
 
 const UserAcquisition = async () => {
 
@@ -29,27 +32,42 @@ const UserAcquisition = async () => {
 
     try {
 
-        // let auth
+        let auth
 
-        // if (
-        //     project.googleAnalytics.clientEmail &&
-        //     project.googleAnalytics.privateKey
-        // ) {
-        //     auth = await AnalyticsGoogleApiAuth({
-        //         clientEmail: project.googleAnalytics.clientEmail,
-        //         privateKey: project.googleAnalytics.privateKey,
-        //     });
-        // } else {
-        //     auth = await authorizeWithOAuthClient({
-        //         token: project.googleAnalytics.token!,
-        //     })
-        // }
+        if (
+            project.googleAnalytics.clientEmail &&
+            project.googleAnalytics.privateKey
+        ) {
+            auth = await AnalyticsGoogleApiAuth({
+                clientEmail: project.googleAnalytics.clientEmail,
+                privateKey: project.googleAnalytics.privateKey,
+            });
+        } else {
+            auth = await authorizeWithOAuthClient({
+                token: project.googleAnalytics.token!,
+            })
+        }
+
+        const startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+        const endDate = new Date();
+
+        const [graphReport] = await fetchAnalyticsUserAcquisitionData({
+            auth,
+            dateRange: {
+                startDate: startDate.toISOString().split('T')[0],
+                endDate: endDate.toISOString().split('T')[0],
+            },
+            graphType: "date",
+            propertyId: project.googleAnalytics.propertyId,
+        })
+
+        console.log(graphReport)
 
         return (
             <BasicLayout
                 pageTitle='User Acquisition'
             >
-                User Acquisition
+                <UserAcquisitionMainContent />
             </BasicLayout>
         )
 
