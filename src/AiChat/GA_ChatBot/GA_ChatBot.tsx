@@ -4,17 +4,19 @@ import { useState } from "react";
 import AiChatLayout from "../layout/Layout";
 import { RiCheckLine, RiLoader4Line } from "@remixicon/react";
 import DateRangeAIBotWidget from "../layout/Widgets/DateRange";
-import { AnalyticsDataByCountryInterface, AnalyticsReportByNewUsersSourceDataInterface, GoogleAnalyticsReportFilterInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
+import { AnalyticsDataByCountryInterface, AnalyticsReportByNewUsersSourceDataInterface, AnalyticsReportTopPagesTitle, GoogleAnalyticsReportFilterInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import { ConversationDataInterface } from "../layout/ChatPopup/Conversation";
 import axios from "axios";
 import { GAChatBotPromptSubmitionRequestDataInterface } from "@/app/api/ai-chatbot/ga-bot/submit-prompt/route";
 import { GoogleAnalyticsReportByCountryRequestInterface } from "@/app/api/google-analytics/get-report-by-country/route";
 import { GoogleAnalyticsReportByUsersSourceRequestInterface } from "@/app/api/google-analytics/get-report-by-users-source/route";
+import { GoogleAnalyticsReportTopPagesViewsRequestInterface } from "@/app/api/google-analytics/get-report-by-top-page-titles/route";
 
 export interface GA_ChatBotFetchedData {
     graphData: GoogleAnalyticsReportResponse,
     byCountryData: AnalyticsDataByCountryInterface[],
     newUsersSourceData: AnalyticsReportByNewUsersSourceDataInterface[],
+    topPageViews: AnalyticsReportTopPagesTitle[],
 }
 
 const GA_ChatBot = () => {
@@ -173,15 +175,26 @@ const GA_ChatBot = () => {
                     const newUsersSourceReportApiResponse = await axios.post('/api/google-analytics/get-report-by-users-source', newUsersSourceReportApiRequestEntry);
                     const newUsersSourceReport = newUsersSourceReportApiResponse.data.report as AnalyticsReportByNewUsersSourceDataInterface[];
 
+                    const topPagesViewsApiRequestEntry: GoogleAnalyticsReportTopPagesViewsRequestInterface = {
+                        dateRange: {
+                            from: dateRange.startDate.toISOString().split('T')[0],
+                            to: dateRange.endDate.toISOString().split('T')[0],
+                        },
+                    }
+
+                    const topPagesViewsApiResponse = await axios.post('/api/google-analytics/get-report-by-top-page-titles', topPagesViewsApiRequestEntry);
+                    const topPageViewsReport = topPagesViewsApiResponse.data.report as AnalyticsReportTopPagesTitle[]
+
                     gaFetchedRequestData = {
                         graphData: GraphData,
                         byCountryData: byCountryReport,
                         newUsersSourceData: newUsersSourceReport,
+                        topPageViews: topPageViewsReport,
                     }
                 } else {
                     gaFetchedRequestData = gaFetchedData;
                 }
-                
+
                 setGaFetchedData(gaFetchedRequestData);
                 setProcessed(prev => ++prev);
 

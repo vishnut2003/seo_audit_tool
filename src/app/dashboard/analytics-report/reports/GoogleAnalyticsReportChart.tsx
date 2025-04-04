@@ -18,7 +18,6 @@ import {
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -300,7 +299,7 @@ const GoogleAnalyticsReportChart = ({
 
                 {/* Col 2 */}
                 <div
-                    className="w-[50%] py-5 px-6 bg-white rounded-md shadow-lg shadow-gray-200 space-y-5"
+                    className="w-full md:w-[50%] py-5 px-6 bg-white rounded-md shadow-lg shadow-gray-200 space-y-5"
                 >
                     <div>
                         <h2

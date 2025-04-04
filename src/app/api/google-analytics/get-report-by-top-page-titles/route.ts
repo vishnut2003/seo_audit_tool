@@ -1,5 +1,5 @@
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from "@/utils/server/projects/analyticsAPI/google/auth";
-import { fetchAnalyticsReportTopPagesTitle, fetchReportByNewUsersSource } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
+import { fetchAnalyticsReportTopPagesTitle } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import { getOneProject } from "@/utils/server/projects/getOneProject";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
