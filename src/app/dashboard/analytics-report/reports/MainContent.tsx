@@ -37,7 +37,7 @@ const MainContent = ({
         setPassingCountryAnalyticsData(countryAnalyticsData);
         setPassingNewUsersSourceReport(newUsersSourceReport);
         setInProgress(false);
-    }, [analyticsReport, countryAnalyticsData])
+    }, [analyticsReport, countryAnalyticsData, newUsersSourceReport])
 
     return (
         <div
