@@ -285,7 +285,7 @@ export async function fetchReportByNewUsersSource({
 
                 const newUserCount = row.metricValues?.[0].value;
                 const intNewUserCount = typeof newUserCount === "string" ? parseInt(newUserCount) : 0;
-                
+
                 const activeUsersCount = row.metricValues?.[1].value;
                 const intactiveUserCount = typeof activeUsersCount === "string" ? parseInt(activeUsersCount) : 0;
 
@@ -293,6 +293,76 @@ export async function fetchReportByNewUsersSource({
                     source: sourceMapping[`${row.dimensionValues?.[0].value}`] || row.dimensionValues?.[0].value || "none",
                     newUsers: intNewUserCount,
                     activeUsers: intactiveUserCount,
+                }
+
+                finalResponse.push(data);
+            }
+
+            return resolve(finalResponse);
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}
+
+export interface AnalyticsReportTopPagesTitle {
+    pageTitle: string,
+    views: number,
+}
+
+export async function fetchAnalyticsReportTopPagesTitle({
+    auth,
+    filter,
+    propertyId,
+}: {
+    auth: JWT | OAuth2Client,
+    propertyId: string,
+    filter: GoogleAnalyticsReportFilterInterface,
+}) {
+    return new Promise<AnalyticsReportTopPagesTitle[]>(async (resolve, reject) => {
+        try {
+            const analyticsClient = new BetaAnalyticsDataClient({
+                authClient: (auth as any),
+            });
+
+            const [response] = await analyticsClient.runReport({
+                property: `properties/${propertyId}`,
+                dateRanges: [
+                    {
+                        startDate: filter.dateRange.from,
+                        endDate: filter.dateRange.to,
+                    },
+                ],
+                dimensions: [
+                    {
+                        name: "pageTitle",
+                    }
+                ],
+                metrics: [
+                    {
+                        name: "screenPageViews",
+                    },
+                ],
+                orderBys: [
+                    {
+                        dimension: {
+                            dimensionName: 'screenPageViews',
+                        },
+                        desc: true,
+                    }
+                ]
+            });
+
+            const finalResponse: AnalyticsReportTopPagesTitle[] = [];
+
+            for (const row of response.rows || []) {
+
+                const value = row.metricValues?.[0].value
+                const intValue: number = typeof value === "string" ? parseInt(value) : 0;
+
+                const data: AnalyticsReportTopPagesTitle = {
+                    pageTitle: row.dimensionValues?.[0].value || "No page title",
+                    views: intValue,
                 }
 
                 finalResponse.push(data);

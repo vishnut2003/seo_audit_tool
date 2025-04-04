@@ -1,6 +1,6 @@
 import BasicLayout from '@/layouts/BasicLayout/BasicLayout';
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth';
-import { fetchAnalyticsReport, fetchAnalyticsReportByCountry, fetchReportByNewUsersSource } from '@/utils/server/projects/analyticsAPI/google/fetchReport';
+import { fetchAnalyticsReport, fetchAnalyticsReportByCountry, fetchAnalyticsReportTopPagesTitle, fetchReportByNewUsersSource } from '@/utils/server/projects/analyticsAPI/google/fetchReport';
 import { getOneProject } from '@/utils/server/projects/getOneProject';
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
@@ -81,6 +81,17 @@ const AnalyticsReportsMain = async () => {
             }
         })
 
+        const topViewPageTitle = await fetchAnalyticsReportTopPagesTitle({
+            auth,
+            propertyId: project.googleAnalytics.propertyId,
+            filter: {
+                dateRange: {
+                    from: "10daysAgo",
+                    to: "today",
+                },
+            }
+        })
+
         return (
             <BasicLayout
                 pageTitle='Analytics Report'
@@ -89,6 +100,7 @@ const AnalyticsReportsMain = async () => {
                     analyticsReport={report}
                     countryAnalyticsData={dataByCountry}
                     newUsersSourceReport={newUsersSourceReport}
+                    topPagesViewsReport={topViewPageTitle}
                 />
 
                 {/* AI ChatBot */}

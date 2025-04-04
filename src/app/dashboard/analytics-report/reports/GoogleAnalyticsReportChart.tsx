@@ -1,7 +1,7 @@
 'use client';
 
 import GoogleAnalyticsChart from "@/Components/Recharts/GoogleAnalyticsChart";
-import { AnalyticsDataByCountryInterface, AnalyticsReportByNewUsersSourceDataInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
+import { AnalyticsDataByCountryInterface, AnalyticsReportByNewUsersSourceDataInterface, AnalyticsReportTopPagesTitle, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import { useEffect, useState } from "react";
 // import { VectorMap } from "@react-jvectormap/core";
 import { worldMill } from "@react-jvectormap/world";
@@ -14,6 +14,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select"
+
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/Components/ui/table"
+
 import countryNameToCode from "./countryCodeNames";
 import Image from "next/image";
 import { RiLoader4Line } from "@remixicon/react";
@@ -28,12 +39,14 @@ const GoogleAnalyticsReportChart = ({
     inProgress,
     countryAnalyticsReport,
     newUsersSourceReport,
+    topPagesViewReport,
 }: {
     analyticsReport: GoogleAnalyticsReportResponse | null,
     inProgress: boolean,
     error: string | null,
     countryAnalyticsReport: AnalyticsDataByCountryInterface[],
     newUsersSourceReport: AnalyticsReportByNewUsersSourceDataInterface[],
+    topPagesViewReport: AnalyticsReportTopPagesTitle[],
 }) => {
 
     const [currentMetrics, setCurrentMetrics] = useState("activeUsers")
@@ -42,7 +55,7 @@ const GoogleAnalyticsReportChart = ({
     }>({})
 
     useEffect(() => {
-        console.log(countryAnalyticsReport)
+
         // convert coutryData to map data
         const countryData: {
             [key: string]: number,
@@ -56,7 +69,7 @@ const GoogleAnalyticsReportChart = ({
 
             return accumulator;
         }, {} as { [key: string]: number })
-        console.log(countryData)
+
         setMapData(countryData);
     }, [currentMetrics, countryAnalyticsReport])
 
@@ -287,8 +300,62 @@ const GoogleAnalyticsReportChart = ({
 
                 {/* Col 2 */}
                 <div
-                    className="w-[50%] py-5 px-6 bg-white rounded-md shadow-lg shadow-gray-200"
-                ></div>
+                    className="w-[50%] py-5 px-6 bg-white rounded-md shadow-lg shadow-gray-200 space-y-5"
+                >
+                    <div>
+                        <h2
+                            className="text-lg font-semibold"
+                        >Top Pages</h2>
+                        <p
+                            className="text-sm"
+                        >Views by Page Title</p>
+                    </div>
+
+                    <div
+                        className="shadow-lg shadow-gray-200 rounded-md"
+                    >
+                        {
+                            inProgress ?
+                                <div
+                                    className="flex items-center justify-center min-h-[300px] gap-3"
+                                >
+                                    <RiLoader4Line
+                                        size={20}
+                                        className="animate-spin"
+                                    />
+
+                                    <p>Loading...</p>
+                                </div>
+                                : <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="w-[100%]">Page Title</TableHead>
+                                            <TableHead
+                                                className="text-right text-themesecondary"
+                                            >Views</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {topPagesViewReport.map((topPage, index) => {
+                                            if (index < 6) {
+                                                return (
+                                                    <TableRow
+                                                        key={index}
+                                                    >
+                                                        <TableCell className="font-medium">{topPage.pageTitle}</TableCell>
+                                                        <TableCell
+                                                            className="text-right text-themesecondary font-semibold"
+                                                        >{topPage.views}</TableCell>
+                                                    </TableRow>
+                                                )
+                                            }
+                                        })}
+                                    </TableBody>
+                                </Table>
+                        }
+
+                    </div>
+                </div>
             </div>
         </div>
     )

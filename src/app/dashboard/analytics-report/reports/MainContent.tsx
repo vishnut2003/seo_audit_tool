@@ -1,6 +1,6 @@
 'use client';
 
-import { AnalyticsDataByCountryInterface, AnalyticsReportByNewUsersSourceDataInterface, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
+import { AnalyticsDataByCountryInterface, AnalyticsReportByNewUsersSourceDataInterface, AnalyticsReportTopPagesTitle, GoogleAnalyticsReportResponse } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import GoogleAnalyticsReportChart from "./GoogleAnalyticsReportChart";
 import { useEffect, useState } from "react";
 import DatePicker from "@/Components/ui/datepicker";
@@ -10,15 +10,18 @@ const MainContent = ({
     analyticsReport,
     countryAnalyticsData,
     newUsersSourceReport,
+    topPagesViewsReport,
 }: {
     analyticsReport: GoogleAnalyticsReportResponse | null,
     countryAnalyticsData: AnalyticsDataByCountryInterface[],
     newUsersSourceReport: AnalyticsReportByNewUsersSourceDataInterface[],
+    topPagesViewsReport: AnalyticsReportTopPagesTitle[],
 }) => {
 
     const [mainGraphReport, setMainGraphReport] = useState<GoogleAnalyticsReportResponse | null>(null);
     const [passingCountryAnalyticsData, setPassingCountryAnalyticsData] = useState<AnalyticsDataByCountryInterface[]>([])
     const [passingNewUsersSourceReport, setPassingNewUsersSourceReport] = useState<AnalyticsReportByNewUsersSourceDataInterface[]>([])
+    const [passingTopPagesViewReport, setPassingTopPagesViewsReport] = useState<AnalyticsReportTopPagesTitle[]>([]);
 
     const [inProgress, setInProgress] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -36,8 +39,9 @@ const MainContent = ({
         setMainGraphReport(analyticsReport);
         setPassingCountryAnalyticsData(countryAnalyticsData);
         setPassingNewUsersSourceReport(newUsersSourceReport);
+        setPassingTopPagesViewsReport(topPagesViewsReport);
         setInProgress(false);
-    }, [analyticsReport, countryAnalyticsData, newUsersSourceReport])
+    }, [analyticsReport, countryAnalyticsData, newUsersSourceReport, topPagesViewsReport])
 
     return (
         <div
@@ -100,6 +104,7 @@ const MainContent = ({
                             setReport: setMainGraphReport,
                             setCountryAnalyticsData: setPassingCountryAnalyticsData,
                             setNewUsersSourceReport: setPassingNewUsersSourceReport,
+                            setTopPagesViewsReport: setPassingTopPagesViewsReport,
                         })
                     }}
                 >
@@ -113,6 +118,7 @@ const MainContent = ({
                 inProgress={inProgress}
                 countryAnalyticsReport={passingCountryAnalyticsData}
                 newUsersSourceReport={passingNewUsersSourceReport}
+                topPagesViewReport={passingTopPagesViewReport}
             />
         </div>
     )
