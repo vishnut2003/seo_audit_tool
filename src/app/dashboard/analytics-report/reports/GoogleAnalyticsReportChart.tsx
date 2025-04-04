@@ -341,7 +341,23 @@ const GoogleAnalyticsReportChart = ({
                                                     <TableRow
                                                         key={index}
                                                     >
-                                                        <TableCell className="font-medium">{topPage.pageTitle}</TableCell>
+                                                        <TableCell className="font-medium">
+                                                            <p
+                                                                className="line-clamp-2"
+                                                            >
+                                                                {topPage.pageTitle}
+                                                            </p>
+                                                            <div
+                                                                className="h-[2px] bg-gray-200 rounded-full mt-2"
+                                                            >
+                                                                <div
+                                                                    className={`h-full bg-themesecondary`}
+                                                                    style={{
+                                                                        width: `${((topPage.views / (topPagesViewReport[0].views) * 100))}%`
+                                                                    }}
+                                                                ></div>
+                                                            </div>
+                                                        </TableCell>
                                                         <TableCell
                                                             className="text-right text-themesecondary font-semibold"
                                                         >{topPage.views}</TableCell>
