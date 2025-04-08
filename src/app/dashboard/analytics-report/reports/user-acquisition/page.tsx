@@ -61,8 +61,6 @@ const UserAcquisition = async () => {
             propertyId: project.googleAnalytics.propertyId,
         })
 
-        console.log(graphReport)
-
         return (
             <BasicLayout
                 pageTitle='User Acquisition'

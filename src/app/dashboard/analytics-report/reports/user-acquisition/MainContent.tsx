@@ -6,6 +6,14 @@ import { useEffect, useState } from "react";
 import AnalyticsUserAcquisitionGraph from "./Graph";
 import { RiLoader4Line } from "@remixicon/react";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/Components/ui/select"
+
 const UserAcquisitionMainContent = ({
   passingDateRange,
   userAcquisitionGraphData,
@@ -102,7 +110,23 @@ const UserAcquisitionMainContent = ({
 
       <AnalyticsUserAcquisitionGraph
         graphReport={passingUserAcquisitionGrapData}
-      />
+      >
+        {/* Select Date | Week | Month */}
+        <div>
+          
+          <Select>
+            <SelectTrigger className="w-[180px] p-3 h-[40px] bg-gray-100 border border-gray-200 shadow-none">
+              <SelectValue placeholder="Date" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="date">Date</SelectItem>
+              <SelectItem value="week">Week</SelectItem>
+              <SelectItem value="month">Month</SelectItem>
+            </SelectContent>
+          </Select>
+
+        </div>
+      </AnalyticsUserAcquisitionGraph>
     </div>
   )
 }

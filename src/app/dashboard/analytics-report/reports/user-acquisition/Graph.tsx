@@ -1,7 +1,7 @@
 'use cient';
 
 import { AnalyticsUserAcquisitionGraphReport } from "@/utils/server/projects/analyticsAPI/google/userAcquisitionData";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import {
     LineChart,
     Line,
@@ -39,16 +39,58 @@ const sourcesList: {
 
 const AnalyticsUserAcquisitionGraph = ({
     graphReport,
+    children,
 }: {
     graphReport: AnalyticsUserAcquisitionGraphReport[],
+    children: Readonly<ReactNode>,
 }) => {
 
     useEffect(() => console.log(graphReport))
 
     return (
         <div
-            className="w-full bg-white py-3 px-5 shadow-xl shadow-gray-200 rounded-md"
+            className="w-full bg-white py-3 px-5 shadow-xl shadow-gray-200 rounded-md space-y-3"
         >
+            {/* Graph Headers */}
+            <div
+                className="flex items-center justify-between"
+            >
+
+                {/* Left Col */}
+                <div
+                    className="w-full flex flex-col md:flex-row items-center justify-start"
+                >
+                    {/* Legends */}
+                    <div
+                        className="flex items-center gap-4"
+                    >
+                        {sourcesList.map((source, index) => (
+                            <div
+                                key={index}
+                                className="flex items-center gap-2"
+                            >
+                                <div
+                                    className="w-[10px] h-[10px] rounded-full"
+                                    style={{
+                                        backgroundColor: source.color,
+                                    }}
+                                ></div>
+                                <p>{source.value}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                
+                {/* Right Col */}
+                <div
+                    className="w-full flex flex-col md:flex-row items-center justify-end"
+                >
+                    {children}
+                </div>
+            
+            </div>
+
+            {/* Graph ui */}
             <ResponsiveContainer
                 width={'100%'}
                 aspect={6.0 / 2}
