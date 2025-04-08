@@ -7,7 +7,7 @@ import { cookies } from 'next/headers'
 import { getOneProject } from '@/utils/server/projects/getOneProject'
 import UserAcquisitionMainContent from './MainContent'
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth'
-import { fetchAnalyticsUserAcquisitionData } from '@/utils/server/projects/analyticsAPI/google/userAcquisitionData'
+import { fetchAnalyticsUserAcquisitionData, fetchAnalyticsUserAcquisitionTableData } from '@/utils/server/projects/analyticsAPI/google/userAcquisitionData'
 
 const UserAcquisition = async () => {
 
@@ -61,6 +61,15 @@ const UserAcquisition = async () => {
             propertyId: project.googleAnalytics.propertyId,
         })
 
+        const [tableReport] = await fetchAnalyticsUserAcquisitionTableData({
+            auth,
+            dateRange: {
+                startDate: startDate.toISOString().split('T')[0],
+                endDate: endDate.toISOString().split('T')[0],
+            },
+            propertyId: project.googleAnalytics.propertyId,
+        })
+
         return (
             <BasicLayout
                 pageTitle='User Acquisition'
@@ -71,6 +80,7 @@ const UserAcquisition = async () => {
                         endDate,
                     }}
                     userAcquisitionGraphData={graphReport}
+                    userAcquisitionTableData={tableReport}
                 />
             </BasicLayout>
         )

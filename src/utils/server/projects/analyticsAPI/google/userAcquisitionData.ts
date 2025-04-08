@@ -1,10 +1,19 @@
 import { JWT, OAuth2Client } from "google-auth-library";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
+import { google } from "@google-analytics/data/build/protos/protos";
 
 export interface AnalyticsUserAcquisitionGraphReport {
     date: string,
     [key: string]: string | number
 }
+
+const sourcesList: string[] = [
+    'Organic Search',
+    'Direct',
+    'Organic Social',
+    'Referral',
+    'Unassigned',
+]
 
 export async function fetchAnalyticsUserAcquisitionData({
     dateRange,
@@ -22,14 +31,6 @@ export async function fetchAnalyticsUserAcquisitionData({
 }) {
     return new Promise<[AnalyticsUserAcquisitionGraphReport[]]>(async (resolve, reject) => {
         try {
-
-            const sourcesList: string[] = [
-                'Organic Search',
-                'Direct',
-                'Organic Social',
-                'Referral',
-                'Unassigned',
-            ]
 
             const analyticsClient = new BetaAnalyticsDataClient({
                 authClient: (auth as any),
@@ -137,4 +138,113 @@ function generateDate({
     } else {
         return date;
     }
+}
+
+export interface AnalyticsUserAcquisitionTableDataInterface {
+    source: string,
+    totalUsers: number,
+    newUsers: number,
+    returningUsers: number,
+    averageEngagementTimePerActiveUsers: string,
+    engagedSessionPerActiveUsers: number,
+    eventCount: number,
+    keyEvent: number,
+    userKeyEventRate: number,
+}
+
+export async function fetchAnalyticsUserAcquisitionTableData({
+    auth,
+    dateRange,
+    propertyId,
+}: {
+    auth: JWT | OAuth2Client,
+    propertyId: string,
+    dateRange: {
+        startDate: string,
+        endDate: string,
+    }
+}) {
+    return new Promise<[AnalyticsUserAcquisitionTableDataInterface[]]>(async (resolve, reject) => {
+        try {
+            const analyticsClient = new BetaAnalyticsDataClient({
+                authClient: (auth as any),
+            })
+
+            const [response] = await analyticsClient.runReport({
+                property: `properties/${propertyId}`,
+                dateRanges: [
+                    {
+                        ...dateRange,
+                    },
+                ],
+                dimensions: [
+                    {
+                        name: "sessionSource",
+                    },
+                ],
+                metrics: [
+                    { name: 'totalUsers' },
+                    { name: 'newUsers' },
+                    { name: 'activeUsers' },
+                    { name: 'userEngagementDuration' },
+                    { name: 'sessions' },
+                    { name: 'engagedSessions' },
+                    { name: 'eventCount' },
+                    { name: 'keyEvents' },
+                    { name: 'userKeyEventRate' },
+                ],
+            })
+
+            const finalResponse: AnalyticsUserAcquisitionTableDataInterface[] = [];
+
+            for (const row of response.rows || []) {
+                const source = row.dimensionValues?.[0].value || "none";
+                const [
+                    totalUsers,
+                    newUsers,
+                    activeUsers,
+                    userEngagementDuration,
+                    sessions,
+                    engagedSessions,
+                    eventCount,
+                    keyEvents,
+                    userKeyEventRate,
+                ]: (google.analytics.data.v1beta.IMetricValue | null)[] = row.metricValues || []
+
+                const averageEngagementTimePerSession = parseInt(userEngagementDuration.value || '0') / parseInt(sessions.value || '1');
+                const returningUsers = parseInt(activeUsers.value || '0') - parseInt(newUsers.value || '0');
+                const engagedSessionPerActiveUsers = parseFloat((parseInt(engagedSessions.value || '0') / parseInt(activeUsers.value || '1')).toFixed(2));
+
+                const data: AnalyticsUserAcquisitionTableDataInterface = {
+                    source,
+                    totalUsers: parseInt(totalUsers.value || '0'),
+                    newUsers: parseInt(newUsers.value || '0'),
+                    returningUsers,
+                    averageEngagementTimePerActiveUsers: formatDuration(averageEngagementTimePerSession),
+                    engagedSessionPerActiveUsers,
+                    eventCount: parseInt(eventCount.value || '0'),
+                    keyEvent: parseInt(keyEvents.value || '0'),
+                    userKeyEventRate: parseInt(userKeyEventRate.value || '0'),
+                }
+
+                finalResponse.push(data);
+            }
+
+            return resolve([finalResponse]);
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}
+
+function formatDuration(milliseconds: number) {
+    // Calculate total seconds
+    const totalSeconds = Math.floor(milliseconds / 1000);
+
+    // Calculate minutes and remaining seconds
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    // Construct the formatted string
+    return `${minutes}m ${seconds}s`;
 }

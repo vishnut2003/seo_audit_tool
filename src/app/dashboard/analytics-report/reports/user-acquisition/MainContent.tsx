@@ -1,7 +1,7 @@
 'use client';
 
 import DatePicker from "@/Components/ui/datepicker";
-import { AnalyticsUserAcquisitionGraphReport } from "@/utils/server/projects/analyticsAPI/google/userAcquisitionData";
+import { AnalyticsUserAcquisitionGraphReport, AnalyticsUserAcquisitionTableDataInterface } from "@/utils/server/projects/analyticsAPI/google/userAcquisitionData";
 import { useEffect, useState } from "react";
 import AnalyticsUserAcquisitionGraph from "./Graph";
 import { RiLoader4Line } from "@remixicon/react";
@@ -13,16 +13,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/Components/ui/select"
+import AnalyticsUserAcquisitionTable from "./Table";
 
 const UserAcquisitionMainContent = ({
   passingDateRange,
   userAcquisitionGraphData,
+  userAcquisitionTableData,
 }: {
   passingDateRange: {
     startDate: Date,
     endDate: Date,
   },
   userAcquisitionGraphData: AnalyticsUserAcquisitionGraphReport[],
+  userAcquisitionTableData: AnalyticsUserAcquisitionTableDataInterface[],
 }) => {
 
   const [dateRange, setDateRange] = useState<{
@@ -56,7 +59,7 @@ const UserAcquisitionMainContent = ({
 
   return (
     <div
-      className='w-full space-y-5'
+      className='w-full space-y-5 pb-10'
     >
       {/* Filter Date */}
       <div
@@ -127,6 +130,10 @@ const UserAcquisitionMainContent = ({
 
         </div>
       </AnalyticsUserAcquisitionGraph>
+
+      <AnalyticsUserAcquisitionTable
+        tableData={userAcquisitionTableData}
+      />
     </div>
   )
 }
