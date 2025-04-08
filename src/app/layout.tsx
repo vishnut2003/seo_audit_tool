@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import RouteLoader from "@/Components/RouteLoader";
 
 const rubik = localFont({
   src: './fonts/RubikFont.ttf',
@@ -23,6 +24,7 @@ export default function RootLayout({
         className={`${rubik.className} antialiased`}
       >
         {children}
+        <RouteLoader/>
       </body>
     </html>
   );
