@@ -33,7 +33,7 @@ const AnalyticsUserAcquisitionTable = ({
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]"></TableHead>
+                        <TableHead className="w-[200px]"></TableHead>
                         {tableHeadHeadings.map((heading, index) => (
                             <TableHead
                                 className="text-right max-w-[100px]"

@@ -179,7 +179,7 @@ export async function fetchAnalyticsUserAcquisitionTableData({
                 ],
                 dimensions: [
                     {
-                        name: "sessionSource",
+                        name: "firstUserDefaultChannelGroup",
                     },
                 ],
                 metrics: [
@@ -193,6 +193,15 @@ export async function fetchAnalyticsUserAcquisitionTableData({
                     { name: 'keyEvents' },
                     { name: 'userKeyEventRate' },
                 ],
+                dimensionFilter: {
+                    filter: {
+                        fieldName: 'firstUserDefaultChannelGroup',
+                        inListFilter: {
+                            values: sourcesList,
+                        },
+                    }
+                },
+                limit: 1000,
             })
 
             const finalResponse: AnalyticsUserAcquisitionTableDataInterface[] = [];
