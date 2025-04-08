@@ -5,11 +5,16 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import analyticsSidebarMenuItems from "./analyticsItems";
+import { RiLoader4Line } from "@remixicon/react";
 
 const SidebarMenu = () => {
 
     const pathname = usePathname();
     const [currentMenuItems, setCurrentMenuItems] = useState<(string | SidebarMenuItemsInterface)[]>(sidebarMenuItems);
+
+    const [isLoading, setIsLoading] = useState<{
+        [key: number]: boolean,
+    }>({});
 
     useEffect(() => {
         if (pathname.includes('/dashboard/analytics-report/reports')) {
@@ -29,8 +34,28 @@ const SidebarMenu = () => {
                     )
                 } else {
                     return (
-                        <Link href={menuItem.link} key={index} className={`flex min-w-max gap-2 py-3 px-4 rounded-lg ${menuItem.link === pathname || menuItem.subPages?.includes(pathname) ? 'bg-themesecondary text-white hover:bg-themesecondary' : 'hover:bg-gray-50'} ${menuItem.link === '/dashboard' && 'bg-gray-50'}`}>
-                            <menuItem.icon size={24} />
+                        <Link
+                            href={menuItem.link}
+                            key={index}
+                            className={`flex min-w-max gap-2 py-3 px-4 rounded-lg ${menuItem.link === pathname || menuItem.subPages?.includes(pathname) ? 'bg-themesecondary text-white hover:bg-themesecondary' : 'hover:bg-gray-50'} ${menuItem.link === '/dashboard' && 'bg-gray-50'}`}
+                            onClick={() => {
+                                setIsLoading({
+                                    [index]: true,
+                                });
+
+                                setTimeout(() => setIsLoading({}), 20000)
+                            }}
+                        >
+                            {
+                                isLoading[index] ?
+                                <RiLoader4Line
+                                    size={24}
+                                    className="animate-spin text-themesecondary"
+                                />
+                                : <menuItem.icon
+                                        size={24}
+                                    />
+                            }
                             <p className="whitespace-nowrap font-medium">{menuItem.name}</p>
                         </Link>
                     )
