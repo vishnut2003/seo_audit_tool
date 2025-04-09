@@ -307,6 +307,7 @@ export async function fetchReportByNewUsersSource({
 
 export interface AnalyticsReportTopPagesTitle {
     pageTitle: string,
+    pageUrl: string,
     views: number,
 }
 
@@ -336,6 +337,12 @@ export async function fetchAnalyticsReportTopPagesTitle({
                 dimensions: [
                     {
                         name: "pageTitle",
+                    },
+                    {
+                        name: "pagePath",
+                    },
+                    {
+                        name: "hostname",
                     }
                 ],
                 metrics: [
@@ -360,8 +367,12 @@ export async function fetchAnalyticsReportTopPagesTitle({
                 const value = row.metricValues?.[0].value
                 const intValue: number = typeof value === "string" ? parseInt(value) : 0;
 
+                const hostname = row.dimensionValues?.[2].value;
+                const pageUrlPath = row.dimensionValues?.[1].value;
+
                 const data: AnalyticsReportTopPagesTitle = {
                     pageTitle: row.dimensionValues?.[0].value || "No page title",
+                    pageUrl: `https://${hostname || "example.com"}${pageUrlPath || '/'}`,
                     views: intValue,
                 }
 

@@ -26,7 +26,7 @@ import {
 
 import countryNameToCode from "./countryCodeNames";
 import Image from "next/image";
-import { RiLoader4Line } from "@remixicon/react";
+import { RiArrowRightUpLongLine, RiLoader4Line } from "@remixicon/react";
 import GoogleAnalyticsBarChart from "@/Components/Recharts/GoogleAnalyticsBarChart";
 
 // import map using dynamic
@@ -342,11 +342,30 @@ const GoogleAnalyticsReportChart = ({
                                                         key={index}
                                                     >
                                                         <TableCell className="font-medium">
-                                                            <p
-                                                                className="line-clamp-2"
+                                                            <div
+                                                                className="space-y-2"
                                                             >
-                                                                {topPage.pageTitle}
-                                                            </p>
+                                                                <p
+                                                                    className="line-clamp-1"
+                                                                >
+                                                                    {topPage.pageTitle}
+                                                                </p>
+                                                                <div
+                                                                    className="flex items-center gap-1"
+                                                                >
+                                                                    <a
+                                                                        href={topPage.pageUrl}
+                                                                        className="font-normal opacity-80 text-xs"
+                                                                        rel="noopener noreferrer"
+                                                                        target="_blank"
+                                                                    >
+                                                                        Visit Page
+                                                                    </a>
+                                                                    <RiArrowRightUpLongLine
+                                                                        size={10}
+                                                                    />
+                                                                </div>
+                                                            </div>
                                                             <div
                                                                 className="h-[2px] bg-gray-200 rounded-full mt-2"
                                                             >
