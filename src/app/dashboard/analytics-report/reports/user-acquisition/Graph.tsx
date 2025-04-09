@@ -1,7 +1,7 @@
 'use cient';
 
 import { AnalyticsUserAcquisitionGraphReport } from "@/utils/server/projects/analyticsAPI/google/userAcquisitionData";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import {
     LineChart,
     Line,
@@ -45,8 +45,6 @@ const AnalyticsUserAcquisitionGraph = ({
     children: Readonly<ReactNode>,
 }) => {
 
-    useEffect(() => console.log(graphReport))
-
     return (
         <div
             className="w-full bg-white py-3 px-5 shadow-xl shadow-gray-200 rounded-md space-y-3"
@@ -83,7 +81,7 @@ const AnalyticsUserAcquisitionGraph = ({
                 
                 {/* Right Col */}
                 <div
-                    className="w-full flex flex-col md:flex-row items-center justify-end"
+                    className="w-max flex flex-col md:flex-row items-center justify-end"
                 >
                     {children}
                 </div>
@@ -110,7 +108,13 @@ const AnalyticsUserAcquisitionGraph = ({
                         tick={({ x, y, payload }: { x: number; y: number; payload: { value: string } }) => {
                             if (payload.value.includes('/')) {
 
-                                const formattedText = payload.value.split('/')[2]
+                                let formattedText;
+
+                                if (payload.value.split('/')[2]) {
+                                    formattedText = payload.value.split('/')[2]
+                                } else {
+                                    formattedText = payload.value.split('/')[1]
+                                }
 
                                 return (
                                     <text x={x} y={y + 10} textAnchor="middle" fontSize={12}>

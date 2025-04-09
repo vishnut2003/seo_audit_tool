@@ -1,5 +1,6 @@
+'use client'
+
 import { AnalyticsUserAcquisitionTableDataInterface } from '@/utils/server/projects/analyticsAPI/google/userAcquisitionData'
-import React from 'react'
 
 import {
     Table,
