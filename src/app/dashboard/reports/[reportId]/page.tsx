@@ -6,6 +6,7 @@ import AuditResultTemplate from "@/Components/ReportsPage/AuditResultTemplate/Au
 import { getReportResponseInterface } from "@/Interfaces/SeoOptimer/GetResponseInterface";
 import { getOneReportById } from "@/utils/client/auditReport";
 import { RiArrowLeftSLine } from "@remixicon/react"
+import { AxiosError } from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,7 +15,8 @@ const Page = () => {
 
     const [inProgress, setInprogress] = useState<boolean>(true);
     const [auditResult, setAuditResult] = useState<getReportResponseInterface | null>(null);
-    const [auditError, setAuditError] = useState<boolean>(false)
+    const [auditError, setAuditError] = useState<boolean>(false);
+    const [errorText, setErrorText] = useState<string | null>(null);
 
     const params = useParams<{ reportId: string }>();
 
@@ -27,6 +29,14 @@ const Page = () => {
             .catch((err) => {
                 console.log(err);
                 setAuditError(true);
+
+                if (
+                    err instanceof AxiosError &&
+                    typeof err.response?.data.error === 'string' 
+                ) {
+                    console.log(err.response.data.error);
+                    setErrorText(err.response.data.error);
+                }
             })
     }, [params])
 
@@ -43,7 +53,7 @@ const Page = () => {
 
             <div className="h-full">
                 {/* audit result section layout */
-                    auditError ? <AditResultError/> : inProgress ? <AuditResultProgress loadingText="Fetching Report..." /> : auditResult && <AuditResultTemplate fullReport={auditResult} />
+                    auditError ? <AditResultError errorText={errorText}/> : inProgress ? <AuditResultProgress loadingText="Fetching Report..." /> : auditResult && <AuditResultTemplate fullReport={auditResult} />
                 }
             </div>
         </div>

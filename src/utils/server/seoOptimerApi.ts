@@ -74,7 +74,16 @@ export async function getReport({ reportId }: {
         const response = await axios(config);
         const apiReponse = response.data as getReportResponseInterface;
 
-        if (!apiReponse.success) return reject('Report is in process. Please wait 5 min and try again.');
+        if (!apiReponse.success) {
+            if (
+                'message' in apiReponse.data &&
+                typeof apiReponse.data.message === "string"
+            ) {
+                return reject(apiReponse.data.message);
+            } else {
+                return reject("Report is in process. Please wait 5 min and try again.")
+            }
+        }
 
         resolve(apiReponse);
 
