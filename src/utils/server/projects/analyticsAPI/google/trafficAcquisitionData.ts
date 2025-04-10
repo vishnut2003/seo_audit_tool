@@ -1,10 +1,10 @@
-import { JWT, OAuth2Client } from "google-auth-library";
-import { BetaAnalyticsDataClient } from "@google-analytics/data";
-import { google } from "@google-analytics/data/build/protos/protos";
+import { BetaAnalyticsDataClient } from "@google-analytics/data"
+import { google } from "@google-analytics/data/build/protos/protos"
+import { JWT, OAuth2Client } from "google-auth-library"
 
-export interface AnalyticsUserAcquisitionGraphReport {
+export interface AnalyticsTrafficAcquisitionGraphReport {
     date: string,
-    [key: string]: string | number
+    [key: string]: string | number,
 }
 
 const sourcesList: string[] = [
@@ -15,10 +15,10 @@ const sourcesList: string[] = [
     'Unassigned',
 ]
 
-export async function fetchAnalyticsUserAcquisitionData({
+export async function fetchAnalyticsTrafficAcquisitionGraphData({
+    auth,
     dateRange,
     graphType,
-    auth,
     propertyId,
 }: {
     dateRange: {
@@ -26,12 +26,11 @@ export async function fetchAnalyticsUserAcquisitionData({
         endDate: string,
     },
     graphType: "date" | "week" | "month",
-    auth: JWT | OAuth2Client,
     propertyId: string,
+    auth: JWT | OAuth2Client,
 }) {
-    return new Promise<[AnalyticsUserAcquisitionGraphReport[]]>(async (resolve, reject) => {
+    return new Promise<AnalyticsTrafficAcquisitionGraphReport[]>(async (resolve, reject) => {
         try {
-
             const analyticsClient = new BetaAnalyticsDataClient({
                 authClient: (auth as any),
             })
@@ -51,15 +50,15 @@ export async function fetchAnalyticsUserAcquisitionData({
                         name: "year",
                     },
                     {
-                        name: "firstUserDefaultChannelGroup",
+                        name: "sessionDefaultChannelGroup",
                     },
                 ],
                 metrics: [
-                    { name: 'totalUsers' },
+                    { name: 'sessions' },
                 ],
                 dimensionFilter: {
                     filter: {
-                        fieldName: 'firstUserDefaultChannelGroup',
+                        fieldName: 'sessionDefaultChannelGroup',
                         inListFilter: {
                             values: sourcesList,
                         },
@@ -106,14 +105,13 @@ export async function fetchAnalyticsUserAcquisitionData({
                 }
             }
 
-            const graphReport: AnalyticsUserAcquisitionGraphReport[] = []
+            const graphReport: AnalyticsTrafficAcquisitionGraphReport[] = []
             for (const date of Object.keys(dailyTraffic)) {
                 graphReport.push((dailyTraffic[date as keyof typeof dailyTraffic] as any));
             }
 
-            return resolve([
-                graphReport,
-            ]);
+            return resolve(graphReport)
+
         } catch (err) {
             return reject(err);
         }
@@ -140,19 +138,19 @@ function generateDate({
     }
 }
 
-export interface AnalyticsUserAcquisitionTableDataInterface {
+export interface AnalyticsTrafficAcquisitionTableDataInterface {
     source: string,
-    totalUsers: number,
-    newUsers: number,
-    returningUsers: number,
-    averageEngagementTimePerActiveUsers: string,
-    engagedSessionPerActiveUsers: number,
+    sessions: number,
+    engagedSessions: number,
+    engagementRate: number,
+    eventsPerSession: number,
     eventCount: number,
-    keyEvent: number,
-    userKeyEventRate: number,
+    keyEvents: number,
+    sessionKeyEventRate: number,
+    averageEngagementTimePerSession: string,
 }
 
-export async function fetchAnalyticsUserAcquisitionTableData({
+export async function fetchAnalyticsTrafficAcquisitionTableData({
     auth,
     dateRange,
     propertyId,
@@ -164,7 +162,7 @@ export async function fetchAnalyticsUserAcquisitionTableData({
         endDate: string,
     }
 }) {
-    return new Promise<[AnalyticsUserAcquisitionTableDataInterface[]]>(async (resolve, reject) => {
+    return new Promise<AnalyticsTrafficAcquisitionTableDataInterface[]>(async (resolve, reject) => {
         try {
             const analyticsClient = new BetaAnalyticsDataClient({
                 authClient: (auth as any),
@@ -179,23 +177,22 @@ export async function fetchAnalyticsUserAcquisitionTableData({
                 ],
                 dimensions: [
                     {
-                        name: "firstUserDefaultChannelGroup",
+                        name: "sessionDefaultChannelGroup",
                     },
                 ],
                 metrics: [
-                    { name: 'totalUsers' },
-                    { name: 'newUsers' },
-                    { name: 'activeUsers' },
-                    { name: 'userEngagementDuration' },
-                    { name: 'sessions' },
-                    { name: 'engagedSessions' },
-                    { name: 'eventCount' },
-                    { name: 'keyEvents' },
-                    { name: 'userKeyEventRate' },
+                    { name: "sessions" },
+                    { name: "engagedSessions" },
+                    { name: "engagementRate" },
+                    { name: "userEngagementDuration" },
+                    { name: "eventsPerSession" },
+                    { name: "eventCount" },
+                    { name: "keyEvents" },
+                    { name: "sessionKeyEventRate" },
                 ],
                 dimensionFilter: {
                     filter: {
-                        fieldName: 'firstUserDefaultChannelGroup',
+                        fieldName: 'sessionDefaultChannelGroup',
                         inListFilter: {
                             values: sourcesList,
                         },
@@ -204,42 +201,40 @@ export async function fetchAnalyticsUserAcquisitionTableData({
                 limit: 1000,
             })
 
-            const finalResponse: AnalyticsUserAcquisitionTableDataInterface[] = [];
+            const finalResponse: AnalyticsTrafficAcquisitionTableDataInterface[] = [];
 
             for (const row of response.rows || []) {
-                const source = row.dimensionValues?.[0].value || "none";
+                const source = row.dimensionValues?.[0].value || "no source";
                 const [
-                    totalUsers,
-                    newUsers,
-                    activeUsers,
-                    userEngagementDuration,
                     sessions,
                     engagedSessions,
+                    engagementRate,
+                    userEngagementDuration,
+                    eventsPerSession,
                     eventCount,
                     keyEvents,
-                    userKeyEventRate,
+                    sessionKeyEventRate,
                 ]: (google.analytics.data.v1beta.IMetricValue | null)[] = row.metricValues || []
 
-                const averageEngagementTimePerSession = parseInt(userEngagementDuration.value || '0') / parseInt(sessions.value || '1');
-                const returningUsers = parseInt(activeUsers.value || '0') - parseInt(newUsers.value || '0');
-                const engagedSessionPerActiveUsers = parseFloat((parseInt(engagedSessions.value || '0') / parseInt(activeUsers.value || '1')).toFixed(2));
+                const averageEngagementTimePerSession = parseInt(userEngagementDuration.value || '0') / parseInt(sessions.value || '0');
+                const formattedAvgTimePerSession = formatDuration(averageEngagementTimePerSession);
 
-                const data: AnalyticsUserAcquisitionTableDataInterface = {
+                const data: AnalyticsTrafficAcquisitionTableDataInterface = {
                     source,
-                    totalUsers: parseInt(totalUsers.value || '0'),
-                    newUsers: parseInt(newUsers.value || '0'),
-                    returningUsers,
-                    averageEngagementTimePerActiveUsers: formatDuration(averageEngagementTimePerSession),
-                    engagedSessionPerActiveUsers,
+                    sessions: parseInt(sessions.value || '0'),
+                    engagedSessions: parseInt(engagedSessions.value || '0'),
+                    averageEngagementTimePerSession: formattedAvgTimePerSession,
+                    engagementRate: parseInt(engagementRate.value || '0'),
                     eventCount: parseInt(eventCount.value || '0'),
-                    keyEvent: parseInt(keyEvents.value || '0'),
-                    userKeyEventRate: parseInt(userKeyEventRate.value || '0'),
+                    eventsPerSession: parseInt(eventsPerSession.value || '0'),
+                    keyEvents: parseInt(keyEvents.value || '0'),
+                    sessionKeyEventRate: parseInt(sessionKeyEventRate.value || '0'),
                 }
 
                 finalResponse.push(data);
             }
 
-            return resolve([finalResponse]);
+            return resolve(finalResponse);
         } catch (err) {
             return reject(err);
         }

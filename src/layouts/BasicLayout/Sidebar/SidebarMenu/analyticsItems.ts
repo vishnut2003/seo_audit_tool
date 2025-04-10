@@ -22,7 +22,7 @@ const analyticsSidebarMenuItems: (string | SidebarMenuItemsInterface)[] = [
     {
         icon: RiGroupLine,
         name: "Traffic Acquisition",
-        link: "#",
+        link: "/dashboard/analytics-report/reports/traffic-acquisition",
     }
 ]
 
