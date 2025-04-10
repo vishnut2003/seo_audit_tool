@@ -14,6 +14,8 @@ import {
 import DatePicker from '@/Components/ui/datepicker';
 import AnalyticsTrafficAcquisitionGraph from './Graph';
 import AnalyticsTrafficAcquisitionTable from './Table';
+import axios, { AxiosError } from 'axios';
+import { AnalyticsTrafficAcquisitionApiRouteEntry } from '@/app/api/google-analytics/traffic-acquisition-report/route';
 
 const AnalyticsTrafficAcquisitionMainContent = ({
     graphReport,
@@ -46,6 +48,58 @@ const AnalyticsTrafficAcquisitionMainContent = ({
         setPassingTableReport(tableReport);
         setInProgress(false);
     }, [graphReport, tableReport])
+
+    async function updateAnalyticsData({
+        graphType,
+    }: {
+        graphType: "date" | "week" | "month" | null,
+    }) {
+        try {
+
+            setInProgress(true);
+
+            if (!graphType) {
+                graphType = graphTypeState;
+            }
+
+            const apiRequestEntry: AnalyticsTrafficAcquisitionApiRouteEntry = {
+                dateRange: {
+                    startDate: dateRange.startDate.toISOString().split('T')[0],
+                    endDate: dateRange.endDate.toISOString().split('T')[0],
+                },
+                graphType,
+            }
+
+            const response = await axios.post<[
+                AnalyticsTrafficAcquisitionGraphReport[],
+                AnalyticsTrafficAcquisitionTableDataInterface[],
+            ]>(
+                '/api/google-analytics/traffic-acquisition-report',
+                apiRequestEntry,
+            )
+
+            const [graphReport, tableReport] = response.data;
+
+            setPassingGraphReport(graphReport)
+            setPassingTableReport(tableReport);
+
+            setInProgress(false);
+
+        } catch (err: any) {
+            setInProgress(false);
+            if (err instanceof Error) {
+                setError(err.message);
+            } else if (err instanceof AxiosError) {
+                if (err.response?.data && typeof err.response.data === "string") {
+                    setError(err.response.data);
+                } else {
+                    setError(err.message);
+                }
+            } else {
+                setError("Something went wrong while updating analytics data!");
+            }
+        }
+    }
 
     if (error) {
         return (
@@ -122,6 +176,11 @@ const AnalyticsTrafficAcquisitionMainContent = ({
                 <button
                     className='px-3 py-2 bg-themeprimary text-white rounded-md text-sm disabled:opacity-50'
                     disabled={inProgress}
+                            onClick={() => {
+                                updateAnalyticsData({
+                                    graphType: null,
+                                })
+                            }}
                 >
                     {inProgress ? "Loading..." : "Apply"}
                 </button>
@@ -134,7 +193,14 @@ const AnalyticsTrafficAcquisitionMainContent = ({
                 {/* Select Date | Week | Month */}
                 <div>
 
-                    <Select>
+                    <Select
+                        onValueChange={(value) => {
+                            setGraphTypeState(value as any);
+                            updateAnalyticsData({
+                                graphType: value as any,
+                            })
+                        }}
+                    >
                         <SelectTrigger className="w-[180px] p-3 h-[40px] bg-gray-100 border border-gray-200 shadow-none capitalize">
                             <SelectValue placeholder={graphTypeState} />
                         </SelectTrigger>
