@@ -152,9 +152,19 @@ const SearchConsoleApiKey = ({ domain, projectId }: {
 
             <div>
                 <button
-                    className="flex w-max items-center gap-2 text-lg font-medium py-3 px-5 bg-white rounded-md shadow-xl shadow-gray-200"
+                    className="flex w-max items-center gap-2 text-lg font-medium py-3 px-5 bg-white rounded-md shadow-xl shadow-gray-200 disabled:opacity-40"
+                    disabled={inProgress}
                     onClick={async () => {
+                        setInProgress(true);
                         setWithGoogle_Error(null)
+
+                        const confirmation = window.confirm(`Please confirm the property ${domainPrefix === "domain" ? mainDomain : domainPrefix + mainDomain}`)
+
+                        if (!confirmation) {
+                            setInProgress(false);
+                            return;
+                        }
+
                         try {
                             const { data } = await axios.post('/api/project/google-oauth/search-console/get-auth-url',
                                 {
@@ -163,6 +173,7 @@ const SearchConsoleApiKey = ({ domain, projectId }: {
                             )
                             router.push(data);
                         } catch (err) {
+                            setInProgress(false);
                             if (err instanceof AxiosError) {
                                 setWithGoogle_Error(err.message);
                             } else {
@@ -180,7 +191,7 @@ const SearchConsoleApiKey = ({ domain, projectId }: {
                             width: '23px',
                         }}
                     />
-                    <p>Connect with Google</p>
+                    <p>{inProgress ? "Redirecting..." : "Connect with Google"}</p>
                 </button>
             </div>
 
