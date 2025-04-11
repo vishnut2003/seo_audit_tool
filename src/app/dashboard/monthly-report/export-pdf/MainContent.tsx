@@ -4,11 +4,13 @@ import { Document, Font, Image, PDFViewer } from '@react-pdf/renderer'
 import React, { useState } from 'react'
 import PageTemplate from './pdf/PageTemplate'
 import Convert2Image from './Convert2Image';
-import MonthlyReportMainContent from '../MainContent';
+import MonthlyReportHeader from '../sections/Header';
+import TrafficOverviewMonthlyReport from '../sections/TrafficOverview';
 
 const MainContentMonthlyReportExportPdf = () => {
 
-    const [sectionOneImage, setSectionOneImage] = useState<string | null>(null);
+    const [reportHeader, setReportHeader] = useState<string | null>(null);
+    const [trafficOverview, setTrafficOverview] = useState<string | null>(null);
 
     Font.register({
         family: 'Open Sans', fonts: [
@@ -17,12 +19,22 @@ const MainContentMonthlyReportExportPdf = () => {
         ]
     })
 
-    if (!sectionOneImage) {
+    if (!reportHeader) {
         return (
             <Convert2Image
-                onCapture={setSectionOneImage}
+                onCapture={setReportHeader}
             >
-                <MonthlyReportMainContent/>
+                <MonthlyReportHeader />
+            </Convert2Image>
+        )
+    }
+
+    if (!trafficOverview) {
+        return (
+            <Convert2Image
+                onCapture={setTrafficOverview}
+            >
+                <TrafficOverviewMonthlyReport />
             </Convert2Image>
         )
     }
@@ -38,12 +50,18 @@ const MainContentMonthlyReportExportPdf = () => {
                 title="Monthly Report" >
 
                 <PageTemplate>
-                    <Image
-                        src={sectionOneImage}
-                        style={{
-                            width: "100%",
-                        }}
-                    />
+                    {[
+                        reportHeader, 
+                        trafficOverview,
+                    ].map((section, index) => (
+                        <Image
+                            key={index}
+                            src={section}
+                            style={{
+                                width: "100%",
+                            }}
+                        />
+                    ))}
                 </PageTemplate>
 
             </Document>
