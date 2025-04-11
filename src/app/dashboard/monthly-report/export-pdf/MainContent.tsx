@@ -6,11 +6,13 @@ import PageTemplate from './pdf/PageTemplate'
 import Convert2Image from './Convert2Image';
 import MonthlyReportHeader from '../sections/Header';
 import TrafficOverviewMonthlyReport from '../sections/TrafficOverview';
+import SeoPerformanceMonthlyReport from '../sections/SeoPerformance';
 
 const MainContentMonthlyReportExportPdf = () => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
     const [trafficOverview, setTrafficOverview] = useState<string | null>(null);
+    const [seoPerformance, setSeoPerformance] = useState<string | null>(null);
 
     Font.register({
         family: 'Open Sans', fonts: [
@@ -39,6 +41,16 @@ const MainContentMonthlyReportExportPdf = () => {
         )
     }
 
+    if (!seoPerformance) {
+        return (
+            <Convert2Image
+                onCapture={setSeoPerformance}
+            >
+                <SeoPerformanceMonthlyReport />
+            </Convert2Image>
+        )
+    }
+
     return (
         <PDFViewer
             className="w-full h-[100%] absolute top-0 left-0"
@@ -51,8 +63,9 @@ const MainContentMonthlyReportExportPdf = () => {
 
                 <PageTemplate>
                     {[
-                        reportHeader, 
+                        reportHeader,
                         trafficOverview,
+                        seoPerformance,
                     ].map((section, index) => (
                         <Image
                             key={index}

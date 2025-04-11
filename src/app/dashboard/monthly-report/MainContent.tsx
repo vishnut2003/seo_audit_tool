@@ -1,6 +1,7 @@
 'use client';
 
 import MonthlyReportHeader from "./sections/Header";
+import SeoPerformanceMonthlyReport from "./sections/SeoPerformance";
 import TrafficOverviewMonthlyReport from "./sections/TrafficOverview";
 
 const MonthlyReportMainContent = () => {
@@ -13,6 +14,9 @@ const MonthlyReportMainContent = () => {
 
             {/* Traffic Overview */}
             <TrafficOverviewMonthlyReport/>
+
+            {/* SEO Performance */}
+            <SeoPerformanceMonthlyReport/>
         </div>
     )
 }
