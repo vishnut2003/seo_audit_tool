@@ -169,7 +169,7 @@ const TrafficOverviewMonthlyReport = () => {
                         )
                     },
 
-                    // BOUNCE RATE
+                    // Conversions
                     {
                         width: "100%",
                         height: "max-content",
@@ -179,7 +179,7 @@ const TrafficOverviewMonthlyReport = () => {
                                 noOfCol={4.2}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="Conversions"
                                     value={118}
                                 />
                                 <LineChartMonthlyReport
@@ -198,7 +198,7 @@ const TrafficOverviewMonthlyReport = () => {
                         )
                     },
 
-                    // BOUNCE RATE
+                    // SESSION CONVERSION RATE
                     {
                         width: "100%",
                         height: "max-content",
@@ -208,7 +208,7 @@ const TrafficOverviewMonthlyReport = () => {
                                 noOfCol={4.2}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="Session converstion rate"
                                     value={118}
                                 />
                                 <LineChartMonthlyReport
@@ -243,7 +243,7 @@ const TrafficOverviewMonthlyReport = () => {
                                 noOfCol={1}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="Top channels over time"
                                 />
                                 <BarChartTemplateMonthlyReport
                                     data={dummyData}
@@ -280,7 +280,7 @@ const TrafficOverviewMonthlyReport = () => {
             <SectionTemplateMonthlyReport
                 setContainerWidth={setContainerWidth}
                 elementsData={[
-                    // TOP CHANNELS OVER TIME
+                    // New Users
                     {
                         width: "50%",
                         height: "max-content",
@@ -290,7 +290,7 @@ const TrafficOverviewMonthlyReport = () => {
                                 noOfCol={4}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="New users"
                                     value={118}
                                 />
                                 <AreaChartMonthlyReport
@@ -319,7 +319,7 @@ const TrafficOverviewMonthlyReport = () => {
                                 noOfCol={1.35}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="Engaged session by country"
                                 />
                                 <EngagedSessionByCountryMonthlyReport
                                     data={dummyData}

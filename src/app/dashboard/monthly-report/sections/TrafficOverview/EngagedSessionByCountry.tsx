@@ -1,12 +1,10 @@
 'use client';
 
-import { htmlColorCodes } from "@/Components/Recharts/MonthlyReportCharts/BarChart";
 import PieChartMonthlyReport from "@/Components/Recharts/MonthlyReportCharts/PieChart";
 
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,

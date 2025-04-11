@@ -112,7 +112,7 @@ const SeoPerformanceMonthlyReport = () => {
             <SectionTemplateMonthlyReport
                 setContainerWidth={setContainerWidth}
                 elementsData={[
-                    // TOTAL SESSIONS
+                    // SESSION FROM ORGANIC
                     {
                         width: "100%",
                         height: "max-content",
@@ -122,7 +122,7 @@ const SeoPerformanceMonthlyReport = () => {
                                 noOfCol={4.2}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="Session from organic"
                                     value={118}
                                 />
                                 <BarChartTemplateMonthlyReport
@@ -141,7 +141,7 @@ const SeoPerformanceMonthlyReport = () => {
                         )
                     },
 
-                    // BOUNCE RATE
+                    // ENGAGED SESSION ORGANIC
                     {
                         width: "100%",
                         height: "max-content",
@@ -151,7 +151,7 @@ const SeoPerformanceMonthlyReport = () => {
                                 noOfCol={4.2}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Bounce rate"
+                                    graphName="Engaged session organic"
                                     value={118}
                                 />
                                 <AreaChartMonthlyReport
@@ -170,7 +170,7 @@ const SeoPerformanceMonthlyReport = () => {
                         )
                     },
 
-                    // BOUNCE RATE
+                    // CONVERSION FROM ORGANIC
                     {
                         width: "100%",
                         height: "max-content",
@@ -180,7 +180,7 @@ const SeoPerformanceMonthlyReport = () => {
                                 noOfCol={4.2}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="Conversion from organic"
                                     value={118}
                                 />
                                 <LineChartMonthlyReport
@@ -199,7 +199,7 @@ const SeoPerformanceMonthlyReport = () => {
                         )
                     },
 
-                    // BOUNCE RATE
+                    // REVENUE FROM ORGANIC
                     {
                         width: "100%",
                         height: "max-content",
@@ -209,7 +209,7 @@ const SeoPerformanceMonthlyReport = () => {
                                 noOfCol={4.2}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="Revenue from organic"
                                     value={118}
                                 />
                                 <LineChartMonthlyReport
@@ -234,7 +234,7 @@ const SeoPerformanceMonthlyReport = () => {
             <SectionTemplateMonthlyReport
                 setContainerWidth={setContainerWidth}
                 elementsData={[
-                    // TOTAL SESSIONS
+                    // TOP LANDING PAGES FROM ORGANIC
                     {
                         width: "100%",
                         height: "max-content",
@@ -244,14 +244,14 @@ const SeoPerformanceMonthlyReport = () => {
                                 noOfCol={3.1}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Total session"
+                                    graphName="Top landing pages from organic"
                                 />
                                 <TopLandingPageMonthlyReport/>
                             </ColumnLayoutMonthlyReport>
                         )
                     },
 
-                    // BOUNCE RATE
+                    // TOP BROWSERS
                     {
                         width: "100%",
                         height: "max-content",
@@ -261,7 +261,7 @@ const SeoPerformanceMonthlyReport = () => {
                                 noOfCol={1.5}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Bounce rate"
+                                    graphName="Top browsers"
                                 />
                                 <TopBrowsersMonthlyReport/>
                             </ColumnLayoutMonthlyReport>
