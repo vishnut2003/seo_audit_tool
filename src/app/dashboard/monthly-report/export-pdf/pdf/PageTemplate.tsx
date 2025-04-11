@@ -1,6 +1,5 @@
 import { Page, StyleSheet, View } from '@react-pdf/renderer'
 import React, { ReactNode } from 'react'
-import PDFPageHeader from './PageHeader'
 import PDFPageFooter from './PageFooter'
 
 const PageTemplate = ({
@@ -25,7 +24,6 @@ const PageTemplate = ({
             size="A4"
             orientation="portrait"
             style={styleSheet.pageStyle}>
-            <PDFPageHeader />
             <View style={styleSheet.contentWrapper}>
                 {children}
             </View>

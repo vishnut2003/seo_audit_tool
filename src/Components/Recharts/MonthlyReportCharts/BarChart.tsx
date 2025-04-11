@@ -1,22 +1,38 @@
 import React from 'react'
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
+const htmlColorCodes: string[] = [
+    "#3c50e0",
+    "#db3511",
+    "#7f28dc",
+    "#289ddc",
+    "#28dc6f",
+]
+
+export { htmlColorCodes }
+
 const BarChartTemplateMonthlyReport = ({
     data,
     barValues,
     xAxisDataKey,
     yAxisDataKey,
+    showXLable,
+    height,
+    barSize,
 }: {
     data: any[],
     xAxisDataKey: string,
     yAxisDataKey: string,
     barValues: string[],
+    showXLable?: boolean,
+    height?: string,
+    barSize?: number,
 }) => {
     return (
         <ResponsiveContainer
             className={'flex items-center bg-white'}
             width={'100%'}
-            height={'40%'}
+            height={height || "40%"}
         >
             <BarChart
                 data={data}
@@ -29,7 +45,7 @@ const BarChartTemplateMonthlyReport = ({
                     strokeWidth={'1px'}
                     strokeOpacity={'15%'}
                     className='text-xs md:text-sm font-semibold'
-                    hide={true}
+                    hide={showXLable ? false : true}
                 />
 
                 <YAxis
@@ -79,8 +95,9 @@ const BarChartTemplateMonthlyReport = ({
                         key={index}
                         dataKey={value}
                         strokeWidth={'0px'}
-                        fill='#3c50e0'
-                        barSize={10}
+                        fill={htmlColorCodes[index]}
+                        barSize={barSize || 10}
+                        stackId={index}
                     />
                 ))}
 

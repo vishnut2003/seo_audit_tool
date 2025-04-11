@@ -36,7 +36,7 @@ const MonthlyReportHeader = () => {
                     <div>
                         <Select>
                             <SelectTrigger
-                                className="w-max shadow-none h-fit bg-white p-0"
+                                className="w-max bg-white h-[20px] shadow-xl shadow-gray-200"
                             >
                                 <SelectValue
                                     className="m-0"
@@ -66,7 +66,7 @@ const MonthlyReportHeader = () => {
                     }}
                 >
                     <SelectTrigger
-                        className="w-max shadow-none h-[20px] bg-white disabled:opacity-40"
+                        className="w-max h-[20px] bg-white disabled:opacity-40 shadow-xl shadow-gray-200"
                         disabled={inProgress}
                     >
                         <SelectValue placeholder={"Export as"} />

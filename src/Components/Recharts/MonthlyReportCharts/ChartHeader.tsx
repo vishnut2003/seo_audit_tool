@@ -5,22 +5,25 @@ const ChartHeaderMonthlyReport = ({
     value,
 }: {
     graphName: string,
-    value: number,
+    value?: number,
 }) => {
-  return (
-    <div
-        className='flex flex-col'
-    >
-        <p
-            className='text-sm font-light uppercase'
-        >{graphName}</p>
-        <p
-            className='text-lg font-semibold'
+    return (
+        <div
+            className='flex flex-col'
         >
-            {value}
-        </p>
-    </div>
-  )
+            <p
+                className='text-sm font-light uppercase'
+            >{graphName}</p>
+            {
+                value &&
+                <p
+                    className='text-lg font-semibold'
+                >
+                    {value}
+                </p>
+            }
+        </div>
+    )
 }
 
 export default ChartHeaderMonthlyReport
