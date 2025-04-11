@@ -2,6 +2,7 @@ import { RiArrowLeftSLine } from '@remixicon/react'
 import Link from 'next/link'
 import React from 'react'
 import MainContentMonthlyReportExportPdf from './MainContent'
+import TripleDotLoading from '@/Components/Loaders/TripleDotLoading/TripleDotLoading'
 
 const MonthlyReportExportAsPDFPage = () => {
     return (
@@ -16,6 +17,17 @@ const MonthlyReportExportAsPDFPage = () => {
             </Link>
 
             <div className="h-full relative">
+
+                {/* Loading state */}
+                <div
+                    className='w-full h-full flex flex-col justify-center items-center text-white gap-2'
+                >
+                    <TripleDotLoading
+                        lightTheme={true}
+                    />
+                    <p>Generating PDF Report...</p>
+                </div>
+
                 <MainContentMonthlyReportExportPdf />
             </div>
         </div>
