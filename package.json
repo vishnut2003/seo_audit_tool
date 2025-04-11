@@ -32,6 +32,7 @@
     "framer-motion": "^12.4.7",
     "google-auth-library": "^9.15.1",
     "google-spreadsheet": "^4.1.4",
+    "html2canvas": "^1.4.1",
     "jsdom": "^26.0.0",
     "lucide-react": "^0.475.0",
     "markdown-to-jsx": "^7.7.4",
