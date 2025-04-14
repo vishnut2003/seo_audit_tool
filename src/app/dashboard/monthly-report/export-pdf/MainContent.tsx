@@ -65,6 +65,19 @@ const MainContentMonthlyReportExportPdf = () => {
                     {[
                         reportHeader,
                         trafficOverview,
+                    ].map((section, index) => (
+                        <Image
+                            key={index}
+                            src={section}
+                            style={{
+                                width: "100%",
+                            }}
+                        />
+                    ))}
+                </PageTemplate>
+                
+                <PageTemplate>
+                    {[
                         seoPerformance,
                     ].map((section, index) => (
                         <Image
