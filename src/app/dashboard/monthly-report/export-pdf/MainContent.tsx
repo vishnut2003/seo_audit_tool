@@ -8,8 +8,13 @@ import MonthlyReportHeader from '../sections/Header';
 import TrafficOverviewMonthlyReport from '../sections/TrafficOverview';
 import SeoPerformanceMonthlyReport from '../sections/SeoPerformance';
 import PpcPerformanceMonthlyReport from '../sections/PpcPerformance';
+import { TotalSessionMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalSession';
 
-const MainContentMonthlyReportExportPdf = () => {
+const MainContentMonthlyReportExportPdf = ({
+    sessionData,
+}: {
+    sessionData: TotalSessionMonthlyReportInterface,
+}) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
     const [trafficOverview, setTrafficOverview] = useState<string | null>(null);
@@ -38,7 +43,9 @@ const MainContentMonthlyReportExportPdf = () => {
             <Convert2Image
                 onCapture={setTrafficOverview}
             >
-                <TrafficOverviewMonthlyReport />
+                <TrafficOverviewMonthlyReport
+                    totalSessionData={sessionData}
+                />
             </Convert2Image>
         )
     }
