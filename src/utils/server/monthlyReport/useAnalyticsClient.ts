@@ -6,7 +6,7 @@ export interface AnalyticsClientReturnValueInterface {
     metrics: number[],
 }
 
-export async function useAnalyticsClient({
+export async function fetchAnalyticsClient({
     analyticsClient,
     dateRange,
     dimensions,

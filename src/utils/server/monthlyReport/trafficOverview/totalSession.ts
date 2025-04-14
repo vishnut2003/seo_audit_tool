@@ -1,5 +1,5 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
-import { useAnalyticsClient } from "../useAnalyticsClient";
+import { fetchAnalyticsClient } from "../useAnalyticsClient";
 
 interface DateRangeInterface {
     startDate: string,
@@ -55,7 +55,7 @@ export async function fetchTotalSessionMonthlyReport({
                 ]
 
             // Fetch ticks data for graph
-            const graphData = await useAnalyticsClient({
+            const graphData = await fetchAnalyticsClient({
                 propertyId,
                 analyticsClient,
                 dateRange: {
@@ -106,7 +106,7 @@ export async function fetchTotalSessionMonthlyReport({
                 dateFilters.prevMonth,
                 dateFilters.currentMonthPrevYear,
             ]) {
-                const report = await useAnalyticsClient({
+                const report = await fetchAnalyticsClient({
                     analyticsClient,
                     propertyId,
                     dateRange,
