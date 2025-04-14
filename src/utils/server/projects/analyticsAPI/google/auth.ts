@@ -69,6 +69,7 @@ export async function authorizeWithOAuthClient({ token }: {
                 } catch (err) {
                     // refresh token expaired
                     console.log("refresh token expaired!", err);
+                    return reject(err);
                 }
             }
 

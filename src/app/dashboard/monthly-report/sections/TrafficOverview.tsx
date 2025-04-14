@@ -9,6 +9,7 @@ import SectionTemplateMonthlyReport from '../SectionTemplate'
 import BarChartTemplateMonthlyReport, { htmlColorCodes } from '@/Components/Recharts/MonthlyReportCharts/BarChart';
 import AreaChartMonthlyReport from '@/Components/Recharts/MonthlyReportCharts/AreaChart';
 import EngagedSessionByCountryMonthlyReport from './TrafficOverview/EngagedSessionByCountry';
+import { TotalSessionMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalSession';
 
 const dummyData: {
     date: string,
@@ -90,7 +91,11 @@ const dummyData: {
         },
     ];
 
-const TrafficOverviewMonthlyReport = () => {
+const TrafficOverviewMonthlyReport = ({
+    totalSessionData,
+}: {
+    totalSessionData: TotalSessionMonthlyReportInterface | null,
+}) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
 
@@ -122,19 +127,20 @@ const TrafficOverviewMonthlyReport = () => {
                             >
                                 <ChartHeaderMonthlyReport
                                     graphName="Total session"
-                                    value={118}
+                                    value={totalSessionData?.currentMonthSession}
+                                    prevMonthValue={totalSessionData?.prevMonthSession}
                                 />
                                 <BarChartTemplateMonthlyReport
-                                    data={dummyData}
+                                    data={totalSessionData?.graphTicks || []}
                                     xAxisDataKey={'date'}
-                                    yAxisDataKey={'value'}
+                                    yAxisDataKey={'session'}
                                     barValues={[
-                                        "value",
+                                        "session",
                                     ]}
                                 />
                                 <ChartFooterMonthlyReport
-                                    prevPeriodPercent={40}
-                                    prevYearPercent={200}
+                                    prevPeriodPercent={totalSessionData?.percent.prevMonth}
+                                    prevYearPercent={totalSessionData?.percent.prevYear}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )
@@ -228,7 +234,7 @@ const TrafficOverviewMonthlyReport = () => {
                     },
                 ]}
             />
-            
+
             {/* Second Row */}
             <SectionTemplateMonthlyReport
                 setContainerWidth={setContainerWidth}
@@ -275,7 +281,7 @@ const TrafficOverviewMonthlyReport = () => {
                     },
                 ]}
             />
-            
+
             {/* Thirs Row */}
             <SectionTemplateMonthlyReport
                 setContainerWidth={setContainerWidth}
@@ -308,7 +314,7 @@ const TrafficOverviewMonthlyReport = () => {
                             </ColumnLayoutMonthlyReport>
                         )
                     },
-                    
+
                     // Engaged Session By Country
                     {
                         width: "100%",

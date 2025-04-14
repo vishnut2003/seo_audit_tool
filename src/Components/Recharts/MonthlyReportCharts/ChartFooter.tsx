@@ -53,17 +53,17 @@ const ChartFooterMonthlyReport = ({
                     className='text-sm'
                 >Prev Period</p>
                 <p
-                    className='text-xs text-green-600 font-medium'
+                    className={`text-xs font-medium ${prevPeriodPercent && prevPeriodPercent < 0 ? "text-red-500": "text-green-500"}`}
                 >{prevPeriodPercent}%</p>
             </div>
             <div
-                className='space-y-1'
+                className='flex flex-col gap-0'
             >
                 <p
                     className='text-sm text-right'
                 >Prev Year</p>
                 <p
-                    className='text-xs text-green-600 font-medium text-right'
+                    className={`text-xs font-medium text-right ${prevYearPercent && prevYearPercent < 0 ? "text-red-500": "text-green-500"}`}
                 >{prevYearPercent}%</p>
             </div>
         </div>
