@@ -10,6 +10,7 @@ import AreaChartMonthlyReport from "@/Components/Recharts/MonthlyReportCharts/Ar
 import LineChartMonthlyReport from "@/Components/Recharts/MonthlyReportCharts/LineChart";
 import TopLandingPageMonthlyReport from "./SeoPerformance/TopLandingPage";
 import TopBrowsersMonthlyReport from "./SeoPerformance/TopBrowsers";
+import TopPagesBySessionFromOrganic from "./SeoPerformance/TopPagesBySessionFromOrganic";
 
 const dummyData: {
     date: string,
@@ -263,7 +264,32 @@ const SeoPerformanceMonthlyReport = () => {
                                 <ChartHeaderMonthlyReport
                                     graphName="Top browsers"
                                 />
-                                <TopBrowsersMonthlyReport/>
+                                <TopBrowsersMonthlyReport
+                                    data={dummyData}
+                                />
+                            </ColumnLayoutMonthlyReport>
+                        )
+                    },
+                ]}
+            />
+            
+            {/* Third Row */}
+            <SectionTemplateMonthlyReport
+                setContainerWidth={setContainerWidth}
+                elementsData={[
+                    // TOP PAGE BY SESSION FROM ORGANIC
+                    {
+                        width: "100%",
+                        height: "max-content",
+                        element: () => (
+                            <ColumnLayoutMonthlyReport
+                                containerWidth={containerWidth}
+                                noOfCol={1}
+                            >
+                                <ChartHeaderMonthlyReport
+                                    graphName="Top landing pages from organic"
+                                />
+                                <TopPagesBySessionFromOrganic/>
                             </ColumnLayoutMonthlyReport>
                         )
                     },

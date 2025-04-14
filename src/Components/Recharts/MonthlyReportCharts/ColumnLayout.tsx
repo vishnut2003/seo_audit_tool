@@ -35,6 +35,7 @@ const ColumnLayoutMonthlyReport = ({
             style={{
                 width: `${containerWidth / noOfCol}px`,
                 height: `${containerWidth / 4}px`,
+                minHeight: "max-content",
             }}
         >
             {children}
