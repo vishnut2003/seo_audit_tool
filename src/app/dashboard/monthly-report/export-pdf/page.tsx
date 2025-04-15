@@ -63,6 +63,7 @@ const MonthlyReportExportAsPDFPage = async () => {
             totalBounceRate,
             conversionData,
             sessionConversionData,
+            topChannelsData,
         } = await fetchMonthlyReportTrafficOverview({
             auth,
             filters: {
@@ -100,6 +101,7 @@ const MonthlyReportExportAsPDFPage = async () => {
                         bounceRateData={totalBounceRate}
                         conversionData={conversionData}
                         sessionConversionData={sessionConversionData}
+                        topChannelsData={topChannelsData}
                     />
                 </div>
             </div>

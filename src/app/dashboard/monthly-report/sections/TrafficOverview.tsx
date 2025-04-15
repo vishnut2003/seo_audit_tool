@@ -13,6 +13,7 @@ import { TotalSessionMonthlyReportInterface } from '@/utils/server/monthlyReport
 import { TotalBounceRateMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalBounceRate';
 import { ConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/conversionsData';
 import { SessionConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/sessionConversionData';
+import { TopChannelsDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/topChannels';
 
 const dummyData: {
     date: string,
@@ -99,11 +100,13 @@ const TrafficOverviewMonthlyReport = ({
     totalBounceRate,
     conversionData,
     sessionConversionData,
+    topChannelsData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface | null,
     totalBounceRate: TotalBounceRateMonthlyReportInterface | null,
     conversionData: ConversionDataMonthlyReportInterface | null,
     sessionConversionData: SessionConversionDataMonthlyReportInterface | null,
+    topChannelsData: TopChannelsDataMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -264,26 +267,23 @@ const TrafficOverviewMonthlyReport = ({
                                     graphName="Top channels over time"
                                 />
                                 <BarChartTemplateMonthlyReport
-                                    data={dummyData}
+                                    data={topChannelsData?.graphTicks || []}
                                     height='60%'
-                                    barSize={15}
+                                    barSize={10}
                                     xAxisDataKey={'date'}
-                                    yAxisDataKey={'value'}
-                                    barValues={[
-                                        "value",
-                                        "value2",
-                                        "value3",
-                                    ]}
+                                    yAxisDataKey={''}
+                                    barValues={Object.keys(topChannelsData?.graphTicks[0].channels || {}).map((channelKey) => `channels.${channelKey}`)}
                                     showXLable={true}
+                                    xAxisTickFormatter={(value) => {
+                                        const date = new Date(value);
+                                        const month = date.toLocaleString('default', { month: "short" })
+                                        return month;
+                                    }}
                                 />
                                 <ChartFooterMonthlyReport
                                     prevPeriodPercent={40}
                                     prevYearPercent={200}
-                                    legends={[
-                                        "value",
-                                        "value2",
-                                        "value3",
-                                    ].map((value, index) => ({
+                                    legends={Object.keys(topChannelsData?.graphTicks[0].channels || {}).map((value, index) => ({
                                         name: value,
                                         color: htmlColorCodes[index],
                                     }))}

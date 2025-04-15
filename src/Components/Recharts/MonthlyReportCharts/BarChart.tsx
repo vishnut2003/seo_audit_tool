@@ -19,6 +19,7 @@ const BarChartTemplateMonthlyReport = ({
     showXLable,
     height,
     barSize,
+    xAxisTickFormatter,
 }: {
     data: any[],
     xAxisDataKey: string,
@@ -27,6 +28,7 @@ const BarChartTemplateMonthlyReport = ({
     showXLable?: boolean,
     height?: string,
     barSize?: number,
+    xAxisTickFormatter?: (value: string) => string,
 }) => {
     return (
         <ResponsiveContainer
@@ -46,6 +48,7 @@ const BarChartTemplateMonthlyReport = ({
                     strokeOpacity={'15%'}
                     className='text-xs md:text-sm font-semibold'
                     hide={showXLable ? false : true}
+                    tickFormatter={xAxisTickFormatter}
                 />
 
                 <YAxis

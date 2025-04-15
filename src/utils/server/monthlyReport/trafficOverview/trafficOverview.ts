@@ -5,6 +5,7 @@ import { getDateRangeForMonth, getLast12MonthsRanges, getPrevShortMonth } from "
 import { fetchTotalBounceRateMonthlyReport, TotalBounceRateMonthlyReportInterface } from "./totalBounceRate";
 import { ConversionDataMonthlyReportInterface, fetchConversionDataMonthlyReport } from "./conversionsData";
 import { fetchSessionConversionDataMonthlyReport, SessionConversionDataMonthlyReportInterface } from "./sessionConversionData";
+import { fetchTopChannelsOverTimeMonthlyReport, TopChannelsDataMonthlyReportInterface } from "./topChannels";
 
 export interface MonthlyReportTrafficOverviewFilters {
     currentMonth: string,
@@ -16,6 +17,7 @@ export interface MonthlyReportTrafficOverviewResponse {
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
     conversionData: ConversionDataMonthlyReportInterface,
     sessionConversionData: SessionConversionDataMonthlyReportInterface,
+    topChannelsData: TopChannelsDataMonthlyReportInterface,
 }
 
 export async function fetchMonthlyReportTrafficOverview({
@@ -65,12 +67,14 @@ export async function fetchMonthlyReportTrafficOverview({
             const bounceRateData = await fetchTotalBounceRateMonthlyReport(requestParameters)
             const conversionData = await fetchConversionDataMonthlyReport(requestParameters)
             const sessionConversionData = await fetchSessionConversionDataMonthlyReport(requestParameters)
+            const topChannelsData = await fetchTopChannelsOverTimeMonthlyReport(requestParameters)
 
             return resolve({
                 totalSessions: sessionData,
                 totalBounceRate: bounceRateData,
                 conversionData,
                 sessionConversionData,
+                topChannelsData,
             })
 
         } catch (err: any) {

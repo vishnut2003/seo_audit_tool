@@ -92,6 +92,7 @@ const MonthlyReportPage = async () => {
       totalBounceRate,
       conversionData,
       sessionConversionData,
+      topChannelsData,
     } = await fetchMonthlyReportTrafficOverview({
       auth,
       filters: {
@@ -110,6 +111,7 @@ const MonthlyReportPage = async () => {
           totalBounceRate={totalBounceRate}
           conversionData={conversionData}
           sessionConversionData={sessionConversionData}
+          topChannelsData={topChannelsData}
         />
       </BasicLayout>
     )

@@ -12,17 +12,20 @@ import { TotalSessionMonthlyReportInterface } from '@/utils/server/monthlyReport
 import { TotalBounceRateMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalBounceRate';
 import { ConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/conversionsData';
 import { SessionConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/sessionConversionData';
+import { TopChannelsDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/topChannels';
 
 const MainContentMonthlyReportExportPdf = ({
     sessionData,
     bounceRateData,
     conversionData,
-    sessionConversionData
+    sessionConversionData,
+    topChannelsData,
 }: {
     sessionData: TotalSessionMonthlyReportInterface,
     bounceRateData: TotalBounceRateMonthlyReportInterface,
     conversionData: ConversionDataMonthlyReportInterface,
     sessionConversionData: SessionConversionDataMonthlyReportInterface,
+    topChannelsData: TopChannelsDataMonthlyReportInterface,
 }) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
@@ -57,6 +60,7 @@ const MainContentMonthlyReportExportPdf = ({
                     totalBounceRate={bounceRateData}
                     conversionData={conversionData}
                     sessionConversionData={sessionConversionData}
+                    topChannelsData={topChannelsData}
                 />
             </Convert2Image>
         )

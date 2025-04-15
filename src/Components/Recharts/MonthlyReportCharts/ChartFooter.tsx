@@ -18,7 +18,7 @@ const ChartFooterMonthlyReport = ({
             <div>
                 {/* Legends */}
                 <div
-                    className='flex items-center gap-4'
+                    className='flex items-center gap-6'
                 >
                     {legends.map((legend, index) => (
                         <div
@@ -26,14 +26,14 @@ const ChartFooterMonthlyReport = ({
                             key={index}
                         >
                             <div
-                                className='w-4 h-4 rounded-sm'
+                                className='w-3 h-3 rounded-sm'
                                 style={{
                                     backgroundColor: legend.color,
                                 }}
                             ></div>
 
                             <p
-                                className='capitalize opacity-80'
+                                className='capitalize text-sm'
                             >{legend.name}</p>
                         </div>
                     ))}
