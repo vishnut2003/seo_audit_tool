@@ -11,6 +11,7 @@ import { ConversionDataMonthlyReportInterface } from "@/utils/server/monthlyRepo
 import { SessionConversionDataMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/sessionConversionData";
 import { TopChannelsDataMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/topChannels";
 import { NewUsersDataMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/newUsersData";
+import { TotalSessionByCountryMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/engagedSessionByCountry";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -19,6 +20,7 @@ const MonthlyReportMainContent = ({
     sessionConversionData,
     topChannelsData,
     newUsersData,
+    sessionByCountryData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
@@ -26,6 +28,7 @@ const MonthlyReportMainContent = ({
     sessionConversionData: SessionConversionDataMonthlyReportInterface,
     topChannelsData: TopChannelsDataMonthlyReportInterface,
     newUsersData: NewUsersDataMonthlyReportInterface,
+    sessionByCountryData: TotalSessionByCountryMonthlyReportInterface,
 }) => {
 
     const [passingTotalSessionData, setPassingTotalSessionData] = useState<TotalSessionMonthlyReportInterface | null>(null);
@@ -34,6 +37,7 @@ const MonthlyReportMainContent = ({
     const [passingSessionConversionData, setPassingSessionConversionData] = useState<SessionConversionDataMonthlyReportInterface | null>(null);
     const [passingTopChannelsData, setPassingTopChannelsData] = useState<TopChannelsDataMonthlyReportInterface | null>(null);
     const [passingNewUsersData, setPassingNewUsersData] = useState<NewUsersDataMonthlyReportInterface | null>(null);
+    const [passingSessionByCountryData, setPassingSessionByCountryData] = useState<TotalSessionByCountryMonthlyReportInterface | null>(null);
 
     useEffect(() => {
         setPassingTotalSessionData(totalSessionData);
@@ -42,6 +46,7 @@ const MonthlyReportMainContent = ({
         setPassingSessionConversionData(sessionConversionData);
         setPassingTopChannelsData(topChannelsData);
         setPassingNewUsersData(newUsersData);
+        setPassingSessionByCountryData(sessionByCountryData);
     }, [
         totalSessionData,
         totalBounceRate,
@@ -49,6 +54,7 @@ const MonthlyReportMainContent = ({
         sessionConversionData,
         topChannelsData,
         newUsersData,
+        sessionByCountryData,
     ]);
 
     return (
@@ -66,6 +72,7 @@ const MonthlyReportMainContent = ({
                 sessionConversionData={passingSessionConversionData}
                 topChannelsData={passingTopChannelsData}
                 newUsersData={passingNewUsersData}
+                sessionByCountry={passingSessionByCountryData}
             />
 
             {/* SEO Performance */}

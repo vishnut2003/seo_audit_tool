@@ -4,8 +4,10 @@ import { htmlColorCodes } from './BarChart'
 
 const PieChartMonthlyReport = ({
     data,
+    dataKey,
 }: {
     data: any[],
+    dataKey: string,
 }) => {
     return (
         <ResponsiveContainer
@@ -51,16 +53,19 @@ const PieChartMonthlyReport = ({
                     cy="50%" // center y
                     outerRadius={65}
                     fill="#8884d8"
-                    dataKey="value"
+                    dataKey={dataKey}
                     label
                 >
-                    {data.map((value, index) => (
-                        <Cell
-                            key={`cell-${value.date}`}
-                            fill={htmlColorCodes[index]}
-                            
-                        />
-                    ))}
+                    {data.map((value, index) => {
+                        console.log(value);
+                        return (
+                            <Cell
+                                key={`cell-${value[dataKey]}`}
+                                fill={htmlColorCodes[index]}
+
+                            />
+                        )
+                    })}
                 </Pie>
             </PieChart>
         </ResponsiveContainer>

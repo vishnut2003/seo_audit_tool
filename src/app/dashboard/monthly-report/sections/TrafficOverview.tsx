@@ -15,86 +15,7 @@ import { ConversionDataMonthlyReportInterface } from '@/utils/server/monthlyRepo
 import { SessionConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/sessionConversionData';
 import { TopChannelsDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/topChannels';
 import { NewUsersDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/newUsersData';
-
-const dummyData: {
-    date: string,
-    value: number,
-    value2: number,
-    value3: number,
-}[] = [
-        {
-            date: "Jan",
-            value: 10,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Feb",
-            value: 15,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Mar",
-            value: 6,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Apr",
-            value: 3,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "May",
-            value: 20,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Jun",
-            value: 5,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Jul",
-            value: 6,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Aug",
-            value: 8,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Sep",
-            value: 12,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Oct",
-            value: 11,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Oct",
-            value: 11,
-            value2: 10,
-            value3: 16,
-        },
-        {
-            date: "Oct",
-            value: 11,
-            value2: 10,
-            value3: 16,
-        },
-    ];
+import { TotalSessionByCountryMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/engagedSessionByCountry';
 
 const TrafficOverviewMonthlyReport = ({
     totalSessionData,
@@ -103,6 +24,7 @@ const TrafficOverviewMonthlyReport = ({
     sessionConversionData,
     topChannelsData,
     newUsersData,
+    sessionByCountry,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface | null,
     totalBounceRate: TotalBounceRateMonthlyReportInterface | null,
@@ -110,6 +32,7 @@ const TrafficOverviewMonthlyReport = ({
     sessionConversionData: SessionConversionDataMonthlyReportInterface | null,
     topChannelsData: TopChannelsDataMonthlyReportInterface | null,
     newUsersData: NewUsersDataMonthlyReportInterface | null,
+    sessionByCountry: TotalSessionByCountryMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -344,7 +267,7 @@ const TrafficOverviewMonthlyReport = ({
                                     graphName="Engaged session by country"
                                 />
                                 <EngagedSessionByCountryMonthlyReport
-                                    data={dummyData}
+                                    data={sessionByCountry?.graphTicks || []}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )

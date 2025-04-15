@@ -94,6 +94,7 @@ const MonthlyReportPage = async () => {
       sessionConversionData,
       topChannelsData,
       newUsersData,
+      sessionByCountry,
     } = await fetchMonthlyReportTrafficOverview({
       auth,
       filters: {
@@ -114,6 +115,7 @@ const MonthlyReportPage = async () => {
           sessionConversionData={sessionConversionData}
           topChannelsData={topChannelsData}
           newUsersData={newUsersData}
+          sessionByCountryData={sessionByCountry}
         />
       </BasicLayout>
     )

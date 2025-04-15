@@ -10,12 +10,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table"
+import { TotalSessionByCountryMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/engagedSessionByCountry";
 
 
 const EngagedSessionByCountryMonthlyReport = ({
     data,
 }: {
-    data: any[],
+    data: TotalSessionByCountryMonthlyReportInterface["graphTicks"],
 }) => {
 
     return (
@@ -26,7 +27,8 @@ const EngagedSessionByCountryMonthlyReport = ({
                 className="w-[300px] h-[200px]"
             >
                 <PieChartMonthlyReport
-                    data={[data[0], data[1], data[2], data[3]]}
+                    data={data.filter((value, index) => index < 4 && value)}
+                    dataKey="session"
                 />
             </div>
 
@@ -39,7 +41,7 @@ const EngagedSessionByCountryMonthlyReport = ({
                     <TableHeader>
                         <TableRow>
                             <TableHead
-                                className="w-[100px] py-3 text-xs"
+                                className="w-[200px] py-3 text-xs"
                             >Country</TableHead>
                             <TableHead
                                 className="text-right py-3 text-xs"
@@ -48,16 +50,16 @@ const EngagedSessionByCountryMonthlyReport = ({
                     </TableHeader>
                     <TableBody>
                         {
-                            [data[0], data[1], data[2], data[3]].map((value, index) => (
+                            data.filter((value, index) => index < 4 && value).map((value, index) => (
                                 <TableRow
                                     key={index}
                                 >
                                     <TableCell
                                         className="font-medium py-3 text-xs"
-                                    >{value.date}</TableCell>
+                                    >{value.country}</TableCell>
                                     <TableCell
                                         className="text-right py-3 text-xs"
-                                    >{value.value}</TableCell>
+                                    >{value.session}</TableCell>
                                 </TableRow>
                             ))
                         }
