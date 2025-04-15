@@ -3,6 +3,7 @@ import { OAuth2Client, JWT } from "google-auth-library";
 import { fetchTotalSessionMonthlyReport, TotalSessionMonthlyReportInterface } from "./totalSession";
 import { getDateRangeForMonth, getLast12MonthsRanges, getPrevShortMonth } from "../commonUtils";
 import { fetchTotalBounceRateMonthlyReport, TotalBounceRateMonthlyReportInterface } from "./totalBounceRate";
+import { ConversionDataMonthlyReportInterface, fetchConversionDataMonthlyReport } from "./conversionsData";
 
 export interface MonthlyReportTrafficOverviewFilters {
     currentMonth: string,
@@ -12,6 +13,7 @@ export interface MonthlyReportTrafficOverviewFilters {
 export interface MonthlyReportTrafficOverviewResponse {
     totalSessions: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
+    conversionData: ConversionDataMonthlyReportInterface,
 }
 
 export async function fetchMonthlyReportTrafficOverview({
@@ -46,7 +48,7 @@ export async function fetchMonthlyReportTrafficOverview({
                 fromDate: currentMonthDateRange.startDate,
             })
 
-            const sessionData = await fetchTotalSessionMonthlyReport({
+            const requestParameters = {
                 analyticsClient,
                 dateFilters: {
                     currentMonth: currentMonthDateRange,
@@ -55,22 +57,16 @@ export async function fetchMonthlyReportTrafficOverview({
                     dateRangeStart: prev12MonthList[0].startDate,
                 },
                 propertyId,
-            });
+            }
 
-            const bounceRateData = await fetchTotalBounceRateMonthlyReport({
-                analyticsClient,
-                dateFilters: {
-                    currentMonth: currentMonthDateRange,
-                    prevMonth: prevMonthDateRange,
-                    currentMonthPrevYear: prevYearCurrentMonthDateRange,
-                    dateRangeStart: prev12MonthList[0].startDate,
-                },
-                propertyId,
-            })
+            const sessionData = await fetchTotalSessionMonthlyReport(requestParameters);
+            const bounceRateData = await fetchTotalBounceRateMonthlyReport(requestParameters)
+            const conversionData = await fetchConversionDataMonthlyReport(requestParameters)
 
             return resolve({
                 totalSessions: sessionData,
                 totalBounceRate: bounceRateData,
+                conversionData,
             })
 
         } catch (err: any) {

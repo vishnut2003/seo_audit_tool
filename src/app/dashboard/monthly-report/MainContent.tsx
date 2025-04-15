@@ -7,24 +7,30 @@ import SeoPerformanceMonthlyReport from "./sections/SeoPerformance";
 import TrafficOverviewMonthlyReport from "./sections/TrafficOverview";
 import { TotalSessionMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/totalSession";
 import { TotalBounceRateMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/totalBounceRate";
+import { ConversionDataMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/conversionsData";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
     totalBounceRate,
+    conversionData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
+    conversionData: ConversionDataMonthlyReportInterface,
 }) => {
 
     const [passingTotalSessionData, setPassingTotalSessionData] = useState<TotalSessionMonthlyReportInterface | null>(null);
     const [passingTotalBounceData, setPassingTotalBounceData] = useState<TotalBounceRateMonthlyReportInterface | null>(null);
+    const [passingConversionData, setPassingConversionData] = useState<ConversionDataMonthlyReportInterface | null>(null);
 
     useEffect(() => {
         setPassingTotalSessionData(totalSessionData);
         setPassingTotalBounceData(totalBounceRate);
+        setPassingConversionData(conversionData);
     }, [
         totalSessionData,
         totalBounceRate,
+        conversionData,
     ]);
 
     return (
@@ -37,7 +43,8 @@ const MonthlyReportMainContent = ({
             {/* Traffic Overview */}
             <TrafficOverviewMonthlyReport
                 totalSessionData={passingTotalSessionData}
-                totalBounceRate={totalBounceRate}
+                totalBounceRate={passingTotalBounceData}
+                conversionData={passingConversionData}
             />
 
             {/* SEO Performance */}
