@@ -6,19 +6,25 @@ import PpcPerformanceMonthlyReport from "./sections/PpcPerformance";
 import SeoPerformanceMonthlyReport from "./sections/SeoPerformance";
 import TrafficOverviewMonthlyReport from "./sections/TrafficOverview";
 import { TotalSessionMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/totalSession";
+import { TotalBounceRateMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/totalBounceRate";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
+    totalBounceRate,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
+    totalBounceRate: TotalBounceRateMonthlyReportInterface,
 }) => {
 
     const [passingTotalSessionData, setPassingTotalSessionData] = useState<TotalSessionMonthlyReportInterface | null>(null);
+    const [passingTotalBounceData, setPassingTotalBounceData] = useState<TotalBounceRateMonthlyReportInterface | null>(null);
 
     useEffect(() => {
         setPassingTotalSessionData(totalSessionData);
+        setPassingTotalBounceData(totalBounceRate);
     }, [
-        totalSessionData
+        totalSessionData,
+        totalBounceRate,
     ]);
 
     return (
@@ -31,6 +37,7 @@ const MonthlyReportMainContent = ({
             {/* Traffic Overview */}
             <TrafficOverviewMonthlyReport
                 totalSessionData={passingTotalSessionData}
+                totalBounceRate={totalBounceRate}
             />
 
             {/* SEO Performance */}

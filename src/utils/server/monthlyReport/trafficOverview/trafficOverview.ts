@@ -2,6 +2,7 @@ import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { OAuth2Client, JWT } from "google-auth-library";
 import { fetchTotalSessionMonthlyReport, TotalSessionMonthlyReportInterface } from "./totalSession";
 import { getDateRangeForMonth, getLast12MonthsRanges, getPrevShortMonth } from "../commonUtils";
+import { fetchTotalBounceRateMonthlyReport, TotalBounceRateMonthlyReportInterface } from "./totalBounceRate";
 
 export interface MonthlyReportTrafficOverviewFilters {
     currentMonth: string,
@@ -10,6 +11,7 @@ export interface MonthlyReportTrafficOverviewFilters {
 
 export interface MonthlyReportTrafficOverviewResponse {
     totalSessions: TotalSessionMonthlyReportInterface,
+    totalBounceRate: TotalBounceRateMonthlyReportInterface,
 }
 
 export async function fetchMonthlyReportTrafficOverview({
@@ -55,8 +57,20 @@ export async function fetchMonthlyReportTrafficOverview({
                 propertyId,
             });
 
+            const bounceRateData = await fetchTotalBounceRateMonthlyReport({
+                analyticsClient,
+                dateFilters: {
+                    currentMonth: currentMonthDateRange,
+                    prevMonth: prevMonthDateRange,
+                    currentMonthPrevYear: prevYearCurrentMonthDateRange,
+                    dateRangeStart: prev12MonthList[0].startDate,
+                },
+                propertyId,
+            })
+
             return resolve({
                 totalSessions: sessionData,
+                totalBounceRate: bounceRateData,
             })
 
         } catch (err: any) {

@@ -10,6 +10,7 @@ import BarChartTemplateMonthlyReport, { htmlColorCodes } from '@/Components/Rech
 import AreaChartMonthlyReport from '@/Components/Recharts/MonthlyReportCharts/AreaChart';
 import EngagedSessionByCountryMonthlyReport from './TrafficOverview/EngagedSessionByCountry';
 import { TotalSessionMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalSession';
+import { TotalBounceRateMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalBounceRate';
 
 const dummyData: {
     date: string,
@@ -93,8 +94,10 @@ const dummyData: {
 
 const TrafficOverviewMonthlyReport = ({
     totalSessionData,
+    totalBounceRate,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface | null,
+    totalBounceRate: TotalBounceRateMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -157,10 +160,11 @@ const TrafficOverviewMonthlyReport = ({
                             >
                                 <ChartHeaderMonthlyReport
                                     graphName="Bounce rate"
-                                    value={118}
+                                    value={totalBounceRate?.currentMonthBounceRate}
+                                    prevMonthValue={totalBounceRate?.prevMonthBounceRate}
                                 />
                                 <AreaChartMonthlyReport
-                                    data={dummyData}
+                                    data={totalBounceRate?.graphTicks || []}
                                     xAxisDataKey={'date'}
                                     yAxisDataKey={'value'}
                                     lineValues={[
@@ -168,8 +172,8 @@ const TrafficOverviewMonthlyReport = ({
                                     ]}
                                 />
                                 <ChartFooterMonthlyReport
-                                    prevPeriodPercent={40}
-                                    prevYearPercent={200}
+                                    prevPeriodPercent={totalBounceRate?.percent.prevMonth}
+                                    prevYearPercent={totalBounceRate?.percent.prevYear}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )

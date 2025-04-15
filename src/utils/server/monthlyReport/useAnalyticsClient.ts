@@ -51,7 +51,19 @@ export async function fetchAnalyticsClient({
 
                 for (const metric of row.metricValues || []) {
                     const value = metric.value;
-                    const intValue = parseInt(value || "0");
+                    
+                    const numValue = Number(value);
+                    const isWholeNumber = !Number.isNaN(numValue) && Number.isInteger(numValue);
+
+                    let intValue: number = 0;
+
+                    if (isWholeNumber) {
+                        intValue = parseInt(value || "0");
+                    } else {
+                        intValue = parseFloat(value || "0.0")
+                        intValue = parseFloat(intValue.toFixed(2));
+                    }
+
                     metrics.push(intValue);
                 }
 
