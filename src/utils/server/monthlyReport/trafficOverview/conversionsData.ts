@@ -1,5 +1,6 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { fetchAnalyticsClient } from "../useAnalyticsClient";
+import { calculatePercentage } from "../commonUtils";
 
 interface DateRangeInterface {
     startDate: string,
@@ -134,8 +135,8 @@ export async function fetchConversionDataMonthlyReport({
                 prevYearConversion,
             ] = comparingValues;
 
-            const prevMonthPercent: number = prevMonthConversion === 0 ? 100 : ((currentMonthConversion - prevMonthConversion) / prevMonthConversion) * 100;
-            const prevYearPercent: number = prevYearConversion === 0 ? 100 : ((currentMonthConversion - prevYearConversion) / prevYearConversion) * 100;
+            const prevMonthPercent: number = calculatePercentage({newValue: currentMonthConversion, prevValue: prevMonthConversion});
+            const prevYearPercent: number = calculatePercentage({newValue: currentMonthConversion, prevValue: prevYearConversion});
 
             const finalResponse: ConversionDataMonthlyReportInterface = {
                 graphTicks: sortGraphData,

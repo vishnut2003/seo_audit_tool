@@ -2,28 +2,28 @@ import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { fetchAnalyticsClient } from "../useAnalyticsClient";
 import { calculatePercentage } from "../commonUtils";
 
-interface GraphTicks {
-    value: number,
-    date: Date | string,
-}
-
 interface DateRangeInterface {
     startDate: string,
     endDate: string,
 }
 
-export interface TotalBounceRateMonthlyReportInterface {
+interface GraphTicks {
+    conversion: number,
+    date: Date | string,
+}
+
+export interface SessionConversionDataMonthlyReportInterface {
     graphTicks: GraphTicks[],
-    currentMonthBounceRate: number,
-    prevMonthBounceRate: number,
-    prevYearBounceRate: number,
+    currentMonthSessionConversion: number,
+    prevMonthSessionConversion: number,
+    prevYearSessionConversion: number,
     percent: {
         prevMonth: number,
         prevYear: number,
     },
 }
 
-export async function fetchTotalBounceRateMonthlyReport({
+export async function fetchSessionConversionDataMonthlyReport({
     analyticsClient,
     dateFilters,
     propertyId,
@@ -37,9 +37,8 @@ export async function fetchTotalBounceRateMonthlyReport({
     }
     propertyId: string,
 }) {
-    return new Promise<TotalBounceRateMonthlyReportInterface>(async (resolve, reject) => {
+    return new Promise<SessionConversionDataMonthlyReportInterface>(async (resolve, reject) => {
         try {
-
             const dimensions: {
                 name: string,
             }[] = [
@@ -51,7 +50,7 @@ export async function fetchTotalBounceRateMonthlyReport({
                 name: string,
             }[] = [
                     {
-                        name: "bounceRate",
+                        name: "sessionConversionRate",
                     }
                 ]
 
@@ -83,22 +82,22 @@ export async function fetchTotalBounceRateMonthlyReport({
 
             const sortGraphData: GraphTicks[] = graphData.map((tick) => {
                 const [year, month] = tick.dimensions;
-                const [value] = tick.metrics;
+                const [conversion] = tick.metrics;
 
                 const date = new Date(`${year}-${month.padStart(2, '0')}-01`);
                 return ({
                     date,
-                    value,
+                    conversion,
                 })
             }).sort((a, b) => a.date.getTime() - b.date.getTime())
                 .map((tick) => {
                     return ({
                         date: tick.date.toLocaleString('default', { month: "short" }),
-                        value: tick.value,
+                        conversion: tick.conversion,
                     })
                 })
 
-            // Calculate Bounces
+            // Calculate conversions
 
             const comparingValues: number[] = [];
 
@@ -115,13 +114,13 @@ export async function fetchTotalBounceRateMonthlyReport({
                         { name: "month" },
                     ],
                     metrics: [
-                        { name: "bounceRate" },
+                        { name: "sessionConversionRate" },
                     ],
                 })
 
                 if (report.length !== 0) {
-                    for (const session of report) {
-                        for (const metric of session.metrics) {
+                    for (const conversions of report) {
+                        for (const metric of conversions.metrics) {
                             comparingValues.push(metric);
                         }
                     }
@@ -131,19 +130,19 @@ export async function fetchTotalBounceRateMonthlyReport({
             }
 
             const [
-                currentMonthBounceRate,
-                prevMonthBounceRate,
-                prevYearBounceRate,
+                currentMonthSessionConversion,
+                prevMonthSessionConversion,
+                prevYearSessionConversion,
             ] = comparingValues;
 
-            const prevMonthPercent: number = calculatePercentage({newValue: currentMonthBounceRate, prevValue: prevMonthBounceRate});
-            const prevYearPercent: number = calculatePercentage({newValue: currentMonthBounceRate, prevValue: prevYearBounceRate});
+            const prevMonthPercent: number = calculatePercentage({ newValue: currentMonthSessionConversion, prevValue: prevMonthSessionConversion });
+            const prevYearPercent: number = calculatePercentage({ newValue: currentMonthSessionConversion, prevValue: prevYearSessionConversion });
 
-            const finalResponse: TotalBounceRateMonthlyReportInterface = {
+            const finalResponse: SessionConversionDataMonthlyReportInterface = {
                 graphTicks: sortGraphData,
-                currentMonthBounceRate,
-                prevMonthBounceRate,
-                prevYearBounceRate,
+                currentMonthSessionConversion,
+                prevMonthSessionConversion,
+                prevYearSessionConversion,
                 percent: {
                     prevMonth: Math.floor(prevMonthPercent),
                     prevYear: Math.floor(prevYearPercent),

@@ -12,6 +12,7 @@ import EngagedSessionByCountryMonthlyReport from './TrafficOverview/EngagedSessi
 import { TotalSessionMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalSession';
 import { TotalBounceRateMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalBounceRate';
 import { ConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/conversionsData';
+import { SessionConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/sessionConversionData';
 
 const dummyData: {
     date: string,
@@ -97,10 +98,12 @@ const TrafficOverviewMonthlyReport = ({
     totalSessionData,
     totalBounceRate,
     conversionData,
+    sessionConversionData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface | null,
     totalBounceRate: TotalBounceRateMonthlyReportInterface | null,
     conversionData: ConversionDataMonthlyReportInterface | null,
+    sessionConversionData: SessionConversionDataMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -223,19 +226,20 @@ const TrafficOverviewMonthlyReport = ({
                             >
                                 <ChartHeaderMonthlyReport
                                     graphName="Session converstion rate"
-                                    value={118}
+                                    value={sessionConversionData?.currentMonthSessionConversion}
+                                    prevMonthValue={sessionConversionData?.prevMonthSessionConversion}
                                 />
                                 <LineChartMonthlyReport
-                                    data={dummyData}
+                                    data={sessionConversionData?.graphTicks || []}
                                     xAxisDataKey={'date'}
-                                    yAxisDataKey={'value'}
+                                    yAxisDataKey={'conversion'}
                                     lineValues={[
-                                        "value",
+                                        "conversion",
                                     ]}
                                 />
                                 <ChartFooterMonthlyReport
-                                    prevPeriodPercent={40}
-                                    prevYearPercent={200}
+                                    prevPeriodPercent={sessionConversionData?.percent.prevMonth}
+                                    prevYearPercent={sessionConversionData?.percent.prevYear}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )

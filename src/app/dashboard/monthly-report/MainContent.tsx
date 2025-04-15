@@ -8,29 +8,35 @@ import TrafficOverviewMonthlyReport from "./sections/TrafficOverview";
 import { TotalSessionMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/totalSession";
 import { TotalBounceRateMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/totalBounceRate";
 import { ConversionDataMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/conversionsData";
+import { SessionConversionDataMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/sessionConversionData";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
     totalBounceRate,
     conversionData,
+    sessionConversionData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
     conversionData: ConversionDataMonthlyReportInterface,
+    sessionConversionData: SessionConversionDataMonthlyReportInterface,
 }) => {
 
     const [passingTotalSessionData, setPassingTotalSessionData] = useState<TotalSessionMonthlyReportInterface | null>(null);
     const [passingTotalBounceData, setPassingTotalBounceData] = useState<TotalBounceRateMonthlyReportInterface | null>(null);
     const [passingConversionData, setPassingConversionData] = useState<ConversionDataMonthlyReportInterface | null>(null);
+    const [passingSessionConversionData, setPassingSessionConversionData] = useState<SessionConversionDataMonthlyReportInterface | null>(null);
 
     useEffect(() => {
         setPassingTotalSessionData(totalSessionData);
         setPassingTotalBounceData(totalBounceRate);
         setPassingConversionData(conversionData);
+        setPassingSessionConversionData(sessionConversionData);
     }, [
         totalSessionData,
         totalBounceRate,
         conversionData,
+        sessionConversionData,
     ]);
 
     return (
@@ -45,6 +51,7 @@ const MonthlyReportMainContent = ({
                 totalSessionData={passingTotalSessionData}
                 totalBounceRate={passingTotalBounceData}
                 conversionData={passingConversionData}
+                sessionConversionData={passingSessionConversionData}
             />
 
             {/* SEO Performance */}

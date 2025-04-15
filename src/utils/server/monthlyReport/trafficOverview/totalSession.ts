@@ -1,5 +1,6 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { fetchAnalyticsClient } from "../useAnalyticsClient";
+import { calculatePercentage } from "../commonUtils";
 
 interface DateRangeInterface {
     startDate: string,
@@ -135,8 +136,8 @@ export async function fetchTotalSessionMonthlyReport({
                 prevYearSession,
             ] = comparingValues;
 
-            const prevMonthPercent: number = prevMonthSession === 0 ? 100 : ((currentMonthSession - prevMonthSession) / prevMonthSession) * 100;
-            const prevYearPercent: number = prevYearSession === 0 ? 100 : ((currentMonthSession - prevYearSession) / prevYearSession) * 100;
+            const prevMonthPercent: number = calculatePercentage({newValue: currentMonthSession, prevValue: prevMonthSession});
+            const prevYearPercent: number = calculatePercentage({newValue: currentMonthSession, prevValue: prevYearSession});
 
             const finalResponse: TotalSessionMonthlyReportInterface = {
                 graphTicks: sortGraphData,

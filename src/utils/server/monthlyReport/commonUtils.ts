@@ -51,3 +51,23 @@ export function getLast12MonthsRanges({
 
     return ranges.reverse(); // So it's from oldest to newest
 }
+
+export function calculatePercentage ({
+    newValue,
+    prevValue,
+}: {
+    prevValue: number,
+    newValue: number,
+}) {
+    if (
+        newValue === prevValue ||
+        prevValue === 0 && newValue === 0
+    ) {
+        return 0;
+    } else if (prevValue === 0) {
+        return 100;
+    } else {
+        const value = ((newValue - prevValue) / prevValue) * 100;
+        return value;
+    }
+}

@@ -11,15 +11,18 @@ import PpcPerformanceMonthlyReport from '../sections/PpcPerformance';
 import { TotalSessionMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalSession';
 import { TotalBounceRateMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/totalBounceRate';
 import { ConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/conversionsData';
+import { SessionConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/sessionConversionData';
 
 const MainContentMonthlyReportExportPdf = ({
     sessionData,
     bounceRateData,
     conversionData,
+    sessionConversionData
 }: {
     sessionData: TotalSessionMonthlyReportInterface,
     bounceRateData: TotalBounceRateMonthlyReportInterface,
     conversionData: ConversionDataMonthlyReportInterface,
+    sessionConversionData: SessionConversionDataMonthlyReportInterface,
 }) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
@@ -53,6 +56,7 @@ const MainContentMonthlyReportExportPdf = ({
                     totalSessionData={sessionData}
                     totalBounceRate={bounceRateData}
                     conversionData={conversionData}
+                    sessionConversionData={sessionConversionData}
                 />
             </Convert2Image>
         )
