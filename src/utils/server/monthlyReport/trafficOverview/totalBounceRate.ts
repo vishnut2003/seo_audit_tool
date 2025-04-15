@@ -1,5 +1,4 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
-import { resolve } from "path";
 import { fetchAnalyticsClient } from "../useAnalyticsClient";
 
 interface GraphTicks {
