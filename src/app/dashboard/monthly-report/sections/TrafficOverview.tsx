@@ -14,6 +14,7 @@ import { TotalBounceRateMonthlyReportInterface } from '@/utils/server/monthlyRep
 import { ConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/conversionsData';
 import { SessionConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/sessionConversionData';
 import { TopChannelsDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/topChannels';
+import { NewUsersDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/newUsersData';
 
 const dummyData: {
     date: string,
@@ -101,12 +102,14 @@ const TrafficOverviewMonthlyReport = ({
     conversionData,
     sessionConversionData,
     topChannelsData,
+    newUsersData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface | null,
     totalBounceRate: TotalBounceRateMonthlyReportInterface | null,
     conversionData: ConversionDataMonthlyReportInterface | null,
     sessionConversionData: SessionConversionDataMonthlyReportInterface | null,
     topChannelsData: TopChannelsDataMonthlyReportInterface | null,
+    newUsersData: NewUsersDataMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -309,19 +312,20 @@ const TrafficOverviewMonthlyReport = ({
                             >
                                 <ChartHeaderMonthlyReport
                                     graphName="New users"
-                                    value={118}
+                                    value={newUsersData?.currentMonthNewUsers}
+                                    prevMonthValue={newUsersData?.prevMonthNewUsers}
                                 />
                                 <AreaChartMonthlyReport
-                                    data={dummyData}
+                                    data={newUsersData?.graphTicks || []}
                                     xAxisDataKey={'date'}
-                                    yAxisDataKey={'value'}
+                                    yAxisDataKey={'newUsers'}
                                     lineValues={[
-                                        "value",
+                                        "newUsers",
                                     ]}
                                 />
                                 <ChartFooterMonthlyReport
-                                    prevPeriodPercent={40}
-                                    prevYearPercent={200}
+                                    prevPeriodPercent={newUsersData?.percent.prevMonth}
+                                    prevYearPercent={newUsersData?.percent.prevYear}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )
