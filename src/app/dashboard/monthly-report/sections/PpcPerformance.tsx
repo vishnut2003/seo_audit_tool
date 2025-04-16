@@ -9,6 +9,7 @@ import BarChartTemplateMonthlyReport from "@/Components/Recharts/MonthlyReportCh
 import AreaChartMonthlyReport from "@/Components/Recharts/MonthlyReportCharts/AreaChart";
 import LineChartMonthlyReport from "@/Components/Recharts/MonthlyReportCharts/LineChart";
 import { AdvertiserAdsCostMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/advertiserAdsCost";
+import { PaidConversionMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/paidConversion";
 
 const dummyData: {
     date: string,
@@ -92,8 +93,10 @@ const dummyData: {
 
 const PpcPerformanceMonthlyReport = ({
     advertiserAdsCostData,
+    paidConversionData,
 }: {
     advertiserAdsCostData: AdvertiserAdsCostMonthlyReportInterface | null,
+    paidConversionData: PaidConversionMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -156,19 +159,20 @@ const PpcPerformanceMonthlyReport = ({
                             >
                                 <ChartHeaderMonthlyReport
                                     graphName="Conversion from paid"
-                                    value={118}
+                                    value={paidConversionData?.currentMonthConversion}
+                                    prevMonthValue={paidConversionData?.prevMonthConversion}
                                 />
                                 <AreaChartMonthlyReport
-                                    data={dummyData}
+                                    data={paidConversionData?.graphTicks || []}
                                     xAxisDataKey={'date'}
-                                    yAxisDataKey={'value'}
+                                    yAxisDataKey={'conversion'}
                                     lineValues={[
-                                        "value",
+                                        "conversion",
                                     ]}
                                 />
                                 <ChartFooterMonthlyReport
-                                    prevPeriodPercent={40}
-                                    prevYearPercent={200}
+                                    prevPeriodPercent={paidConversionData?.percent.prevMonth}
+                                    prevYearPercent={paidConversionData?.percent.prevYear}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )

@@ -3,9 +3,11 @@ import { MonthlyReportTrafficOverviewFilters } from "../trafficOverview/trafficO
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { getDateRangeForMonth, getLast12MonthsRanges, getPrevShortMonth } from "../commonUtils";
 import { AdvertiserAdsCostMonthlyReportInterface, fetchAdvertiserAdsCostMonthlyReport } from "./advertiserAdsCost";
+import { fetchPaidConversionDataMonthlyReport, PaidConversionMonthlyReportInterface } from "./paidConversion";
 
 export interface MonthlyReportPPCPerformanceResponse {
     advertiserAdsCost: AdvertiserAdsCostMonthlyReportInterface,
+    paidConversion: PaidConversionMonthlyReportInterface,
 }
 
 export async function fetchMonthlyReportPpcPerformance({
@@ -49,10 +51,12 @@ export async function fetchMonthlyReportPpcPerformance({
                 propertyId,
             }
 
-            const advertiserAdsCost = await fetchAdvertiserAdsCostMonthlyReport(requestParameters)
+            const advertiserAdsCost = await fetchAdvertiserAdsCostMonthlyReport(requestParameters);
+            const paidConversion = await fetchPaidConversionDataMonthlyReport(requestParameters);
 
             return resolve({
                 advertiserAdsCost,
+                paidConversion,
             })
         } catch (err) {
             return reject(err);

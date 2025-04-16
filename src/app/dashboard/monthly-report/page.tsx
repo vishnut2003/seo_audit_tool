@@ -120,6 +120,7 @@ const MonthlyReportPage = async () => {
 
     const {
       advertiserAdsCost,
+      paidConversion,
     } = await fetchMonthlyReportPpcPerformance(requestParameter)
 
     return (
@@ -142,6 +143,7 @@ const MonthlyReportPage = async () => {
           topBrowsersData={topBrowsers}
           topLandingPagesData={topLandingPages}
           advertiserAdsCostData={advertiserAdsCost}
+          paidConversionData={paidConversion}
         />
       </BasicLayout>
     )
