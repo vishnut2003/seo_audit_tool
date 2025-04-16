@@ -5,11 +5,13 @@ import { getDateRangeForMonth, getLast12MonthsRanges, getPrevShortMonth } from "
 import { AdvertiserAdsCostMonthlyReportInterface, fetchAdvertiserAdsCostMonthlyReport } from "./advertiserAdsCost";
 import { fetchPaidConversionDataMonthlyReport, PaidConversionMonthlyReportInterface } from "./paidConversion";
 import { fetchPaidConversionRateMonthlyReport, PaidConversionRateMonthlyReportInterface } from "./PaidConversionRate";
+import { fetchPaidRevenueMonthlyReport, PaidRevenueMonthlyReportInterface } from "./paidRevenue";
 
 export interface MonthlyReportPPCPerformanceResponse {
     advertiserAdsCost: AdvertiserAdsCostMonthlyReportInterface,
     paidConversion: PaidConversionMonthlyReportInterface,
     paidConversionRate: PaidConversionRateMonthlyReportInterface,
+    paidRevenue: PaidRevenueMonthlyReportInterface,
 }
 
 export async function fetchMonthlyReportPpcPerformance({
@@ -56,11 +58,13 @@ export async function fetchMonthlyReportPpcPerformance({
             const advertiserAdsCost = await fetchAdvertiserAdsCostMonthlyReport(requestParameters);
             const paidConversion = await fetchPaidConversionDataMonthlyReport(requestParameters);
             const paidConversionRate = await fetchPaidConversionRateMonthlyReport(requestParameters);
-        
+            const paidRevenue = await fetchPaidRevenueMonthlyReport(requestParameters);
+
             return resolve({
                 advertiserAdsCost,
                 paidConversion,
                 paidConversionRate,
+                paidRevenue,
             })
         } catch (err) {
             return reject(err);

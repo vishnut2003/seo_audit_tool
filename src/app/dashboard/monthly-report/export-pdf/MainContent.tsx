@@ -25,6 +25,7 @@ import { TopLandingPagesMonthlyReport } from '@/utils/server/monthlyReport/seoPe
 import { AdvertiserAdsCostMonthlyReportInterface } from '@/utils/server/monthlyReport/ppcPerformance/advertiserAdsCost';
 import { PaidConversionMonthlyReportInterface } from '@/utils/server/monthlyReport/ppcPerformance/paidConversion';
 import { PaidConversionRateMonthlyReportInterface } from '@/utils/server/monthlyReport/ppcPerformance/PaidConversionRate';
+import { PaidRevenueMonthlyReportInterface } from '@/utils/server/monthlyReport/ppcPerformance/paidRevenue';
 
 const MainContentMonthlyReportExportPdf = ({
     sessionData,
@@ -44,6 +45,7 @@ const MainContentMonthlyReportExportPdf = ({
     advertiserAdsCost,
     paidConversionData,
     paidConversionRateData,
+    paidRevenueData,
 }: {
     sessionData: TotalSessionMonthlyReportInterface,
     bounceRateData: TotalBounceRateMonthlyReportInterface,
@@ -62,6 +64,7 @@ const MainContentMonthlyReportExportPdf = ({
     advertiserAdsCost: AdvertiserAdsCostMonthlyReportInterface,
     paidConversionData: PaidConversionMonthlyReportInterface,
     paidConversionRateData: PaidConversionRateMonthlyReportInterface,
+    paidRevenueData: PaidRevenueMonthlyReportInterface,
 }) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
@@ -131,6 +134,7 @@ const MainContentMonthlyReportExportPdf = ({
                     advertiserAdsCostData={advertiserAdsCost}
                     paidConversionData={paidConversionData}
                     paidConversionRateData={paidConversionRateData}
+                    paidRevenueData={paidRevenueData}
                 />
             </Convert2Image>
         )

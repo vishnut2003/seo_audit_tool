@@ -93,6 +93,7 @@ const MonthlyReportExportAsPDFPage = async () => {
             advertiserAdsCost,
             paidConversion,
             paidConversionRate,
+            paidRevenue,
         } = await fetchMonthlyReportPpcPerformance(requestParameter);
 
         return (
@@ -136,6 +137,7 @@ const MonthlyReportExportAsPDFPage = async () => {
                         advertiserAdsCost={advertiserAdsCost}
                         paidConversionData={paidConversion}
                         paidConversionRateData={paidConversionRate}
+                        paidRevenueData={paidRevenue}
                     />
                 </div>
             </div>

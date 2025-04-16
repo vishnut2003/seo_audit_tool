@@ -11,6 +11,7 @@ import LineChartMonthlyReport from "@/Components/Recharts/MonthlyReportCharts/Li
 import { AdvertiserAdsCostMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/advertiserAdsCost";
 import { PaidConversionMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/paidConversion";
 import { PaidConversionRateMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/PaidConversionRate";
+import { PaidRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/paidRevenue";
 
 const dummyData: {
     date: string,
@@ -96,10 +97,12 @@ const PpcPerformanceMonthlyReport = ({
     advertiserAdsCostData,
     paidConversionData,
     paidConversionRateData,
+    paidRevenueData,
 }: {
     advertiserAdsCostData: AdvertiserAdsCostMonthlyReportInterface | null,
     paidConversionData: PaidConversionMonthlyReportInterface | null,
-    paidConversionRateData: PaidConversionRateMonthlyReportInterface | null
+    paidConversionRateData: PaidConversionRateMonthlyReportInterface | null,
+    paidRevenueData: PaidRevenueMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -222,19 +225,20 @@ const PpcPerformanceMonthlyReport = ({
                             >
                                 <ChartHeaderMonthlyReport
                                     graphName="Revenue from paid"
-                                    value={118}
+                                    value={paidRevenueData?.currentMonthRevenue}
+                                    prevMonthValue={paidRevenueData?.prevMonthRevenue}
                                 />
                                 <LineChartMonthlyReport
-                                    data={dummyData}
+                                    data={paidRevenueData?.graphTicks || []}
                                     xAxisDataKey={'date'}
-                                    yAxisDataKey={'value'}
+                                    yAxisDataKey={'revenue'}
                                     lineValues={[
-                                        "value",
+                                        "revenue",
                                     ]}
                                 />
                                 <ChartFooterMonthlyReport
-                                    prevPeriodPercent={40}
-                                    prevYearPercent={200}
+                                    prevPeriodPercent={paidRevenueData?.percent.prevMonth}
+                                    prevYearPercent={paidRevenueData?.percent.prevYear}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )
