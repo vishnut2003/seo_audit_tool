@@ -15,6 +15,7 @@ import { SessionFromOrganicMonthlyReportInterface } from "@/utils/server/monthly
 import { EngagedSessionOrganicMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/EngagedSessionOrganic";
 import { OrganicConversionMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicConversions";
 import { OrganicRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicRevenue";
+import { TopPagesOrganicMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topPagesOrganic";
 
 const dummyData: {
     date: string,
@@ -101,11 +102,13 @@ const SeoPerformanceMonthlyReport = ({
     engagedSessionOrganicData,
     organicConversionData,
     organicRevenue,
+    topPagesOrganic,
 }: {
     sessionFromOrganicData: SessionFromOrganicMonthlyReportInterface | null,
     engagedSessionOrganicData: EngagedSessionOrganicMonthlyReportInterface | null,
     organicConversionData: OrganicConversionMonthlyReportInterface | null,
     organicRevenue: OrganicRevenueMonthlyReportInterface | null,
+    topPagesOrganic: TopPagesOrganicMonthlyReport | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -260,12 +263,14 @@ const SeoPerformanceMonthlyReport = ({
                         element: () => (
                             <ColumnLayoutMonthlyReport
                                 containerWidth={containerWidth}
-                                noOfCol={3.1}
+                                noOfCol={2.05}
                             >
                                 <ChartHeaderMonthlyReport
                                     graphName="Top landing pages from organic"
                                 />
-                                <TopLandingPageMonthlyReport/>
+                                <TopLandingPageMonthlyReport
+                                    tableData={topPagesOrganic?.tableData || []}
+                                />
                             </ColumnLayoutMonthlyReport>
                         )
                     },
@@ -277,7 +282,7 @@ const SeoPerformanceMonthlyReport = ({
                         element: () => (
                             <ColumnLayoutMonthlyReport
                                 containerWidth={containerWidth}
-                                noOfCol={1.5}
+                                noOfCol={2.05}
                             >
                                 <ChartHeaderMonthlyReport
                                     graphName="Top browsers"

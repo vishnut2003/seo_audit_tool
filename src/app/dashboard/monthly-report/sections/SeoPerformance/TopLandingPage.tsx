@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/Components/ui/table"
+import { TopPagesOrganicMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topPagesOrganic";
 
 
 const dummyData: {
@@ -32,14 +33,18 @@ const dummyData: {
     },
   ]
 
-const TopLandingPageMonthlyReport = () => {
+const TopLandingPageMonthlyReport = ({
+  tableData,
+}: {
+  tableData: TopPagesOrganicMonthlyReport["tableData"],
+}) => {
   return (
     <div>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead
-              className="w-[150px] py-2"
+              className="w-[300px] py-2 line-clamp-1"
             >Landing Page</TableHead>
             <TableHead
               className="text-right py-2"
@@ -47,13 +52,13 @@ const TopLandingPageMonthlyReport = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {dummyData.map((data, index) => (
+          {tableData.filter((data, index) => index < 4 && data).map((data, index) => (
             <TableRow
               key={index}
             >
               <TableCell
                 className="font-medium py-2"
-              >{data.pathName}</TableCell>
+              >{data.path}</TableCell>
               <TableCell
                 className="text-right py-2"
               >{data.session}</TableCell>

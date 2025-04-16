@@ -6,12 +6,14 @@ import { fetchSessionFromOrganicMonthlyReportData, SessionFromOrganicMonthlyRepo
 import { EngagedSessionOrganicMonthlyReportInterface, fetchEngagedSessionOrganicMonthlyReport } from "./EngagedSessionOrganic";
 import { fetchOrganicConversionDataMonthlyReport, OrganicConversionMonthlyReportInterface } from "./organicConversions";
 import { fetchOrganicRevenueMonthlyReport, OrganicRevenueMonthlyReportInterface } from "./organicRevenue";
+import { fetchTopPagesOrganicMonthlyReport, TopPagesOrganicMonthlyReport } from "./topPagesOrganic";
 
 export interface MonthlyReportSeoPerformanceResponse {
     sessionFromOrganic: SessionFromOrganicMonthlyReportInterface,
     engagedSessionOrganic: EngagedSessionOrganicMonthlyReportInterface,
     organicConversion: OrganicConversionMonthlyReportInterface,
     organicRevenue: OrganicRevenueMonthlyReportInterface,
+    topPagesOrganic: TopPagesOrganicMonthlyReport,
 }
 
 export async function fetchMonthlyReportSeoPerformance({
@@ -59,12 +61,14 @@ export async function fetchMonthlyReportSeoPerformance({
             const engagedSessionOrganic = await fetchEngagedSessionOrganicMonthlyReport(requestParameters);
             const organicConversion = await fetchOrganicConversionDataMonthlyReport(requestParameters);
             const organicRevenue = await fetchOrganicRevenueMonthlyReport(requestParameters);
+            const topPagesOrganic = await fetchTopPagesOrganicMonthlyReport(requestParameters);
 
             return resolve({
                 sessionFromOrganic,
                 engagedSessionOrganic,
                 organicConversion,
                 organicRevenue,
+                topPagesOrganic,
             })
             
         } catch (err) {
