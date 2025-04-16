@@ -13,6 +13,7 @@ import { TopChannelsDataMonthlyReportInterface } from "@/utils/server/monthlyRep
 import { NewUsersDataMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/newUsersData";
 import { TotalSessionByCountryMonthlyReportInterface } from "@/utils/server/monthlyReport/trafficOverview/engagedSessionByCountry";
 import { SessionFromOrganicMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/sessionFromOrganic";
+import { EngagedSessionOrganicMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/EngagedSessionOrganic";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -23,6 +24,7 @@ const MonthlyReportMainContent = ({
     newUsersData,
     sessionByCountryData,
     sessionFromOrganicData,
+    engagedSessionOrganicData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
@@ -32,6 +34,7 @@ const MonthlyReportMainContent = ({
     newUsersData: NewUsersDataMonthlyReportInterface,
     sessionByCountryData: TotalSessionByCountryMonthlyReportInterface,
     sessionFromOrganicData: SessionFromOrganicMonthlyReportInterface,
+    engagedSessionOrganicData: EngagedSessionOrganicMonthlyReportInterface,
 }) => {
 
     // Traffic Overview
@@ -45,6 +48,7 @@ const MonthlyReportMainContent = ({
 
     // Seo Performance
     const [passingSessionFromOrganicData, setPassingSessionFromOrganicData] = useState<SessionFromOrganicMonthlyReportInterface | null>(null);
+    const [passingEngagedSessionOrganicData, setPassingEngagedSessionOrganicData] = useState<EngagedSessionOrganicMonthlyReportInterface | null>(null);
 
     useEffect(() => {
         // Traffic overview
@@ -58,6 +62,7 @@ const MonthlyReportMainContent = ({
         
         // Seo Performance
         setPassingSessionFromOrganicData(sessionFromOrganicData);
+        setPassingEngagedSessionOrganicData(engagedSessionOrganicData);
     }, [
         totalSessionData,
         totalBounceRate,
@@ -67,6 +72,7 @@ const MonthlyReportMainContent = ({
         newUsersData,
         sessionByCountryData,
         sessionFromOrganicData,
+        engagedSessionOrganicData,
     ]);
 
     return (
@@ -90,6 +96,7 @@ const MonthlyReportMainContent = ({
             {/* SEO Performance */}
             <SeoPerformanceMonthlyReport
                 sessionFromOrganicData={passingSessionFromOrganicData}
+                engagedSessionOrganicData={passingEngagedSessionOrganicData}
             />
 
             {/* PPC Performance */}

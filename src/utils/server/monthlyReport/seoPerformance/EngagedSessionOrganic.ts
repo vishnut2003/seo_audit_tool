@@ -1,5 +1,4 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
-import { resolve } from "path";
 import { fetchAnalyticsClient } from "../useAnalyticsClient";
 import { calculatePercentage } from "../commonUtils";
 
@@ -13,7 +12,7 @@ interface GraphTicks {
     date: Date | string,
 }
 
-export interface SessionFromOrganicMonthlyReportInterface {
+export interface EngagedSessionOrganicMonthlyReportInterface {
     graphTicks: GraphTicks[],
     currentMonthSession: number,
     prevMonthSession: number,
@@ -24,7 +23,7 @@ export interface SessionFromOrganicMonthlyReportInterface {
     },
 }
 
-export async function fetchSessionFromOrganicMonthlyReportData({
+export async function fetchEngagedSessionOrganicMonthlyReport({
     analyticsClient,
     dateFilters,
     propertyId,
@@ -38,7 +37,7 @@ export async function fetchSessionFromOrganicMonthlyReportData({
     }
     propertyId: string,
 }) {
-    return new Promise<SessionFromOrganicMonthlyReportInterface>(async (resolve, reject) => {
+    return new Promise<EngagedSessionOrganicMonthlyReportInterface>(async (resolve, reject) => {
         try {
             const dimensions: {
                 name: string,
@@ -52,7 +51,7 @@ export async function fetchSessionFromOrganicMonthlyReportData({
                 name: string,
             }[] = [
                     {
-                        name: "sessions",
+                        name: "engagedSessions",
                     }
                 ]
 
@@ -120,6 +119,8 @@ export async function fetchSessionFromOrganicMonthlyReportData({
                     }
                 })
 
+
+
                 if (report.length !== 0) {
                     for (const session of report) {
                         for (const metric of session.metrics) {
@@ -140,7 +141,7 @@ export async function fetchSessionFromOrganicMonthlyReportData({
             const prevMonthPercent: number = calculatePercentage({ newValue: currentMonthSession, prevValue: prevMonthSession });
             const prevYearPercent: number = calculatePercentage({ newValue: currentMonthSession, prevValue: prevYearSession });
 
-            const finalResponse: SessionFromOrganicMonthlyReportInterface = {
+            const finalResponse: EngagedSessionOrganicMonthlyReportInterface = {
                 graphTicks: sortGraphData,
                 currentMonthSession,
                 prevMonthSession,

@@ -80,6 +80,7 @@ const MonthlyReportExportAsPDFPage = async () => {
 
         const {
             sessionFromOrganic,
+            engagedSessionOrganic,
         } = await fetchMonthlyReportSeoPerformance(requestParameter);
 
         return (
@@ -114,6 +115,7 @@ const MonthlyReportExportAsPDFPage = async () => {
                         newUsersData={newUsersData}
                         sessionByCountry={sessionByCountry}
                         sessionFromOrganic={sessionFromOrganic}
+                        engagedSessionOrganic={engagedSessionOrganic}
                     />
                 </div>
             </div>
