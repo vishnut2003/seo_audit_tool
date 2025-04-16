@@ -20,6 +20,7 @@ import { EngagedSessionOrganicMonthlyReportInterface } from '@/utils/server/mont
 import { OrganicConversionMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/organicConversions';
 import { OrganicRevenueMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/organicRevenue';
 import { TopPagesOrganicMonthlyReport } from '@/utils/server/monthlyReport/seoPerformance/topPagesOrganic';
+import { TopBrowsersMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/topBrowsers';
 
 const MainContentMonthlyReportExportPdf = ({
     sessionData,
@@ -34,6 +35,7 @@ const MainContentMonthlyReportExportPdf = ({
     organicConversion,
     organicRevenue,
     topPagesOrganic,
+    topBrowsers,
 }: {
     sessionData: TotalSessionMonthlyReportInterface,
     bounceRateData: TotalBounceRateMonthlyReportInterface,
@@ -47,6 +49,7 @@ const MainContentMonthlyReportExportPdf = ({
     organicConversion: OrganicConversionMonthlyReportInterface,
     organicRevenue: OrganicRevenueMonthlyReportInterface,
     topPagesOrganic: TopPagesOrganicMonthlyReport,
+    topBrowsers: TopBrowsersMonthlyReportInterface,
 }) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
@@ -100,6 +103,7 @@ const MainContentMonthlyReportExportPdf = ({
                     organicConversionData={organicConversion}
                     organicRevenue={organicRevenue}
                     topPagesOrganic={topPagesOrganic}
+                    topBrowsers={topBrowsers}
                 />
             </Convert2Image>
         )

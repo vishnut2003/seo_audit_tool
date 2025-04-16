@@ -7,6 +7,7 @@ import { EngagedSessionOrganicMonthlyReportInterface, fetchEngagedSessionOrganic
 import { fetchOrganicConversionDataMonthlyReport, OrganicConversionMonthlyReportInterface } from "./organicConversions";
 import { fetchOrganicRevenueMonthlyReport, OrganicRevenueMonthlyReportInterface } from "./organicRevenue";
 import { fetchTopPagesOrganicMonthlyReport, TopPagesOrganicMonthlyReport } from "./topPagesOrganic";
+import { fetchTopBrowsersMonthlyReport, TopBrowsersMonthlyReportInterface } from "./topBrowsers";
 
 export interface MonthlyReportSeoPerformanceResponse {
     sessionFromOrganic: SessionFromOrganicMonthlyReportInterface,
@@ -14,6 +15,7 @@ export interface MonthlyReportSeoPerformanceResponse {
     organicConversion: OrganicConversionMonthlyReportInterface,
     organicRevenue: OrganicRevenueMonthlyReportInterface,
     topPagesOrganic: TopPagesOrganicMonthlyReport,
+    topBrowsers: TopBrowsersMonthlyReportInterface,
 }
 
 export async function fetchMonthlyReportSeoPerformance({
@@ -62,6 +64,7 @@ export async function fetchMonthlyReportSeoPerformance({
             const organicConversion = await fetchOrganicConversionDataMonthlyReport(requestParameters);
             const organicRevenue = await fetchOrganicRevenueMonthlyReport(requestParameters);
             const topPagesOrganic = await fetchTopPagesOrganicMonthlyReport(requestParameters);
+            const topBrowsers = await fetchTopBrowsersMonthlyReport(requestParameters);
 
             return resolve({
                 sessionFromOrganic,
@@ -69,6 +72,7 @@ export async function fetchMonthlyReportSeoPerformance({
                 organicConversion,
                 organicRevenue,
                 topPagesOrganic,
+                topBrowsers,
             })
             
         } catch (err) {

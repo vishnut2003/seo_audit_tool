@@ -16,6 +16,7 @@ import { EngagedSessionOrganicMonthlyReportInterface } from "@/utils/server/mont
 import { OrganicConversionMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicConversions";
 import { OrganicRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicRevenue";
 import { TopPagesOrganicMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topPagesOrganic";
+import { TopBrowsersMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/topBrowsers";
 
 const dummyData: {
     date: string,
@@ -103,12 +104,14 @@ const SeoPerformanceMonthlyReport = ({
     organicConversionData,
     organicRevenue,
     topPagesOrganic,
+    topBrowsers,
 }: {
     sessionFromOrganicData: SessionFromOrganicMonthlyReportInterface | null,
     engagedSessionOrganicData: EngagedSessionOrganicMonthlyReportInterface | null,
     organicConversionData: OrganicConversionMonthlyReportInterface | null,
     organicRevenue: OrganicRevenueMonthlyReportInterface | null,
     topPagesOrganic: TopPagesOrganicMonthlyReport | null,
+    topBrowsers: TopBrowsersMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -288,7 +291,7 @@ const SeoPerformanceMonthlyReport = ({
                                     graphName="Top browsers"
                                 />
                                 <TopBrowsersMonthlyReport
-                                    data={dummyData}
+                                    graphTableData={topBrowsers?.graphTicks || []}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )
