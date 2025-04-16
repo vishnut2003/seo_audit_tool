@@ -1,3 +1,4 @@
+import { RiErrorWarningLine } from '@remixicon/react'
 import React from 'react'
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
@@ -12,6 +13,20 @@ const LineChartMonthlyReport = ({
     yAxisDataKey: string,
     lineValues: string[],
 }) => {
+
+    if (data.length === 0) {
+        return (
+            <div
+                className='flex gap-1 justify-center items-center opacity-50 text-sm'
+            >
+                <RiErrorWarningLine
+                    size={15}
+                />
+                <p>No data</p>
+            </div>
+        )
+    }
+
     return (
         <ResponsiveContainer
             className={'flex items-center'}

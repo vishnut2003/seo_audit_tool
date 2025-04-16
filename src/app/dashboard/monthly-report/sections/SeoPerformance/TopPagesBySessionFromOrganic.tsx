@@ -10,39 +10,6 @@ import {
 } from "@/Components/ui/table"
 import { TopLandingPagesMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topLandingPages";
 
-
-const dummyData: {
-    path: string,
-    session: number,
-    engagedSession: number,
-    bounceRate: number,
-}[] = [
-        {
-            path: "/testing-path-url",
-            bounceRate: 10,
-            engagedSession: 20,
-            session: 30,
-        },
-        {
-            path: "/testing-path-url",
-            bounceRate: 10,
-            engagedSession: 20,
-            session: 30,
-        },
-        {
-            path: "/testing-path-url",
-            bounceRate: 10,
-            engagedSession: 20,
-            session: 30,
-        },
-        {
-            path: "/testing-path-url",
-            bounceRate: 10,
-            engagedSession: 20,
-            session: 30,
-        },
-    ]
-
 const TopPagesBySessionFromOrganic = ({
     tableData,
 }: {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { htmlColorCodes } from './BarChart'
+import { RiErrorWarningLine } from '@remixicon/react'
 
 const PieChartMonthlyReport = ({
     data,
@@ -9,6 +10,20 @@ const PieChartMonthlyReport = ({
     data: any[],
     dataKey: string,
 }) => {
+
+    if (data.length === 0) {
+        return (
+            <div
+                className='flex gap-1 justify-center items-center opacity-50 text-sm'
+            >
+                <RiErrorWarningLine
+                    size={15}
+                />
+                <p>No data</p>
+            </div>
+        )
+    }
+
     return (
         <ResponsiveContainer
             className={'flex items-center'}

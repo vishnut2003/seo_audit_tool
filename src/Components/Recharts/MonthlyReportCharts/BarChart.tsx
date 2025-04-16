@@ -1,3 +1,4 @@
+import { RiErrorWarningLine } from '@remixicon/react'
 import React from 'react'
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
@@ -30,6 +31,20 @@ const BarChartTemplateMonthlyReport = ({
     barSize?: number,
     xAxisTickFormatter?: (value: string) => string,
 }) => {
+
+    if (data.length === 0) {
+        return (
+            <div
+                className='flex gap-1 justify-center items-center opacity-50 text-sm'
+            >
+                <RiErrorWarningLine
+                    size={15}
+                />
+                <p>No data</p>
+            </div>
+        )
+    }
+
     return (
         <ResponsiveContainer
             className={'flex items-center bg-white'}

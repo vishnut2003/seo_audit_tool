@@ -129,6 +129,7 @@ const MonthlyReportMainContent = ({
         topLandingPagesData,
         advertiserAdsCostData,
         paidConversionData,
+        paidConversionRateData,
         paidRevenueData,
     ]);
 
