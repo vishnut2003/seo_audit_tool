@@ -4,10 +4,12 @@ import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { getDateRangeForMonth, getLast12MonthsRanges, getPrevShortMonth } from "../commonUtils";
 import { fetchSessionFromOrganicMonthlyReportData, SessionFromOrganicMonthlyReportInterface } from "./sessionFromOrganic";
 import { EngagedSessionOrganicMonthlyReportInterface, fetchEngagedSessionOrganicMonthlyReport } from "./EngagedSessionOrganic";
+import { fetchOrganicConversionDataMonthlyReport, OrganicConversionMonthlyReportInterface } from "./organicConversions";
 
 export interface MonthlyReportSeoPerformanceResponse {
     sessionFromOrganic: SessionFromOrganicMonthlyReportInterface,
     engagedSessionOrganic: EngagedSessionOrganicMonthlyReportInterface,
+    organicConversion: OrganicConversionMonthlyReportInterface,
 }
 
 export async function fetchMonthlyReportSeoPerformance({
@@ -53,10 +55,12 @@ export async function fetchMonthlyReportSeoPerformance({
 
             const sessionFromOrganic = await fetchSessionFromOrganicMonthlyReportData(requestParameters)
             const engagedSessionOrganic = await fetchEngagedSessionOrganicMonthlyReport(requestParameters);
+            const organicConversion = await fetchOrganicConversionDataMonthlyReport(requestParameters);
 
             return resolve({
                 sessionFromOrganic,
                 engagedSessionOrganic,
+                organicConversion,
             })
             
         } catch (err) {

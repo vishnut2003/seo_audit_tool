@@ -13,6 +13,7 @@ import TopBrowsersMonthlyReport from "./SeoPerformance/TopBrowsers";
 import TopPagesBySessionFromOrganic from "./SeoPerformance/TopPagesBySessionFromOrganic";
 import { SessionFromOrganicMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/sessionFromOrganic";
 import { EngagedSessionOrganicMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/EngagedSessionOrganic";
+import { OrganicConversionMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicConversions";
 
 const dummyData: {
     date: string,
@@ -97,9 +98,11 @@ const dummyData: {
 const SeoPerformanceMonthlyReport = ({
     sessionFromOrganicData,
     engagedSessionOrganicData,
+    organicConversionData,
 }: {
     sessionFromOrganicData: SessionFromOrganicMonthlyReportInterface | null,
     engagedSessionOrganicData: EngagedSessionOrganicMonthlyReportInterface | null,
+    organicConversionData: OrganicConversionMonthlyReportInterface | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -191,20 +194,21 @@ const SeoPerformanceMonthlyReport = ({
                                 noOfCol={4.2}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Conversion from organic"
-                                    value={118}
+                                    graphName="Organic Conversion"
+                                    value={organicConversionData?.currentMonthConversion}
+                                    prevMonthValue={organicConversionData?.prevMonthConversion}
                                 />
                                 <LineChartMonthlyReport
-                                    data={dummyData}
+                                    data={organicConversionData?.graphTicks || []}
                                     xAxisDataKey={'date'}
-                                    yAxisDataKey={'value'}
+                                    yAxisDataKey={'conversion'}
                                     lineValues={[
-                                        "value",
+                                        "conversion",
                                     ]}
                                 />
                                 <ChartFooterMonthlyReport
-                                    prevPeriodPercent={40}
-                                    prevYearPercent={200}
+                                    prevPeriodPercent={organicConversionData?.percent.prevMonth}
+                                    prevYearPercent={organicConversionData?.percent.prevYear}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )
