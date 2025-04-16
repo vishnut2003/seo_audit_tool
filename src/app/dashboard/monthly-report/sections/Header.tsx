@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 import {
     Select,
@@ -11,11 +11,31 @@ import {
 } from "@/Components/ui/select";
 import { useRouter } from 'next/navigation';
 import { RiLoader4Line } from '@remixicon/react';
+import { getLast12MonthsRanges } from '@/utils/server/monthlyReport/commonUtils';
 
-const MonthlyReportHeader = () => {
+const MonthlyReportHeader = ({
+    setSelectedDate,
+    updateReportFunction,
+}: {
+    setSelectedDate: Dispatch<SetStateAction<string>>,
+    updatingReport: boolean,
+    updateReportFunction: () => Promise<void>,
+}) => {
 
     const router = useRouter();
     const [inProgress, setInProgress] = useState<boolean>(false);
+
+    const [dateRanges, setDateRanges] = useState<{
+        startDate: string,
+        endDate: string,
+    }[]>([]);
+
+    useEffect(() => {
+        // generate prev 12 months date range
+        const fromDate = new Date().toISOString().split('T')[0];
+        const dateRanges = getLast12MonthsRanges({ fromDate });
+        setDateRanges(dateRanges);
+    }, [])
 
     return (
         <div
@@ -33,8 +53,14 @@ const MonthlyReportHeader = () => {
                     <p
                         className="font-semibold text-sm"
                     >Report For</p>
-                    <div>
-                        <Select>
+                    <div
+                        className='flex items-center gap-2'
+                    >
+                        <Select
+                            onValueChange={(value) => {
+                                setSelectedDate(value)
+                            }}
+                        >
                             <SelectTrigger
                                 className="w-max bg-white h-[20px] shadow-xl shadow-gray-200"
                             >
@@ -44,11 +70,40 @@ const MonthlyReportHeader = () => {
                                 />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="light">Light</SelectItem>
-                                <SelectItem value="dark">Dark</SelectItem>
-                                <SelectItem value="system">System</SelectItem>
+                                {dateRanges.reverse().map((date, index) => {
+                                    const startDate = new Date(date.startDate).toLocaleString('default', {
+                                        year: "numeric",
+                                        day: "numeric",
+                                        month: "short",
+                                    });
+
+                                    const endDate = new Date(date.endDate).toLocaleString('default', {
+                                        year: "numeric",
+                                        day: "numeric",
+                                        month: "short",
+                                    });
+
+                                    const dateObj = new Date(date.startDate)
+                                    const [year, month] = [dateObj.getFullYear(), dateObj.toLocaleString('default', { month: "short" })];
+
+                                    return (
+                                        <SelectItem
+                                            value={`${month}/${year}`}
+                                            key={index}
+                                        >{`${startDate} - ${endDate}`}</SelectItem>
+                                    )
+                                })}
                             </SelectContent>
                         </Select>
+
+                        <button
+                            className='py-2 text-xs px-4 bg-themesecondary rounded-md text-white shadow-md shadow-themesecondary'
+                            onClick={() => {
+                                updateReportFunction();
+                            }}
+                        >
+                            Apply
+                        </button>
 
                     </div>
                 </div>

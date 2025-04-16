@@ -23,6 +23,7 @@ import { AdvertiserAdsCostMonthlyReportInterface } from "@/utils/server/monthlyR
 import { PaidConversionMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/paidConversion";
 import { PaidConversionRateMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/PaidConversionRate";
 import { PaidRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/paidRevenue";
+import { AxiosError } from "axios";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -88,6 +89,29 @@ const MonthlyReportMainContent = ({
     const [passingPaidConversionRateData, setPassingPaidConversionRateData] = useState<PaidConversionRateMonthlyReportInterface | null>(null);
     const [passingPaidRevenueData, setPassingPaidRevenueData] = useState<PaidRevenueMonthlyReportInterface | null>(null);
 
+    const [selectedDate, setSelectedDate] = useState<string>('');
+
+    const [error, setError] = useState<string | null>(null);
+    const [inProgress] = useState<boolean>(false);
+
+    async function updateReportData () {
+        try {
+
+            console.log(selectedDate);
+
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else if (err instanceof AxiosError) {
+                setError(err.message);
+            } else if (typeof err === "string") {
+                setError(err);
+            } else {
+                setError("Something went wrong!");
+            }
+        }
+    }
+
     useEffect(() => {
         // Traffic overview
         setPassingTotalSessionData(totalSessionData);
@@ -133,12 +157,22 @@ const MonthlyReportMainContent = ({
         paidRevenueData,
     ]);
 
+    if (error) {
+        return (
+            <p>{error}</p>
+        )
+    }
+
     return (
         <div
             className="flex flex-col items-center justify-start pb-[50px]"
         >
             {/* Heading section */}
-            <MonthlyReportHeader />
+            <MonthlyReportHeader
+                setSelectedDate={setSelectedDate}
+                updatingReport={inProgress}
+                updateReportFunction={updateReportData}
+            />
 
             {/* Traffic Overview */}
             <TrafficOverviewMonthlyReport

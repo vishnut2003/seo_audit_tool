@@ -72,7 +72,6 @@ const PieChartMonthlyReport = ({
                     label
                 >
                     {data.map((value, index) => {
-                        console.log(value);
                         return (
                             <Cell
                                 key={`cell-${value[dataKey]}`}
