@@ -10,29 +10,6 @@ import {
 } from "@/Components/ui/table"
 import { TopPagesOrganicMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topPagesOrganic";
 
-
-const dummyData: {
-  pathName: string,
-  session: number,
-}[] = [
-    {
-      pathName: "/",
-      session: 10,
-    },
-    {
-      pathName: "/test",
-      session: 20,
-    },
-    {
-      pathName: "/test2",
-      session: 30,
-    },
-    {
-      pathName: "/test2",
-      session: 30,
-    },
-  ]
-
 const TopLandingPageMonthlyReport = ({
   tableData,
 }: {
