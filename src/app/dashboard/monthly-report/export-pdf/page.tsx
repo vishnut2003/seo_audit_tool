@@ -11,6 +11,7 @@ import ResetConnectionButton from '../../analytics-report/reports/ResetConnectio
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth'
 import { fetchMonthlyReportTrafficOverview } from '@/utils/server/monthlyReport/trafficOverview/trafficOverview'
 import { fetchMonthlyReportSeoPerformance } from '@/utils/server/monthlyReport/seoPerformance/seoPerformance'
+import { fetchMonthlyReportPpcPerformance } from '@/utils/server/monthlyReport/ppcPerformance/ppcPerformance'
 
 const MonthlyReportExportAsPDFPage = async () => {
 
@@ -88,6 +89,10 @@ const MonthlyReportExportAsPDFPage = async () => {
             topLandingPages,
         } = await fetchMonthlyReportSeoPerformance(requestParameter);
 
+        const {
+            advertiserAdsCost,
+        } = await fetchMonthlyReportPpcPerformance(requestParameter);
+
         return (
             <div className="w-dvw h-dvh bg-[#323639] flex flex-col justify-center">
 
@@ -126,6 +131,7 @@ const MonthlyReportExportAsPDFPage = async () => {
                         topPagesOrganic={topPagesOrganic}
                         topBrowsers={topBrowsers}
                         topLandingPages={topLandingPages}
+                        advertiserAdsCost={advertiserAdsCost}
                     />
                 </div>
             </div>

@@ -10,6 +10,7 @@ import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server
 import ResetConnectionButton from '../analytics-report/reports/ResetConnectionButton';
 import { fetchMonthlyReportTrafficOverview } from '@/utils/server/monthlyReport/trafficOverview/trafficOverview';
 import { fetchMonthlyReportSeoPerformance } from '@/utils/server/monthlyReport/seoPerformance/seoPerformance';
+import { fetchMonthlyReportPpcPerformance } from '@/utils/server/monthlyReport/ppcPerformance/ppcPerformance';
 
 const MonthlyReportPage = async () => {
 
@@ -117,6 +118,10 @@ const MonthlyReportPage = async () => {
       topLandingPages,
     } = await fetchMonthlyReportSeoPerformance(requestParameter)
 
+    const {
+      advertiserAdsCost,
+    } = await fetchMonthlyReportPpcPerformance(requestParameter)
+
     return (
       <BasicLayout
         pageTitle='Monthly Report'
@@ -136,6 +141,7 @@ const MonthlyReportPage = async () => {
           topPagesOrganicData={topPagesOrganic}
           topBrowsersData={topBrowsers}
           topLandingPagesData={topLandingPages}
+          advertiserAdsCostData={advertiserAdsCost}
         />
       </BasicLayout>
     )

@@ -19,6 +19,7 @@ import { OrganicRevenueMonthlyReportInterface } from "@/utils/server/monthlyRepo
 import { TopPagesOrganicMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topPagesOrganic";
 import { TopBrowsersMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/topBrowsers";
 import { TopLandingPagesMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topLandingPages";
+import { AdvertiserAdsCostMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/advertiserAdsCost";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -35,6 +36,7 @@ const MonthlyReportMainContent = ({
     topPagesOrganicData,
     topBrowsersData,
     topLandingPagesData,
+    advertiserAdsCostData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
@@ -50,6 +52,7 @@ const MonthlyReportMainContent = ({
     topPagesOrganicData: TopPagesOrganicMonthlyReport,
     topBrowsersData: TopBrowsersMonthlyReportInterface,
     topLandingPagesData: TopLandingPagesMonthlyReport,
+    advertiserAdsCostData: AdvertiserAdsCostMonthlyReportInterface,
 }) => {
 
     // Traffic Overview
@@ -70,6 +73,9 @@ const MonthlyReportMainContent = ({
     const [passingTopBrowsersData, setPassingTopBrowsersData] = useState<TopBrowsersMonthlyReportInterface | null>(null);
     const [passingTopLandingPagesData, setPassingTopLandingPagesData] = useState<TopLandingPagesMonthlyReport | null>(null);
 
+    // PPC Performance
+    const [passingAdvertiserAdsCostData, setPassingAdvertiserAdsCostData] = useState<AdvertiserAdsCostMonthlyReportInterface | null>(null);
+
     useEffect(() => {
         // Traffic overview
         setPassingTotalSessionData(totalSessionData);
@@ -88,6 +94,7 @@ const MonthlyReportMainContent = ({
         setPassingTopPagesOrganicData(topPagesOrganicData);
         setPassingTopBrowsersData(topBrowsersData);
         setPassingTopLandingPagesData(topLandingPagesData);
+        setPassingAdvertiserAdsCostData(advertiserAdsCostData);
     }, [
         totalSessionData,
         totalBounceRate,
@@ -103,6 +110,7 @@ const MonthlyReportMainContent = ({
         topPagesOrganicData,
         topBrowsersData,
         topLandingPagesData,
+        advertiserAdsCostData,
     ]);
 
     return (
@@ -135,7 +143,9 @@ const MonthlyReportMainContent = ({
             />
 
             {/* PPC Performance */}
-            <PpcPerformanceMonthlyReport />
+            <PpcPerformanceMonthlyReport
+                advertiserAdsCostData={passingAdvertiserAdsCostData}
+            />
         </div>
     )
 }

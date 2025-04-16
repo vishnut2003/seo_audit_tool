@@ -22,6 +22,7 @@ import { OrganicRevenueMonthlyReportInterface } from '@/utils/server/monthlyRepo
 import { TopPagesOrganicMonthlyReport } from '@/utils/server/monthlyReport/seoPerformance/topPagesOrganic';
 import { TopBrowsersMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/topBrowsers';
 import { TopLandingPagesMonthlyReport } from '@/utils/server/monthlyReport/seoPerformance/topLandingPages';
+import { AdvertiserAdsCostMonthlyReportInterface } from '@/utils/server/monthlyReport/ppcPerformance/advertiserAdsCost';
 
 const MainContentMonthlyReportExportPdf = ({
     sessionData,
@@ -38,6 +39,7 @@ const MainContentMonthlyReportExportPdf = ({
     topPagesOrganic,
     topBrowsers,
     topLandingPages,
+    advertiserAdsCost,
 }: {
     sessionData: TotalSessionMonthlyReportInterface,
     bounceRateData: TotalBounceRateMonthlyReportInterface,
@@ -53,6 +55,7 @@ const MainContentMonthlyReportExportPdf = ({
     topPagesOrganic: TopPagesOrganicMonthlyReport,
     topBrowsers: TopBrowsersMonthlyReportInterface,
     topLandingPages: TopLandingPagesMonthlyReport,
+    advertiserAdsCost: AdvertiserAdsCostMonthlyReportInterface,
 }) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
@@ -118,7 +121,9 @@ const MainContentMonthlyReportExportPdf = ({
             <Convert2Image
                 onCapture={setPpcPerformance}
             >
-                <PpcPerformanceMonthlyReport/>
+                <PpcPerformanceMonthlyReport
+                    advertiserAdsCostData={advertiserAdsCost}
+                />
             </Convert2Image>
         )
     }
