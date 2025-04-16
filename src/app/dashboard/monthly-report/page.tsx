@@ -111,6 +111,7 @@ const MonthlyReportPage = async () => {
       sessionFromOrganic,
       engagedSessionOrganic,
       organicConversion,
+      organicRevenue,
     } = await fetchMonthlyReportSeoPerformance(requestParameter)
 
     return (
@@ -128,6 +129,7 @@ const MonthlyReportPage = async () => {
           sessionFromOrganicData={sessionFromOrganic}
           engagedSessionOrganicData={engagedSessionOrganic}
           organicConversionData={organicConversion}
+          organicRevenueData={organicRevenue}
         />
       </BasicLayout>
     )

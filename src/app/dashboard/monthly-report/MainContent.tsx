@@ -15,6 +15,7 @@ import { TotalSessionByCountryMonthlyReportInterface } from "@/utils/server/mont
 import { SessionFromOrganicMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/sessionFromOrganic";
 import { EngagedSessionOrganicMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/EngagedSessionOrganic";
 import { OrganicConversionMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicConversions";
+import { OrganicRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicRevenue";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -27,6 +28,7 @@ const MonthlyReportMainContent = ({
     sessionFromOrganicData,
     engagedSessionOrganicData,
     organicConversionData,
+    organicRevenueData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
@@ -38,6 +40,7 @@ const MonthlyReportMainContent = ({
     sessionFromOrganicData: SessionFromOrganicMonthlyReportInterface,
     engagedSessionOrganicData: EngagedSessionOrganicMonthlyReportInterface,
     organicConversionData: OrganicConversionMonthlyReportInterface,
+    organicRevenueData: OrganicRevenueMonthlyReportInterface,
 }) => {
 
     // Traffic Overview
@@ -53,6 +56,7 @@ const MonthlyReportMainContent = ({
     const [passingSessionFromOrganicData, setPassingSessionFromOrganicData] = useState<SessionFromOrganicMonthlyReportInterface | null>(null);
     const [passingEngagedSessionOrganicData, setPassingEngagedSessionOrganicData] = useState<EngagedSessionOrganicMonthlyReportInterface | null>(null);
     const [passingOrganicConversionData, setPassingOrganicConversionData] = useState<OrganicConversionMonthlyReportInterface | null>(null);
+    const [passingOrganicRevenueData, setPassingOrganicRevenueData] = useState<OrganicRevenueMonthlyReportInterface | null>(null);
 
     useEffect(() => {
         // Traffic overview
@@ -68,6 +72,7 @@ const MonthlyReportMainContent = ({
         setPassingSessionFromOrganicData(sessionFromOrganicData);
         setPassingEngagedSessionOrganicData(engagedSessionOrganicData);
         setPassingOrganicConversionData(organicConversionData);
+        setPassingOrganicRevenueData(organicRevenueData);
     }, [
         totalSessionData,
         totalBounceRate,
@@ -79,6 +84,7 @@ const MonthlyReportMainContent = ({
         sessionFromOrganicData,
         engagedSessionOrganicData,
         organicConversionData,
+        organicRevenueData,
     ]);
 
     return (
@@ -104,6 +110,7 @@ const MonthlyReportMainContent = ({
                 sessionFromOrganicData={passingSessionFromOrganicData}
                 engagedSessionOrganicData={passingEngagedSessionOrganicData}
                 organicConversionData={passingOrganicConversionData}
+                organicRevenue={passingOrganicRevenueData}
             />
 
             {/* PPC Performance */}

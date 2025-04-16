@@ -18,6 +18,7 @@ import { TotalSessionByCountryMonthlyReportInterface } from '@/utils/server/mont
 import { SessionFromOrganicMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/sessionFromOrganic';
 import { EngagedSessionOrganicMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/EngagedSessionOrganic';
 import { OrganicConversionMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/organicConversions';
+import { OrganicRevenueMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/organicRevenue';
 
 const MainContentMonthlyReportExportPdf = ({
     sessionData,
@@ -30,6 +31,7 @@ const MainContentMonthlyReportExportPdf = ({
     sessionFromOrganic,
     engagedSessionOrganic,
     organicConversion,
+    organicRevenue,
 }: {
     sessionData: TotalSessionMonthlyReportInterface,
     bounceRateData: TotalBounceRateMonthlyReportInterface,
@@ -41,6 +43,7 @@ const MainContentMonthlyReportExportPdf = ({
     sessionFromOrganic: SessionFromOrganicMonthlyReportInterface,
     engagedSessionOrganic: EngagedSessionOrganicMonthlyReportInterface,
     organicConversion: OrganicConversionMonthlyReportInterface,
+    organicRevenue: OrganicRevenueMonthlyReportInterface,
 }) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
@@ -92,6 +95,7 @@ const MainContentMonthlyReportExportPdf = ({
                     sessionFromOrganicData={sessionFromOrganic}
                     engagedSessionOrganicData={engagedSessionOrganic}
                     organicConversionData={organicConversion}
+                    organicRevenue={organicRevenue}
                 />
             </Convert2Image>
         )
