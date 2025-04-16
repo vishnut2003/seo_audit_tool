@@ -21,6 +21,7 @@ import { TopBrowsersMonthlyReportInterface } from "@/utils/server/monthlyReport/
 import { TopLandingPagesMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topLandingPages";
 import { AdvertiserAdsCostMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/advertiserAdsCost";
 import { PaidConversionMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/paidConversion";
+import { PaidConversionRateMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/PaidConversionRate";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -39,6 +40,7 @@ const MonthlyReportMainContent = ({
     topLandingPagesData,
     advertiserAdsCostData,
     paidConversionData,
+    paidConversionRateData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
@@ -56,6 +58,7 @@ const MonthlyReportMainContent = ({
     topLandingPagesData: TopLandingPagesMonthlyReport,
     advertiserAdsCostData: AdvertiserAdsCostMonthlyReportInterface,
     paidConversionData: PaidConversionMonthlyReportInterface,
+    paidConversionRateData: PaidConversionRateMonthlyReportInterface,
 }) => {
 
     // Traffic Overview
@@ -79,6 +82,7 @@ const MonthlyReportMainContent = ({
     // PPC Performance
     const [passingAdvertiserAdsCostData, setPassingAdvertiserAdsCostData] = useState<AdvertiserAdsCostMonthlyReportInterface | null>(null);
     const [passingPaidConversionData, setPassingPaidConversionData] = useState<PaidConversionMonthlyReportInterface | null>(null);
+    const [passingPaidConversionRateData, setPassingPaidConversionRateData] = useState<PaidConversionRateMonthlyReportInterface | null>(null);
 
     useEffect(() => {
         // Traffic overview
@@ -102,6 +106,7 @@ const MonthlyReportMainContent = ({
         // PPC Performance
         setPassingAdvertiserAdsCostData(advertiserAdsCostData);
         setPassingPaidConversionData(paidConversionData);
+        setPassingPaidConversionRateData(paidConversionRateData);
     }, [
         totalSessionData,
         totalBounceRate,
@@ -154,6 +159,7 @@ const MonthlyReportMainContent = ({
             <PpcPerformanceMonthlyReport
                 advertiserAdsCostData={passingAdvertiserAdsCostData}
                 paidConversionData={passingPaidConversionData}
+                paidConversionRateData={passingPaidConversionRateData}
             />
         </div>
     )

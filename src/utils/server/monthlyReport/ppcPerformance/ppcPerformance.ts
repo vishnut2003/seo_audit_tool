@@ -4,10 +4,12 @@ import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { getDateRangeForMonth, getLast12MonthsRanges, getPrevShortMonth } from "../commonUtils";
 import { AdvertiserAdsCostMonthlyReportInterface, fetchAdvertiserAdsCostMonthlyReport } from "./advertiserAdsCost";
 import { fetchPaidConversionDataMonthlyReport, PaidConversionMonthlyReportInterface } from "./paidConversion";
+import { fetchPaidConversionRateMonthlyReport, PaidConversionRateMonthlyReportInterface } from "./PaidConversionRate";
 
 export interface MonthlyReportPPCPerformanceResponse {
     advertiserAdsCost: AdvertiserAdsCostMonthlyReportInterface,
     paidConversion: PaidConversionMonthlyReportInterface,
+    paidConversionRate: PaidConversionRateMonthlyReportInterface,
 }
 
 export async function fetchMonthlyReportPpcPerformance({
@@ -53,10 +55,12 @@ export async function fetchMonthlyReportPpcPerformance({
 
             const advertiserAdsCost = await fetchAdvertiserAdsCostMonthlyReport(requestParameters);
             const paidConversion = await fetchPaidConversionDataMonthlyReport(requestParameters);
-
+            const paidConversionRate = await fetchPaidConversionRateMonthlyReport(requestParameters);
+        
             return resolve({
                 advertiserAdsCost,
                 paidConversion,
+                paidConversionRate,
             })
         } catch (err) {
             return reject(err);
