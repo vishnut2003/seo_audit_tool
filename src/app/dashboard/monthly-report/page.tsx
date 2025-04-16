@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation';
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth';
 import ResetConnectionButton from '../analytics-report/reports/ResetConnectionButton';
 import { fetchMonthlyReportTrafficOverview } from '@/utils/server/monthlyReport/trafficOverview/trafficOverview';
+import { fetchMonthlyReportSeoPerformance } from '@/utils/server/monthlyReport/seoPerformance/seoPerformance';
 
 const MonthlyReportPage = async () => {
 
@@ -87,6 +88,15 @@ const MonthlyReportPage = async () => {
       new Date().getFullYear(),
     ];
 
+    const requestParameter = {
+      auth,
+      filters: {
+        currentMonth,
+        currentYear,
+      },
+      propertyId: project.googleAnalytics.propertyId,
+    }
+
     const {
       totalSessions,
       totalBounceRate,
@@ -95,14 +105,11 @@ const MonthlyReportPage = async () => {
       topChannelsData,
       newUsersData,
       sessionByCountry,
-    } = await fetchMonthlyReportTrafficOverview({
-      auth,
-      filters: {
-        currentMonth,
-        currentYear,
-      },
-      propertyId: project.googleAnalytics.propertyId,
-    });
+    } = await fetchMonthlyReportTrafficOverview(requestParameter);
+
+    const {
+      sessionFromOrganic,
+    } = await fetchMonthlyReportSeoPerformance(requestParameter)
 
     return (
       <BasicLayout
@@ -116,6 +123,7 @@ const MonthlyReportPage = async () => {
           topChannelsData={topChannelsData}
           newUsersData={newUsersData}
           sessionByCountryData={sessionByCountry}
+          sessionFromOrganicData={sessionFromOrganic}
         />
       </BasicLayout>
     )

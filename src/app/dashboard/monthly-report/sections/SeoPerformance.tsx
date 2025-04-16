@@ -11,6 +11,7 @@ import LineChartMonthlyReport from "@/Components/Recharts/MonthlyReportCharts/Li
 import TopLandingPageMonthlyReport from "./SeoPerformance/TopLandingPage";
 import TopBrowsersMonthlyReport from "./SeoPerformance/TopBrowsers";
 import TopPagesBySessionFromOrganic from "./SeoPerformance/TopPagesBySessionFromOrganic";
+import { SessionFromOrganicMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/sessionFromOrganic";
 
 const dummyData: {
     date: string,
@@ -92,7 +93,11 @@ const dummyData: {
         },
     ];
 
-const SeoPerformanceMonthlyReport = () => {
+const SeoPerformanceMonthlyReport = ({
+    sessionFromOrganicData,
+}: {
+    sessionFromOrganicData: SessionFromOrganicMonthlyReportInterface | null,
+}) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
 
@@ -123,20 +128,21 @@ const SeoPerformanceMonthlyReport = () => {
                                 noOfCol={4.2}
                             >
                                 <ChartHeaderMonthlyReport
-                                    graphName="Session from organic"
-                                    value={118}
+                                    graphName="Organic Sessions"
+                                    value={sessionFromOrganicData?.currentMonthSession}
+                                    prevMonthValue={sessionFromOrganicData?.prevMonthSession}
                                 />
                                 <BarChartTemplateMonthlyReport
-                                    data={dummyData}
+                                    data={sessionFromOrganicData?.graphTicks || []}
                                     xAxisDataKey={'date'}
-                                    yAxisDataKey={'value'}
+                                    yAxisDataKey={'session'}
                                     barValues={[
-                                        "value",
+                                        "session",
                                     ]}
                                 />
                                 <ChartFooterMonthlyReport
-                                    prevPeriodPercent={40}
-                                    prevYearPercent={200}
+                                    prevPeriodPercent={sessionFromOrganicData?.percent.prevMonth}
+                                    prevYearPercent={sessionFromOrganicData?.percent.prevYear}
                                 />
                             </ColumnLayoutMonthlyReport>
                         )

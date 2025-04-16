@@ -13,6 +13,7 @@ export async function fetchAnalyticsClient({
     metrics,
     propertyId,
     orderBys,
+    dimensionFilter,
 }: {
     analyticsClient: BetaAnalyticsDataClient,
     propertyId: string,
@@ -26,7 +27,8 @@ export async function fetchAnalyticsClient({
     metrics: {
         name: string,
     }[],
-    orderBys?: google.analytics.data.v1beta.IRunReportRequest['orderBys']
+    orderBys?: google.analytics.data.v1beta.IRunReportRequest['orderBys'],
+    dimensionFilter?: google.analytics.data.v1beta.IRunReportRequest['dimensionFilter'],
 }) {
     return new Promise<AnalyticsClientReturnValueInterface[]>(async (resolve, reject) => {
         try {
@@ -37,6 +39,7 @@ export async function fetchAnalyticsClient({
                 dimensions,
                 metrics,
                 orderBys,
+                dimensionFilter,
             })
 
             const finalResponse: AnalyticsClientReturnValueInterface[] = [];

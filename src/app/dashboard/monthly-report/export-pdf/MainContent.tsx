@@ -14,6 +14,8 @@ import { ConversionDataMonthlyReportInterface } from '@/utils/server/monthlyRepo
 import { SessionConversionDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/sessionConversionData';
 import { TopChannelsDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/topChannels';
 import { NewUsersDataMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/newUsersData';
+import { TotalSessionByCountryMonthlyReportInterface } from '@/utils/server/monthlyReport/trafficOverview/engagedSessionByCountry';
+import { SessionFromOrganicMonthlyReportInterface } from '@/utils/server/monthlyReport/seoPerformance/sessionFromOrganic';
 
 const MainContentMonthlyReportExportPdf = ({
     sessionData,
@@ -22,6 +24,8 @@ const MainContentMonthlyReportExportPdf = ({
     sessionConversionData,
     topChannelsData,
     newUsersData,
+    sessionByCountry,
+    sessionFromOrganic,
 }: {
     sessionData: TotalSessionMonthlyReportInterface,
     bounceRateData: TotalBounceRateMonthlyReportInterface,
@@ -29,6 +33,8 @@ const MainContentMonthlyReportExportPdf = ({
     sessionConversionData: SessionConversionDataMonthlyReportInterface,
     topChannelsData: TopChannelsDataMonthlyReportInterface,
     newUsersData: NewUsersDataMonthlyReportInterface,
+    sessionByCountry: TotalSessionByCountryMonthlyReportInterface,
+    sessionFromOrganic: SessionFromOrganicMonthlyReportInterface,
 }) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
@@ -65,6 +71,7 @@ const MainContentMonthlyReportExportPdf = ({
                     sessionConversionData={sessionConversionData}
                     topChannelsData={topChannelsData}
                     newUsersData={newUsersData}
+                    sessionByCountry={sessionByCountry}
                 />
             </Convert2Image>
         )
@@ -75,7 +82,9 @@ const MainContentMonthlyReportExportPdf = ({
             <Convert2Image
                 onCapture={setSeoPerformance}
             >
-                <SeoPerformanceMonthlyReport />
+                <SeoPerformanceMonthlyReport
+                    sessionFromOrganicData={sessionFromOrganic}
+                />
             </Convert2Image>
         )
     }

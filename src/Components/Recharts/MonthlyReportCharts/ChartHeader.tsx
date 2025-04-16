@@ -33,7 +33,7 @@ const ChartHeaderMonthlyReport = ({
                     className='flex flex-col gap-1 items-end'
                 >
                     <p
-                        className='text-xs font-medium uppercase'
+                        className='text-xs font-medium uppercase text-right'
                     >Prev Month</p>
                     <p
                         className='text-lg font-semibold'

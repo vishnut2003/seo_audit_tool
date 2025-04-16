@@ -10,6 +10,7 @@ import BasicLayout from '@/layouts/BasicLayout/BasicLayout'
 import ResetConnectionButton from '../../analytics-report/reports/ResetConnectionButton'
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth'
 import { fetchMonthlyReportTrafficOverview } from '@/utils/server/monthlyReport/trafficOverview/trafficOverview'
+import { fetchMonthlyReportSeoPerformance } from '@/utils/server/monthlyReport/seoPerformance/seoPerformance'
 
 const MonthlyReportExportAsPDFPage = async () => {
 
@@ -58,6 +59,15 @@ const MonthlyReportExportAsPDFPage = async () => {
             new Date().getFullYear(),
         ];
 
+        const requestParameter = {
+            auth,
+            filters: {
+                currentMonth,
+                currentYear,
+            },
+            propertyId: project.googleAnalytics.propertyId,
+        }
+
         const {
             totalSessions,
             totalBounceRate,
@@ -65,14 +75,12 @@ const MonthlyReportExportAsPDFPage = async () => {
             sessionConversionData,
             topChannelsData,
             newUsersData,
-        } = await fetchMonthlyReportTrafficOverview({
-            auth,
-            filters: {
-                currentMonth,
-                currentYear,
-            },
-            propertyId: project.googleAnalytics.propertyId,
-        });
+            sessionByCountry,
+        } = await fetchMonthlyReportTrafficOverview(requestParameter);
+
+        const {
+            sessionFromOrganic,
+        } = await fetchMonthlyReportSeoPerformance(requestParameter);
 
         return (
             <div className="w-dvw h-dvh bg-[#323639] flex flex-col justify-center">
@@ -104,6 +112,8 @@ const MonthlyReportExportAsPDFPage = async () => {
                         sessionConversionData={sessionConversionData}
                         topChannelsData={topChannelsData}
                         newUsersData={newUsersData}
+                        sessionByCountry={sessionByCountry}
+                        sessionFromOrganic={sessionFromOrganic}
                     />
                 </div>
             </div>
