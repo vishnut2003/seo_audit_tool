@@ -8,6 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table"
+import { TopLandingPagesMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topLandingPages";
 
 
 const dummyData: {
@@ -42,7 +43,11 @@ const dummyData: {
         },
     ]
 
-const TopPagesBySessionFromOrganic = () => {
+const TopPagesBySessionFromOrganic = ({
+    tableData,
+}: {
+    tableData: TopLandingPagesMonthlyReport["tableData"],
+}) => {
     return (
         <div
             className="w-full"
@@ -68,7 +73,7 @@ const TopPagesBySessionFromOrganic = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        [dummyData[0], dummyData[1], dummyData[2], dummyData[3]].map((value, index) => (
+                        tableData.filter((data, index) => index < 4 && data).map((value, index) => (
                             <TableRow
                                 key={index}
                             >

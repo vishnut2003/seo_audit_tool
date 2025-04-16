@@ -17,6 +17,7 @@ import { OrganicConversionMonthlyReportInterface } from "@/utils/server/monthlyR
 import { OrganicRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicRevenue";
 import { TopPagesOrganicMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topPagesOrganic";
 import { TopBrowsersMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/topBrowsers";
+import { TopLandingPagesMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topLandingPages";
 
 const SeoPerformanceMonthlyReport = ({
     sessionFromOrganicData,
@@ -25,6 +26,7 @@ const SeoPerformanceMonthlyReport = ({
     organicRevenue,
     topPagesOrganic,
     topBrowsers,
+    topLandingPages,
 }: {
     sessionFromOrganicData: SessionFromOrganicMonthlyReportInterface | null,
     engagedSessionOrganicData: EngagedSessionOrganicMonthlyReportInterface | null,
@@ -32,6 +34,7 @@ const SeoPerformanceMonthlyReport = ({
     organicRevenue: OrganicRevenueMonthlyReportInterface | null,
     topPagesOrganic: TopPagesOrganicMonthlyReport | null,
     topBrowsers: TopBrowsersMonthlyReportInterface | null,
+    topLandingPages: TopLandingPagesMonthlyReport | null,
 }) => {
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -235,7 +238,9 @@ const SeoPerformanceMonthlyReport = ({
                                 <ChartHeaderMonthlyReport
                                     graphName="Top landing pages from organic"
                                 />
-                                <TopPagesBySessionFromOrganic/>
+                                <TopPagesBySessionFromOrganic
+                                    tableData={topLandingPages?.tableData || []}
+                                />
                             </ColumnLayoutMonthlyReport>
                         )
                     },

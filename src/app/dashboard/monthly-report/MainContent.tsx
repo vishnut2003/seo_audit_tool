@@ -18,6 +18,7 @@ import { OrganicConversionMonthlyReportInterface } from "@/utils/server/monthlyR
 import { OrganicRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/organicRevenue";
 import { TopPagesOrganicMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topPagesOrganic";
 import { TopBrowsersMonthlyReportInterface } from "@/utils/server/monthlyReport/seoPerformance/topBrowsers";
+import { TopLandingPagesMonthlyReport } from "@/utils/server/monthlyReport/seoPerformance/topLandingPages";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -33,6 +34,7 @@ const MonthlyReportMainContent = ({
     organicRevenueData,
     topPagesOrganicData,
     topBrowsersData,
+    topLandingPagesData,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
@@ -47,6 +49,7 @@ const MonthlyReportMainContent = ({
     organicRevenueData: OrganicRevenueMonthlyReportInterface,
     topPagesOrganicData: TopPagesOrganicMonthlyReport,
     topBrowsersData: TopBrowsersMonthlyReportInterface,
+    topLandingPagesData: TopLandingPagesMonthlyReport,
 }) => {
 
     // Traffic Overview
@@ -65,6 +68,7 @@ const MonthlyReportMainContent = ({
     const [passingOrganicRevenueData, setPassingOrganicRevenueData] = useState<OrganicRevenueMonthlyReportInterface | null>(null);
     const [passingTopPagesOrganicData, setPassingTopPagesOrganicData] = useState<TopPagesOrganicMonthlyReport | null>(null);
     const [passingTopBrowsersData, setPassingTopBrowsersData] = useState<TopBrowsersMonthlyReportInterface | null>(null);
+    const [passingTopLandingPagesData, setPassingTopLandingPagesData] = useState<TopLandingPagesMonthlyReport | null>(null);
 
     useEffect(() => {
         // Traffic overview
@@ -83,6 +87,7 @@ const MonthlyReportMainContent = ({
         setPassingOrganicRevenueData(organicRevenueData);
         setPassingTopPagesOrganicData(topPagesOrganicData);
         setPassingTopBrowsersData(topBrowsersData);
+        setPassingTopLandingPagesData(topLandingPagesData);
     }, [
         totalSessionData,
         totalBounceRate,
@@ -97,6 +102,7 @@ const MonthlyReportMainContent = ({
         organicRevenueData,
         topPagesOrganicData,
         topBrowsersData,
+        topLandingPagesData,
     ]);
 
     return (
@@ -125,6 +131,7 @@ const MonthlyReportMainContent = ({
                 organicRevenue={passingOrganicRevenueData}
                 topPagesOrganic={passingTopPagesOrganicData}
                 topBrowsers={passingTopBrowsersData}
+                topLandingPages={passingTopLandingPagesData}
             />
 
             {/* PPC Performance */}
