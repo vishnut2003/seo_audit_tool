@@ -17,9 +17,9 @@ const MonthlyReportHeader = ({
     setSelectedDate,
     updateReportFunction,
 }: {
-    setSelectedDate: Dispatch<SetStateAction<string>>,
-    updatingReport: boolean,
-    updateReportFunction: () => Promise<void>,
+    setSelectedDate?: Dispatch<SetStateAction<string>>,
+    updatingReport?: boolean,
+    updateReportFunction?: () => Promise<void>,
 }) => {
 
     const router = useRouter();
@@ -53,59 +53,65 @@ const MonthlyReportHeader = ({
                     <p
                         className="font-semibold text-sm"
                     >Report For</p>
-                    <div
-                        className='flex items-center gap-2'
-                    >
-                        <Select
-                            onValueChange={(value) => {
-                                setSelectedDate(value)
-                            }}
+                    {
+                        setSelectedDate &&
+                        <div
+                            className='flex items-center gap-2'
                         >
-                            <SelectTrigger
-                                className="w-max bg-white h-[20px] shadow-xl shadow-gray-200"
+                            <Select
+                                onValueChange={(value) => {
+                                    setSelectedDate(value)
+                                }}
                             >
-                                <SelectValue
-                                    className="m-0"
-                                    placeholder="Mar 1, 2025 - Mar 31, 2025"
-                                />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {dateRanges.reverse().map((date, index) => {
-                                    const startDate = new Date(date.startDate).toLocaleString('default', {
-                                        year: "numeric",
-                                        day: "numeric",
-                                        month: "short",
-                                    });
+                                <SelectTrigger
+                                    className="w-max bg-white h-[20px] shadow-xl shadow-gray-200"
+                                >
+                                    <SelectValue
+                                        className="m-0"
+                                        placeholder="Mar 1, 2025 - Mar 31, 2025"
+                                    />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {dateRanges.reverse().map((date, index) => {
+                                        const startDate = new Date(date.startDate).toLocaleString('default', {
+                                            year: "numeric",
+                                            day: "numeric",
+                                            month: "short",
+                                        });
 
-                                    const endDate = new Date(date.endDate).toLocaleString('default', {
-                                        year: "numeric",
-                                        day: "numeric",
-                                        month: "short",
-                                    });
+                                        const endDate = new Date(date.endDate).toLocaleString('default', {
+                                            year: "numeric",
+                                            day: "numeric",
+                                            month: "short",
+                                        });
 
-                                    const dateObj = new Date(date.startDate)
-                                    const [year, month] = [dateObj.getFullYear(), dateObj.toLocaleString('default', { month: "short" })];
+                                        const dateObj = new Date(date.startDate)
+                                        const [year, month] = [dateObj.getFullYear(), dateObj.toLocaleString('default', { month: "short" })];
 
-                                    return (
-                                        <SelectItem
-                                            value={`${month}/${year}`}
-                                            key={index}
-                                        >{`${startDate} - ${endDate}`}</SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                        </Select>
+                                        return (
+                                            <SelectItem
+                                                value={`${month}/${year}`}
+                                                key={index}
+                                            >{`${startDate} - ${endDate}`}</SelectItem>
+                                        )
+                                    })}
+                                </SelectContent>
+                            </Select>
 
-                        <button
-                            className='py-2 text-xs px-4 bg-themesecondary rounded-md text-white shadow-md shadow-themesecondary'
-                            onClick={() => {
-                                updateReportFunction();
-                            }}
-                        >
-                            Apply
-                        </button>
+                            {
+                                updateReportFunction &&
+                                <button
+                                    className='py-2 text-xs px-4 bg-themesecondary rounded-md text-white shadow-md shadow-themesecondary'
+                                    onClick={() => {
+                                        updateReportFunction();
+                                    }}
+                                >
+                                    Apply
+                                </button>
+                            }
 
-                    </div>
+                        </div>
+                    }
                 </div>
             </div>
 
