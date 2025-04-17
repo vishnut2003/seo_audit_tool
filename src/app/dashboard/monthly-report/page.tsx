@@ -115,8 +115,6 @@ const MonthlyReportPage = async ({
       },
       propertyId: project.googleAnalytics.propertyId,
     }
-
-    console.log("1")
     
     const {
       totalSessions,
@@ -128,7 +126,6 @@ const MonthlyReportPage = async ({
       sessionByCountry,
     } = await fetchMonthlyReportTrafficOverview(requestParameter);
     
-    console.log("2")
     const {
       sessionFromOrganic,
       engagedSessionOrganic,
@@ -139,7 +136,6 @@ const MonthlyReportPage = async ({
       topLandingPages,
     } = await fetchMonthlyReportSeoPerformance(requestParameter)
     
-    console.log("3")
     const {
       advertiserAdsCost,
       paidConversion,

@@ -60,7 +60,6 @@ export async function fetchMonthlyReportSeoPerformance({
                 },
                 propertyId,
             }
-            console.log(requestParameters.dateFilters);
 
             const sessionFromOrganic = await fetchSessionFromOrganicMonthlyReportData(requestParameters)
             const engagedSessionOrganic = await fetchEngagedSessionOrganicMonthlyReport(requestParameters);

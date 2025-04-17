@@ -7,7 +7,7 @@ interface DateRangeInterface {
 }
 
 interface GraphTicks {
-    date: string,
+    date: string | Date,
     channels: {
         "Organic Search": number,
         "Direct": number,
@@ -112,8 +112,23 @@ export async function fetchTopChannelsOverTimeMonthlyReport({
             }
 
             const graphTicks: GraphTicks[] = [...Object.values(groupedData)];
+
+            const sortedGraphTicks: GraphTicks[] = graphTicks.map((data) => {
+                const date = new Date(data.date);
+                return ({
+                    date,
+                    channels: data.channels,
+                })
+            }).sort((a, b) => a.date.getTime() - b.date.getTime())
+            .map((data) => {
+                return ({
+                    date: data.date.toISOString().split('T')[0],
+                    channels: data.channels,
+                })
+            })
+
             const finalResponse: TopChannelsDataMonthlyReportInterface = {
-                graphTicks,
+                graphTicks: sortedGraphTicks,
             }
 
             return resolve(finalResponse)
