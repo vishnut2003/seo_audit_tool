@@ -161,7 +161,10 @@ const MainContentMonthlyReportExportPdf = ({
                 }}
                 title="Monthly Report" >
 
-                <PageTemplate>
+                <PageTemplate
+                    pageNo={1}
+                    totalPage={2}
+                >
                     {[
                         reportHeader,
                         trafficOverview,
@@ -176,7 +179,10 @@ const MainContentMonthlyReportExportPdf = ({
                     ))}
                 </PageTemplate>
 
-                <PageTemplate>
+                <PageTemplate
+                    pageNo={2}
+                    totalPage={2}
+                >
                     {[
                         seoPerformance,
                         ppcPerformance,

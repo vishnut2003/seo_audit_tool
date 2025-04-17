@@ -4,8 +4,12 @@ import PDFPageFooter from './PageFooter'
 
 const PageTemplate = ({
     children,
+    pageNo,
+    totalPage,
 }: {
     children: ReactNode,
+    pageNo: number,
+    totalPage: number,
 }) => {
     const styleSheet = StyleSheet.create({
         pageStyle: {
@@ -23,11 +27,15 @@ const PageTemplate = ({
         <Page
             size="A4"
             orientation="portrait"
-            style={styleSheet.pageStyle}>
+            style={styleSheet.pageStyle}
+        >
             <View style={styleSheet.contentWrapper}>
                 {children}
             </View>
-            <PDFPageFooter />
+            <PDFPageFooter
+                currentPageNo={pageNo}
+                totalPage={totalPage}
+            />
         </Page>
     )
 }
