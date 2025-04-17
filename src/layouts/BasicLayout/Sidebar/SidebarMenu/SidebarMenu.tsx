@@ -39,11 +39,14 @@ const SidebarMenu = () => {
                             key={index}
                             className={`flex min-w-max gap-2 py-3 px-4 rounded-lg ${menuItem.link === pathname || menuItem.subPages?.includes(pathname) ? 'bg-themesecondary text-white hover:bg-themesecondary' : 'hover:bg-gray-50'} ${menuItem.link === '/dashboard' && 'bg-gray-50'}`}
                             onClick={() => {
+
+                                if (pathname === menuItem.link) {
+                                    return;
+                                }
+
                                 setIsLoading({
                                     [index]: true,
                                 });
-
-                                setTimeout(() => setIsLoading({}), 20000)
                             }}
                         >
                             {
