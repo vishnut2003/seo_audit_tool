@@ -17,16 +17,16 @@ export function getPrevShortMonth(month: string, year: number) {
 
 export function getDateRangeForMonth(month: string, year: number, debug?: boolean) {
     const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
-    const startDate = new Date(year, monthIndex, 1);
-    const endDate = new Date(year, monthIndex + 1, 0);
+    const startDate = new Date(Date.UTC(year, monthIndex, 1));
+    const endDate = new Date(Date.UTC(year, monthIndex + 1, 0));
 
-    const formatter = (date: Date) => date.toISOString().split('T')[0];
+    const formatter = (date: Date) => date.toLocaleDateString('en-CA');
 
     if (debug) {
         console.log('\n')
         console.log(monthIndex);
-        console.log(startDate.toISOString());
-        console.log(endDate.toISOString());
+        console.log(startDate.toLocaleDateString('en-CA'));
+        console.log(endDate.toLocaleDateString('en-CA'));
         console.log('\n')
     }
 
@@ -48,12 +48,12 @@ export function getLast12MonthsRanges({
     const ranges = [];
 
     for (let i = 0; i < 12; i++) {
-        const firstDay = new Date(date.getFullYear(), date.getMonth() - i, 1);
-        const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
+        const firstDay = new Date(Date.UTC(date.getFullYear(), date.getMonth() - i, 1));
+        const lastDay = new Date(Date.UTC(firstDay.getFullYear(), firstDay.getMonth() + 1, 0));
 
         ranges.push({
-            startDate: firstDay.toISOString().split('T')[0],
-            endDate: lastDay.toISOString().split('T')[0],
+            startDate: firstDay.toLocaleDateString('en-CA'),
+            endDate: lastDay.toLocaleDateString('en-CA'),
         });
     }
 
