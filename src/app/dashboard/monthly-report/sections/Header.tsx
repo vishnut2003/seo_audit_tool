@@ -18,11 +18,20 @@ const MonthlyReportHeader = ({
     updateReportFunction,
     updatingReport,
     selectedDate,
+    isPdf,
 }: {
     setSelectedDate?: Dispatch<SetStateAction<string>>,
-    selectedDate: string,
+    selectedDate?: string,
     updatingReport?: boolean,
     updateReportFunction?: () => Promise<void>,
+
+    // for pdf
+    isPdf?: {
+        pdfDateRange: {
+            startDate: string, // in formatte: Mar 1, 2025
+            endDate: string, // in formatte: Mar 31, 2025
+        }
+    }
 }) => {
 
     const router = useRouter();
@@ -116,39 +125,48 @@ const MonthlyReportHeader = ({
 
                         </div>
                     }
+                    {
+                        isPdf &&
+                        <div>
+                            <p>{isPdf.pdfDateRange.startDate} - {isPdf.pdfDateRange.endDate}</p>
+                        </div>
+                    }
                 </div>
             </div>
 
             {/* Export options */}
-            <div
-                className="flex items-center gap-2"
-            >
-                <Select
-                    disabled={inProgress}
-                    onValueChange={(value) => {
-                        setInProgress(true);
-                        router.push(`/dashboard/monthly-report/${value}`);
-                    }}
+            {
+                selectedDate &&
+                <div
+                    className="flex items-center gap-2"
                 >
-                    <SelectTrigger
-                        className="w-max h-[20px] bg-white disabled:opacity-40 shadow-xl shadow-gray-200"
+                    <Select
                         disabled={inProgress}
+                        onValueChange={(value) => {
+                            setInProgress(true);
+                            const [month, year] = selectedDate.split('/');
+                            router.push(`/dashboard/monthly-report/${value}?month=${month}&year=${year}`);
+                        }}
                     >
-                        <SelectValue placeholder={"Export as"} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="export-pdf">Export PDF</SelectItem>
-                        <SelectItem value="#">Share Link</SelectItem>
-                    </SelectContent>
-                </Select>
-                {
-                    inProgress &&
-                    <RiLoader4Line
-                        size={20}
-                        className='animate-spin'
-                    />
-                }
-            </div>
+                        <SelectTrigger
+                            className="w-max h-[20px] bg-white disabled:opacity-40 shadow-xl shadow-gray-200"
+                            disabled={inProgress}
+                        >
+                            <SelectValue placeholder={"Export as"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="export-pdf">Export PDF</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    {
+                        inProgress &&
+                        <RiLoader4Line
+                            size={20}
+                            className='animate-spin'
+                        />
+                    }
+                </div>
+            }
         </div>
     )
 }

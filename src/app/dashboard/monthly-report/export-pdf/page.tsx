@@ -12,8 +12,14 @@ import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server
 import { fetchMonthlyReportTrafficOverview } from '@/utils/server/monthlyReport/trafficOverview/trafficOverview'
 import { fetchMonthlyReportSeoPerformance } from '@/utils/server/monthlyReport/seoPerformance/seoPerformance'
 import { fetchMonthlyReportPpcPerformance } from '@/utils/server/monthlyReport/ppcPerformance/ppcPerformance'
+import { getDateRangeForMonth } from '@/utils/server/monthlyReport/commonUtils'
 
-const MonthlyReportExportAsPDFPage = async () => {
+const MonthlyReportExportAsPDFPage = async ({ searchParams }: {
+    searchParams: Promise<{
+        month: string,
+        year: string,
+    }>,
+}) => {
 
     const cookieStore = await cookies();
     const projectId = cookieStore.get('projectId');
@@ -60,11 +66,22 @@ const MonthlyReportExportAsPDFPage = async () => {
             new Date().getFullYear(),
         ];
 
+        let selectedMonth = currentMonth;
+        let selectedYear = currentYear;
+
+        const queryMonth = (await searchParams).month;
+        const queryYear = (await searchParams).year;
+
+        if (queryMonth && queryYear) {
+            selectedMonth = queryMonth;
+            selectedYear = parseInt(queryYear);
+        }
+
         const requestParameter = {
             auth,
             filters: {
-                currentMonth,
-                currentYear,
+                currentMonth: selectedMonth,
+                currentYear: selectedYear,
             },
             propertyId: project.googleAnalytics.propertyId,
         }
@@ -95,6 +112,24 @@ const MonthlyReportExportAsPDFPage = async () => {
             paidConversionRate,
             paidRevenue,
         } = await fetchMonthlyReportPpcPerformance(requestParameter);
+
+        // Create date range for display
+        const selectedDateRange = getDateRangeForMonth(selectedMonth, selectedYear);
+        const displayDateRangeObj: {
+            startDate: string,
+            endDate: string,
+        } = {
+            startDate: new Date(selectedDateRange.startDate).toLocaleString('default', {
+                year: "numeric",
+                day: "numeric",
+                month: "short",
+            }),
+            endDate: new Date(selectedDateRange.endDate).toLocaleString('default', {
+                year: "numeric",
+                day: "numeric",
+                month: "short",
+            }),
+        }
 
         return (
             <div className="w-dvw h-dvh bg-[#323639] flex flex-col justify-center">
@@ -138,6 +173,11 @@ const MonthlyReportExportAsPDFPage = async () => {
                         paidConversionData={paidConversion}
                         paidConversionRateData={paidConversionRate}
                         paidRevenueData={paidRevenue}
+
+                        // For PDF
+                        isPdf={{
+                            pdfDateRange: displayDateRangeObj,
+                        }}
                     />
                 </div>
             </div>

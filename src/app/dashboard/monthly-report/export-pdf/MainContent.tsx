@@ -46,6 +46,7 @@ const MainContentMonthlyReportExportPdf = ({
     paidConversionData,
     paidConversionRateData,
     paidRevenueData,
+    isPdf,
 }: {
     sessionData: TotalSessionMonthlyReportInterface,
     bounceRateData: TotalBounceRateMonthlyReportInterface,
@@ -65,6 +66,14 @@ const MainContentMonthlyReportExportPdf = ({
     paidConversionData: PaidConversionMonthlyReportInterface,
     paidConversionRateData: PaidConversionRateMonthlyReportInterface,
     paidRevenueData: PaidRevenueMonthlyReportInterface,
+
+    // Component based
+    isPdf: {
+        pdfDateRange: {
+            startDate: string, // in formatte: Mar 1, 2025
+            endDate: string, // in formatte: Mar 31, 2025
+        }
+    }
 }) => {
 
     const [reportHeader, setReportHeader] = useState<string | null>(null);
@@ -84,7 +93,9 @@ const MainContentMonthlyReportExportPdf = ({
             <Convert2Image
                 onCapture={setReportHeader}
             >
-                <MonthlyReportHeader />
+                <MonthlyReportHeader
+                    isPdf={isPdf}
+                />
             </Convert2Image>
         )
     }
@@ -164,7 +175,7 @@ const MainContentMonthlyReportExportPdf = ({
                         />
                     ))}
                 </PageTemplate>
-                
+
                 <PageTemplate>
                     {[
                         seoPerformance,
