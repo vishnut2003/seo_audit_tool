@@ -177,7 +177,7 @@ const MonthlyReportPage = async ({
     console.log(err);
     let error = "Something went wrong!";
 
-    if ('details' in err && typeof err.details === "string") {
+    if (err?.details && typeof err.details === "string") {
       error = err.details;
     } else if (err instanceof Error) {
       error = err.message;

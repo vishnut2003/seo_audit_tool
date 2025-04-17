@@ -90,7 +90,7 @@ const GoogleSearchConsoleReports = async () => {
 
         if (typeof err === "string") {
             error = err;
-        } else if ('details' in err && typeof err.details === "string") {
+        } else if (err?.details && typeof err.details === "string") {
             error = err.details;
         } else if (err instanceof Error) {
             error = err.message;
