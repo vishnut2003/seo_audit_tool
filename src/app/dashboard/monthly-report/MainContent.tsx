@@ -25,6 +25,7 @@ import { PaidConversionRateMonthlyReportInterface } from "@/utils/server/monthly
 import { PaidRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/paidRevenue";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import LoadingLineMonthlyReport from "./LoadingLine";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -204,6 +205,8 @@ const MonthlyReportMainContent = ({
                 updateReportFunction={updateReportData}
                 selectedDate={selectedDate}
             />
+
+            {inProgress && <LoadingLineMonthlyReport/>}
 
             {/* Traffic Overview */}
             <TrafficOverviewMonthlyReport
