@@ -12,7 +12,14 @@ import { fetchMonthlyReportTrafficOverview } from '@/utils/server/monthlyReport/
 import { fetchMonthlyReportSeoPerformance } from '@/utils/server/monthlyReport/seoPerformance/seoPerformance';
 import { fetchMonthlyReportPpcPerformance } from '@/utils/server/monthlyReport/ppcPerformance/ppcPerformance';
 
-const MonthlyReportPage = async () => {
+const MonthlyReportPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    month: string,
+    year: string,
+  }>,
+}) => {
 
   const cookieStore = await cookies();
   const projectId = cookieStore.get('projectId');
@@ -89,15 +96,28 @@ const MonthlyReportPage = async () => {
       new Date().getFullYear(),
     ];
 
+    let selectedMonth = currentMonth;
+    let selectedYear = currentYear;
+
+    const queryMonth = (await searchParams).month;
+    const queryYear = (await searchParams).year;
+
+    if (queryMonth && queryYear) {
+      selectedMonth = queryMonth;
+      selectedYear = parseInt(queryYear);
+    }
+
     const requestParameter = {
       auth,
       filters: {
-        currentMonth,
-        currentYear,
+        currentMonth: selectedMonth,
+        currentYear: selectedYear,
       },
       propertyId: project.googleAnalytics.propertyId,
     }
 
+    console.log("1")
+    
     const {
       totalSessions,
       totalBounceRate,
@@ -107,7 +127,8 @@ const MonthlyReportPage = async () => {
       newUsersData,
       sessionByCountry,
     } = await fetchMonthlyReportTrafficOverview(requestParameter);
-
+    
+    console.log("2")
     const {
       sessionFromOrganic,
       engagedSessionOrganic,
@@ -117,7 +138,8 @@ const MonthlyReportPage = async () => {
       topBrowsers,
       topLandingPages,
     } = await fetchMonthlyReportSeoPerformance(requestParameter)
-
+    
+    console.log("3")
     const {
       advertiserAdsCost,
       paidConversion,
@@ -148,6 +170,9 @@ const MonthlyReportPage = async () => {
           paidConversionData={paidConversion}
           paidConversionRateData={paidConversionRate}
           paidRevenueData={paidRevenue}
+
+          // Component props
+          defaultDate={`${selectedMonth}/${selectedYear}`}
         />
       </BasicLayout>
     )

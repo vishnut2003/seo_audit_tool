@@ -24,6 +24,7 @@ import { PaidConversionMonthlyReportInterface } from "@/utils/server/monthlyRepo
 import { PaidConversionRateMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/PaidConversionRate";
 import { PaidRevenueMonthlyReportInterface } from "@/utils/server/monthlyReport/ppcPerformance/paidRevenue";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 const MonthlyReportMainContent = ({
     totalSessionData,
@@ -44,6 +45,7 @@ const MonthlyReportMainContent = ({
     paidConversionData,
     paidConversionRateData,
     paidRevenueData,
+    defaultDate,
 }: {
     totalSessionData: TotalSessionMonthlyReportInterface,
     totalBounceRate: TotalBounceRateMonthlyReportInterface,
@@ -63,6 +65,9 @@ const MonthlyReportMainContent = ({
     paidConversionData: PaidConversionMonthlyReportInterface,
     paidConversionRateData: PaidConversionRateMonthlyReportInterface,
     paidRevenueData: PaidRevenueMonthlyReportInterface,
+
+    // Component based props
+    defaultDate: string,
 }) => {
 
     // Traffic Overview
@@ -92,12 +97,32 @@ const MonthlyReportMainContent = ({
     const [selectedDate, setSelectedDate] = useState<string>('');
 
     const [error, setError] = useState<string | null>(null);
-    const [inProgress] = useState<boolean>(false);
+    const [inProgress, setInProgress] = useState<boolean>(false);
 
-    async function updateReportData () {
+    const router = useRouter();
+
+    async function updateReportData() {
         try {
 
-            console.log(selectedDate);
+            if (inProgress) {
+                return;
+            }
+
+            setInProgress(true);
+
+            let dateRange = selectedDate;
+            if (!dateRange) {
+                const today = new Date();
+                const month = today.toLocaleString('default', { month: "short" });
+                const year = today.toLocaleString('default', { year: "numeric" });
+                dateRange = `${month}/${year}`;
+            }
+
+            const [month, year] = dateRange.split('/');
+
+            const reportUrl = `/dashboard/monthly-report?month=${month}&year=${year}`;
+
+            router.push(reportUrl);
 
         } catch (err) {
             if (err instanceof Error) {
@@ -121,7 +146,7 @@ const MonthlyReportMainContent = ({
         setPassingTopChannelsData(topChannelsData);
         setPassingNewUsersData(newUsersData);
         setPassingSessionByCountryData(sessionByCountryData);
-        
+
         // Seo Performance
         setPassingSessionFromOrganicData(sessionFromOrganicData);
         setPassingEngagedSessionOrganicData(engagedSessionOrganicData);
@@ -130,12 +155,16 @@ const MonthlyReportMainContent = ({
         setPassingTopPagesOrganicData(topPagesOrganicData);
         setPassingTopBrowsersData(topBrowsersData);
         setPassingTopLandingPagesData(topLandingPagesData);
-        
+
         // PPC Performance
         setPassingAdvertiserAdsCostData(advertiserAdsCostData);
         setPassingPaidConversionData(paidConversionData);
         setPassingPaidConversionRateData(paidConversionRateData);
         setPassingPaidRevenueData(paidRevenueData);
+
+        // Component based
+        setSelectedDate(defaultDate);
+        setInProgress(false);
     }, [
         totalSessionData,
         totalBounceRate,
@@ -155,6 +184,7 @@ const MonthlyReportMainContent = ({
         paidConversionData,
         paidConversionRateData,
         paidRevenueData,
+        defaultDate,
     ]);
 
     if (error) {
@@ -172,6 +202,7 @@ const MonthlyReportMainContent = ({
                 setSelectedDate={setSelectedDate}
                 updatingReport={inProgress}
                 updateReportFunction={updateReportData}
+                selectedDate={selectedDate}
             />
 
             {/* Traffic Overview */}

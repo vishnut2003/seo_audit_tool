@@ -15,12 +15,20 @@ export function getPrevShortMonth(month: string, year: number) {
     })
 }
 
-export function getDateRangeForMonth(month: string, year: number) {
+export function getDateRangeForMonth(month: string, year: number, debug?: boolean) {
     const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
     const startDate = new Date(year, monthIndex, 2);
     const endDate = new Date(year, monthIndex + 1, 1);
 
     const formatter = (date: Date) => date.toISOString().split('T')[0];
+
+    if (debug) {
+        console.log('\n')
+        console.log(monthIndex);
+        console.log(startDate.toISOString());
+        console.log(endDate.toISOString());
+        console.log('\n')
+    }
 
     return ({
         startDate: formatter(startDate),
@@ -33,7 +41,7 @@ export function getLast12MonthsRanges({
 }: {
     fromDate: string,
 }): {
-    startDate: string; 
+    startDate: string;
     endDate: string,
 }[] {
     const date = new Date(fromDate);
@@ -52,7 +60,7 @@ export function getLast12MonthsRanges({
     return ranges.reverse(); // So it's from oldest to newest
 }
 
-export function calculatePercentage ({
+export function calculatePercentage({
     newValue,
     prevValue,
 }: {

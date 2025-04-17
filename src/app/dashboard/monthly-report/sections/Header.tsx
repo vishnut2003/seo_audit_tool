@@ -16,8 +16,11 @@ import { getLast12MonthsRanges } from '@/utils/server/monthlyReport/commonUtils'
 const MonthlyReportHeader = ({
     setSelectedDate,
     updateReportFunction,
+    updatingReport,
+    selectedDate,
 }: {
     setSelectedDate?: Dispatch<SetStateAction<string>>,
+    selectedDate: string,
     updatingReport?: boolean,
     updateReportFunction?: () => Promise<void>,
 }) => {
@@ -68,11 +71,11 @@ const MonthlyReportHeader = ({
                                 >
                                     <SelectValue
                                         className="m-0"
-                                        placeholder="Mar 1, 2025 - Mar 31, 2025"
+                                        placeholder={selectedDate}
                                     />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {dateRanges.reverse().map((date, index) => {
+                                    {[...dateRanges].reverse().map((date, index) => {
                                         const startDate = new Date(date.startDate).toLocaleString('default', {
                                             year: "numeric",
                                             day: "numeric",
@@ -101,12 +104,13 @@ const MonthlyReportHeader = ({
                             {
                                 updateReportFunction &&
                                 <button
-                                    className='py-2 text-xs px-4 bg-themesecondary rounded-md text-white shadow-md shadow-themesecondary'
+                                    className='py-2 text-xs px-4 bg-themesecondary rounded-md text-white shadow-md shadow-themesecondary disabled:opacity-50'
+                                    disabled={updatingReport}
                                     onClick={() => {
                                         updateReportFunction();
                                     }}
                                 >
-                                    Apply
+                                    {updatingReport ? "Loading..." : "Apply"}
                                 </button>
                             }
 

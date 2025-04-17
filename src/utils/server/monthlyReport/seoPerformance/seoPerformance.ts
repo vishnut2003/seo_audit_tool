@@ -43,7 +43,7 @@ export async function fetchMonthlyReportSeoPerformance({
             } = getPrevShortMonth(currentMonth, currentYear);
 
             const currentMonthDateRange = getDateRangeForMonth(currentMonth, currentYear);
-            const prevMonthDateRange = getDateRangeForMonth(prevMonth, currentYear);
+            const prevMonthDateRange = getDateRangeForMonth(prevMonth, (prevMonth === "Dec" ? prevYear : currentYear ));
             const prevYearCurrentMonthDateRange = getDateRangeForMonth(currentMonth, prevYear);
 
             const prev12MonthList = getLast12MonthsRanges({
@@ -60,6 +60,7 @@ export async function fetchMonthlyReportSeoPerformance({
                 },
                 propertyId,
             }
+            console.log(requestParameters.dateFilters);
 
             const sessionFromOrganic = await fetchSessionFromOrganicMonthlyReportData(requestParameters)
             const engagedSessionOrganic = await fetchEngagedSessionOrganicMonthlyReport(requestParameters);
