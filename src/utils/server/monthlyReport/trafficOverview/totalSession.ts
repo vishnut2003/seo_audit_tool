@@ -40,8 +40,6 @@ export async function fetchTotalSessionMonthlyReport({
     return new Promise<TotalSessionMonthlyReportInterface>(async (resolve, reject) => {
         try {
 
-            console.log(dateFilters)
-
             const dimensions: {
                 name: string,
             }[] = [

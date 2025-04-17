@@ -17,8 +17,8 @@ export function getPrevShortMonth(month: string, year: number) {
 
 export function getDateRangeForMonth(month: string, year: number, debug?: boolean) {
     const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
-    const startDate = new Date(year, monthIndex, 2);
-    const endDate = new Date(year, monthIndex + 1, 1);
+    const startDate = new Date(year, monthIndex, 1);
+    const endDate = new Date(year, monthIndex + 1, 0);
 
     const formatter = (date: Date) => date.toISOString().split('T')[0];
 
@@ -48,8 +48,8 @@ export function getLast12MonthsRanges({
     const ranges = [];
 
     for (let i = 0; i < 12; i++) {
-        const firstDay = new Date(date.getFullYear(), date.getMonth() - i, 2);
-        const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 1);
+        const firstDay = new Date(date.getFullYear(), date.getMonth() - i, 1);
+        const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
 
         ranges.push({
             startDate: firstDay.toISOString().split('T')[0],
