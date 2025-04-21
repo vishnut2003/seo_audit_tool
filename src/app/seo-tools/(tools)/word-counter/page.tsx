@@ -58,6 +58,7 @@ const WordCounterPage = () => {
                     <MainTextArea
                         content={content}
                         setContent={setContent}
+                        contentType='text'
                     />
 
                     {

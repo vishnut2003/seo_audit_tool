@@ -75,6 +75,7 @@ const ArticleRewriterPage = () => {
                 <MainTextArea
                     content={content}
                     setContent={setContent}
+                    contentType='html'
                 />
 
                 {

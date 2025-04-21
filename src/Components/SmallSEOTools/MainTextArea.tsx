@@ -7,9 +7,11 @@ import StarterKit from "@tiptap/starter-kit"
 const MainTextArea = ({
     content,
     setContent,
+    contentType,
 }: {
     content: string,
     setContent: Dispatch<SetStateAction<string>>,
+    contentType?: "html" | "json" | "text",
 }) => {
 
     const editor = useEditor({
@@ -21,11 +23,19 @@ const MainTextArea = ({
             }),
         },
         onUpdate: ({ editor }) => {
-            const html = editor.getHTML();
-            if (html === "<p></p>") {
-                setContent("");
+            if (contentType === "html") {
+                const html = editor.getHTML();
+                if (html === "<p></p>") {
+                    setContent("");
+                } else {
+                    setContent(html)
+                }
+            } else if (contentType === "json") {
+                const json = editor.getJSON();
+                setContent(JSON.stringify(json));
             } else {
-                setContent(html)
+                const textContent = editor.getText();
+                setContent(textContent);
             }
         }
     });
