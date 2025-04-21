@@ -10,7 +10,7 @@ const SEORootPage = () => {
         >
             <div>
                 <div
-                    className='space-y-5'
+                    className='space-y-10'
                 >
                     {toolsList.map((section, index) => {
                         return (

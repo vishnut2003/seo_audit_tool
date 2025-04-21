@@ -28,6 +28,17 @@ const toolsList: SmallSEOToolsItemListInterface[] = [
             },
         ]
     },
+    {
+        category: "Images Editing Tools",
+        desc: "Create a favicon, compress an image or resize a picture with a single click. All essentials for image editing are available in one place.",
+        tools: [
+            {
+                name: "Image Compressor",
+                url: '/seo-tools/word-counter',
+                imageUrl: '/seo-tools-icons/word-counter.png',
+            },
+        ]
+    },
 ]
 
 export default toolsList;
