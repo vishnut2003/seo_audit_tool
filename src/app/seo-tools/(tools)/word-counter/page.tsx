@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SingleToolsLayout from '../LayoutTemplate'
-import { Textarea } from "@/Components/ui/textarea"
-import { RiAttachment2, RiErrorWarningLine } from '@remixicon/react';
 import { AxiosError } from 'axios';
+import FileUploadOptions from '@/Components/SmallSEOTools/FileUploadOptions';
+import ErrorTemplate from '@/Components/SmallSEOTools/ErrorTemplate';
+import MainTextArea from '@/Components/SmallSEOTools/MainTextArea';
 
 const PAGE_TITLE = "Word Counter";
 const PAGE_DESC = "To use this online word counter, please copy and paste your content into the box below, and then sit back and watch as Word Count Checker will run a real-time scan to count words."
@@ -22,10 +23,7 @@ const WordCounterPage = () => {
         words: 0,
     });
 
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const localFileUploadRef = useRef<HTMLInputElement>(null);
-
-    function updateResult () {
+    useEffect(() => {
         try {
             const trimedText = content.trim();
             const charsCount = trimedText.length;
@@ -44,10 +42,6 @@ const WordCounterPage = () => {
                 setError("Something went wrong!");
             }
         }
-    }
-
-    useEffect(() => {
-        updateResult();
     }, [content]);
 
     return (
@@ -61,42 +55,16 @@ const WordCounterPage = () => {
                     className='space-y-3'
                 >
                     {/* Text Area */}
-                    <div
-                        className='relative bg-gray-50'
-                    >
-                        <Textarea
-                            className='resize-none'
-                            rows={20}
-                            ref={textAreaRef}
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            maxLength={-1}
-                        />
-                        {
-                            !content &&
-                            <button
-                                className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center'
-                                onClick={() => {
-                                    textAreaRef.current?.focus()
-                                }}
-                            >
-                                <p
-                                    className='text-2xl font-semibold opacity-20'
-                                >Enter Text Here for Word Count</p>
-                            </button>
-                        }
-                    </div>
+                    <MainTextArea
+                        content={content}
+                        setContent={setContent}
+                    />
 
                     {
                         error &&
-                        <div
-                            className='text-sm bg-red-50 text-red-500 flex gap-2 items-center py-3 px-4 rounded-md'
-                        >
-                            <RiErrorWarningLine
-                                size={20}
-                            />
-                            <p>{error}</p>
-                        </div>
+                        <ErrorTemplate
+                            error={error}
+                        />
                     }
 
                     {/* Other options & Results */}
@@ -107,24 +75,7 @@ const WordCounterPage = () => {
                         <div>
 
                             {/* Local file upload */}
-                            <div>
-                                <input
-                                    type="file"
-                                    className='hidden'
-                                    ref={localFileUploadRef}
-                                />
-                                <button
-                                    onClick={() => {
-                                        localFileUploadRef.current?.click();
-                                    }}
-                                    className='flex items-center gap-2 py-2 px-4 text-white bg-themeprimary rounded-md shadow-lg'
-                                >
-                                    <RiAttachment2
-                                        size={20}
-                                    />
-                                    upload
-                                </button>
-                            </div>
+                            <FileUploadOptions />
                         </div>
 
                         {/* Result */}

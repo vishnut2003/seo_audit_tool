@@ -21,6 +21,11 @@ const toolsList: SmallSEOToolsItemListInterface[] = [
                 url: '/seo-tools/word-counter',
                 imageUrl: '/seo-tools-icons/word-counter.png',
             },
+            {
+                name: "Article Rewriter",
+                url: '/seo-tools/article-rewriter',
+                imageUrl: '/seo-tools-icons/word-counter.png',
+            },
         ]
     },
 ]
