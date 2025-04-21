@@ -1,17 +1,20 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SingleToolsLayout from '../LayoutTemplate'
 import { Textarea } from "@/Components/ui/textarea"
-import { RiAttachment2 } from '@remixicon/react';
+import { RiAttachment2, RiErrorWarningLine } from '@remixicon/react';
+import { AxiosError } from 'axios';
 
 const PAGE_TITLE = "Word Counter";
 const PAGE_DESC = "To use this online word counter, please copy and paste your content into the box below, and then sit back and watch as Word Count Checker will run a real-time scan to count words."
 
 const WordCounterPage = () => {
 
+    const [error, setError] = useState<string | null>(null);
+
     const [content, setContent] = useState<string>('');
-    const [result] = useState<{
+    const [result, setResult] = useState<{
         words: number,
         chars: number,
     }>({
@@ -21,6 +24,31 @@ const WordCounterPage = () => {
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const localFileUploadRef = useRef<HTMLInputElement>(null);
+
+    function updateResult () {
+        try {
+            const trimedText = content.trim();
+            const charsCount = trimedText.length;
+            const wordCount = trimedText === "" ? 0 : trimedText.split(/\s+/).length;
+
+            setResult({
+                chars: charsCount,
+                words: wordCount,
+            })
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else if (err instanceof AxiosError) {
+                setError(err.message);
+            } else {
+                setError("Something went wrong!");
+            }
+        }
+    }
+
+    useEffect(() => {
+        updateResult();
+    }, [content]);
 
     return (
         <SingleToolsLayout
@@ -58,6 +86,18 @@ const WordCounterPage = () => {
                             </button>
                         }
                     </div>
+
+                    {
+                        error &&
+                        <div
+                            className='text-sm bg-red-50 text-red-500 flex gap-2 items-center py-3 px-4 rounded-md'
+                        >
+                            <RiErrorWarningLine
+                                size={20}
+                            />
+                            <p>{error}</p>
+                        </div>
+                    }
 
                     {/* Other options & Results */}
                     <div
