@@ -1,5 +1,8 @@
+'use client';
+
 import React, { Dispatch, SetStateAction, useRef } from 'react'
-import { Textarea } from '../ui/textarea'
+import { useEditor, EditorContent } from "@tiptap/react"
+import StarterKit from "@tiptap/starter-kit"
 
 const MainTextArea = ({
     content,
@@ -9,26 +12,37 @@ const MainTextArea = ({
     setContent: Dispatch<SetStateAction<string>>,
 }) => {
 
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const editor = useEditor({
+        content,
+        extensions: [StarterKit],
+        editorProps: {
+            attributes: () => ({
+                class: "min-h-[400px] outline-none py-2 px-4"
+            }),
+        },
+        onUpdate: ({ editor }) => {
+            const html = editor.getHTML();
+            if (html === "<p></p>") {
+                setContent("");
+            } else {
+                setContent(html)
+            }
+        }
+    });
 
     return (
         <div
-            className='relative bg-gray-50'
+            className='relative bg-gray-50 min-h-[420px] max-h-[400px] border border-gray-200 rounded-md overflow-auto'
         >
-            <Textarea
-                className='resize-none'
-                rows={20}
-                ref={textAreaRef}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                maxLength={-1}
+            <EditorContent
+                editor={editor}
             />
             {
                 !content &&
                 <button
                     className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center'
                     onClick={() => {
-                        textAreaRef.current?.focus()
+                        editor?.commands.focus();
                     }}
                 >
                     <p

@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SingleToolsLayout from '../LayoutTemplate'
 import MainTextArea from '@/Components/SmallSEOTools/MainTextArea';
 import FileUploadOptions from '@/Components/SmallSEOTools/FileUploadOptions';
 import ErrorTemplate from '@/Components/SmallSEOTools/ErrorTemplate';
 import axios, { AxiosError } from 'axios';
-import { RiLoader4Line } from '@remixicon/react';
+import { RiCheckboxMultipleLine, RiFileCopy2Line, RiLoader4Line } from '@remixicon/react';
 import { SeoToolsArticleRewriteToolsEntry } from '@/app/api/small-seo-tools/article-rewriter/rewrite/route';
+import MarkDownSeoTools from '@/Components/SmallSEOTools/MarkDown';
 
 const PAGE_TITLE = "Article Rewriter";
 const PAGE_DESC = "Article rewriter or article spinner helps you rewrite articles or any type of content."
@@ -20,6 +21,8 @@ const ArticleRewriterPage = () => {
     const [error, setError] = useState<string | null>(null);
 
     const [result, setResult] = useState<string | null>(null);
+
+    const progressBarRef = useRef<HTMLDivElement>(null);
 
     async function updateResult() {
 
@@ -55,6 +58,12 @@ const ArticleRewriterPage = () => {
         setInProgress(false);
     }
 
+    useEffect(() => {
+        progressBarRef.current?.scrollIntoView({
+            behavior: "smooth",
+        });
+    }, [inProgress]);
+
     return (
         <SingleToolsLayout
             pageTitle={PAGE_TITLE}
@@ -83,10 +92,18 @@ const ArticleRewriterPage = () => {
                     </div>
                     <div>
                         <button
-                            className='flex items-center gap-2 py-2 px-4 text-white bg-themesecondary rounded-md shadow-lg'
+                            className='flex items-center gap-2 py-2 px-4 text-white bg-themesecondary rounded-md shadow-lg disabled:opacity-50'
                             onClick={updateResult}
+                            disabled={inProgress}
                         >
-                            Rewrite Article
+                            {
+                                inProgress &&
+                                <RiLoader4Line
+                                    size={20}
+                                    className='animate-spin'
+                                />
+                            }
+                            {inProgress ? "Loading..." : "Rewrite Article"}
                         </button>
                     </div>
                 </div>
@@ -94,13 +111,21 @@ const ArticleRewriterPage = () => {
                 {
                     inProgress ?
                         <div
-                            className='flex items-center gap-2 justify-center min-h-[300px] bg-gray-50 rounded-md border border-gray-300'
+                            className='flex flex-col gap-4'
+                            ref={progressBarRef}
                         >
-                            <RiLoader4Line
-                                size={20}
-                                className='animate-spin'
-                            />
-                            <p>Rewriting Article</p>
+                            {
+                                [[100, 150], [100, 10], [70, 10], [50, 10]].map((size, index) => (
+                                    <p
+                                        key={index}
+                                        className='py-2 px-3 bg-gray-200 animate-pulse rounded-md'
+                                        style={{
+                                            width: `${size[0]}%`,
+                                            height: `${size[1]}px`,
+                                        }}
+                                    ></p>
+                                ))
+                            }
                         </div>
                         : result ? <ResultTemplate result={result} /> : null
 
@@ -111,14 +136,56 @@ const ArticleRewriterPage = () => {
 }
 
 function ResultTemplate({ result }: { result: string }) {
+
+    const [copied, setCopied] = useState<boolean>(false);
+
+    async function copyToClipboard() {
+        try {
+            await navigator.clipboard.writeText(result);
+            setCopied(true);
+
+            setTimeout(() => setCopied(false), 5000);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div
             className='space-y-3'
         >
-            <h2
-                className='font-semibold text-xl'
-            >Result:</h2>
-            <p>{result}</p>
+            <div
+                className='flex items-center justify-between border-b border-gray-200 pb-3'
+            >
+                <h2
+                    className='font-semibold text-xl'
+                >Result</h2>
+                <div>
+                    <button
+                        className='flex items-center gap-2 py-2 px-4 border border-gray-200 rounded-md font-medium hover:bg-gray-100'
+                        onClick={copyToClipboard}
+                    >
+                        {
+                            copied ?
+                                <>
+                                    <RiCheckboxMultipleLine
+                                        size={20}
+                                    />
+                                    Copied
+                                </>
+                                : <>
+                                    <RiFileCopy2Line
+                                        size={20}
+                                    />
+                                    Copy
+                                </>
+                        }
+                    </button>
+                </div>
+            </div>
+            <MarkDownSeoTools>
+                {result}
+            </MarkDownSeoTools>
         </div>
     )
 }

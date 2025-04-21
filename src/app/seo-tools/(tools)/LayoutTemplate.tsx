@@ -11,7 +11,7 @@ const SingleToolsLayout = ({
 }) => {
     return (
         <div
-            className='bg-gray-50 w-screen h-screen'
+            className='bg-gray-50 w-screen min-h-screen'
         >
 
             {/* Main Content */}
