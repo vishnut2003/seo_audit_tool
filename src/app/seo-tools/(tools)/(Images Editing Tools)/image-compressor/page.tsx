@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SingleToolsLayout from "../../LayoutTemplate";
-import { FileUploadTemplate } from "./FileUploadTemplate";
+import { FileUploadTemplate } from "@/Components/SmallSEOTools/FileUploadTemplate";
 import ErrorTemplate from "@/Components/SmallSEOTools/ErrorTemplate";
 import { Slider } from "@/Components/ui/slider";
 import axios from "axios";
@@ -72,6 +72,9 @@ const ImageCompressorPage = () => {
                         files={files}
                         setError={setError}
                         setFiles={setFiles}
+                        acceptedFiles="image/*"
+                        noOfFiles={10}
+                        maxSize={5}
                     />
                 </div>
                 {

@@ -18,10 +18,16 @@ export function FileUploadTemplate({
     files,
     setError,
     setFiles,
+    noOfFiles,
+    maxSize,
+    acceptedFiles,
 }: {
     files: File[],
     setFiles: React.Dispatch<React.SetStateAction<File[]>>,
     setError: React.Dispatch<React.SetStateAction<string | null>>,
+    noOfFiles: number,
+    maxSize: number // Number in MB
+    acceptedFiles: string,
 }) {
 
     const onFileReject = React.useCallback((file: File, message: string) => {
@@ -30,12 +36,13 @@ export function FileUploadTemplate({
 
     return (
         <FileUpload
-            maxFiles={2}
-            maxSize={5 * 1024 * 1024}
+            maxFiles={noOfFiles}
+            maxSize={maxSize * 1024 * 1024}
             value={files}
             onValueChange={setFiles}
             onFileReject={onFileReject}
             multiple
+            accept={acceptedFiles}
         >
             <FileUploadDropzone>
                 <div className="flex flex-col items-center gap-1">
@@ -44,7 +51,7 @@ export function FileUploadTemplate({
                     </div>
                     <p className="font-medium text-sm">Drag & drop files here</p>
                     <p className="text-muted-foreground text-xs">
-                        Or click to browse (max 2 files, up to 5MB each)
+                        Or click to browse (max {noOfFiles} files, up to {maxSize}MB each)
                     </p>
                 </div>
                 <FileUploadTrigger asChild>
