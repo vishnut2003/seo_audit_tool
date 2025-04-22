@@ -34,7 +34,7 @@ const toolsList: SmallSEOToolsItemListInterface[] = [
         tools: [
             {
                 name: "Image Compressor",
-                url: '/seo-tools/word-counter',
+                url: '/seo-tools/image-compressor',
                 imageUrl: '/seo-tools-icons/word-counter.png',
             },
         ]

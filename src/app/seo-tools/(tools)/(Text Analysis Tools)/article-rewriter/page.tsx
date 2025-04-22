@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react'
-import SingleToolsLayout from '../LayoutTemplate'
+import SingleToolsLayout from '../../LayoutTemplate'
 import MainTextArea from '@/Components/SmallSEOTools/MainTextArea';
 import FileUploadOptions from '@/Components/SmallSEOTools/FileUploadOptions';
 import ErrorTemplate from '@/Components/SmallSEOTools/ErrorTemplate';

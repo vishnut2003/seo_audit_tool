@@ -26,13 +26,13 @@ const SingleToolsLayout = ({
                         className='w-full py-7 px-7 bg-white shadow-lg shadow-gray-100 border border-gray-100'
                     >
                         <div
-                            className='flex flex-col items-center border-b border-gray-200 pb-7 mb-7'
+                            className='flex flex-col gap-3 items-center border-b border-gray-200 pb-7 mb-7'
                         >
                             <h1
                                 className='text-2xl font-bold text-center'
                             >{pageTitle}</h1>
                             <p
-                                className='text-xs text-center max-w-[600px]'
+                                className='text-xs text-center max-w-[600px] leading-[20px]'
                             >{pageDesc}</p>
                         </div>
                         {children}

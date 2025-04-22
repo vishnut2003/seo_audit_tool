@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import SingleToolsLayout from '../LayoutTemplate'
+import SingleToolsLayout from '../../LayoutTemplate'
 import { AxiosError } from 'axios';
 import FileUploadOptions from '@/Components/SmallSEOTools/FileUploadOptions';
 import ErrorTemplate from '@/Components/SmallSEOTools/ErrorTemplate';
