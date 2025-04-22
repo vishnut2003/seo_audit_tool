@@ -37,7 +37,7 @@ const SingleImageResultCard = ({
                     rel="noopener"
                     download={true}
                     href={URL.createObjectURL(file)}
-                    className="flex items-center gap-2 bg-themesecondary rounded-md text-white py-2 px-4 text-sm font-semibold"
+                    className="flex items-center gap-2 bg-themeprimary rounded-md text-white py-2 px-4 text-sm font-semibold"
                 >
                     <RiDownloadLine
                         size={15}
