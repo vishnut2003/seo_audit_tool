@@ -45,11 +45,7 @@ const convertorFileTypes: ConvertorFileTypesData[] = [
         canConvertTo: [
             {
                 category: "document",
-                types: ['pdf'],
-            },
-            {
-                category: "image",
-                types: ['avif', 'bmp', 'eps', 'gif', 'icns', 'ico', 'jpg', 'odd', 'ps', 'psd', 'tiff', 'webp'],
+                types: ['html', 'docx'],
             },
         ],
     },

@@ -10,8 +10,8 @@ const FileTypePopover = ({
     setCategory,
     onSelection,
 }: {
-    categories: string[],
-    types: string[],
+    categories?: string[],
+    types?: string[],
     currentCategory: string,
     setCategory: Dispatch<SetStateAction<string>>,
     onSelection: (value: string) => void,
@@ -26,11 +26,11 @@ const FileTypePopover = ({
                 <div
                     className="w-max px-[3px] space-y-2"
                 >
-                    {categories.map((category, index) => (
+                    {categories?.map((category, index) => (
                         <button
                             key={index}
                             className={`w-full py-[4px] px-[10px] flex items-center justify-between gap-1 text-sm font-semibold rounded-md capitalize ${currentCategory === category && "bg-themesecondary text-white"}`}
-                            onClick={() => setCategory(category)}
+                            onMouseEnter={() => setCategory(category)}
                         >
                             {category}
                             <RiArrowRightSLine
@@ -45,10 +45,10 @@ const FileTypePopover = ({
                     <div
                         className="grid grid-cols-4"
                     >
-                        {types.map((type, index) => (
+                        {types?.map((type, index) => (
                             <button
                                 key={index}
-                                className="text-sm py-1 rounded-md hover:bg-themesecondary hover:text-white uppercase"
+                                className="text-sm text-left py-1 px-[7px] rounded-md hover:bg-themesecondary hover:text-white uppercase"
                                 onClick={() => onSelection(type)}
                             >
                                 {type}
