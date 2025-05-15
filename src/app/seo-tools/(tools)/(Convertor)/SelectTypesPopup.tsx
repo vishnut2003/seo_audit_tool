@@ -10,7 +10,7 @@ import {
 import FileTypePopover from './FileTypePopover';
 import { convertorFileTypes } from './fileTypes';
 import { RiArrowRightLine } from '@remixicon/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface ForPopoverData {
     [category: string]: string[],
@@ -38,6 +38,7 @@ const SelectTypesPopup = ({
     const [toTypeFieldError, setToTypeFieldError] = useState<boolean>(false);
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         const data: ForPopoverData = {};
@@ -50,6 +51,15 @@ const SelectTypesPopup = ({
         }
 
         setFromTypePopoverData(data);
+        
+        // access from and to file types from url
+        const urlFromType = searchParams.get('from');
+        const urlToType = searchParams.get('to');
+
+        if (urlFromType && urlToType) {
+            setFromType(urlFromType);
+            setToType(urlToType);
+        }
     }, [])
 
     async function updateToTypeData({ fromType }: {
