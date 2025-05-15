@@ -1,6 +1,6 @@
 'use client';
 
-import { RiArrowRightSLine } from "@remixicon/react";
+import { RiArrowRightSLine, RiErrorWarningFill } from "@remixicon/react";
 import { Dispatch, SetStateAction } from "react";
 
 const FileTypePopover = ({
@@ -43,17 +43,28 @@ const FileTypePopover = ({
                     className="w-full bg-gray-100 rounded-md p-2"
                 >
                     <div
-                        className="grid grid-cols-4"
+                        className={!types || types.length === 0 ? "" : "grid grid-cols-4"}
                     >
-                        {types?.map((type, index) => (
-                            <button
-                                key={index}
-                                className="text-sm text-left py-1 px-[7px] rounded-md hover:bg-themesecondary hover:text-white uppercase"
-                                onClick={() => onSelection(type)}
+                        {!types || types.length === 0 ?
+                            <div
+                                className="rounded-md bg-red-50 text-red-500 flex items-center py-3 px-4"
                             >
-                                {type}
-                            </button>
-                        ))}
+                                <RiErrorWarningFill
+                                    size={20}
+                                />
+                                <p
+                                    className="text-sm font-semibold"
+                                >Please select source file type</p>
+                            </div>
+                            : types?.map((type, index) => (
+                                <button
+                                    key={index}
+                                    className="text-sm text-left py-1 px-[7px] rounded-md hover:bg-themesecondary hover:text-white uppercase"
+                                    onClick={() => onSelection(type)}
+                                >
+                                    {type}
+                                </button>
+                            ))}
                     </div>
                 </div>
             </div>
