@@ -1,8 +1,6 @@
 
 export async function convertFileTypeClientFunction ({
     files,
-    fromType,
-    toType,
 }: {
     fromType: string,
     toType: string,

@@ -62,7 +62,7 @@ const SelectTypesPopup = ({
             setFromType(urlFromType);
             setToType(urlToType);
         }
-    }, [])
+    }, [searchParams])
 
     async function updateToTypeData({ fromType }: {
         fromType: string,

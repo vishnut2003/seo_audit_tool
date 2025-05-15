@@ -22,7 +22,7 @@ const ConvertorPage = () => {
     const toType = searchParams.get('to');
     setFromType(fromType)
     setToType(toType);
-  }, []);
+  }, [searchParams]);
 
 
   if (!fromType || !toType) {
@@ -67,7 +67,11 @@ const ConvertorPage = () => {
       return "Destination file type is invalid!";
 
     } catch (err) {
-      return "Something went wrong!";
+      if (typeof err === "string") {
+        return err;
+      } else {
+        return "Something went wrong!";
+      }
     }
   }
 
