@@ -18,8 +18,10 @@ interface ForPopoverData {
 
 const SelectTypesPopup = ({
     enableOnchangeRedirect,
+    triggerOnRedirect,
 }: {
     enableOnchangeRedirect?: boolean,
+    triggerOnRedirect?: () => void,
 }) => {
 
     const [fromPopoverOpen, setFromPopoverOpen] = useState<boolean>(false);
@@ -167,6 +169,9 @@ const SelectTypesPopup = ({
 
                                     // redirect to selected arguments if onchange redirect is enabled
                                     if (enableOnchangeRedirect) {
+                                        if (triggerOnRedirect) {
+                                            triggerOnRedirect();
+                                        }
                                         convertButtonAction(value);
                                     }
                                 }}
