@@ -13,6 +13,17 @@ export interface ToolItemSEOTool {
 
 const toolsList: SmallSEOToolsItemListInterface[] = [
     {
+        category: "On-Page Tools",
+        desc: "Optimize your content, structure, and meta tags with our powerful on-page SEO tools for better rankings.",
+        tools: [
+            {
+                name: "Schema Generator",
+                imageUrl: "/seo-tools-icons/word-counter.png",
+                url: "/seo-tools/schema-generator",
+            }
+        ]
+    },
+    {
         category: "Text Analysis Tools",
         desc: "A complete set of text tools is now at your fingertips. Check plagiarism, rewrite an article, run a spell checker, count words or change text case.",
         tools: [

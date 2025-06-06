@@ -4,10 +4,12 @@ const SingleToolsLayout = ({
     children,
     pageTitle,
     pageDesc,
+    disableSidebar,
 }: {
     children: React.ReactNode,
     pageTitle: string,
     pageDesc: string,
+    disableSidebar?: boolean,
 }) => {
     return (
         <div
@@ -38,10 +40,12 @@ const SingleToolsLayout = ({
                         {children}
                     </div>
 
-                    {/* Sidebar */}
-                    <div
-                        className='w-[500px] py-3 px-5 bg-white shadow-lg shadow-gray-100 border border-gray-100'
-                    ></div>
+                    {/* Sidebar */
+                        !disableSidebar &&
+                        <div
+                            className='w-[500px] py-3 px-5 bg-white shadow-lg shadow-gray-100 border border-gray-100'
+                        ></div>
+                    }
                 </div>
             </div>
         </div>
