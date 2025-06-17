@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from "react";
 import SelectTypesPopup from "./(tools)/(Convertor)/SelectTypesPopup";
 
 const ConvertorPromo = () => {
@@ -18,7 +19,9 @@ const ConvertorPromo = () => {
                     className="text-base drop-shadow-md"
                 >Convert any image or document file effortlessly into your desired format with speed, precision, and ease.</p>
             </div>
-            <SelectTypesPopup />
+            <Suspense>
+                <SelectTypesPopup />
+            </Suspense>
         </div>
     )
 }

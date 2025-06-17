@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from "react"
+import { ReactNode, Suspense, useState } from "react"
 import SingleToolsLayout from "../../LayoutTemplate"
 import SelectTypesPopup from "../SelectTypesPopup";
 import TripleDotLoading from "@/Components/Loaders/TripleDotLoading/TripleDotLoading";
@@ -22,7 +22,7 @@ const ConvertorLayout = ({ children }: Readonly<{
             <div
                 className="w-full h-[400px] flex flex-col gap-5 justify-center items-center"
             >
-                <TripleDotLoading/>
+                <TripleDotLoading />
             </div>
         )
     }
@@ -35,14 +35,15 @@ const ConvertorLayout = ({ children }: Readonly<{
             <div
                 className="mb-[30px]"
             >
-                <SelectTypesPopup
-                    enableOnchangeRedirect={true}
-                    triggerOnRedirect={() => {
-                        setInProgress(true);
-                    }}
-                />
+                <Suspense>
+                    <SelectTypesPopup
+                        enableOnchangeRedirect={true}
+                        triggerOnRedirect={() => {
+                            setInProgress(true);
+                        }}
+                    />
+                </Suspense>
             </div>
-
             {children}
         </SingleToolsLayout>
     )

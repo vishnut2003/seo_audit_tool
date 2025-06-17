@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation';
 import { RiErrorWarningFill, RiLoader4Line } from '@remixicon/react';
 import { convertorFileTypes, ConvertorFileTypesData } from '../fileTypes';
@@ -156,4 +156,12 @@ const ConvertorPage = () => {
   )
 }
 
-export default ConvertorPage
+function SuspenseWrapperForConvertorPage () {
+  return (
+    <Suspense>
+      <ConvertorPage/>
+    </Suspense>
+  )
+}
+
+export default SuspenseWrapperForConvertorPage
