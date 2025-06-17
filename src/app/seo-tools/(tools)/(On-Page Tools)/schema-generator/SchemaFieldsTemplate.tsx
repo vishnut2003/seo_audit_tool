@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { SchemaTypesListInterface, SchemaTypesListJsonReturnFunctionArgumentType } from './schemaTypesList'
+import { MultiFieldsListTypeSingleFieldInterface, SchemaTypesListInterface, SchemaTypesListJsonReturnFunctionArgumentType } from './schemaTypesList'
 
 import {
     Select,
@@ -72,6 +72,7 @@ const SchemaFieldsTemplate = ({
                                         name={field.name}
                                         placeholder={field.placeholder}
                                         setFieldData={setFieldsData}
+                                        addButtonText={field.addButtonText || "Add"}
                                     />
                                 }
                                 {
@@ -80,6 +81,16 @@ const SchemaFieldsTemplate = ({
                                         label={field.label}
                                         name={field.name}
                                         placeholder={field.placeholder}
+                                        setFieldData={setFieldsData}
+                                    />
+                                }
+                                {
+                                    field.type === "list-multi-field" &&
+                                    <MultiFieldListTemplate
+                                        label={field.label}
+                                        addButtonText={field.addButtonText || "Add"}
+                                        multiFields={field.multiField || []}
+                                        name={field.name}
                                         setFieldData={setFieldsData}
                                     />
                                 }
@@ -164,11 +175,13 @@ function ListFieldTemplate({
     name,
     placeholder,
     setFieldData,
+    addButtonText,
 }: {
     label: string,
     placeholder: string,
     name: string,
     setFieldData: Dispatch<SetStateAction<SchemaTypesListJsonReturnFunctionArgumentType>>,
+    addButtonText: string,
 }) {
 
     const [fields, setFields] = useState([ListFieldSingleField]);
@@ -226,7 +239,7 @@ function ListFieldTemplate({
                 <RiAddLargeLine
                     size={15}
                 />
-                Image
+                {addButtonText}
             </button>
         </div>
     )
@@ -301,6 +314,139 @@ function DateFieldTemplate({
                 date={date}
                 setDate={setDate}
                 placeholder={placeholder}
+            />
+        </div>
+    )
+}
+
+function MultiFieldListTemplate({
+    addButtonText,
+    label,
+    multiFields,
+    setFieldData,
+    name,
+}: {
+    label: string,
+    addButtonText: string,
+    multiFields: MultiFieldsListTypeSingleFieldInterface[],
+    setFieldData: Dispatch<SetStateAction<SchemaTypesListJsonReturnFunctionArgumentType>>,
+    name: string,
+}) {
+
+    const [groupItems, setGroupItems] = useState<MultiFieldsListTypeSingleFieldInterface[][]>([multiFields]);
+
+    return (
+        <div
+            className='flex flex-col items-start w-full gap-3'
+        >
+            <h2
+                className='font-semibold text-lg text-themesecondary'
+            >{label}</h2>
+
+            {groupItems.map((multiField, groupIndex) => (
+                <div
+                    className='flex items-end gap-4 w-full'
+                    key={groupIndex}
+                >
+                    {
+                        multiField.map((field, index) => (
+                            <MultiFieldListSingleFieldTemplate
+                                key={index}
+                                index={groupIndex}
+                                fieldData={field}
+                                onValueChange={(value) => {
+                                    setFieldData(prev => {
+                                        if (prev[name] && Array.isArray(prev[name])) {
+                                            const prevCopy = { ...prev };
+                                            const groupArray = [...(prev[name] as { [key: string]: string }[])];
+                                            const groupItem = { ...(groupArray[groupIndex] || {}) };
+                                            groupItem[field.name] = value;
+                                            groupArray[groupIndex] = groupItem;
+                                            prevCopy[name] = groupArray;
+                                            return prevCopy;
+                                        } else {
+                                            const prevCopy = { ...prev };
+                                            prevCopy[name] = [];
+                                            prevCopy[name][groupIndex] = {
+                                                [field.name]: value,
+                                            }
+
+                                            return prevCopy;
+                                        }
+                                    })
+                                }}
+                            />
+                        ))
+                    }
+                    {
+                        <button
+                            className='bg-red-50 text-red-500 p-2 rounded-md disabled:opacity-15'
+                            disabled={groupIndex === 0}
+                            onClick={() => {
+                                setGroupItems(prev => {
+                                    const copyPrev = [...prev];
+                                    copyPrev.splice(groupIndex, 1);
+                                    return [...copyPrev];
+                                })
+
+                                setFieldData(prev => {
+                                    if (prev[name] && Array.isArray(prev[name])) {
+                                        const prevCopy = { ...prev };
+                                        const groupArray = [...(prev[name] as { [key: string]: string }[])];
+                                        groupArray.splice(groupIndex, 1);
+                                        prevCopy[name] = groupArray;
+                                        return prevCopy;
+                                    } else {
+                                        return prev;
+                                    }
+                                })
+                            }}
+                        >
+                            <RiCloseLargeLine
+                                size={20}
+                            />
+                        </button>
+                    }
+                </div>
+            ))}
+
+            <div>
+                <button
+                    className='bg-themesecondary text-white text-sm flex items-center gap-3 rounded-md py-2 px-4 mt-3'
+                    onClick={() => {
+                        setGroupItems(prev => ([...prev, multiFields]))
+                    }}
+                >
+                    <RiAddLargeLine
+                        size={15}
+                    />
+                    {addButtonText}
+                </button>
+            </div>
+        </div>
+    )
+}
+
+function MultiFieldListSingleFieldTemplate({
+    fieldData,
+    index,
+    onValueChange,
+}: {
+    fieldData: MultiFieldsListTypeSingleFieldInterface,
+    index: number,
+    onValueChange: (value: string) => void,
+}) {
+    return (
+        <div
+            className='w-full'
+        >
+            <Label
+                htmlFor={fieldData.name}
+            >{`${fieldData.label} #${index + 1}`}</Label>
+            <Input
+                type='text'
+                placeholder={`${fieldData.placeholder} #${index + 1}`}
+                onChange={(event) => onValueChange(event.target.value)}
             />
         </div>
     )

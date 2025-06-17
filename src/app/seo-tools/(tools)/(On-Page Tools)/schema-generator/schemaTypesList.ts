@@ -1,21 +1,36 @@
 import { RemixiconComponentType, RiArrowRightDoubleFill, RiArticleLine } from "@remixicon/react"
 
 export interface SchemaTypesListJsonReturnFunctionArgumentType {
-    [key: string]: string | string[]
+    [key: string]: string | string[] | {[key: string]: string,}[]
 }
 
 export interface SchemaTypesListInterface {
     typeName: string,
     icon: RemixiconComponentType,
     enableFields: ({
-        type: "dropdown" | "text" | "list" | "date",
+        type: "dropdown" | "text" | "list" | "list-multi-field" | "date",
         label: string,
         placeholder: string,
         name: string,
-        dropdownList?: string[],
         width?: string,
+
+        // For List type
+        addButtonText?: string,
+
+        // For multi field list type
+        multiField?: MultiFieldsListTypeSingleFieldInterface[],
+
+        // For dropdown type
+        dropdownList?: string[],
+
     } | string)[],
     returnJsonSchema: (fieldsValue: SchemaTypesListJsonReturnFunctionArgumentType) => string,
+}
+
+export interface MultiFieldsListTypeSingleFieldInterface {
+    name: string,
+    placeholder: string,
+    label: string,
 }
 
 const schemaTypesLists: SchemaTypesListInterface[] = [
@@ -53,6 +68,7 @@ const schemaTypesLists: SchemaTypesListInterface[] = [
                 label: "Image URL(s)",
                 name: "images",
                 placeholder: "Image URL",
+                addButtonText: "Add Image",
                 type: "list",
                 width: "100%",
             },
@@ -143,7 +159,7 @@ const schemaTypesLists: SchemaTypesListInterface[] = [
 
             return (
                 `<script type="application/ld+json">
-    {
+{
     "@context": "https://schema.org",
     "@type": "${type || 'Article'}", ${url && `\n\t"mainEntityOfPage": {
         "@type": "WebPage",
@@ -172,7 +188,7 @@ const schemaTypesLists: SchemaTypesListInterface[] = [
             }
     },
     "datePublished": "${datePublished}", ${dateModified && `\n\t"dateModified": "${dateModified}"`}
-    }
+}
 </script>`
             )
         }
@@ -180,10 +196,47 @@ const schemaTypesLists: SchemaTypesListInterface[] = [
     {
         typeName: "Breadcrumb",
         icon: RiArrowRightDoubleFill,
-        enableFields: [],
-        returnJsonSchema: () => {
+        enableFields: [
+            {
+                type: "list-multi-field",
+                label: "Breadcrumb items",
+                placeholder: "",
+                name: "breadcrumbitems",
+                width: "100%",
+                addButtonText: "Add URL",
+                multiField: [
+                    {
+                        name: "pagename",
+                        label: "Page name",
+                        placeholder: "Page name",
+                    },
+                    {
+                        name: "url",
+                        label: "Page URL",
+                        placeholder: "Page URL",
+                    },
+                ]
+            }
+        ],
+        returnJsonSchema: (fields) => {
 
-            return "<h1>Breadcrumb</h1>"
+            const breadcrumbItems = fields["breadcrumbitems"] as {
+                pagename?: string,
+                url?: string,
+            }[] || [];
+
+            return (`<script type="application/ld+json">
+{
+    "@context": "https://schema.org/", 
+    "@type": "BreadcrumbList", 
+    "itemListElement": [${breadcrumbItems.map((item, index) => (`{
+        "@type": "ListItem", 
+        "position": ${index + 1}, 
+        "name": "${item?.pagename || ""}",
+        "item": "${item?.url || ""}"
+    }`))}]
+}
+</script>`)
         }
     }
 ]

@@ -42,6 +42,7 @@ const SchemaGenerator = () => {
                     <SelectSchemaType
                         schemaType={schemaType}
                         setSchemaType={setSchemaType}
+                        setFieldsData={setFieldData}
                     />
 
                     {/* fields */

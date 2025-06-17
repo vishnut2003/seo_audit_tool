@@ -9,14 +9,16 @@ import {
 } from "@/Components/ui/select"
 
 import { RiBracesLine } from '@remixicon/react'
-import schemaTypesLists from './schemaTypesList'
+import schemaTypesLists, { SchemaTypesListJsonReturnFunctionArgumentType } from './schemaTypesList'
 
 const SelectSchemaType = ({
     schemaType,
     setSchemaType,
+    setFieldsData,
 }: {
     schemaType: string,
     setSchemaType: Dispatch<SetStateAction<string>>,
+    setFieldsData: Dispatch<SetStateAction<SchemaTypesListJsonReturnFunctionArgumentType>>,
 }) => {
 
     return (
@@ -24,7 +26,10 @@ const SelectSchemaType = ({
             {/* Dropdown */}
             <div>
                 <Select
-                    onValueChange={(value) => setSchemaType(value)}
+                    onValueChange={(value) => {
+                        setSchemaType(value);
+                        setFieldsData({});
+                    }}
                 >
                     <SelectTrigger className="w-[300px] border border-gray-100">
                         <div
