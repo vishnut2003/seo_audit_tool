@@ -17,10 +17,12 @@ import DatePicker from '@/Components/ui/datepicker'
 
 const SchemaFieldsTemplate = ({
     selectedSchemaType,
-    setFieldsData
+    setFieldsData,
+    fieldData,
 }: {
     selectedSchemaType: SchemaTypesListInterface,
     setFieldsData: Dispatch<SetStateAction<SchemaTypesListJsonReturnFunctionArgumentType>>,
+    fieldData: SchemaTypesListJsonReturnFunctionArgumentType,
 }) => {
     return (
         <div
@@ -39,6 +41,21 @@ const SchemaFieldsTemplate = ({
                                     key={index}
                                 >{field}</h2>
                             )
+                        }
+
+                        if (field.condition) {
+                            let conditionPassed = false;
+
+                            for (const condition of field.condition) {
+                                if (fieldData[condition.is] === condition.equalTo) {
+                                    conditionPassed = true;
+                                    break;
+                                }
+                            }
+
+                            if (!conditionPassed) {
+                                return;
+                            }
                         }
 
                         return (
@@ -78,6 +95,15 @@ const SchemaFieldsTemplate = ({
                                 {
                                     field.type === "date" &&
                                     <DateFieldTemplate
+                                        label={field.label}
+                                        name={field.name}
+                                        placeholder={field.placeholder}
+                                        setFieldData={setFieldsData}
+                                    />
+                                }
+                                {
+                                    field.type === "time" &&
+                                    <TimeFieldTemplate
                                         label={field.label}
                                         name={field.name}
                                         placeholder={field.placeholder}
@@ -314,6 +340,36 @@ function DateFieldTemplate({
                 date={date}
                 setDate={setDate}
                 placeholder={placeholder}
+            />
+        </div>
+    )
+}
+
+function TimeFieldTemplate({
+    label,
+    name,
+    placeholder,
+    setFieldData,
+}: {
+    label: string,
+    placeholder: string,
+    name: string,
+    setFieldData: Dispatch<SetStateAction<SchemaTypesListJsonReturnFunctionArgumentType>>,
+}) {
+    return (
+        <div>
+            <Label
+                htmlFor={name}
+            >{label}</Label>
+            <Input
+                type='time'
+                placeholder={placeholder}
+                onChange={(event) => {
+                    setFieldData(prev => ({
+                        ...prev,
+                        [name]: event.target.value,
+                    }))
+                }}
             />
         </div>
     )

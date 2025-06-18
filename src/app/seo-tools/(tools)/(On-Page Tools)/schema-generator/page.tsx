@@ -50,6 +50,7 @@ const SchemaGenerator = () => {
                         <SchemaFieldsTemplate
                             selectedSchemaType={selectedSchemaType}
                             setFieldsData={setFieldData}
+                            fieldData={fieldData}
                         />
                     }
 

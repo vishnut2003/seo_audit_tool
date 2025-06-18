@@ -25,7 +25,7 @@ export default function DatePicker({date, setDate, placeholder}: {
                 <Button
                     variant={"ghost"}
                     className={cn(
-                        "w-full text-xs md:text-sm justify-start text-left font-normal",
+                        "w-full text-xs md:text-sm justify-start text-left font-normal border border-gray-200",
                         !date && "text-muted-foreground"
                     )}
                 >
