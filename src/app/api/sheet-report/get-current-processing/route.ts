@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
         headers: {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
-            'Connection': 'keep-open'
+            'Connection': 'keep-alive'
         }
     })
 }
