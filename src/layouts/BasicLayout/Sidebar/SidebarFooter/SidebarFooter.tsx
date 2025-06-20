@@ -1,6 +1,7 @@
 import LogoutButton from "@/Components/AuthComponents/LogoutButton"
 import footerMenuItems from "./FooterMenuItems"
 import SingleMenuItem from "./SingleMenuItem"
+import { RiUserSettingsLine } from "@remixicon/react"
 
 const SidebarFooter = () => {
   return (
@@ -11,6 +12,13 @@ const SidebarFooter = () => {
           <SingleMenuItem key={index} menuItem={menuItem} />
         ))
       }
+      <SingleMenuItem
+        menuItem={{
+          icon: RiUserSettingsLine,
+          link: "/dashboard/advance/admin/user-management",
+          name: "Admin",
+        }}
+      />
       <LogoutButton iconType={true} className="flex gap-2 opacity-95 py-3 px-4 rounded-lg hover:bg-gray-50 w-full"/>
 
     </div>

@@ -43,6 +43,7 @@
     "mongoose": "^8.10.1",
     "next": "^15.1.4",
     "next-auth": "^4.24.11",
+    "nextjs-toploader": "^3.8.16",
     "puppeteer": "^24.2.1",
     "puppeteer-core": "^24.2.1",
     "react": "^19.0.0",

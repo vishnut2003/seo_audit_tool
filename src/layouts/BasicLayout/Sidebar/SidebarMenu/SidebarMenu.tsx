@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import analyticsSidebarMenuItems from "./analyticsItems";
 import { RiLoader4Line } from "@remixicon/react";
+import adminSidebarMenuItems from "./adminItems";
 
 const SidebarMenu = () => {
 
@@ -17,9 +18,17 @@ const SidebarMenu = () => {
     }>({});
 
     useEffect(() => {
+
+        // change sidebar menu in analytics page
         if (pathname.includes('/dashboard/analytics-report/reports')) {
             setCurrentMenuItems(analyticsSidebarMenuItems);
         }
+
+        // change sidebar menu in admin pages
+        if (pathname.includes('/dashboard/advance/admin')) {
+            setCurrentMenuItems(adminSidebarMenuItems);
+        }
+        
     }, [pathname])
 
     return (

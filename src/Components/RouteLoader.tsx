@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { RiLoader4Line } from '@remixicon/react';
+import { RiLoaderLine } from '@remixicon/react';
 
 export default function RouteLoader() {
 
@@ -9,11 +9,10 @@ export default function RouteLoader() {
 
     return isLoading && (
         <div className="fixed inset-0 z-[9999] flex gap-3 items-center justify-center bg-white/90">
-            <RiLoader4Line
-                size={30}
-                className='animate-spin'
+            <RiLoaderLine
+                size={40}
+                className='animate-spin text-themesecondary'
             />
-            <p>Loading...</p>
         </div>
     );
 }
