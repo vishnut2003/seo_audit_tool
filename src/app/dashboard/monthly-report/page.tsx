@@ -21,12 +21,8 @@ const MonthlyReportPage = async ({
   }>,
 }) => {
 
-  console.log("1")
-
   const cookieStore = await cookies();
   const projectId = cookieStore.get('projectId');
-
-  console.log("2")
 
   if (!projectId) {
     return (
@@ -63,8 +59,6 @@ const MonthlyReportPage = async ({
     )
   }
 
-  console.log("3")
-
   const project = await getOneProject(projectId.value);
 
   if (!project) {
@@ -76,8 +70,6 @@ const MonthlyReportPage = async ({
       redirect('/dashboard/analytics-report');
     }
   }
-
-  console.log("4")
 
   try {
     let auth;
@@ -95,8 +87,6 @@ const MonthlyReportPage = async ({
         token: project.googleAnalytics.token!,
       })
     }
-
-    console.log("5")
 
     // Get current month and year
     const [currentMonth, currentYear] = [
@@ -125,8 +115,6 @@ const MonthlyReportPage = async ({
       },
       propertyId: project.googleAnalytics.propertyId,
     }
-
-    console.log("6")
     
     const {
       totalSessions,
@@ -137,8 +125,6 @@ const MonthlyReportPage = async ({
       newUsersData,
       sessionByCountry,
     } = await fetchMonthlyReportTrafficOverview(requestParameter);
-
-    console.log("7")
     
     const {
       sessionFromOrganic,
@@ -149,8 +135,6 @@ const MonthlyReportPage = async ({
       topBrowsers,
       topLandingPages,
     } = await fetchMonthlyReportSeoPerformance(requestParameter)
-
-    console.log("8")
     
     const {
       advertiserAdsCost,
@@ -158,8 +142,6 @@ const MonthlyReportPage = async ({
       paidConversionRate,
       paidRevenue,
     } = await fetchMonthlyReportPpcPerformance(requestParameter)
-
-    console.log("9")
 
     return (
       <BasicLayout
