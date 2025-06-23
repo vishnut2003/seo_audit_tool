@@ -41,3 +41,6 @@ next-env.d.ts
 
 # puppeteer
 .cache
+
+# upload files
+/public/user-avatar
