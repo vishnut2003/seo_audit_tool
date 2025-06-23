@@ -30,7 +30,7 @@ function UserCard() {
             alt="User Image"
             width={1000}
             height={1000}
-            className="w-[40px] drop-shadow-xl"
+            className="w-[40px] h-[40px] drop-shadow-xl rounded-full"
           />
         </Link>
       </div>

@@ -33,8 +33,6 @@ const layout = async ({
 
     const isAdmin = userSession.user.email === adminEmail;
 
-    console.log(isAdmin)
-
     if (!isAdmin) {
         return (
             <BasicLayout>

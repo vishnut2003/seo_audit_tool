@@ -29,8 +29,6 @@ const userSchema = new mongoose.Schema<UserModelInterface>({
     },
     image: {
         type: String,
-        required: true,
-        default: "/users/default-avatar.png"
     },
 })
 
