@@ -11,15 +11,7 @@ const layout = async ({
     children: ReactNode,
 }) => {
 
-    let userSession = null;
-
-    try {
-        userSession = await getServerSession();
-    } catch (err) {
-        if (err) {
-            redirect('/');
-        }
-    }
+    const userSession = await getServerSession();
 
     if (!userSession || !userSession.user?.email) {
         redirect('/');
