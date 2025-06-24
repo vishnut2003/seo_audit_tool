@@ -2,7 +2,6 @@
 
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Notification from "./Notification";
@@ -25,13 +24,13 @@ function UserCard() {
         className="flex flex-col items-end"
       >
         <Link href={'/my-account/account-settings'}>
-          <Image
+          {/* eslint-disable @next/next/no-img-element */}
+          <img
             src={userSession?.user?.image || '/users/default-avatar.png'}
             alt="User Image"
-            width={1000}
-            height={1000}
             className="w-[40px] h-[40px] drop-shadow-xl rounded-full"
           />
+          {/* eslint-enable @next/next/no-img-element */}
         </Link>
       </div>
     </div>
