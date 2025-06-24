@@ -74,7 +74,7 @@
 }
 
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
   height: 5px;
 }
 
@@ -83,7 +83,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #00000050;
+  background-color: #00000010;
   border-radius: 30px;
 }
 
