@@ -18,15 +18,16 @@ export async function uploadUserAvatarToPublicFolder ({
             }
 
             const fileExtension = path.extname(profileImage.name);
+            const fileName = email.split('.').join('-')
             
             const _UPLOAD_DIR = path.join(..._PROJECT_ABS_PATH.split(','), "public", "user-avatar");
-            const _FILEPATH = path.join(_UPLOAD_DIR, `${email}${fileExtension}`);
+            const _FILEPATH = path.join(_UPLOAD_DIR, `${fileName}${fileExtension}`);
 
             if (!fs.existsSync(_UPLOAD_DIR)) {
                 fs.mkdirSync(_UPLOAD_DIR)
             }
 
-            const returnFilePath = `/user-avatar/${email}${fileExtension}`;
+            const returnFilePath = `/user-avatar/${fileName}${fileExtension}`;
 
             const buffer = Buffer.from(await profileImage.arrayBuffer());
 

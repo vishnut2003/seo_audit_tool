@@ -68,6 +68,7 @@ const UserRegistration = () => {
         email: "",
         password: "",
       })
+      setProfileImage(null);
 
       setIsSuccess(true);
 
