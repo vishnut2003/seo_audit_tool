@@ -165,7 +165,7 @@ const UserRegistration = () => {
               <input
                 type='file'
                 hidden
-                accept='.png'
+                accept='.png, .jpg'
                 max={1}
                 onChange={(event) => {
                   const file = event.target.files?.[0];
