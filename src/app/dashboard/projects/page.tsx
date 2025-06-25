@@ -2,7 +2,7 @@
 
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
 import BasicLayout from "@/layouts/BasicLayout/BasicLayout"
-import { RiAddLargeLine, RiArrowLeftSLine, RiArrowRightSLine, RiArrowUpDownLine, RiLink, RiSearchLine } from "@remixicon/react"
+import { RiAddLargeLine, RiArrowLeftSLine, RiArrowRightSLine, RiArrowUpDownLine, RiSearchLine } from "@remixicon/react"
 import {
   Select,
   SelectContent,
@@ -55,7 +55,6 @@ const Projects = () => {
           } = await axios.post('/api/project/get-all', {
             page: tablePage,
             email: session.user.email,
-            searchText,
           });
 
           setProjectCount(data.count);
