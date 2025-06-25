@@ -1,9 +1,10 @@
 import { dbConnect } from "@/database/DBConfig";
 import ProjectsModel, { ProjectModelInterface } from "@/models/ProjectsModel";
 
-export async function getAllProjects({ page, email }: {
+export async function getAllProjects({ page, email, searchText }: {
     page: number,
     email: string,
+    searchText?: string,
 }) {
     return new Promise<{
         projects: ProjectModelInterface[],
@@ -15,9 +16,14 @@ export async function getAllProjects({ page, email }: {
             page--
             const skip = page * perPage;
 
-            const projects: ProjectModelInterface[] = await ProjectsModel.find({ email }, null, { skip, limit: perPage });
+            const projects: ProjectModelInterface[] = await ProjectsModel.find({
+                email,
+                domain: {
+                    $regex: searchText ? new RegExp(searchText, 'i') : "",
+                }
+            }, null, { skip, limit: perPage });
             const count = await ProjectsModel.countDocuments()
-            return resolve({projects, count}); // return projects and total project count
+            return resolve({ projects, count }); // return projects and total project count
 
         } catch (err) {
             return reject(err);

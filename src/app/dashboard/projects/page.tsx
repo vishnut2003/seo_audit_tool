@@ -10,10 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/Components/ui/select"
-import { useEffect, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { getSession } from "next-auth/react"
 import axios from "axios"
-import DatePicker from "@/Components/ui/datepicker";
 import { ProjectModelInterface } from "@/models/ProjectsModel";
 import EmptyProjectTemplate from "./EmptyProjectTemplate";
 import LoadingProjectsTemplate from "./LoadingProjectsTemplate";
@@ -21,11 +20,6 @@ import ErrorProjectTemplate from "./ErrorProjectTemplate";
 import TableDataRow from "./TableDataRow";
 import Link from "next/link";
 import { getSessionProject } from "@/utils/client/projects";
-
-interface DateRangeInterface {
-  startDate: Date | null,
-  endDate: Date | null,
-}
 
 const Projects = () => {
 
@@ -39,15 +33,12 @@ const Projects = () => {
   // filter options
   const [tablePage, setTablePage] = useState<number>(1);
   const [projectCount, setProjectCount] = useState<number>(0)
-  const [dateRange, setDateRange] = useState<DateRangeInterface>({
-    startDate: null,
-    endDate: null,
-  })
+  const [searchText, setSearchText] = useState<string>('');
 
   useEffect(() => {
     setError(false);
     setInProgress(true);
-    
+
     // Fetch current project
     getSessionProject()
       .then((project) => setCurrentProject(project))
@@ -63,7 +54,8 @@ const Projects = () => {
             }
           } = await axios.post('/api/project/get-all', {
             page: tablePage,
-            email: session.user.email
+            email: session.user.email,
+            searchText,
           });
 
           setProjectCount(data.count);
@@ -79,12 +71,45 @@ const Projects = () => {
     });
   }, [tablePage])
 
+  async function searchProjects(e: FormEvent) {
+    e.preventDefault();
+    setInProgress(true);
+
+    const session = await getSession();
+
+    if (!session?.user?.email) {
+      return;
+    }
+
+    const { data }: {
+      data: {
+        projects: ProjectModelInterface[],
+        count: number,
+      }
+    } = await axios.post('/api/project/get-all', {
+      page: tablePage,
+      email: session.user.email,
+      searchText,
+    });
+
+    setProjectCount(data.count);
+    setProjects(data.projects);
+
+    setInProgress(false);
+
+    try {
+      setTablePage(1)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <BasicLayout
       pageTitle="Projects"
     >
       <div
-        className="flex flex-col gap-5"
+        className="flex flex-col gap-5 pb-[50px]"
       >
 
         {/* Filtering options */}
@@ -93,7 +118,7 @@ const Projects = () => {
         >
 
           <div
-            className="flex gap-3"
+            className="flex flex-col md:flex-row w-full gap-3"
           >
 
             {/* Add new button */}
@@ -104,12 +129,13 @@ const Projects = () => {
               <RiAddLargeLine
                 size={20}
               />
-              <p className='mt-1 hidden md:flex'>New Project</p>
+              <p className='mt-1 line-clamp-1'>New Project</p>
             </Link>
 
             {/* Project Search */}
-            <div
+            <form
               className="flex gap-2 bg-white py-3 px-4 rounded-md shadow-xl shadow-gray-200"
+              onSubmit={searchProjects}
             >
               <RiSearchLine
                 size={20}
@@ -118,48 +144,15 @@ const Projects = () => {
               <input
                 type="text"
                 placeholder="Search Projects"
+                value={searchText}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                }}
                 className="outline-none font-md bg-transparent"
               />
-            </div>
+            </form>
           </div>
 
-          {/* Date Dange */}
-          <div
-            className="flex gap-4 items-center"
-          >
-            {/* start date */}
-            <div
-              className="bg-white rounded-md flex gap-2 shadow-xl shadow-gray-200"
-            >
-              <DatePicker
-                placeholder="Start Date"
-                date={dateRange.startDate}
-                setDate={(date) => setDateRange(prev => ({
-                  ...prev,
-                  startDate: date,
-                }))}
-              />
-            </div>
-
-            <RiLink
-              size={20}
-              className="text-gray-400 hidden md:block"
-            />
-
-            {/* End date */}
-            <div
-              className="bg-white rounded-md flex items-center gap-2 shadow-xl shadow-gray-200"
-            >
-              <DatePicker
-                placeholder="End Date"
-                date={dateRange.endDate}
-                setDate={(date) => setDateRange(prev => ({
-                  ...prev,
-                  endDate: date,
-                }))}
-              />
-            </div>
-          </div>
         </div>
 
         {/* Table */}
