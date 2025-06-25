@@ -16,13 +16,15 @@ export async function getAllProjects({ page, email, searchText }: {
             page--
             const skip = page * perPage;
 
-            const projects: ProjectModelInterface[] = await ProjectsModel.find({
+            const matchValue = {
                 email,
                 domain: {
                     $regex: searchText ? new RegExp(searchText, 'i') : "",
                 }
-            }, null, { skip, limit: perPage });
-            const count = await ProjectsModel.countDocuments()
+            }
+
+            const projects: ProjectModelInterface[] = await ProjectsModel.find(matchValue, null, { skip, limit: perPage });
+            const count = await ProjectsModel.countDocuments(matchValue)
             return resolve({ projects, count }); // return projects and total project count
 
         } catch (err) {
