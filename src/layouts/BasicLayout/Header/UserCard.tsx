@@ -1,18 +1,46 @@
 'use client';
 
-import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Notification from "./Notification";
+import axios from "axios";
+import { GetUserAvatarApiRequestDataInterface, GetUserAvatarImageApiRouteResponseInterface } from "@/app/api/user-manager/get-user-avatar/route";
+import { RiLoaderLine } from "@remixicon/react";
+import Image from "next/image";
+import { base64ToFile } from "@/lib/utils";
 
 function UserCard() {
-  const [userSession, setUserSession] = useState<Session | null>(null)
+  const [userAvatar, setUserAvatar] = useState<string | null>(null);
+
+  const [inProgress, setInProgress] = useState<boolean>(false);
+
   useEffect(() => {
-    getSession().then((session) => {
-      setUserSession(session)
-      console.log(session)
-    });
+    setInProgress(true)
+    getSession().then(async (session) => {
+
+      // Fetch user avatar if available
+      if (session?.user?.image) {
+
+        const requestEntry: GetUserAvatarApiRequestDataInterface = {
+          relativeImagePath: session.user.image,
+        }
+
+        const {
+          data,
+        } = await axios.post<GetUserAvatarImageApiRouteResponseInterface>('/api/user-manager/get-user-avatar', requestEntry);
+
+        if (data && data.buffer) {
+          const { buffer: base64Data, mimeType } = data;
+          const imageFile = base64ToFile(base64Data, 'profileImage', mimeType);
+          const profileImageObjectUrl = URL.createObjectURL(imageFile);
+          setUserAvatar(profileImageObjectUrl);
+        }
+      }
+
+      setInProgress(false)
+
+    })
   }, [])
 
   return (
@@ -23,14 +51,27 @@ function UserCard() {
       <div
         className="flex flex-col items-end"
       >
-        <Link href={'/my-account/account-settings'}>
-          {/* eslint-disable @next/next/no-img-element */}
-          <img
-            src={userSession?.user?.image || '/users/default-avatar.png'}
+        <Link href={'/dashboard/advance/my-account'} className="relative">
+          <Image
+            src={userAvatar || '/users/default-avatar.png'}
             alt="User Image"
             className="w-[40px] h-[40px] drop-shadow-xl rounded-full"
+            width={500}
+            height={500}
           />
-          {/* eslint-enable @next/next/no-img-element */}
+
+          {
+            inProgress &&
+            <div
+              className="absolute top-0 left-0 w-full h-full rounded-full bg-white/90 flex justify-center items-center"
+            >
+              <RiLoaderLine
+                className="animate-spin text-themesecondary"
+                size={20}
+              />
+            </div>
+          }
+
         </Link>
       </div>
     </div>
