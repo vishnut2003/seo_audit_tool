@@ -41,7 +41,8 @@ export async function createSheetReport({ baseUrl, reportId }: {
             } else {
                 console.log('Assigning browser for local run!')
                 browser = await puppeteer.launch({
-                    timeout: 0
+                    timeout: 0,
+                    protocolTimeout: 120000,
                 })
             }
 
