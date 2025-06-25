@@ -17,8 +17,6 @@ export async function getUserAvatar({
 
             const _PUBLIC_FOLDER = path.join(..._PROJECT_ABS_PATH.split(','), "public");
             const imagePath = path.join(_PUBLIC_FOLDER, imageRelativePath);
-
-            console.log(imagePath)
             
             if (!fs.existsSync(imagePath)) {
                 resolve(null);
