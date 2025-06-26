@@ -81,6 +81,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     httpResponse = await page.goto(url, { timeout: 0 });
                 } catch (err) {
                     console.log(err);
+                    console.log('correct catch block')
                     timeoutCount++
                     if (timeoutCount === 3) {
                         break;
