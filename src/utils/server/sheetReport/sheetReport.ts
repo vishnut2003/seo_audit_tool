@@ -75,7 +75,24 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
             for (const url of pagesList) {
 
-                const page = await browser.newPage();
+                let page = null;
+
+                try {
+                    page = await browser.newPage();
+                } catch (err) {
+                    console.error(err);
+
+                    // Kill current browser
+                    const proc = browser.process();
+
+                    console.log('Kill current browser process...')
+                    if (proc) proc.kill('SIGKILL');
+
+                    // Reassign browser
+                    browser = await initializePuppeteer();
+
+                    continue;
+                }
 
                 let httpResponse = null;
 
@@ -230,11 +247,35 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 console.log(pageTitle);
                 console.log("\n")
 
-                await page.close();
+                try {
+                    await page.close();
+                } catch (err) {
+                    // Kill browser and assign new browser
+                    const proc = browser.process();
+
+                    console.log('Kill current browser process...')
+                    if (proc) proc.kill('SIGKILL');
+
+                    // Reassign browser
+                    browser = await initializePuppeteer();
+
+                    continue;
+                }
 
             }
 
-            await browser.close();
+            try {
+                await browser.close();
+            } catch (err) {
+                // Kill browser and assign new browser
+                const proc = browser.process();
+
+                console.log('Kill current browser process...')
+                if (proc) proc.kill('SIGKILL');
+
+                // Reassign browser
+                browser = await initializePuppeteer();
+            }
 
             // assign to group return
             const groupReturn: ForSheetGroupInterface = {
