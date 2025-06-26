@@ -8,6 +8,7 @@ import { getOneProject } from '@/utils/server/projects/getOneProject'
 import UserAcquisitionMainContent from './MainContent'
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from '@/utils/server/projects/analyticsAPI/google/auth'
 import { fetchAnalyticsUserAcquisitionData, fetchAnalyticsUserAcquisitionTableData } from '@/utils/server/projects/analyticsAPI/google/userAcquisitionData'
+import { getServerSession } from 'next-auth'
 
 const UserAcquisition = async () => {
 
@@ -18,7 +19,13 @@ const UserAcquisition = async () => {
         redirect('/dashboard/projects');
     }
 
-    const project = await getOneProject(projectId.value);
+    const userSession = await getServerSession();
+
+    if (!userSession?.user?.email) {
+        throw new Error("Unauthorized user!");
+    }
+
+    const project = await getOneProject(projectId.value, userSession.user.email);
 
     if (!project) {
         redirect('/dashboard/projects');

@@ -2,12 +2,20 @@ import { GoogleSearchConsoleGraphFilterInterface } from "@/app/dashboard/google-
 import { getOneProject } from "@/utils/server/projects/getOneProject";
 import { GoogleSearchConsoleAuth, googleSearchConsoleOAuthClient } from "@/utils/server/projects/googleSearchConsoleAPI/auth";
 import { graphReports } from "@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     try {
         const { dateRange, projectId } = (await request.json()) as GoogleSearchConsoleGraphFilterInterface;
-        const project = await getOneProject(projectId);
+
+        const userSession = await getServerSession();
+
+        if (!userSession?.user?.email) {
+            throw new Error("Unauthorized user!");
+        }
+
+        const project = await getOneProject(projectId, userSession.user.email);
 
         if (
             !project ||

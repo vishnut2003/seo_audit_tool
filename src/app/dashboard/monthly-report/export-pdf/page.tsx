@@ -13,6 +13,7 @@ import { fetchMonthlyReportTrafficOverview } from '@/utils/server/monthlyReport/
 import { fetchMonthlyReportSeoPerformance } from '@/utils/server/monthlyReport/seoPerformance/seoPerformance'
 import { fetchMonthlyReportPpcPerformance } from '@/utils/server/monthlyReport/ppcPerformance/ppcPerformance'
 import { getDateRangeForMonth } from '@/utils/server/monthlyReport/commonUtils'
+import { getServerSession } from 'next-auth'
 
 const MonthlyReportExportAsPDFPage = async ({ searchParams }: {
     searchParams: Promise<{
@@ -28,7 +29,13 @@ const MonthlyReportExportAsPDFPage = async ({ searchParams }: {
         redirect('/dashboard/projects');
     }
 
-    const project = await getOneProject(projectId.value);
+    const userSession = await getServerSession();
+
+    if (!userSession?.user?.email) {
+        throw new Error("Unauthorized user!");
+    }
+
+    const project = await getOneProject(projectId.value, userSession.user.email);
 
     if (!project) {
         redirect(`/dashboard/projects?redirect=${encodeURIComponent('/dashboard/monthly-report')}`);

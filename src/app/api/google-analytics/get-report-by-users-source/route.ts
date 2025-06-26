@@ -1,6 +1,7 @@
 import { AnalyticsGoogleApiAuth, authorizeWithOAuthClient } from "@/utils/server/projects/analyticsAPI/google/auth";
 import { fetchReportByNewUsersSource } from "@/utils/server/projects/analyticsAPI/google/fetchReport";
 import { getOneProject } from "@/utils/server/projects/getOneProject";
+import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -24,7 +25,13 @@ export async function POST(request: NextRequest) {
             throw new Error("Project ID Not found!");
         }
 
-        const project = await getOneProject(projectId.value);
+        const userSession = await getServerSession();
+
+        if (!userSession?.user?.email) {
+            throw new Error("Unauthorized user!");
+        }
+
+        const project = await getOneProject(projectId.value, userSession.user.email);
 
         if (
             !project ||

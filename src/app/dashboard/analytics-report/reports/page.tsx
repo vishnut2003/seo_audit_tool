@@ -9,6 +9,7 @@ import { RiErrorWarningLine } from '@remixicon/react';
 import ResetConnectionButton from './ResetConnectionButton';
 import GA_ChatBot from '@/AiChat/GA_ChatBot/GA_ChatBot';
 import MainContent from './MainContent';
+import { getServerSession } from 'next-auth';
 
 const AnalyticsReportsMain = async () => {
 
@@ -19,7 +20,13 @@ const AnalyticsReportsMain = async () => {
         redirect('/dashboard/projects');
     }
 
-    const project = await getOneProject(projectId.value);
+    const userSession = await getServerSession();
+
+    if (!userSession?.user?.email) {
+        throw new Error("Unauthorized user!");
+    }
+
+    const project = await getOneProject(projectId.value, userSession.user.email);
 
     if (!project) {
         redirect('/dashboard/projects');

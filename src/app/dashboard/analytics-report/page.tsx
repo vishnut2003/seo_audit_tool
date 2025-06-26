@@ -5,6 +5,7 @@ import { notFound, redirect } from 'next/navigation';
 import React from 'react'
 import SelectProject from './SelectProject';
 import AnalyticsApiKey from './AnalyticsApiKey';
+import { getServerSession } from 'next-auth';
 
 const AnalyticsReport = async () => {
 
@@ -14,18 +15,25 @@ const AnalyticsReport = async () => {
     let project = null;
 
     try {
-        project = await getOneProject(projectCookie?.value || null)
+
+        const userSession = await getServerSession();
+
+        if (!userSession?.user?.email) {
+            throw new Error("Unauthorized user!");
+        }
+
+        project = await getOneProject(projectCookie?.value || null, userSession.user.email);
     } catch (err) {
         console.log(err);
         return notFound();
     }
 
     if (
-        project?.googleAnalytics?.token && 
+        project?.googleAnalytics?.token &&
         project.googleAnalytics.propertyId ||
-        project?.googleAnalytics && 
-        project?.googleAnalytics?.clientEmail && 
-        project?.googleAnalytics?.privateKey && 
+        project?.googleAnalytics &&
+        project?.googleAnalytics?.clientEmail &&
+        project?.googleAnalytics?.privateKey &&
         project?.googleAnalytics?.propertyId
     ) {
         console.log("Redirecing")

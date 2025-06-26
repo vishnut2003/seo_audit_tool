@@ -11,6 +11,7 @@ import ResetConnectionButton from '../analytics-report/reports/ResetConnectionBu
 import { fetchMonthlyReportTrafficOverview } from '@/utils/server/monthlyReport/trafficOverview/trafficOverview';
 import { fetchMonthlyReportSeoPerformance } from '@/utils/server/monthlyReport/seoPerformance/seoPerformance';
 import { fetchMonthlyReportPpcPerformance } from '@/utils/server/monthlyReport/ppcPerformance/ppcPerformance';
+import { getServerSession } from 'next-auth';
 
 const MonthlyReportPage = async ({
   searchParams,
@@ -59,7 +60,13 @@ const MonthlyReportPage = async ({
     )
   }
 
-  const project = await getOneProject(projectId.value);
+  const userSession = await getServerSession();
+
+  if (!userSession?.user?.email) {
+    throw new Error("Unauthorized user!");
+  }
+
+  const project = await getOneProject(projectId.value, userSession.user.email);
 
   if (!project) {
     redirect('/dashboard/projects');
@@ -115,7 +122,7 @@ const MonthlyReportPage = async ({
       },
       propertyId: project.googleAnalytics.propertyId,
     }
-    
+
     const {
       totalSessions,
       totalBounceRate,
@@ -125,7 +132,7 @@ const MonthlyReportPage = async ({
       newUsersData,
       sessionByCountry,
     } = await fetchMonthlyReportTrafficOverview(requestParameter);
-    
+
     const {
       sessionFromOrganic,
       engagedSessionOrganic,
@@ -135,7 +142,7 @@ const MonthlyReportPage = async ({
       topBrowsers,
       topLandingPages,
     } = await fetchMonthlyReportSeoPerformance(requestParameter)
-    
+
     const {
       advertiserAdsCost,
       paidConversion,

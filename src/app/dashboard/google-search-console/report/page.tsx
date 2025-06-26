@@ -9,6 +9,7 @@ import { RiErrorWarningLine } from '@remixicon/react';
 import GSC_ChatBot from '@/AiChat/GSC_ChatBot/GSC_ChatBot';
 import ResetConnectionButton from './ResetConnectionButton';
 import MainContent from './MainContent';
+import { getServerSession } from 'next-auth';
 
 const GoogleSearchConsoleReports = async () => {
 
@@ -19,7 +20,13 @@ const GoogleSearchConsoleReports = async () => {
         redirect('/dashboard/google-search-console');
     }
 
-    const project = await getOneProject(projectId.value);
+    const userSession = await getServerSession();
+
+    if (!userSession?.user?.email) {
+        throw new Error("Unauthorized user!");
+    }
+
+    const project = await getOneProject(projectId.value, userSession.user.email);
 
     if (
         !project ||
@@ -81,7 +88,7 @@ const GoogleSearchConsoleReports = async () => {
                 />
 
                 {/* Chat bot */}
-                <GSC_ChatBot/>
+                <GSC_ChatBot />
             </BasicLayout>
         )
 
@@ -109,7 +116,7 @@ const GoogleSearchConsoleReports = async () => {
                     <p>{error}</p>
                 </div>
 
-                <ResetConnectionButton/>
+                <ResetConnectionButton />
             </BasicLayout>
         )
     }

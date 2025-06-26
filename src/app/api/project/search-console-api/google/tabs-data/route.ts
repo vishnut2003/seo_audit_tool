@@ -2,6 +2,7 @@ import { GoogleSearchConsoleTabsDataFilterInteface } from "@/app/dashboard/googl
 import { getOneProject } from "@/utils/server/projects/getOneProject";
 import { GoogleSearchConsoleAuth, googleSearchConsoleOAuthClient } from "@/utils/server/projects/googleSearchConsoleAPI/auth";
 import { getGoogleSearchConsoleTabsData } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -12,7 +13,13 @@ export async function POST(request: NextRequest) {
             dimension,
         } = (await request.json()) as GoogleSearchConsoleTabsDataFilterInteface;
 
-        const project = await getOneProject(projectId);
+        const userSession = await getServerSession();
+
+        if (!userSession?.user?.email) {
+            throw new Error("Unauthorized user!");
+        }
+
+        const project = await getOneProject(projectId, userSession.user.email);
 
         if (!project) {
             throw new Error("Project not found");

@@ -8,6 +8,7 @@ import React from 'react'
 import ResetConnectionButton from '../ResetConnectionButton';
 import { fetchAnalyticsTrafficAcquisitionGraphData, fetchAnalyticsTrafficAcquisitionTableData } from '@/utils/server/projects/analyticsAPI/google/trafficAcquisitionData';
 import AnalyticsTrafficAcquisitionMainContent from './MainContent';
+import { getServerSession } from 'next-auth';
 
 const TrafficAcquisitionPage = async () => {
     const cookieStore = await cookies();
@@ -17,7 +18,13 @@ const TrafficAcquisitionPage = async () => {
         redirect('/dashboard/projects');
     }
 
-    const project = await getOneProject(projectId.value);
+    const userSession = await getServerSession();
+
+    if (!userSession?.user?.email) {
+        throw new Error("Unauthorized user!");
+    }
+
+    const project = await getOneProject(projectId.value, userSession.user.email);
 
     if (!project) {
         redirect('/dashboard/projects');

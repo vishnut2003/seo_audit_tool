@@ -5,6 +5,7 @@ import SelectProject from './SelectProject';
 import { getOneProject } from '@/utils/server/projects/getOneProject';
 import SearchConsoleApiKey from './SearchConsoleApiKey';
 import { notFound, redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
 
 const GoogleSearchConsole = async () => {
   const cookieStore = await cookies();
@@ -13,7 +14,14 @@ const GoogleSearchConsole = async () => {
   let project = null;
 
   try {
-    project = await getOneProject(projectCookie?.value || null)
+
+    const userSession = await getServerSession();
+
+    if (!userSession?.user?.email) {
+      throw new Error("Unauthorized user!");
+    }
+
+    project = await getOneProject(projectCookie?.value || null, userSession.user.email);
   } catch (err) {
     console.log(err);
     return notFound();
