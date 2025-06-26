@@ -1,7 +1,7 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
 import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface, imageFileSizeOver100KbInterface, H1MissingInterface, sheetReportTotalPages } from "./sheetReportInterfaces";
-import puppeteer, { Browser } from "puppeteer";
+import puppeteer from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
 import updateFinishPage from "./databaseActions/updateFinishPage";
@@ -70,7 +70,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             let imageFileSizeOver100Kb: imageFileSizeOver100KbInterface[] = [];
             let h1Missing: H1MissingInterface[] = [];
 
-            let page = await browser.newPage();
+            const page = await browser.newPage();
             let timeoutCount = 0;
 
             for (const url of pagesList) {
