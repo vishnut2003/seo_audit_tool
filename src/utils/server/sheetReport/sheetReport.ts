@@ -76,7 +76,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             for (const url of pagesList) {
 
                 // Wait 1s
-                await new Promise(resolve => setTimeout(() => resolve, 1000));
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
                 const page = await browser.newPage();
 
