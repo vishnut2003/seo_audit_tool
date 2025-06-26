@@ -70,10 +70,11 @@ export async function createSheetReport({ baseUrl, reportId }: {
             let imageFileSizeOver100Kb: imageFileSizeOver100KbInterface[] = [];
             let h1Missing: H1MissingInterface[] = [];
 
-            const page = await browser.newPage();
             let timeoutCount = 0;
 
             for (const url of pagesList) {
+
+                const page = await browser.newPage();
 
                 let httpResponse = null;
 
@@ -84,8 +85,6 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     console.error(err);
                     timeoutCount++
 
-                    console.log(await page.title())
-
                     await updateFinishPage({
                         reportId,
                         count: 1
@@ -94,11 +93,13 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     if (timeoutCount === 10) {
                         break;
                     } else {
+                        await page.close()
                         continue;
                     }
                 }
 
                 if (!httpResponse) {
+                    await page.close()
                     continue;
                 }
 
@@ -110,12 +111,12 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 } catch (err) {
                     console.error(err);
 
-                    console.log(await page.title())
-
                     await updateFinishPage({
                         reportId,
                         count: 1
                     })
+
+                    await page.close();
                     continue;
                 }
 
@@ -129,12 +130,12 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 } catch (err) {
                     console.error(err);
 
-                    console.log(await page.title())
-
                     await updateFinishPage({
                         reportId,
                         count: 1
                     })
+
+                    await page.close();
                     continue;
                 }
 
@@ -202,6 +203,8 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 // for development purpose
                 console.log(pageTitle);
                 console.log("\n")
+
+                await page.close();
 
             }
 
