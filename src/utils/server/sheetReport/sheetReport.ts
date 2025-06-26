@@ -13,18 +13,6 @@ import { checkImagesAlt, checkImagesSizeOver100KB } from "./createSheetReport/im
 import { checkH1Missing } from "./createSheetReport/h1Checks";
 import { crawlValidLinks } from "./common/crawlValidLinks";
 import { getPagesDetails } from "./createSheetReport/getPageDetails";
-import { initializePuppeteer } from "../initializePuppeteer";
-
-async function resetBrowser() {
-    return new Promise<Browser>((async (resolve, reject) => {
-        try {
-            const browser = await initializePuppeteer();
-            return resolve(browser)
-        } catch (err) {
-            return reject(err);
-        }
-    }))
-}
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
