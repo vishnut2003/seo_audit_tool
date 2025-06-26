@@ -13,6 +13,7 @@ import { checkImagesAlt, checkImagesSizeOver100KB } from "./createSheetReport/im
 import { checkH1Missing } from "./createSheetReport/h1Checks";
 import { crawlValidLinks } from "./common/crawlValidLinks";
 import { getPagesDetails } from "./createSheetReport/getPageDetails";
+import { initializePuppeteer } from "../initializePuppeteer";
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -74,6 +75,9 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
             for (const url of pagesList) {
 
+                // Wait 1s
+                await new Promise(resolve => setTimeout(() => resolve, 1000));
+
                 const page = await browser.newPage();
 
                 let httpResponse = null;
@@ -101,6 +105,9 @@ export async function createSheetReport({ baseUrl, reportId }: {
                             console.warn(`Failed to close tab -  resetting browser:`, err);
                             const proc = browser.process();
                             if (proc) proc.kill('SIGKILL');
+
+                            // Reassign browser
+                            browser = await initializePuppeteer();
                         }
 
                         continue;
@@ -132,6 +139,9 @@ export async function createSheetReport({ baseUrl, reportId }: {
                         console.warn(`Failed to close tab -  resetting browser:`, err);
                         const proc = browser.process();
                         if (proc) proc.kill('SIGKILL');
+
+                        // Reassign browser
+                        browser = await initializePuppeteer();
                     }
 
                     continue;
@@ -159,6 +169,9 @@ export async function createSheetReport({ baseUrl, reportId }: {
                         console.warn(`Failed to close tab -  resetting browser:`, err);
                         const proc = browser.process();
                         if (proc) proc.kill('SIGKILL');
+
+                        // Reassign browser
+                        browser = await initializePuppeteer();
                     }
 
                     continue;
