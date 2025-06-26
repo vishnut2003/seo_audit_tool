@@ -73,19 +73,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             let page = await browser.newPage();
             let timeoutCount = 0;
 
-            let skip = true;
-
             for (const url of pagesList) {
-
-                if (skip === true) {
-                    
-                    if (url === "https://www.dynmclife.com/products/arabella-double-layer-padded-sports-bra-in-black") {
-                        console.log('Disable skip!');
-                        skip = false
-                    }
-
-                    continue;
-                }
 
                 let httpResponse = null;
 
@@ -93,8 +81,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 try {
                     httpResponse = await page.goto(url, { timeout: 30000 });
                 } catch (err) {
-                    console.log(err);
-                    console.log('First request error')
+                    console.error(err);
                     timeoutCount++
 
                     page = await browser.newPage();
@@ -107,7 +94,6 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     if (timeoutCount === 10) {
                         break;
                     } else {
-                        console.log('First request error - continue!');
                         continue;
                     }
                 }
@@ -123,13 +109,11 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     content = await page.content();
                 } catch (err) {
                     console.error(err);
-                    console.log('content fetching error!')
                     page = await browser.newPage();
                     await updateFinishPage({
                         reportId,
                         count: 1
                     })
-                    console.log('content fetching error - continue!')
                     continue;
                 }
 
