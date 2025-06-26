@@ -93,7 +93,16 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     if (timeoutCount === 10) {
                         break;
                     } else {
-                        await page.close()
+
+                        // Kill browser and assign new browser
+                        try {
+                            await page.close()
+                        } catch (err) {
+                            console.warn(`Failed to close tab -  resetting browser:`, err);
+                            const proc = browser.process();
+                            if (proc) proc.kill('SIGKILL');
+                        }
+
                         continue;
                     }
                 }
@@ -116,7 +125,15 @@ export async function createSheetReport({ baseUrl, reportId }: {
                         count: 1
                     })
 
-                    await page.close();
+                    // Kill browser and assign new browser
+                    try {
+                        await page.close()
+                    } catch (err) {
+                        console.warn(`Failed to close tab -  resetting browser:`, err);
+                        const proc = browser.process();
+                        if (proc) proc.kill('SIGKILL');
+                    }
+
                     continue;
                 }
 
@@ -135,7 +152,15 @@ export async function createSheetReport({ baseUrl, reportId }: {
                         count: 1
                     })
 
-                    await page.close();
+                    // Kill browser and assign new browser
+                    try {
+                        await page.close()
+                    } catch (err) {
+                        console.warn(`Failed to close tab -  resetting browser:`, err);
+                        const proc = browser.process();
+                        if (proc) proc.kill('SIGKILL');
+                    }
+
                     continue;
                 }
 
