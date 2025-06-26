@@ -69,7 +69,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
             let imageFileSizeOver100Kb: imageFileSizeOver100KbInterface[] = [];
             let h1Missing: H1MissingInterface[] = [];
 
-            const page = await browser.newPage();
+            let page = await browser.newPage();
             let timeoutCount = 0;
 
             for (const url of pagesList) {
@@ -82,6 +82,14 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 } catch (err) {
                     console.log(err);
                     timeoutCount++
+
+                    page = await browser.newPage();
+
+                    await updateFinishPage({
+                        reportId,
+                        count: 1
+                    })
+
                     if (timeoutCount === 10) {
                         break;
                     } else {
@@ -100,6 +108,11 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     content = await page.content();
                 } catch (err) {
                     console.error(err);
+                    page = await browser.newPage();
+                    await updateFinishPage({
+                        reportId,
+                        count: 1
+                    })
                     continue;
                 }
 
@@ -112,6 +125,11 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     pageTitle = await page.title();
                 } catch (err) {
                     console.error(err);
+                    page = await browser.newPage();
+                    await updateFinishPage({
+                        reportId,
+                        count: 1
+                    })
                     continue;
                 }
 
@@ -165,7 +183,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 }
 
                 // check H1 missing
-                const failedH1MissingCheck = await checkH1Missing({DOM, url, pageTitle});
+                const failedH1MissingCheck = await checkH1Missing({ DOM, url, pageTitle });
                 if (failedH1MissingCheck) {
                     h1Missing = [...h1Missing, failedH1MissingCheck]
                 }
