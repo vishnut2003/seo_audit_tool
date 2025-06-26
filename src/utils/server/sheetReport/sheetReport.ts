@@ -1,7 +1,7 @@
 import { fetchSitemap } from "./createSheetReport/fetchSitemap"
 import { checkTitleAbove60, checkTitleLessThat30 } from "./createSheetReport/titleChecks";
 import { ForSheetGroupInterface, titileLessThan30Interface, titileAbove60Interface, metaDescBelow70Interface, metaDescOver155Interface, metaDescEmptyInterface, imagesAltMissingInterface, imageFileSizeOver100KbInterface, H1MissingInterface, sheetReportTotalPages } from "./sheetReportInterfaces";
-import puppeteer from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 import puppeteer_core from "puppeteer-core";
 import updateTotalPage from "./databaseActions/updateTotalPage";
 import updateFinishPage from "./databaseActions/updateFinishPage";
@@ -13,6 +13,18 @@ import { checkImagesAlt, checkImagesSizeOver100KB } from "./createSheetReport/im
 import { checkH1Missing } from "./createSheetReport/h1Checks";
 import { crawlValidLinks } from "./common/crawlValidLinks";
 import { getPagesDetails } from "./createSheetReport/getPageDetails";
+import { initializePuppeteer } from "../initializePuppeteer";
+
+async function resetBrowser() {
+    return new Promise<Browser>((async (resolve, reject) => {
+        try {
+            const browser = await initializePuppeteer();
+            return resolve(browser)
+        } catch (err) {
+            return reject(err);
+        }
+    }))
+}
 
 export async function createSheetReport({ baseUrl, reportId }: {
     baseUrl: string,
@@ -84,7 +96,12 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     console.error(err);
                     timeoutCount++
 
+                    console.log('resetting browser...')
+                    await page.close();
+                    await browser.close();
+                    browser = await resetBrowser();
                     page = await browser.newPage();
+                    console.log('resetting finish...')
 
                     await updateFinishPage({
                         reportId,
@@ -109,7 +126,14 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     content = await page.content();
                 } catch (err) {
                     console.error(err);
+
+                    console.log('resetting browser...')
+                    await page.close();
+                    await browser.close();
+                    browser = await resetBrowser();
                     page = await browser.newPage();
+                    console.log('resetting finish...')
+
                     await updateFinishPage({
                         reportId,
                         count: 1
@@ -126,7 +150,14 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     pageTitle = await page.title();
                 } catch (err) {
                     console.error(err);
+
+                    console.log('resetting browser...')
+                    await page.close();
+                    await browser.close();
+                    browser = await resetBrowser();
                     page = await browser.newPage();
+                    console.log('resetting finish...')
+
                     await updateFinishPage({
                         reportId,
                         count: 1
