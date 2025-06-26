@@ -79,7 +79,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
                 if (skip === true) {
                     
-                    if (url === "https://www.dynmclife.com/products/arabella-double-layer-padded-sports-bra-in-ivory") {
+                    if (url === "https://www.dynmclife.com/products/arabella-double-layer-padded-sports-bra-in-black") {
                         console.log('Disable skip!');
                         skip = false
                     }
@@ -91,7 +91,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
                 console.log(`Opening ${url}`)
                 try {
-                    httpResponse = await page.goto(url, { timeout: 0 });
+                    httpResponse = await page.goto(url, { timeout: 30000 });
                 } catch (err) {
                     console.log(err);
                     console.log('First request error')
