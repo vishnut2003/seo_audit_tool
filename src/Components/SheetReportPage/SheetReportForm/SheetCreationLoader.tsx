@@ -67,7 +67,7 @@ const SheetCreationLoader = ({ reportId, popupClose, inProgress }: {
         {/* progress details */}
 
         <div className="flex flex-col gap-2 justify-center items-center">
-          <h2 className="text-lg mb-2 text-center font-semibold">Crawling in progress</h2>
+          <h2 className="text-lg mb-2 text-center font-semibold">{progressData?.status === "processing" ? "Crawling in progress" : progressData?.status === "error" ? "Crawling failed" : progressData?.status === "success" ? "Report Ready" : "Fetching Updates..."}</h2>
           {
             !progressData ?
               <p>Might take few seconds for updates...</p> :
@@ -106,16 +106,22 @@ const SheetCreationLoader = ({ reportId, popupClose, inProgress }: {
                       size={20}
                     />
                     Open Report
-                  </a> :
-                  <button
-                    className="py-4 px-6 bg-green-200 text-green-600 opacity-70 rounded-sm flex gap-3 items-center"
-                  >
-                    <RiRefreshLine
-                      className="animate-spin"
-                      size={20}
-                    />
-                    Loading...
-                  </button>
+                  </a>
+                  : progressData?.status === "error" ?
+                    <button
+                      className="py-4 px-6 bg-yellow-200 text-yellow-600 opacity-70 rounded-sm flex gap-3 items-center"
+                    >
+                      Retry Crawling
+                    </button>
+                    : <button
+                      className="py-4 px-6 bg-green-200 text-green-600 opacity-70 rounded-sm flex gap-3 items-center"
+                    >
+                      <RiRefreshLine
+                        className="animate-spin"
+                        size={20}
+                      />
+                      Loading...
+                    </button>
               }
             </>
           }
