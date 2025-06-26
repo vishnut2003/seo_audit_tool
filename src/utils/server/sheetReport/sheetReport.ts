@@ -250,6 +250,9 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 try {
                     await page.close();
                 } catch (err) {
+
+                    console.error(err);
+
                     // Kill browser and assign new browser
                     const proc = browser.process();
 
@@ -267,6 +270,9 @@ export async function createSheetReport({ baseUrl, reportId }: {
             try {
                 await browser.close();
             } catch (err) {
+
+                console.error(err);
+
                 // Kill browser and assign new browser
                 const proc = browser.process();
 
