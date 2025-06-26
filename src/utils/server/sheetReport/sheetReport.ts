@@ -96,15 +96,28 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 console.log('Fetching Page html content')
 
                 // fetch page full content
-                const content = await page.content();
+                let content: string | null = null
+
+                try {
+                    content = await page.content();
+                } catch (err) {
+                    console.error(err);
+                    continue;
+                }
+
                 const DOM = await generateInteractiveDoc({ content });
 
                 // check page title
-                console.log('Fetching Page title');
-                const pageTitle = await page.title();
+                let pageTitle: string | null = null;
+
+                try {
+                    pageTitle = await page.title();
+                } catch (err) {
+                    console.error(err);
+                    continue;
+                }
 
                 // list all pages
-                console.log('getPagesDetails')
                 const pageDetails = await getPagesDetails({
                     url,
                     DOM,
@@ -114,21 +127,18 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 pageDetailsList.push(pageDetails);
 
                 // page length < 30
-                console.log('checkTitleLessThat30')
                 const failedTitleL30check = await checkTitleLessThat30({ title: pageTitle, url });
                 if (failedTitleL30check) {
                     titleLessThan30.push(failedTitleL30check);
                 }
 
                 // page length > 60
-                console.log('checkTitleAbove60')
                 const failedTitleAboveCheck = await checkTitleAbove60({ title: pageTitle, url });
                 if (failedTitleAboveCheck) {
                     titleAbove60.push(failedTitleAboveCheck)
                 }
 
                 // check meta description
-                console.log('validateDescEmpty')
                 const failedDescEmptyCheck = await validateDescEmpty({ DOM, url })
                 if (failedDescEmptyCheck) {
                     metaDescEmpty.push(failedDescEmptyCheck)
@@ -145,28 +155,24 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 }
 
                 // check images alt
-                console.log('checkImagesAlt')
                 const failedImageAltList = await checkImagesAlt({ DOM, url, title: pageTitle });
                 if (failedImageAltList) {
                     imageAltMissing = [...imageAltMissing, ...failedImageAltList];
                 }
 
                 // check image over 100KB
-                console.log('checkImagesSizeOver100KB')
                 const failedImageFileSize = await checkImagesSizeOver100KB({ DOM, url, title: pageTitle });
                 if (failedImageFileSize) {
                     imageFileSizeOver100Kb = [...imageFileSizeOver100Kb, ...failedImageFileSize];
                 }
 
                 // check H1 missing
-                console.log('checkH1Missing')
                 const failedH1MissingCheck = await checkH1Missing({DOM, url, pageTitle});
                 if (failedH1MissingCheck) {
                     h1Missing = [...h1Missing, failedH1MissingCheck]
                 }
 
                 // update finish page count in database
-                console.log('updateFinishPage')
                 await updateFinishPage({
                     reportId,
                     count: 1
