@@ -36,12 +36,13 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     defaultViewport: chromium.defaultViewport,
                     executablePath: await chromium.executablePath(),
                     headless: true,
-                    timeout: 0
+                    timeout: 30000,
+                    protocolTimeout: 30000,
                 })
             } else {
                 console.log('Assigning browser for local run!')
                 browser = await puppeteer.launch({
-                    timeout: 0,
+                    timeout: 30000,
                     protocolTimeout: 30000,
                 })
             }
@@ -72,7 +73,19 @@ export async function createSheetReport({ baseUrl, reportId }: {
             let page = await browser.newPage();
             let timeoutCount = 0;
 
+            let skip = true;
+
             for (const url of pagesList) {
+
+                if (skip === true) {
+                    
+                    if (url === "https://www.dynmclife.com/products/arabella-double-layer-padded-sports-bra-in-ivory") {
+                        console.log('Disable skip!');
+                        skip = false
+                    }
+
+                    continue;
+                }
 
                 let httpResponse = null;
 
@@ -81,6 +94,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     httpResponse = await page.goto(url, { timeout: 0 });
                 } catch (err) {
                     console.log(err);
+                    console.log('First request error')
                     timeoutCount++
 
                     page = await browser.newPage();
@@ -93,6 +107,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     if (timeoutCount === 10) {
                         break;
                     } else {
+                        console.log('First request error - continue!');
                         continue;
                     }
                 }
@@ -108,11 +123,13 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     content = await page.content();
                 } catch (err) {
                     console.error(err);
+                    console.log('content fetching error!')
                     page = await browser.newPage();
                     await updateFinishPage({
                         reportId,
                         count: 1
                     })
+                    console.log('content fetching error - continue!')
                     continue;
                 }
 
