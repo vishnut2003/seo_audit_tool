@@ -96,12 +96,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     console.error(err);
                     timeoutCount++
 
-                    console.log('resetting browser...')
-                    await page.close();
-                    await browser.close();
-                    browser = await resetBrowser();
-                    page = await browser.newPage();
-                    console.log('resetting finish...')
+                    console.log(await page.title())
 
                     await updateFinishPage({
                         reportId,
@@ -127,12 +122,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 } catch (err) {
                     console.error(err);
 
-                    console.log('resetting browser...')
-                    await page.close();
-                    await browser.close();
-                    browser = await resetBrowser();
-                    page = await browser.newPage();
-                    console.log('resetting finish...')
+                    console.log(await page.title())
 
                     await updateFinishPage({
                         reportId,
@@ -151,12 +141,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 } catch (err) {
                     console.error(err);
 
-                    console.log('resetting browser...')
-                    await page.close();
-                    await browser.close();
-                    browser = await resetBrowser();
-                    page = await browser.newPage();
-                    console.log('resetting finish...')
+                    console.log(await page.title())
 
                     await updateFinishPage({
                         reportId,
