@@ -75,9 +75,6 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
             for (const url of pagesList) {
 
-                // Wait 1s
-                await new Promise(resolve => setTimeout(resolve, 1000));
-
                 const page = await browser.newPage();
 
                 let httpResponse = null;
@@ -97,18 +94,13 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     if (timeoutCount === 10) {
                         break;
                     } else {
+                        const proc = browser.process();
 
-                        // Kill browser and assign new browser
-                        try {
-                            await page.close()
-                        } catch (err) {
-                            console.warn(`Failed to close tab -  resetting browser:`, err);
-                            const proc = browser.process();
-                            if (proc) proc.kill('SIGKILL');
+                        console.log('Kill current browser process...')
+                        if (proc) proc.kill('SIGKILL');
 
-                            // Reassign browser
-                            browser = await initializePuppeteer();
-                        }
+                        // Reassign browser
+                        browser = await initializePuppeteer();
 
                         continue;
                     }
@@ -122,6 +114,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 // fetch page full content
                 let content: string | null = null
 
+                console.log("Fetching HTML Content...")
                 try {
                     content = await page.content();
                 } catch (err) {
@@ -133,16 +126,13 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     })
 
                     // Kill browser and assign new browser
-                    try {
-                        await page.close()
-                    } catch (err) {
-                        console.warn(`Failed to close tab -  resetting browser:`, err);
-                        const proc = browser.process();
-                        if (proc) proc.kill('SIGKILL');
+                    const proc = browser.process();
 
-                        // Reassign browser
-                        browser = await initializePuppeteer();
-                    }
+                    console.log('Kill current browser process...')
+                    if (proc) proc.kill('SIGKILL');
+
+                    // Reassign browser
+                    browser = await initializePuppeteer();
 
                     continue;
                 }
@@ -152,6 +142,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 // check page title
                 let pageTitle: string | null = null;
 
+                console.log('fetching title...')
                 try {
                     pageTitle = await page.title();
                 } catch (err) {
@@ -163,16 +154,13 @@ export async function createSheetReport({ baseUrl, reportId }: {
                     })
 
                     // Kill browser and assign new browser
-                    try {
-                        await page.close()
-                    } catch (err) {
-                        console.warn(`Failed to close tab -  resetting browser:`, err);
-                        const proc = browser.process();
-                        if (proc) proc.kill('SIGKILL');
+                    const proc = browser.process();
 
-                        // Reassign browser
-                        browser = await initializePuppeteer();
-                    }
+                    console.log('Kill current browser process...')
+                    if (proc) proc.kill('SIGKILL');
+
+                    // Reassign browser
+                    browser = await initializePuppeteer();
 
                     continue;
                 }
