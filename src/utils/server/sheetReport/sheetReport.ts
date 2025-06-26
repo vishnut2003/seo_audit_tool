@@ -42,7 +42,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 console.log('Assigning browser for local run!')
                 browser = await puppeteer.launch({
                     timeout: 0,
-                    protocolTimeout: 120000,
+                    protocolTimeout: 30000,
                 })
             }
 
@@ -82,7 +82,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 } catch (err) {
                     console.log(err);
                     timeoutCount++
-                    if (timeoutCount === 3) {
+                    if (timeoutCount === 10) {
                         break;
                     } else {
                         continue;
@@ -92,8 +92,6 @@ export async function createSheetReport({ baseUrl, reportId }: {
                 if (!httpResponse) {
                     continue;
                 }
-
-                console.log('Fetching Page html content')
 
                 // fetch page full content
                 let content: string | null = null
