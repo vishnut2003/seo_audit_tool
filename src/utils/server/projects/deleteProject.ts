@@ -1,3 +1,4 @@
+import { dbConnect } from "@/database/DBConfig";
 import ProjectsModel from "@/models/ProjectsModel";
 
 export async function deleteProjectById ({
@@ -9,6 +10,7 @@ export async function deleteProjectById ({
 }) {
     return new Promise<void>(async (resolve, reject) => {
         try {
+            await dbConnect();
             const project = await ProjectsModel.findOneAndDelete({
                 email: ownerEmail,
                 projectId,

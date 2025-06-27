@@ -5,6 +5,7 @@ export interface ProjectModelInterface extends mongoose.Document {
     email: string,
     domain: string,
     competitors: string[],
+    accessShare: string[],
     createdAt: string,
     updatedAt: string,
     googleAnalytics?: {
@@ -63,6 +64,11 @@ const projectSchema = new mongoose.Schema<ProjectModelInterface>({
         required: true,
     },
     competitors: {
+        type: [String],
+        required: true,
+        default: [],
+    },
+    accessShare: {
         type: [String],
         required: true,
         default: [],
