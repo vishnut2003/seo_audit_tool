@@ -29,7 +29,8 @@ const sidebarMenuItems: (string | SidebarMenuItemsInterface)[] = [
         icon: RiFolder5Line,
         link: '/dashboard/projects',
         subPages: [
-            "/dashboard/projects/add-new"
+            "/dashboard/projects/add-new",
+            "/dashboard/projects/delete"
         ]
     },
     "Reports",

@@ -37,7 +37,7 @@ const TableDataRow = ({ rowData, isSelected }: {
             },
             {
                 name: "Delete",
-                link: `/dashboard/projects/delete/${encodeURIComponent(rowData.projectId)}`,
+                link: `/dashboard/projects/delete?projectId=${encodeURIComponent(rowData.projectId)}`,
                 icon: RiDeleteBin6Line,
             },
         ]
