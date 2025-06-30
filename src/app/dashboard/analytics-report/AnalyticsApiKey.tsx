@@ -49,7 +49,7 @@ const AnalyticsApiKey = ({ projectId }: {
         if (isMonthlyReportRedirect) {
             setIsMonthlyReportApiMissingMessage(true);
         }
-    }, []);
+    }, [searchParams]);
 
     async function submitAPICredentials() {
         try {

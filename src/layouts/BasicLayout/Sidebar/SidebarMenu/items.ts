@@ -1,4 +1,4 @@
-import { RemixiconComponentType, RiBarChart2Line, RiDashboardLine, RiFileChart2Line, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiLineChartLine, RiSearchLine, RiToolsLine } from "@remixicon/react";
+import { RemixiconComponentType, RiBarChart2Line, RiDashboardLine, RiFileChart2Line, RiFileChartLine, RiFileExcel2Line, RiFolder5Line, RiFolderAddLine, RiLineChartLine, RiSearchLine, RiToolsLine } from "@remixicon/react";
 
 export interface SidebarMenuItemsInterface {
     name: string,
@@ -25,13 +25,17 @@ const sidebarMenuItems: (string | SidebarMenuItemsInterface)[] = [
     },
     "My Projects",
     {
-        name: 'Projects',
+        name: 'All Projects',
         icon: RiFolder5Line,
         link: '/dashboard/projects',
         subPages: [
-            "/dashboard/projects/add-new",
             "/dashboard/projects/delete"
         ]
+    },
+    {
+        name: 'Add Project',
+        icon: RiFolderAddLine,
+        link: '/dashboard/projects/add-new'
     },
     "Reports",
     {
