@@ -17,7 +17,14 @@ export async function getAllProjects({ page, email, searchText }: {
             const skip = page * perPage;
 
             const matchValue = {
-                email,
+                $or: [
+                    {
+                        email,
+                    },
+                    {
+                        accessShare: email,
+                    }
+                ],
                 domain: {
                     $regex: searchText ? new RegExp(searchText, 'i') : "",
                 }

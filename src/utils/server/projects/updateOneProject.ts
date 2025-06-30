@@ -19,7 +19,17 @@ export async function updateOneProjectByProjectId({
         try {
             await dbConnect();
 
-            const projectExist = await ProjectsModel.findOneAndUpdate({ email, projectId }, {
+            const projectExist = await ProjectsModel.findOneAndUpdate({
+                projectId,
+                $or: [
+                    {
+                        email,
+                    },
+                    {
+                        accessShare: email,
+                    }
+                ]
+            }, {
                 ...updateData,
             })
 

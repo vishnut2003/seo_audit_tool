@@ -9,6 +9,8 @@ import { ProjectModelInterface } from "@/models/ProjectsModel";
 import { UserModelInterface } from "@/models/UsersModel";
 import { RiAddLine, RiCheckLine, RiDeleteBack2Line, RiErrorWarningLine, RiLoaderLine } from "@remixicon/react";
 import axios, { AxiosError } from "axios";
+import { Session } from "next-auth";
+import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -48,6 +50,9 @@ const EditProject = () => {
 
     const [sharingUsersInProgress, setSharingUsersInProgress] = useState<boolean>(false);
 
+    const [currentUser, setCurrentUser] = useState<Session | null>(null);
+    const [projectOwnerEmail, setProjectOwnerEmail] = useState<string | null>(null);
+
     useEffect(() => {
         (async () => {
             const decodedProjectId = decodeURIComponent(projectId)
@@ -58,6 +63,8 @@ const EditProject = () => {
             if (!data) {
                 notFound();
             }
+
+            setProjectOwnerEmail(data.email);
 
             setFormData(prev => ({
                 ...prev,
@@ -133,6 +140,13 @@ const EditProject = () => {
 
     }, [formData.accessShare, refreshUserAccess])
 
+    useEffect(() => {
+        getSession()
+            .then((session) => {
+                setCurrentUser(session);
+            })
+    }, [])
+
     function handleInputOnChange(inputEvent: React.ChangeEvent<HTMLInputElement>) {
         setFormData(prev => ({
             ...prev,
@@ -201,6 +215,21 @@ const EditProject = () => {
                 <div
                     className="w-full max-w-screen-md space-y-5"
                 >
+
+                    {
+                        currentUser && currentUser.user?.email && projectOwnerEmail && currentUser.user.email !== projectOwnerEmail ?
+                            <div
+                                className="bg-gray-200 w-max py-3 px-5 rounded-md"
+                            >
+                                <p
+                                    className="text-sm font-normal"
+                                >Project Owner</p>
+                                <p
+                                    className="text-base font-semibold"
+                                >{projectOwnerEmail}</p>
+                            </div> 
+                        : ""
+                    }
 
                     {/* Form fields */}
                     {

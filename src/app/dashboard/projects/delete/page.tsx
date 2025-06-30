@@ -29,6 +29,32 @@ const DeleteProjectPage = async ({ searchParams }: {
     notFound();
   }
 
+  if (userSession.user.email !== deletingProject.email) {
+    return (
+      <BasicLayout>
+        <div>
+          <div
+            className='max-w-[500px] w-full p-5 bg-white space-y-4 rounded-md shadow-2xl shadow-gray-200'
+          >
+            <div className='space-y-2'>
+              <h2
+                className='text-base font-medium text-red-500'
+              >Unauthorized access</h2>
+
+              <p
+                className='text-lg font-semibold'
+              >Project Name - {deletingProject.domain}</p>
+            </div>
+
+            <p
+              className='py-3 px-5 rounded-md bg-red-50 text-red-500'
+            >Only project owner can delete.</p>
+          </div>
+        </div>
+      </BasicLayout>
+    )
+  }
+
   return (
     <BasicLayout>
       <div>
