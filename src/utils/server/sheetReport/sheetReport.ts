@@ -161,7 +161,7 @@ export async function createSheetReport({ baseUrl, reportId }: {
 
                 console.log('fetching title...')
                 try {
-                    pageTitle = await page.title();
+                    pageTitle = DOM.window.document.title
                 } catch (err) {
                     console.error(err);
 
