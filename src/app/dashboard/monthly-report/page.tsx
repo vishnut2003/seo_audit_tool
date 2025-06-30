@@ -74,7 +74,7 @@ const MonthlyReportPage = async ({
 
   if (!project.googleAnalytics?.clientEmail || !project.googleAnalytics.privateKey || !project.googleAnalytics.propertyId) {
     if (!project.googleAnalytics?.token) {
-      redirect('/dashboard/analytics-report');
+      redirect('/dashboard/analytics-report?monthlyReportApiMissingMessage=true');
     }
   }
 

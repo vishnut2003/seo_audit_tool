@@ -1,7 +1,7 @@
 'use client';
 
 import DashboardStandardInput from "@/Components/ui/DashboardStandardInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
     Dialog,
@@ -14,7 +14,7 @@ import {
 import { RiErrorWarningLine, RiPlayCircleLine } from "@remixicon/react";
 import axios from "axios";
 import { getSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 export interface GoogleAnalyticsFormSubmitInterface {
@@ -38,8 +38,18 @@ const AnalyticsApiKey = ({ projectId }: {
 
     // continue with google related
     const [withGoogle_Error, setWithGoogle_Error] = useState<string | null>(null);
+    
+    const [isMonthlyReportApiMissingMessage, setIsMonthlyReportApiMissingMessage] = useState<boolean>(false);
 
-    const router = useRouter()
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const isMonthlyReportRedirect = searchParams.get('monthlyReportApiMissingMessage');
+        if (isMonthlyReportRedirect) {
+            setIsMonthlyReportApiMissingMessage(true);
+        }
+    }, []);
 
     async function submitAPICredentials() {
         try {
@@ -75,6 +85,10 @@ const AnalyticsApiKey = ({ projectId }: {
 
             await axios.post('/api/project/analytics-api/google/create', formData);
 
+            if (isMonthlyReportApiMissingMessage) {
+                router.push('/dashboard/monthly-report')
+            }
+
             router.push('/dashboard/analytics-report/reports')
 
         } catch (err) {
@@ -90,6 +104,18 @@ const AnalyticsApiKey = ({ projectId }: {
         <div
             className="w-full h-full"
         >
+            {/* Monthly Report API Missing Message */
+                isMonthlyReportApiMissingMessage &&
+                <div
+                    className="w-full bg-orange-100 text-orange-500 flex items-center gap-3 rounded-md py-3 px-5 mb-[30px]"
+                >
+                    <RiErrorWarningLine
+                        size={20}
+                    />
+                    <p>Google Analytics API is required for monthly report.</p>
+                </div>
+            }
+
             <div
                 className="flex flex-col gap-5"
             >
