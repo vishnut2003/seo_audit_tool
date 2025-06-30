@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
         }
 
         const userData = await getUserDataByEmail({ email });
-        console.log(userData);
 
         return NextResponse.json(userData);
 
