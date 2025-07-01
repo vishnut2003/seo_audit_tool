@@ -49,10 +49,14 @@ export async function handleGSCPromptSubmition({
                 // Fetch GSC Graph data
                 let graphData: GoogleSearchConsoleGraphRow[] | null = null;
                 try {
+
+                    const startDate = new Date(Date.UTC(dateRange.from.getFullYear(), dateRange.from.getMonth(), dateRange.from.getDate())).toISOString();
+                    const endDate = new Date(Date.UTC(dateRange.to.getFullYear(), dateRange.to.getMonth(), dateRange.to.getDate())).toISOString();
+
                     const graphRequestData: GoogleSearchConsoleGraphFilterInterface = {
                         dateRange: {
-                            startDate: dateRange.from.toISOString().split('T')[0],
-                            endDate: dateRange.to.toISOString().split('T')[0],
+                            startDate: startDate.split('T')[0],
+                            endDate: endDate.split('T')[0],
                         },
                         projectId: project.projectId,
                     }

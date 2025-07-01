@@ -38,11 +38,19 @@ const MainContent = ({ graphData, defaultDateRange }: {
                 return;
             }
 
+            const dateRange: {
+                startDate: string,
+                endDate: string,
+            } = {
+                startDate: new Date(Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())).toISOString(),
+                endDate: new Date(Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate())).toISOString(),
+            }
+
             const filterData: GoogleSearchConsoleGraphFilterInterface = {
                 projectId: project.projectId,
                 dateRange: {
-                    startDate: startDate.toISOString().split('T')[0],
-                    endDate: endDate.toISOString().split('T')[0],
+                    startDate: dateRange.startDate.split('T')[0],
+                    endDate: dateRange.endDate.split('T')[0],
                 },
             }
 
@@ -79,10 +87,18 @@ const MainContent = ({ graphData, defaultDateRange }: {
                 throw new Error("Project is not selected!");
             }
 
+            const dateRange: {
+                startDate: string,
+                endDate: string,
+            } = {
+                startDate: new Date(Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())).toISOString(),
+                endDate: new Date(Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate())).toISOString(),
+            }
+
             const requestBody: GoogleSearchConsoleTabsDataFilterInteface = {
                 dateRange: {
-                    startDate: startDate.toISOString().split('T')[0],
-                    endDate: endDate.toISOString().split('T')[0],
+                    startDate: dateRange.startDate.split('T')[0],
+                    endDate: dateRange.endDate.split('T')[0],
                 },
                 projectId: project.projectId,
                 dimension: currentActiveTab,

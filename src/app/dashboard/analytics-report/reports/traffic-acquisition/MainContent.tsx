@@ -62,10 +62,13 @@ const AnalyticsTrafficAcquisitionMainContent = ({
                 graphType = graphTypeState;
             }
 
+            const startDate = new Date(Date.UTC(dateRange.startDate.getFullYear(), dateRange.startDate.getMonth(), dateRange.startDate.getDate())).toISOString()
+            const endDate = new Date(Date.UTC(dateRange.endDate.getFullYear(), dateRange.endDate.getMonth(), dateRange.endDate.getDate())).toISOString()
+
             const apiRequestEntry: AnalyticsTrafficAcquisitionApiRouteEntry = {
                 dateRange: {
-                    startDate: dateRange.startDate.toISOString().split('T')[0],
-                    endDate: dateRange.endDate.toISOString().split('T')[0],
+                    startDate: startDate.split('T')[0],
+                    endDate: endDate.split('T')[0],
                 },
                 graphType,
             }

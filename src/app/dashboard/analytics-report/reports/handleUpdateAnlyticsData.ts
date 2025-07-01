@@ -32,10 +32,14 @@ export async function handleAnlyticsUpdateData({
     setReport(null);
     setError(null);
     try {
+
+        const startDate = new Date(Date.UTC(filterDate.from.getFullYear(), filterDate.from.getMonth(), filterDate.from.getDate())).toISOString();
+        const endDate = new Date(Date.UTC(filterDate.to.getFullYear(), filterDate.to.getMonth(), filterDate.to.getDate())).toISOString();
+
         const data: GoogleAnalyticsReportFilterInterface = {
             dateRange: {
-                from: filterDate.from.toISOString().split('T')[0],
-                to: filterDate.to.toISOString().split('T')[0],
+                from: startDate.split('T')[0],
+                to: endDate.split('T')[0],
             },
         }
 

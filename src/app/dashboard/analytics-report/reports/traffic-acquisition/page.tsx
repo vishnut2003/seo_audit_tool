@@ -76,8 +76,6 @@ const TrafficAcquisitionPage = async () => {
             propertyId: project.googleAnalytics.propertyId,
         })
 
-        console.log(tableData)
-
         return (
             <BasicLayout
                 pageTitle='Traffic Acquisition'

@@ -123,11 +123,14 @@ const GA_ChatBot = () => {
                 if (!gaFetchedData) {
                     let GraphData: GoogleAnalyticsReportResponse | null = null;
 
+                    const startDate = new Date(Date.UTC(dateRange.startDate.getFullYear(), dateRange.startDate.getMonth(), dateRange.startDate.getDate())).toISOString();
+                    const endDate = new Date(Date.UTC(dateRange.endDate.getFullYear(), dateRange.endDate.getMonth(), dateRange.endDate.getDate())).toISOString();
+
                     try {
                         const GraphReportRequestData: GoogleAnalyticsReportFilterInterface = {
                             dateRange: {
-                                from: dateRange.startDate.toISOString().split('T')[0],
-                                to: dateRange.endDate.toISOString().split('T')[0],
+                                from: startDate.split('T')[0],
+                                to: endDate.split('T')[0],
                             },
                         }
 
