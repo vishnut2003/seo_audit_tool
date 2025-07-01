@@ -1,6 +1,6 @@
 import ProjectsModel from "@/models/ProjectsModel";
 
-export async function deleteGoogleAnalyticsAuth ({
+export async function deleteGoogleAnalyticsAuth({
     email,
     projectId,
 }: {
@@ -9,7 +9,13 @@ export async function deleteGoogleAnalyticsAuth ({
 }) {
     return new Promise<void>(async (resolve, reject) => {
         try {
-            await ProjectsModel.findOneAndUpdate({email, projectId}, 
+            await ProjectsModel.findOneAndUpdate({
+                projectId,
+                $or: [
+                    { email },
+                    { accessShare: email },
+                ],
+            },
                 {
                     $unset: {
                         googleAnalytics: 1,

@@ -13,7 +13,13 @@ export async function createGoogleSearchConsoleCredentials({
     return new Promise<void>(async (resolve, reject) => {
         try {
             await dbConnect();
-            const project: ProjectModelInterface | null = await ProjectsModel.findOneAndUpdate({ email, projectId }, {
+            const project: ProjectModelInterface | null = await ProjectsModel.findOneAndUpdate({
+                projectId,
+                $or: [
+                    { email },
+                    { accessShare: email },
+                ],
+            }, {
                 googleSearchConsole: {
                     property,
                     clientEmail,
@@ -39,7 +45,13 @@ export async function updateProperty({ projectId, property, email }: {
 }) {
     return new Promise<void>(async (resolve, reject) => {
         try {
-            const project = await ProjectsModel.findOneAndUpdate({ email, projectId }, {
+            const project = await ProjectsModel.findOneAndUpdate({
+                projectId,
+                $or: [
+                    { email },
+                    { accessShare: email },
+                ],
+            }, {
                 'googleSearchConsole.property': property,
             })
 
@@ -65,7 +77,13 @@ export async function createOAuthConsentToken({
 }) {
     return new Promise<void>(async (resolve, reject) => {
         try {
-            const project = await ProjectsModel.findOneAndUpdate({ email, projectId },
+            const project = await ProjectsModel.findOneAndUpdate({
+                projectId,
+                $or: [
+                    { email },
+                    { accessShare: email },
+                ],
+            },
                 {
                     'googleSearchConsole.token': {
                         access_token: token.access_token,
