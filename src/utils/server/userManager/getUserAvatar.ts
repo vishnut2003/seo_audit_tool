@@ -17,12 +17,19 @@ export async function getUserAvatar({
 
             const _PUBLIC_FOLDER = path.join(..._PROJECT_ABS_PATH.split(','), "public");
             const imagePath = path.join(_PUBLIC_FOLDER, imageRelativePath);
-            
+
             if (!fs.existsSync(imagePath)) {
                 resolve(null);
             }
 
-            const imageBuffer = await fsPromise.readFile(imagePath);
+            let imageBuffer = null
+
+            try {
+                imageBuffer = await fsPromise.readFile(imagePath);
+            } catch (err) {
+                return resolve(null)
+            }
+
             resolve(imageBuffer.toString('base64'));
 
         } catch (err) {

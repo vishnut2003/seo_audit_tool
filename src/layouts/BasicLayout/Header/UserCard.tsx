@@ -9,6 +9,7 @@ import { GetUserAvatarApiRequestDataInterface, GetUserAvatarImageApiRouteRespons
 import { RiLoaderLine } from "@remixicon/react";
 import Image from "next/image";
 import { base64ToFile } from "@/lib/utils";
+import { UserModelInterface } from "@/models/UsersModel";
 
 function UserCard() {
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
@@ -20,10 +21,21 @@ function UserCard() {
     getSession().then(async (session) => {
 
       // Fetch user avatar if available
-      if (session?.user?.image) {
+      if (session?.user?.email) {
+
+        let userData = null
+
+        try {
+          const {
+            data: user,
+          } = await axios.post<UserModelInterface | null>('/api/user-manager/get-user-data-by-email', { email: session.user.email })
+          userData = user;
+        } catch (err) {
+          console.log(err);
+        }
 
         const requestEntry: GetUserAvatarApiRequestDataInterface = {
-          relativeImagePath: session.user.image,
+          relativeImagePath: userData?.image || "",
         }
 
         const {

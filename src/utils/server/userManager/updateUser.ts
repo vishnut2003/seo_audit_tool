@@ -26,8 +26,10 @@ export async function updateUserData({
                 hashPassword = await bcrypt.hash(password, salt);
             }
 
+            let imagePath = null;
+
             if (profileImage) {
-                await uploadUserAvatarToPublicFolder({
+                imagePath = await uploadUserAvatarToPublicFolder({
                     email,
                     profileImage,
                 })
@@ -36,10 +38,15 @@ export async function updateUserData({
             const updateRequestData: {
                 name: string,
                 password?: string,
+                image?: string,
             } = { name };
-
+            
             if (hashPassword) {
                 updateRequestData['password'] = hashPassword;
+            }
+            
+            if (imagePath) {
+                updateRequestData['image'] = imagePath;
             }
 
             await UsersModel.findOneAndUpdate({ email }, updateRequestData);
