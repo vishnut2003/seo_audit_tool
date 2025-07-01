@@ -27,6 +27,7 @@ export async function getUserAvatar({
             try {
                 imageBuffer = await fsPromise.readFile(imagePath);
             } catch (err) {
+                console.log(err);
                 return resolve(null)
             }
 
