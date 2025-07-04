@@ -9,6 +9,13 @@ import { GoogleSearchConsoleGraphRow } from "@/utils/server/projects/googleSearc
 import { GoogleSearchConsoleDataTabsRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
 import { GSCChatBotPromptSubmitionRequestDataInterface } from "@/app/api/ai-chatbot/gsc-bot/submit-prompt/route";
 
+export interface GSC_OverviewOfData {
+    totalClicks: number,
+    totalImpression: number,
+    totalAvgCTR: number,
+    totalAvgPosition: number,
+}
+
 export async function handleGSCPromptSubmition({
     prompt,
     setPrompt,
@@ -101,7 +108,29 @@ export async function handleGSCPromptSubmition({
                     dimensionDatas.push(dimensionData);
                 }
 
+                // Create overview data for AI - START
+
+                const overviewData: GSC_OverviewOfData = {
+                    totalClicks: 0,
+                    totalImpression: 0,
+                    totalAvgCTR: 0,
+                    totalAvgPosition: 0,
+                }
+
+                for (const dataPoint of graphData) {
+                    overviewData['totalClicks'] += dataPoint.clicks;
+                    overviewData['totalImpression'] += dataPoint.impression;
+                    overviewData['totalAvgCTR'] += dataPoint.ctr;
+                    overviewData['totalAvgPosition'] += dataPoint.position
+                }
+
+                overviewData['totalAvgCTR'] = overviewData['totalAvgCTR'] / graphData.length;
+                overviewData['totalAvgPosition'] = overviewData['totalAvgPosition'] / graphData.length;
+
+                // Create overview data for AI - END
+
                 const finalGSCFetchedData: GSC_ChatbotFetchedData = {
+                    overviewData,
                     graphData,
                     dimensions: dimensionDatas,
                 }

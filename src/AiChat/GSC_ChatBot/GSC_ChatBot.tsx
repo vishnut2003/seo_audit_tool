@@ -4,7 +4,7 @@ import { useState } from "react"
 import { ConversationDataInterface } from "../layout/ChatPopup/Conversation"
 import AiChatLayout from "../layout/Layout"
 import { RiCheckLine, RiLoader4Line } from "@remixicon/react";
-import { handleGSCPromptSubmition } from "./handlePromptSubmit";
+import { GSC_OverviewOfData, handleGSCPromptSubmition } from "./handlePromptSubmit";
 import { GoogleSearchConsoleGraphRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/graphReport";
 import { GoogleSearchConsoleDataTabsRow } from "@/utils/server/projects/googleSearchConsoleAPI/reports/tabsData";
 import DateRangeAIBotWidget from "../layout/Widgets/DateRange";
@@ -17,7 +17,8 @@ export interface GSCDateRangeInterface {
 
 export interface GSC_ChatbotFetchedData {
     graphData: GoogleSearchConsoleGraphRow[],
-    dimensions: DimensionData[]
+    dimensions: DimensionData[],
+    overviewData: GSC_OverviewOfData,
 }
 
 export interface DimensionData {
