@@ -22,7 +22,7 @@ const InputSection = ({
         >
             {/* Prompt input */}
             <div
-                className="w-full py-4 px-6 border-t border-gray-100"
+                className="w-full py-4 px-6 border-t border-gray-100 max-w-[1000px] mx-auto"
             >
                 {children}
                 <form

@@ -58,7 +58,7 @@ const Conversation = ({
             className="py-4 px-6 h-full w-full overflow-auto"
         >
             <div
-                className="flex flex-col gap-5 w-full"
+                className="flex flex-col gap-5 w-full max-w-[900px] mx-auto"
                 ref={scrollWrapperRef}
             >
                 {conversationData.map((chat, index) => (
