@@ -31,6 +31,8 @@ const Page = () => {
   const [totalUsersCount, setTotalUsersCount] = useState<number>(0);
   const [searchText, setSearchText] = useState<string>('');
 
+  const [refreshPage, setRefreshPage] = useState<number>(0);
+
   useEffect(() => {
 
     setInProgress(true);
@@ -101,7 +103,7 @@ const Page = () => {
       .finally(() => setInProgress(false))
 
 
-  }, [searchText, dataPerPage, pageNumber])
+  }, [searchText, dataPerPage, pageNumber, refreshPage])
 
   return (
     <BasicLayout>
@@ -167,6 +169,7 @@ const Page = () => {
                             <TableDataRow
                               userData={user}
                               key={index}
+                              setRefreshPage={setRefreshPage}
                             />
                           ))
                         }
